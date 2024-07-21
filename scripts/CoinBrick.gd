@@ -3,7 +3,7 @@ extends StaticBody2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var bump_area: BumpArea = $BumpArea
 
-@export_enum("Empty", "Coin", "Mushroom_Big") var spawn_item: String
+@export var spawn_item: GameManager.SPAWNABLE
 var bumpable := true
 
 func _ready() -> void:
@@ -11,10 +11,9 @@ func _ready() -> void:
 	bump_area.bump.connect(on_bumped)
 
 func on_bumped(bumper) -> void:
-	if spawn_item != "Empty":
-		print_debug("Spawning %s" % spawn_item)
-		if spawn_item == "Coin":
-			var coin := load("res://scenes/items/coin.tscn").instantiate() as Node2D
-			add_child(coin)
-		animation_player.play("bumped")
-		bumpable = false
+	if bumpable:
+		await GameManager.do_bump(self)
+		if spawn_item != GameManager.SPAWNABLE.EMPTY:
+			animation_player.play("bumped")
+			GameManager.do_spawn(self, spawn_item)
+			bumpable = false

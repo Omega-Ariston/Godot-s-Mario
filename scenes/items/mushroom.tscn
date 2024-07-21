@@ -1,0 +1,80 @@
+[gd_scene load_steps=8 format=3 uid="uid://c4nctl8wtw7ps"]
+
+[ext_resource type="Texture2D" uid="uid://s8hpmkufaw42" path="res://assets/item.png" id="1_kh0kn"]
+[ext_resource type="Script" path="res://scenes/items/mushroom.gd" id="1_uux6v"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3x2nc"]
+size = Vector2(16, 16)
+
+[sub_resource type="Animation" id="Animation_jueac"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(184, 34, 16, 16)]
+}
+
+[sub_resource type="Animation" id="Animation_id6e8"]
+resource_name = "big"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(184, 34, 16, 16)]
+}
+
+[sub_resource type="Animation" id="Animation_8d560"]
+resource_name = "life"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(214, 34, 16, 16)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vxsn6"]
+_data = {
+"RESET": SubResource("Animation_jueac"),
+"big": SubResource("Animation_id6e8"),
+"life": SubResource("Animation_8d560")
+}
+
+[node name="Mushroom" type="RigidBody2D"]
+z_index = -1
+lock_rotation = true
+script = ExtResource("1_uux6v")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(8, 8)
+texture = ExtResource("1_kh0kn")
+region_enabled = true
+region_rect = Rect2(184, 34, 16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_3x2nc")
+debug_color = Color(0, 0.7, 0.385, 0.419608)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_vxsn6")
+}
