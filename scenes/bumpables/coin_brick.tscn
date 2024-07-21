@@ -136,7 +136,7 @@ _data = {
 size = Vector2(16, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gqmqt"]
-size = Vector2(16, 2)
+size = Vector2(14, 2)
 
 [node name="CoinBrick" type="StaticBody2D"]
 script = ExtResource("1_yxd1f")

@@ -7,17 +7,18 @@ const AIR_ACCELERATION := WALK_SPEED / 0.3
 const JUMP_VELOCITY := -320.0
 
 enum State {
-	IDLE_SMALL,
-	WALK_SMALL,
-	RUN_SMALL,
-	JUMP_SMALL,
-	FALL_SMALL,
+	IDLE,
+	WALK,
+	RUN,
+	JUMP,
+	FALL,
 	ENLARGE,
-	IDLE_LARGE,
-	WALK_LARGE,
-	RUN_LARGE,
-	JUMP_LARGE,
-	FALL_LARGE,
+}
+
+enum Size {
+	SMALL,
+	LARGE,
+	FIRE
 }
 
 enum Direction {
@@ -32,17 +33,10 @@ enum RequestableAction {
 }
 
 const GROUND_STATES := [
-	State.IDLE_SMALL, State.WALK_SMALL, State.RUN_SMALL
+	State.IDLE, State.WALK, State.RUN
 ]
 
-const SMALL_STATES := [
-	State.IDLE_SMALL, State.WALK_SMALL, State.RUN_SMALL, State.JUMP_SMALL, State.FALL_SMALL
-]
-
-const LARGE_STATES := [
-	State.IDLE_LARGE, State.WALK_LARGE, State.RUN_LARGE, State.JUMP_LARGE, State.FALL_LARGE
-]
-
+@export var curr_size := Size.SMALL as Size
 @export var direction := Direction.RIGHT:
 	set(v):
 		direction = v
@@ -57,7 +51,8 @@ var action_requested := RequestableAction.NONE
 var can_enlarge := false
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var small_animator: AnimationPlayer = $SmallAnimator
+@onready var big_animator: AnimationPlayer = $BigAnimator
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("jump"):
@@ -70,65 +65,51 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func tick_physics(state: State, delta: float) -> void:
 	match state:
-		State.IDLE_SMALL, State.IDLE_LARGE:
+		State.IDLE:
 			move(default_gravity, delta)
-		State.WALK_SMALL, State.WALK_LARGE:
+		State.WALK:
 			move(default_gravity, delta)
-		State.RUN_SMALL, State.RUN_LARGE:
+		State.RUN:
 			move(default_gravity, delta)
-		State.JUMP_SMALL, State.JUMP_LARGE:
+		State.JUMP:
 			move(0.0 if is_first_tick else default_gravity, delta)
-		State.FALL_SMALL, State.FALL_LARGE:
+		State.FALL:
 			move(default_gravity, delta)
 	is_first_tick = false
 
 func get_next_state(state: State) -> int:
-	var should_enlarge := can_enlarge and state in SMALL_STATES
+	var should_enlarge := can_enlarge and curr_size == Size.SMALL
 	if should_enlarge:
 		return State.ENLARGE
 	
 	var can_jump := is_on_floor()
 	var should_jump := can_jump and action_requested == RequestableAction.JUMP
 	if should_jump:
-		if state in SMALL_STATES:
-			return State.JUMP_SMALL
-		elif state in LARGE_STATES:
-			return State.JUMP_LARGE
+		return State.JUMP
 		
 	if state in GROUND_STATES and not is_on_floor():
-		return State.FALL_SMALL
+		return State.FALL
 		
 	var movement := Input.get_axis("move_left", "move_right")
 	var is_still := is_zero_approx(movement) and is_zero_approx(velocity.x)
 	
 	match state:
-		State.IDLE_SMALL:
+		State.IDLE:
 			if not is_still:
-				return State.WALK_SMALL
-		State.WALK_SMALL:
+				return State.WALK
+		State.WALK:
 			if is_still:
-				return State.IDLE_SMALL
-		State.JUMP_SMALL:
+				return State.IDLE
+		State.JUMP:
 			if velocity.y >= 0:
-				return State.FALL_SMALL
-		State.FALL_SMALL:
+				return State.FALL
+		State.FALL:
 			if is_on_floor():
-				return State.WALK_SMALL
+				return State.WALK
 		State.ENLARGE:
-			if not animation_player.is_playing():
-				return State.IDLE_LARGE
-		State.IDLE_LARGE:
-			if not is_still:
-				return State.WALK_LARGE
-		State.WALK_LARGE:
-			if is_still:
-				return State.IDLE_LARGE
-		State.JUMP_LARGE:
-			if velocity.y >= 0:
-				return State.FALL_LARGE
-		State.FALL_LARGE:
-			if is_on_floor():
-				return State.WALK_LARGE
+			curr_size = Size.LARGE
+			if not small_animator.is_playing():
+				return State.IDLE
 	return StateMachine.KEEP_CURRENT
 
 func transition_state(from: State, to: State) -> void:
@@ -139,29 +120,19 @@ func transition_state(from: State, to: State) -> void:
 		State.keys()[to]
 	])
 	match to:
-		State.IDLE_SMALL:
-			animation_player.play("idle_small")
-		State.WALK_SMALL:
-			animation_player.play("walk_small")
-		State.JUMP_SMALL:
-			animation_player.play("jump_small")
+		State.IDLE:
+			_get_animator().play("idle")
+		State.WALK:
+			_get_animator().play("walk")
+		State.JUMP:
+			_get_animator().play("jump")
 			velocity.y = JUMP_VELOCITY
 			action_requested = RequestableAction.NONE
-		State.FALL_SMALL:
-			animation_player.play("jump_small")
+		State.FALL:
+			_get_animator().play("jump")
 		State.ENLARGE:
 			can_enlarge = false
-			animation_player.play("enlarge")
-		State.IDLE_LARGE:
-			animation_player.play("idle_large")
-		State.WALK_LARGE:
-			animation_player.play("walk_large")
-		State.JUMP_LARGE:
-			animation_player.play("jump_large")
-			velocity.y = JUMP_VELOCITY
-			action_requested = RequestableAction.NONE
-		State.FALL_LARGE:
-			animation_player.play("jump_large")
+			_get_animator().play("enlarge")
 	is_first_tick = true
 	
 func move(gravity: float, delta: float) -> void:
@@ -193,10 +164,9 @@ func _eat(item: Eatable) -> void:
 			# 奖命
 			print_debug("Bonus Life!")
 
-func _freeze_character() -> void:
-	print_debug("stop")
-	can_control = false
-	
-func _unfreeze_character() -> void:
-	print_debug("continue")
-	can_control = true
+func _get_animator() -> AnimationPlayer:
+	if curr_size == Size.SMALL:
+		return small_animator
+	elif curr_size == Size.LARGE:
+		return big_animator
+	return null
