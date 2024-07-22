@@ -57,6 +57,7 @@ var can_enlarge := false
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var small_animator: AnimationPlayer = $SmallAnimator
 @onready var big_animator: AnimationPlayer = $BigAnimator
+@onready var bumper: Bumper = $Bumper
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("jump"):
@@ -106,9 +107,11 @@ func get_next_state(state: State) -> int:
 				return State.IDLE
 		State.JUMP:
 			if velocity.y >= 0:
+				bumper.can_bump = false # 下落时不可顶蘑菇
 				return State.FALL
 		State.FALL:
 			if is_on_floor():
+				bumper.can_bump = true # 可以顶蘑菇了
 				return State.WALK
 		State.ENLARGE:
 			curr_size = Size.LARGE

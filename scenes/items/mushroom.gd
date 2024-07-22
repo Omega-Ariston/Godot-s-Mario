@@ -8,11 +8,13 @@ extends Eatable
 @onready var wall_checker: RayCast2D = $WallChecker
 @onready var eatbox: CollisionShape2D = $Area2D/Eatbox
 
-const ACCELERATION := 70.0
-const SPAWN_DURATION := 0.5
+const ACCELERATION := 60.0
+const SPAWN_DURATION := 1.0
 const MOVE_DELAY := 0.1
 
 var direction := 1
+
+var spawning := true
 
 func _ready() -> void:
 	if mushroom_type == GameManager.SPAWNABLE.MUSHROOM_BIG:
@@ -26,6 +28,8 @@ func _ready() -> void:
 	await tween.finished
 	# 延迟一会
 	await get_tree().create_timer(MOVE_DELAY).timeout
+	spawning = false
+	collision_shape_2d.disabled = false
 	freeze = false
 	GameManager.init_contact(self)
 	wall_checker.enabled = true
@@ -34,7 +38,8 @@ func _physics_process(delta: float) -> void:
 	if wall_checker.is_colliding():
 		direction = -direction
 	wall_checker.scale.x = direction
-	move_and_collide(Vector2(ACCELERATION * delta * direction, 0))
+	if not spawning:
+		move_and_collide(Vector2(ACCELERATION * delta * direction, 0))
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player:

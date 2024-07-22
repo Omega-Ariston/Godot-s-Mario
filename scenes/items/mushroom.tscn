@@ -78,6 +78,7 @@ region_rect = Rect2(184, 34, 16, 16)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(8, 8)
 shape = SubResource("CircleShape2D_3teqi")
+disabled = true
 debug_color = Color(0, 0.7, 0.385, 0.419608)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
