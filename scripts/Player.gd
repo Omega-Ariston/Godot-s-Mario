@@ -36,6 +36,10 @@ const GROUND_STATES := [
 	State.IDLE, State.WALK, State.RUN
 ]
 
+const TRANSFORM_STATES := [
+	State.ENLARGE
+]
+
 @export var curr_size := Size.SMALL as Size
 @export var direction := Direction.RIGHT:
 	set(v):
@@ -82,7 +86,7 @@ func get_next_state(state: State) -> int:
 	if should_enlarge:
 		return State.ENLARGE
 	
-	var can_jump := is_on_floor()
+	var can_jump := is_on_floor() and state not in TRANSFORM_STATES
 	var should_jump := can_jump and action_requested == RequestableAction.JUMP
 	if should_jump:
 		return State.JUMP
