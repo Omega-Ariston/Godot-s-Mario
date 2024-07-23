@@ -1,15 +1,17 @@
 class_name Player
 extends CharacterBody2D
 
-const WALK_SPEED := 90.0
-const WALK_ACCELERATION := WALK_SPEED / 0.2
+const WALK_SPEED := 100.0
+const WALK_ACCELERATION := WALK_SPEED / 0.4
 const AIR_ACCELERATION := WALK_SPEED / 0.3
 const JUMP_VELOCITY := -320.0
+const MIN_ANIMATION_SPEED := 0.8
+const MIN_TURN_SPEED = WALK_SPEED / 1.5
 
 enum State {
 	IDLE,
 	WALK,
-	RUN,
+	TURN,
 	JUMP,
 	FALL,
 	ENLARGE,
@@ -33,7 +35,7 @@ enum RequestableAction {
 }
 
 const GROUND_STATES := [
-	State.IDLE, State.WALK, State.RUN
+	State.IDLE, State.WALK, State.TURN
 ]
 
 const TRANSFORM_STATES := [
@@ -49,15 +51,16 @@ const TRANSFORM_STATES := [
 		sprite_2d.scale.x = direction
 
 var default_gravity := ProjectSettings.get("physics/2d/default_gravity") as float
-var can_control := true
 var is_first_tick := false
 var action_requested := RequestableAction.NONE
 var can_enlarge := false
+var direction_before_turn := Direction.RIGHT
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var small_animator: AnimationPlayer = $SmallAnimator
 @onready var big_animator: AnimationPlayer = $BigAnimator
 @onready var bumper: Bumper = $Bumper
+@onready var state_machine: StateMachine = $StateMachine
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("jump"):
@@ -68,19 +71,25 @@ func _unhandled_input(event: InputEvent) -> void:
 		if action_requested == RequestableAction.JUMP:
 			action_requested = RequestableAction.NONE
 
+
 func tick_physics(state: State, delta: float) -> void:
+	var movement := Input.get_axis("move_left", "move_right")
+	if not is_zero_approx(movement):
+		direction = Direction.LEFT if movement < 0 else Direction.RIGHT
+		
 	match state:
 		State.IDLE:
-			move(default_gravity, delta)
-		State.WALK:
-			move(default_gravity, delta)
-		State.RUN:
-			move(default_gravity, delta)
+			move(movement, default_gravity, delta)
+		State.WALK, State.TURN:
+			# 动画播放速度与走路速度正相关
+			_get_animator().speed_scale = max(MIN_ANIMATION_SPEED, abs(velocity.x) / WALK_SPEED * 2)
+			move(movement, default_gravity, delta)
 		State.JUMP:
-			move(0.0 if is_first_tick else default_gravity, delta)
+			move(movement, 0.0 if is_first_tick else default_gravity, delta)
 		State.FALL:
-			move(default_gravity, delta)
+			move(movement, default_gravity, delta)
 	is_first_tick = false
+
 
 func get_next_state(state: State) -> int:
 	var should_enlarge := can_enlarge and curr_size == Size.SMALL
@@ -103,21 +112,24 @@ func get_next_state(state: State) -> int:
 			if not is_still:
 				return State.WALK
 		State.WALK:
+			if abs(velocity.x) > MIN_TURN_SPEED and velocity.x * direction > 0 and movement * direction < 0:
+				return State.TURN
 			if is_still:
+				return State.IDLE
+		State.TURN:
+			if movement * direction_before_turn > 0 or is_zero_approx(velocity.x):
 				return State.IDLE
 		State.JUMP:
 			if velocity.y >= 0:
-				bumper.can_bump = false # 下落时不可顶蘑菇
 				return State.FALL
 		State.FALL:
 			if is_on_floor():
-				bumper.can_bump = true # 可以顶蘑菇了
 				return State.WALK
 		State.ENLARGE:
-			curr_size = Size.LARGE
 			if not small_animator.is_playing():
 				return State.IDLE
 	return StateMachine.KEEP_CURRENT
+
 
 func transition_state(from: State, to: State) -> void:
 	print_debug(
@@ -126,33 +138,48 @@ func transition_state(from: State, to: State) -> void:
 		State.keys()[from] if from != -1 else "<START>",
 		State.keys()[to]
 	])
+	
+	match from:
+		State.WALK:
+			_get_animator().speed_scale = 1 # 恢复动画播放速度
+		State.FALL:
+			bumper.can_bump = true # 可以顶蘑菇了
+			_get_animator().speed_scale = 1 # 恢复播放动画
+			
 	match to:
 		State.IDLE:
 			_get_animator().play("idle")
 		State.WALK:
 			_get_animator().play("walk")
+		State.TURN:
+			direction_before_turn = direction
+			_get_animator().play("turn")
 		State.JUMP:
 			_get_animator().play("jump")
 			velocity.y = JUMP_VELOCITY
 			action_requested = RequestableAction.NONE
 		State.FALL:
-			_get_animator().play("jump")
+			if from == State.TURN:
+				_get_animator().play("walk") # 空中不能转身停顿
+			bumper.can_bump = false # 下落时不可顶蘑菇
+			_get_animator().speed_scale = 0 # 下落时暂停播放动画
 		State.ENLARGE:
 			can_enlarge = false
+			_reset_animator(big_animator)
 			_get_animator().play("enlarge")
+			curr_size = Size.LARGE
+			
 	is_first_tick = true
 	
-func move(gravity: float, delta: float) -> void:
-	var movement := Input.get_axis("move_left", "move_right")
+	
+func move(movement: float, gravity: float, delta: float) -> void:
 	var acceleration := WALK_ACCELERATION if is_on_floor() else AIR_ACCELERATION
 	velocity.x = move_toward(velocity.x, movement * WALK_SPEED, acceleration * delta)
 	velocity.y += gravity * delta
-		
-	if not is_zero_approx(movement):
-		direction = Direction.LEFT if movement < 0 else Direction.RIGHT
 	
 	move_and_slide()
 	global_position.x = max(global_position.x, GameManager.max_left_x + 8)
+	
 	
 func stand(gravity: float, delta:float) -> void:
 	var acceleration := WALK_ACCELERATION if is_on_floor() else AIR_ACCELERATION
@@ -161,6 +188,7 @@ func stand(gravity: float, delta:float) -> void:
 	
 	move_and_slide()
 	global_position.x = max(global_position.x, GameManager.max_left_x + 8)
+	
 	
 func _eat(item: Eatable) -> void:
 	print_debug("Eatting: %s" % item.name)
@@ -171,9 +199,14 @@ func _eat(item: Eatable) -> void:
 			# 奖命
 			print_debug("Bonus Life!")
 
+
 func _get_animator() -> AnimationPlayer:
 	if curr_size == Size.SMALL:
 		return small_animator
 	elif curr_size == Size.LARGE:
 		return big_animator
 	return null
+
+
+func _reset_animator(animator: AnimationPlayer) -> void:
+	animator.speed_scale = 1
