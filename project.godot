@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Super Mario"
+config/name="Godot's Mario"
 run/main_scene="res://scenes/worlds/world.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
