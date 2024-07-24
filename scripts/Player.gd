@@ -15,6 +15,8 @@ enum State {
 	JUMP,
 	FALL,
 	ENLARGE,
+	ONFIRE,
+	HURT,
 }
 
 enum Size {
@@ -39,10 +41,19 @@ const GROUND_STATES := [
 ]
 
 const TRANSFORM_STATES := [
-	State.ENLARGE
+	State.ENLARGE, State.ONFIRE, State.HURT
 ]
 
-@export var curr_size := Size.SMALL as Size
+@export var curr_size := Size.SMALL as Size:
+	set(v):
+		print_debug(
+		"Size: [%s] %s => %s" % [
+		Engine.get_physics_frames(),
+		Size.keys()[curr_size],
+		Size.keys()[v]
+	])
+		curr_size = v
+		
 @export var direction := Direction.RIGHT:
 	set(v):
 		direction = v
@@ -54,11 +65,14 @@ var default_gravity := ProjectSettings.get("physics/2d/default_gravity") as floa
 var is_first_tick := false
 var action_requested := RequestableAction.NONE
 var can_enlarge := false
+var can_onfire := false
+var transforming_fire := false
 var direction_before_turn := Direction.RIGHT
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var small_animator: AnimationPlayer = $SmallAnimator
 @onready var big_animator: AnimationPlayer = $BigAnimator
+@onready var fire_animator: AnimationPlayer = $FireAnimator
 @onready var bumper: Bumper = $Bumper
 @onready var state_machine: StateMachine = $StateMachine
 
@@ -73,21 +87,18 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func tick_physics(state: State, delta: float) -> void:
-	var movement := Input.get_axis("move_left", "move_right")
-	if not is_zero_approx(movement):
-		direction = Direction.LEFT if movement < 0 else Direction.RIGHT
 		
 	match state:
 		State.IDLE:
-			move(movement, default_gravity, delta)
+			move(default_gravity, delta)
 		State.WALK, State.TURN:
 			# 动画播放速度与走路速度正相关
 			_get_animator().speed_scale = max(MIN_ANIMATION_SPEED, abs(velocity.x) / WALK_SPEED * 2)
-			move(movement, default_gravity, delta)
+			move(default_gravity, delta)
 		State.JUMP:
-			move(movement, 0.0 if is_first_tick else default_gravity, delta)
+			move(0.0 if is_first_tick else default_gravity, delta)
 		State.FALL:
-			move(movement, default_gravity, delta)
+			move(default_gravity, delta)
 	is_first_tick = false
 
 
@@ -95,6 +106,10 @@ func get_next_state(state: State) -> int:
 	var should_enlarge := can_enlarge and curr_size == Size.SMALL
 	if should_enlarge:
 		return State.ENLARGE
+	
+	var should_onfire := can_onfire and curr_size == Size.LARGE
+	if should_onfire:
+		return State.ONFIRE
 	
 	var can_jump := is_on_floor() and state not in TRANSFORM_STATES
 	var should_jump := can_jump and action_requested == RequestableAction.JUMP
@@ -128,12 +143,15 @@ func get_next_state(state: State) -> int:
 		State.ENLARGE:
 			if not small_animator.is_playing():
 				return State.IDLE
+		State.ONFIRE:
+			if not transforming_fire:
+				return State.IDLE
 	return StateMachine.KEEP_CURRENT
 
 
 func transition_state(from: State, to: State) -> void:
 	print_debug(
-		"[%s] %s => %s" % [
+		"State: [%s] %s => %s" % [
 		Engine.get_physics_frames(),
 		State.keys()[from] if from != -1 else "<START>",
 		State.keys()[to]
@@ -164,15 +182,23 @@ func transition_state(from: State, to: State) -> void:
 			bumper.can_bump = false # 下落时不可顶蘑菇
 			_get_animator().speed_scale = 0 # 下落时暂停播放动画
 		State.ENLARGE:
+			curr_size = Size.LARGE
 			can_enlarge = false
 			_reset_animator(big_animator)
-			_get_animator().play("enlarge")
-			curr_size = Size.LARGE
-			
+			small_animator.play("enlarge")
+		State.ONFIRE:
+			curr_size = Size.FIRE
+			can_onfire = false
+			_reset_animator(fire_animator)
+			_onfire()
 	is_first_tick = true
 	
 	
-func move(movement: float, gravity: float, delta: float) -> void:
+func move(gravity: float, delta: float) -> void:
+	var movement := Input.get_axis("move_left", "move_right")
+	if not is_zero_approx(movement):
+		direction = Direction.LEFT if movement < 0 else Direction.RIGHT
+		
 	var acceleration := WALK_ACCELERATION if is_on_floor() else AIR_ACCELERATION
 	velocity.x = move_toward(velocity.x, movement * WALK_SPEED, acceleration * delta)
 	velocity.y += gravity * delta
@@ -188,23 +214,42 @@ func stand(gravity: float, delta:float) -> void:
 	
 	move_and_slide()
 	global_position.x = max(global_position.x, GameManager.max_left_x + 8)
+
+func _onfire() -> void:
+	transforming_fire = true
+	big_animator.stop()
+	var yValues = [48, 192, 240, 144, 48] # 四个不同颜色的马里奥y值
+	var currRect := sprite_2d.get_region_rect()
+	# 循环播放四次
+	for i in range(4):
+		for yValue in yValues:
+			currRect.position.y = yValue
+			sprite_2d.set_region_rect(currRect)
+			# 等0.07秒
+			await get_tree().create_timer(0.07).timeout
+	transforming_fire = false
 	
-	
-func _eat(item: Eatable) -> void:
+func _eat(item: Node) -> void:
 	print_debug("Eatting: %s" % item.name)
 	if item is Mushroom:
-		if item.mushroom_type == GameManager.SPAWNABLE.MUSHROOM_BIG:
+		if item.mushroom_type == GameManager.SPAWNABLE.UPGRADE:
 			can_enlarge = true
-		elif item.mushroom_type == GameManager.SPAWNABLE.MUSHROOM_LIFE:
+		elif item.mushroom_type == GameManager.SPAWNABLE.LIFE:
 			# 奖命
 			print_debug("Bonus Life!")
-
+	if item is Flower:
+		if curr_size == Size.LARGE:
+			can_onfire = true
+		else :
+			can_enlarge = true
 
 func _get_animator() -> AnimationPlayer:
 	if curr_size == Size.SMALL:
 		return small_animator
 	elif curr_size == Size.LARGE:
 		return big_animator
+	elif curr_size == Size.FIRE:
+		return fire_animator
 	return null
 
 

@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://c4nctl8wtw7ps"]
+[gd_scene load_steps=10 format=3 uid="uid://c4nctl8wtw7ps"]
 
 [ext_resource type="Texture2D" uid="uid://s8hpmkufaw42" path="res://assets/item.png" id="1_kh0kn"]
-[ext_resource type="Script" path="res://scenes/items/mushroom.gd" id="1_uux6v"]
+[ext_resource type="Script" path="res://scripts/mushroom.gd" id="1_uux6v"]
+[ext_resource type="Script" path="res://scripts/Eatable.gd" id="3_5oykf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3teqi"]
-radius = 8.0
+radius = 7.81736
 
 [sub_resource type="Animation" id="Animation_jueac"]
 length = 0.001
@@ -58,8 +59,8 @@ _data = {
 "life": SubResource("Animation_8d560")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_f7hlj"]
-size = Vector2(16.4862, 16.2757)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v4fiq"]
+size = Vector2(16, 16)
 
 [node name="Mushroom" type="RigidBody2D"]
 z_index = -1
@@ -91,12 +92,9 @@ position = Vector2(8, 8)
 enabled = false
 target_position = Vector2(9, 0)
 
-[node name="Area2D" type="Area2D" parent="."]
-collision_layer = 16
-collision_mask = 2
+[node name="Eatable" type="Area2D" parent="."]
+script = ExtResource("3_5oykf")
 
-[node name="Eatbox" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(7.98039, 8.03237)
-shape = SubResource("RectangleShape2D_f7hlj")
-
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Eatable"]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_v4fiq")

@@ -1,5 +1,13 @@
 class_name Eatable
-extends RigidBody2D
+extends Area2D
 
-func _on_eaten(player: Player):
-	player._eat(self)
+func _ready() -> void:
+	body_entered.connect(_on_area_2d_body_entered)
+	set_collision_layer_value(5, true)
+	set_collision_mask_value(2, true)
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body is Player:
+		print_debug("%s got eaten!" % name)
+		owner.queue_free()
+		body._eat(owner)

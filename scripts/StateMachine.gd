@@ -8,6 +8,7 @@ var current_state: int = -1:
 		owner.transition_state(current_state, v)
 		current_state = v
 		state_time = 0
+var last_state : int = -1
 
 var state_time: float
 
@@ -21,6 +22,7 @@ func _physics_process(delta: float) -> void:
 		if  next == KEEP_CURRENT:
 			break;
 		else:
+			last_state = current_state
 			current_state = next
 	
 	owner.tick_physics(current_state, delta)

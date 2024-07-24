@@ -1,3 +1,4 @@
+class_name Coin
 extends Node2D
 
 const BOUNCE_HEIGHT := GameManager.TILE_SIZE.y * 3

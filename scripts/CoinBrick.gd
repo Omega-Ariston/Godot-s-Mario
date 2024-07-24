@@ -16,5 +16,5 @@ func on_bumped(bumper: Bumper) -> void:
 		await GameManager.do_bump(self)
 		if spawn_item != GameManager.SPAWNABLE.EMPTY:
 			animation_player.play("bumped")
-			GameManager.do_spawn(self, spawn_item)
+			GameManager.do_spawn(self, spawn_item, bumper.owner)
 			bumpable = false

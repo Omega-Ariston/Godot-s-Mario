@@ -11,8 +11,8 @@ const MAX_ITEM_CONTACT := 3
 enum SPAWNABLE {
 	EMPTY,
 	COIN,
-	MUSHROOM_BIG,
-	MUSHROOM_LIFE
+	UPGRADE,
+	LIFE,
 }
 
 func init_contact(node: RigidBody2D):
@@ -28,21 +28,29 @@ func do_bump(node: Node) -> void:
 	tween = create_tween()
 	tween.tween_property(node, "position:y", originalY, BUMP_DURATION)
 
-func do_spawn(node: Node, item: SPAWNABLE) -> void:
+func do_spawn(node: Node, item: SPAWNABLE, player: Player) -> void:
 	# 生成被顶出的物品
 	print_debug("Spawning %s" % SPAWNABLE.keys()[item])
 	var item_instance: Node2D
 	if item == SPAWNABLE.COIN:
-		item_instance = load("res://scenes/items/coin.tscn").instantiate() as Node2D
-	elif item == SPAWNABLE.MUSHROOM_BIG || item == SPAWNABLE.MUSHROOM_LIFE:
+		item_instance = load("res://scenes/items/coin.tscn").instantiate() as Coin
+	elif item == SPAWNABLE.LIFE:
 		item_instance = load("res://scenes/items/mushroom.tscn").instantiate() as Mushroom
-		item_instance.mushroom_type = item
+		item_instance.mushroom_type = SPAWNABLE.LIFE
+	elif item == SPAWNABLE.UPGRADE:
+		if player.curr_size == player.Size.LARGE:
+			item_instance = load("res://scenes/items/flower.tscn").instantiate() as Flower
+		else:
+			item_instance = load("res://scenes/items/mushroom.tscn").instantiate() as Mushroom
+			item_instance.mushroom_type = SPAWNABLE.UPGRADE
 	if item_instance != null:
 		node.call_deferred("add_child", item_instance)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("esc"):
 		change_scene(get_tree().current_scene.scene_file_path)
+	if event.is_action_pressed("fire"):
+		get_tree().get_first_node_in_group("Player").can_onfire = true
 
 func change_scene(path: String):
 	get_tree().change_scene_to_file(path)
