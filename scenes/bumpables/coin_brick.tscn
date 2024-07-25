@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://c7gt8s3r65s32" path="res://assets/misc.png" id="1_m8h7w"]
 [ext_resource type="Script" path="res://scripts/CoinBrick.gd" id="1_yxd1f"]
-[ext_resource type="Script" path="res://scripts/BumpArea.gd" id="3_1mikh"]
+[ext_resource type="Script" path="res://scripts/Bumpable.gd" id="3_1mikh"]
 
 [sub_resource type="Animation" id="Animation_bo7w0"]
 length = 0.001
@@ -135,12 +135,11 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4uehg"]
 size = Vector2(16, 16)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_gqmqt"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qk4dh"]
 size = Vector2(14, 2)
 
 [node name="CoinBrick" type="StaticBody2D"]
 script = ExtResource("1_yxd1f")
-spawn_item = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_m8h7w")
@@ -159,12 +158,9 @@ libraries = {
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_4uehg")
 
-[node name="BumpArea" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 4
+[node name="Bumpable" type="Area2D" parent="."]
 script = ExtResource("3_1mikh")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BumpArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bumpable"]
 position = Vector2(8, 16)
-shape = SubResource("RectangleShape2D_gqmqt")
-debug_color = Color(0, 0, 0.701961, 0.419608)
+shape = SubResource("RectangleShape2D_qk4dh")

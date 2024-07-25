@@ -1,20 +1,19 @@
 extends StaticBody2D
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
-@onready var bump_area: BumpArea = $BumpArea
 
-@export var spawn_item: GameManager.SPAWNABLE
-
-var bumpable := true
+@export var spawn_item: GameManager.SPAWN_ITEM
+@onready var bumpable: Bumpable = $Bumpable
 
 func _ready() -> void:
 	animation_player.play("unbumped")
-	bump_area.bump.connect(on_bumped)
 
-func on_bumped(bumper: Bumper) -> void:
-	if bumpable:
-		GameManager.do_bump(self)
-		if spawn_item != GameManager.SPAWNABLE.EMPTY:
+
+func on_bumped(player: Player) -> void:
+	if bumpable.can_bump:
+		bumpable.do_bump()
+		if spawn_item != GameManager.SPAWN_ITEM.EMPTY:
 			animation_player.play("bumped")
-			GameManager.do_spawn(self, spawn_item, bumper.owner)
-			bumpable = false
+			bumpable.do_spawn(self, spawn_item, player)
+			bumpable.can_bump = false
+

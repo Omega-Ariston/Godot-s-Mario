@@ -73,7 +73,6 @@ var direction_before_turn := Direction.RIGHT
 @onready var small_animator: AnimationPlayer = $SmallAnimator
 @onready var big_animator: AnimationPlayer = $BigAnimator
 @onready var fire_animator: AnimationPlayer = $FireAnimator
-@onready var bumper: Bumper = $Bumper
 @onready var state_machine: StateMachine = $StateMachine
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -161,7 +160,6 @@ func transition_state(from: State, to: State) -> void:
 		State.WALK:
 			_get_animator().speed_scale = 1 # 恢复动画播放速度
 		State.FALL:
-			bumper.can_bump = true # 可以顶蘑菇了
 			_get_animator().speed_scale = 1 # 恢复播放动画
 			
 	match to:
@@ -181,7 +179,6 @@ func transition_state(from: State, to: State) -> void:
 		State.FALL:
 			if from == State.TURN:
 				_get_animator().play("walk") # 空中不能转身停顿
-			bumper.can_bump = false # 下落时不可顶蘑菇
 			_get_animator().speed_scale = 0 # 下落时暂停播放动画
 		State.ENLARGE:
 			curr_size = Size.LARGE
@@ -234,9 +231,9 @@ func _onfire() -> void:
 func _eat(item: Node) -> void:
 	print_debug("Eatting: %s" % item.name)
 	if item is Mushroom:
-		if item.mushroom_type == GameManager.SPAWNABLE.UPGRADE:
+		if item.mushroom_type == GameManager.SPAWN_ITEM.UPGRADE:
 			can_enlarge = true
-		elif item.mushroom_type == GameManager.SPAWNABLE.LIFE:
+		elif item.mushroom_type == GameManager.SPAWN_ITEM.LIFE:
 			# 奖命
 			print_debug("Bonus Life!")
 	if item is Flower:

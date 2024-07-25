@@ -1,8 +1,7 @@
-[gd_scene load_steps=26 format=3 uid="uid://ta2kus8p0r8f"]
+[gd_scene load_steps=24 format=3 uid="uid://ta2kus8p0r8f"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_sboe1"]
 [ext_resource type="Texture2D" uid="uid://dfg5kaxqbfu1d" path="res://assets/mario.png" id="2_pqtkg"]
-[ext_resource type="Script" path="res://scripts/Bumper.gd" id="3_fhuqq"]
 [ext_resource type="Script" path="res://scripts/StateMachine.gd" id="4_vytt3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rdojt"]
@@ -82,34 +81,10 @@ tracks/5/keys = {
 "update": 0,
 "values": [Vector2(0, -7.5)]
 }
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("Bumper/BumperArea2D:shape:size")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(12, 1)]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("Bumper/BumperArea2D:position")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, -16)]
-}
 
 [sub_resource type="Animation" id="Animation_d4ild"]
 resource_name = "enlarge"
-length = 1.20001
+length = 1.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -117,10 +92,10 @@ tracks/0/path = NodePath("Sprite2D:region_rect")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [Rect2(304, 0, 16, 32), Rect2(176, 32, 16, 16), Rect2(304, 0, 16, 32), Rect2(176, 32, 16, 16), Rect2(304, 0, 16, 32), Rect2(176, 0, 16, 32), Rect2(176, 32, 16, 16), Rect2(304, 0, 16, 32), Rect2(176, 0, 16, 32), Rect2(176, 32, 16, 16), Rect2(176, 0, 16, 32), Rect2(176, 32, 16, 16)]
+"values": [Rect2(304, 0, 16, 32), Rect2(176, 32, 16, 16), Rect2(304, 0, 16, 32), Rect2(176, 32, 16, 16), Rect2(304, 0, 16, 32), Rect2(176, 0, 16, 32), Rect2(176, 32, 16, 16), Rect2(304, 0, 16, 32), Rect2(176, 0, 16, 32), Rect2(176, 32, 16, 16), Rect2(176, 0, 16, 32)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -129,10 +104,10 @@ tracks/1/path = NodePath("Sprite2D:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [Vector2(0, -16), Vector2(0, -8), Vector2(0, -16), Vector2(0, -8), Vector2(0, -16), Vector2(0, -16), Vector2(0, -8), Vector2(0, -16), Vector2(0, -16), Vector2(0, -8), Vector2(0, -16), Vector2(0, -8)]
+"values": [Vector2(0, -16), Vector2(0, -8), Vector2(0, -16), Vector2(0, -8), Vector2(0, -16), Vector2(0, -16), Vector2(0, -8), Vector2(0, -16), Vector2(0, -16), Vector2(0, -8), Vector2(0, -16)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -399,34 +374,10 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Bumper/BumperArea2D:position")
+tracks/5/path = NodePath("Sprite2D:region_rect")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, -32)]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("Bumper/BumperArea2D:shape:size")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(16, 1)]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("Sprite2D:region_rect")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -715,30 +666,6 @@ tracks/5/keys = {
 "update": 0,
 "values": [Vector2(0, -15.5)]
 }
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("Bumper/BumperArea2D:position")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, -32)]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("Bumper/BumperArea2D:shape:size")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(16, 1)]
-}
 
 [sub_resource type="Animation" id="Animation_oqafg"]
 resource_name = "idle_large"
@@ -948,9 +875,6 @@ _data = {
 "walk": SubResource("Animation_1wske")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_u4wwj"]
-size = Vector2(16, 1)
-
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 2
 script = ExtResource("1_sboe1")
@@ -982,16 +906,6 @@ deterministic = true
 libraries = {
 "": SubResource("AnimationLibrary_0e8rh")
 }
-
-[node name="Bumper" type="Area2D" parent="."]
-collision_layer = 4
-collision_mask = 0
-script = ExtResource("3_fhuqq")
-
-[node name="BumperArea2D" type="CollisionShape2D" parent="Bumper"]
-position = Vector2(0, -32)
-shape = SubResource("RectangleShape2D_u4wwj")
-debug_color = Color(0, 0.329412, 0.701961, 0.419608)
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("4_vytt3")
