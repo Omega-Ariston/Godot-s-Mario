@@ -34,7 +34,7 @@ func do_spawn(node: Node, item: GameManager.SPAWN_ITEM, player: Player) -> void:
 		item_instance = load("res://scenes/items/mushroom.tscn").instantiate() as Mushroom
 		item_instance.mushroom_type = GameManager.SPAWN_ITEM.LIFE
 	elif item == GameManager.SPAWN_ITEM.UPGRADE:
-		if player.curr_size == Player.Size.LARGE:
+		if player.curr_mode == Player.Mode.LARGE:
 			item_instance = load("res://scenes/items/flower.tscn").instantiate() as Flower
 		else:
 			item_instance = load("res://scenes/items/mushroom.tscn").instantiate() as Mushroom

@@ -19,7 +19,7 @@ enum State {
 	HURT,
 }
 
-enum Size {
+enum Mode {
 	SMALL,
 	LARGE,
 	FIRE
@@ -44,15 +44,15 @@ const TRANSFORM_STATES := [
 	State.ENLARGE, State.ONFIRE, State.HURT
 ]
 
-@export var curr_size := Size.SMALL as Size:
+@export var curr_mode := Mode.SMALL as Mode:
 	set(v):
 		print_debug(
-		"Size: [%s] %s => %s" % [
+		"Mode: [%s] %s => %s" % [
 		Engine.get_physics_frames(),
-		Size.keys()[curr_size],
-		Size.keys()[v]
+		Mode.keys()[curr_mode],
+		Mode.keys()[v]
 	])
-		curr_size = v
+		curr_mode = v
 		
 @export var direction := Direction.RIGHT:
 	set(v):
@@ -102,11 +102,11 @@ func tick_physics(state: State, delta: float) -> void:
 
 
 func get_next_state(state: State) -> int:
-	var should_enlarge := can_enlarge and curr_size == Size.SMALL
+	var should_enlarge := can_enlarge and curr_mode == Mode.SMALL
 	if should_enlarge:
 		return State.ENLARGE
 	
-	var should_onfire := can_onfire and curr_size == Size.LARGE
+	var should_onfire := can_onfire and curr_mode == Mode.LARGE
 	if should_onfire:
 		return State.ONFIRE
 	
@@ -181,12 +181,12 @@ func transition_state(from: State, to: State) -> void:
 				_get_animator().play("walk") # 空中不能转身停顿
 			_get_animator().speed_scale = 0 # 下落时暂停播放动画
 		State.ENLARGE:
-			curr_size = Size.LARGE
+			curr_mode = Mode.LARGE
 			can_enlarge = false
 			_reset_animator(big_animator)
 			small_animator.play("enlarge")
 		State.ONFIRE:
-			curr_size = Size.FIRE
+			curr_mode = Mode.FIRE
 			can_onfire = false
 			_reset_animator(fire_animator)
 			_onfire()
@@ -237,17 +237,17 @@ func _eat(item: Node) -> void:
 			# 奖命
 			print_debug("Bonus Life!")
 	if item is Flower:
-		if curr_size == Size.LARGE:
+		if curr_mode == Mode.LARGE:
 			can_onfire = true
 		else :
 			can_enlarge = true
 
 func _get_animator() -> AnimationPlayer:
-	if curr_size == Size.SMALL:
+	if curr_mode == Mode.SMALL:
 		return small_animator
-	elif curr_size == Size.LARGE:
+	elif curr_mode == Mode.LARGE:
 		return big_animator
-	elif curr_size == Size.FIRE:
+	elif curr_mode == Mode.FIRE:
 		return fire_animator
 	return null
 
