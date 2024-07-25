@@ -24,8 +24,6 @@ func do_bump(node: Node) -> void:
 	var tween:= create_tween()
 	var originalY := node.position.y as float
 	tween.tween_property(node, "position:y", originalY - BUMP_HEIGHT, BUMP_DURATION)
-	await tween.finished
-	tween = create_tween()
 	tween.tween_property(node, "position:y", originalY, BUMP_DURATION)
 
 func do_spawn(node: Node, item: SPAWNABLE, player: Player) -> void:
@@ -33,7 +31,7 @@ func do_spawn(node: Node, item: SPAWNABLE, player: Player) -> void:
 	print_debug("Spawning %s" % SPAWNABLE.keys()[item])
 	var item_instance: Node2D
 	if item == SPAWNABLE.COIN:
-		item_instance = load("res://scenes/items/coin.tscn").instantiate() as Coin
+		item_instance = load("res://scenes/items/coin_bumped.tscn").instantiate() as CoinBumped
 	elif item == SPAWNABLE.LIFE:
 		item_instance = load("res://scenes/items/mushroom.tscn").instantiate() as Mushroom
 		item_instance.mushroom_type = SPAWNABLE.LIFE

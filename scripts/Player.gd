@@ -142,10 +142,10 @@ func get_next_state(state: State) -> int:
 				return State.WALK
 		State.ENLARGE:
 			if not small_animator.is_playing():
-				return State.IDLE
+				return state_machine.last_state
 		State.ONFIRE:
 			if not transforming_fire:
-				return State.IDLE
+				return state_machine.last_state
 	return StateMachine.KEEP_CURRENT
 
 
@@ -170,11 +170,13 @@ func transition_state(from: State, to: State) -> void:
 		State.WALK:
 			_get_animator().play("walk")
 		State.TURN:
-			direction_before_turn = direction
 			_get_animator().play("turn")
+			if from not in TRANSFORM_STATES:
+				direction_before_turn = direction
 		State.JUMP:
 			_get_animator().play("jump")
-			velocity.y = JUMP_VELOCITY
+			if from not in TRANSFORM_STATES: # 变身结束后不用跳
+				velocity.y = JUMP_VELOCITY
 			action_requested = RequestableAction.NONE
 		State.FALL:
 			if from == State.TURN:

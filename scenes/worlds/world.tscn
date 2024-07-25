@@ -62,7 +62,7 @@ layer_1/tile_data = PackedInt32Array(851968, 524288, 8, 851969, 524288, 9, 85197
 
 [node name="CoinBrick" parent="." instance=ExtResource("5_c0g8v")]
 position = Vector2(64, 160)
-spawn_item = 2
+spawn_item = 1
 
 [node name="CoinBrick2" parent="." instance=ExtResource("5_c0g8v")]
 position = Vector2(25, 160)

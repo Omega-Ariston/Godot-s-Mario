@@ -1,4 +1,4 @@
-class_name Coin
+class_name CoinBumped
 extends Node2D
 
 const BOUNCE_HEIGHT := GameManager.TILE_SIZE.y * 3

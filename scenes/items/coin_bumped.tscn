@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://1e5y2w6vswir"]
 
-[ext_resource type="Script" path="res://scripts/coin.gd" id="1_1mkix"]
-[ext_resource type="Texture2D" uid="uid://s8hpmkufaw42" path="res://assets/item.png" id="1_2qmun"]
+[ext_resource type="Script" path="res://scripts/CoinBumped.gd" id="1_yd546"]
+[ext_resource type="Texture2D" uid="uid://s8hpmkufaw42" path="res://assets/item.png" id="2_h87fc"]
 
 [sub_resource type="Animation" id="Animation_dk6wa"]
 length = 0.001
@@ -90,13 +90,13 @@ _data = {
 "idle": SubResource("Animation_q48o8")
 }
 
-[node name="Coin" type="Node2D"]
+[node name="CoinBumped" type="Node2D"]
 position = Vector2(4, -15)
-script = ExtResource("1_1mkix")
+script = ExtResource("1_yd546")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(5, 7)
-texture = ExtResource("1_2qmun")
+texture = ExtResource("2_h87fc")
 hframes = 4
 region_enabled = true
 region_rect = Rect2(118, 95, 120, 14)
