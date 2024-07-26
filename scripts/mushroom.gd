@@ -1,19 +1,19 @@
 class_name Mushroom
-extends RigidBody2D
+extends CharacterBody2D
 
 @export var mushroom_type: GameManager.SPAWN_ITEM
 
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
-@onready var wall_checker: RayCast2D = $WallChecker
 
-const ACCELERATION := 60.0
 const SPAWN_DURATION := 1.0
 const MOVE_DELAY := 0.1
+const SPEED := 60.0
 
 var direction := 1
 
 var spawning := true
+var default_gravity := ProjectSettings.get("physics/2d/default_gravity") as float
 
 func _ready() -> void:
 	if mushroom_type == GameManager.SPAWN_ITEM.UPGRADE:
@@ -29,13 +29,15 @@ func _ready() -> void:
 	await get_tree().create_timer(MOVE_DELAY).timeout
 	spawning = false
 	collision_shape_2d.disabled = false
-	freeze = false
-	GameManager.init_contact(self)
-	wall_checker.enabled = true
 
 func _physics_process(delta: float) -> void:
-	if wall_checker.is_colliding():
+	if is_on_wall():
+		# 撞到墙就反向跑
 		direction = -direction
-	wall_checker.scale.x = direction
 	if not spawning:
-		move_and_collide(Vector2(ACCELERATION * delta * direction, 0))
+		move(default_gravity, delta)
+
+func move(gravity: float, delta: float) -> void:
+	velocity.x = SPEED * direction
+	velocity.y += gravity * delta
+	move_and_slide()

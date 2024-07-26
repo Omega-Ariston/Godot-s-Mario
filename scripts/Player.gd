@@ -169,9 +169,9 @@ func transition_state(from: State, to: State) -> void:
 			small_animator.stop()
 		State.ONFIRE:
 			curr_mode = Mode.FIRE
-			_set_shader_enabled(false)
 			blink_animator.stop()
 			big_animator.stop()
+			_set_shader_enabled(false)
 			
 	match to:
 		State.IDLE:
