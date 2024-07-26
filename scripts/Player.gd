@@ -73,7 +73,11 @@ var direction_before_turn := Direction.RIGHT
 @onready var small_animator: AnimationPlayer = $SmallAnimator
 @onready var big_animator: AnimationPlayer = $BigAnimator
 @onready var fire_animator: AnimationPlayer = $FireAnimator
+@onready var blink_animator: AnimationPlayer = $BlinkAnimator
 @onready var state_machine: StateMachine = $StateMachine
+@onready var on_fire_timer: Timer = $OnFireTimer
+@onready var star_timer: Timer = $StarTimer
+@onready var invincible_timer: Timer = $InvincibleTimer
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("jump"):
@@ -143,7 +147,8 @@ func get_next_state(state: State) -> int:
 			if not small_animator.is_playing():
 				return state_machine.last_state
 		State.ONFIRE:
-			if not transforming_fire:
+			if on_fire_timer.is_stopped():
+				_set_shader_enabled(false)
 				return state_machine.last_state
 	return StateMachine.KEEP_CURRENT
 
@@ -161,6 +166,10 @@ func transition_state(from: State, to: State) -> void:
 			_get_animator().speed_scale = 1 # 恢复动画播放速度
 		State.FALL:
 			_get_animator().speed_scale = 1 # 恢复播放动画
+		State.ENLARGE:
+			small_animator.stop()
+		State.ONFIRE:
+			big_animator.stop()
 			
 	match to:
 		State.IDLE:
@@ -189,7 +198,10 @@ func transition_state(from: State, to: State) -> void:
 			curr_mode = Mode.FIRE
 			can_onfire = false
 			_reset_animator(fire_animator)
-			_onfire()
+			_set_shader_enabled(true)
+			blink_animator.play("onfire")
+			on_fire_timer.start()
+			# _onfire()
 	is_first_tick = true
 	
 	
@@ -250,7 +262,48 @@ func _get_animator() -> AnimationPlayer:
 	elif curr_mode == Mode.FIRE:
 		return fire_animator
 	return null
+	
+func _set_shader_enabled(enabled: bool) -> void:
+	var sprite_material = sprite_2d.material as ShaderMaterial
+	sprite_material.set_shader_parameter("shader_enabled", enabled)
 
+
+const COLORS_CLASSIC := [
+	Vector4(0.69, 0.20, 0.14, 1.0),
+	Vector4(0.41, 0.41, 0.01, 1.0),
+	Vector4(0.89, 0.61, 0.14, 1.0),
+]
+
+const COLORS_FIRE := [
+	Vector4(0.96, 0.86, 0.64, 1.0),
+	Vector4(0.70, 0.19, 0.12, 1.0),
+	Vector4(0.90, 0.61, 0.12, 1.0),
+]
+
+const COLORS_GREEN := [
+	Vector4(0.22, 0.51, 0.0, 1.0),
+	Vector4(0.90, 0.61, 0.12, 1.0),
+	Vector4(1.0, 1.0, 1.0, 1.0),
+]
+
+const COLORS_RED := [
+	Vector4(0.69, 0.20, 0.14, 1.0),
+	Vector4(0.90, 0.61, 0.12, 1.0),
+	Vector4(1.0, 1.0, 1.0, 1.0),
+]
+
+const COLORS_BLACK := [
+	Vector4(0.0, 0.0, 0.0, 1.0),
+	Vector4(0.61, 0.29, 0.0, 1.0),
+	Vector4(1.0, 0.80, 0.77, 1.0),
+]
+
+func _set_shader_colors(color: String) -> void:
+	var origin_colors := COLORS_FIRE if curr_mode == Mode.FIRE else COLORS_CLASSIC
+	var new_colors: Array = origin_colors if color == "ORIGIN" else self["COLORS_" + color]
+	var sprite_material = sprite_2d.material as ShaderMaterial
+	sprite_material.set_shader_parameter("origin_colors", origin_colors)
+	sprite_material.set_shader_parameter("new_colors", new_colors)
 
 func _reset_animator(animator: AnimationPlayer) -> void:
 	animator.speed_scale = 1
