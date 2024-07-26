@@ -61,12 +61,12 @@ const TRANSFORM_STATES := [
 			await ready
 		sprite_2d.scale.x = direction
 
-var default_gravity := ProjectSettings.get("physics/2d/default_gravity") as float
 var is_first_tick := false
 var action_requested := RequestableAction.NONE
 var can_enlarge := false
 var can_onfire := false
 var direction_before_turn := Direction.RIGHT
+var is_invincible := false
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var small_animator: AnimationPlayer = $SmallAnimator
@@ -89,23 +89,32 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func tick_physics(state: State, delta: float) -> void:
+	if is_invincible:
+		if invincible_timer.time_left == 0:
+			is_invincible = false
+			blink_animator.speed_scale = 1
+			if state != State.ONFIRE:
+				blink_animator.stop()
+				_set_shader_enabled(false)
+		elif invincible_timer.time_left <= 2 and state != State.ONFIRE:
+			blink_animator.speed_scale = 0.25
 		
 	match state:
 		State.IDLE:
-			move(default_gravity, delta)
+			move(GameManager.default_gravity, delta)
 		State.WALK, State.TURN:
 			# 动画播放速度与走路速度正相关
 			_get_animator().speed_scale = max(MIN_ANIMATION_SPEED, abs(velocity.x) / WALK_SPEED * 2)
-			move(default_gravity, delta)
+			move(GameManager.default_gravity, delta)
 		State.JUMP:
-			move(0.0 if is_first_tick else default_gravity, delta)
+			move(0.0 if is_first_tick else GameManager.default_gravity, delta)
 		State.FALL:
-			move(default_gravity, delta)
+			move(GameManager.default_gravity, delta)
 	is_first_tick = false
 
 
 func get_next_state(state: State) -> int:
-	var should_enlarge := can_enlarge and curr_mode == Mode.SMALL
+	var should_enlarge := (can_enlarge or can_onfire) and curr_mode == Mode.SMALL
 	if should_enlarge:
 		return State.ENLARGE
 	
@@ -171,7 +180,10 @@ func transition_state(from: State, to: State) -> void:
 			curr_mode = Mode.FIRE
 			blink_animator.stop()
 			big_animator.stop()
-			_set_shader_enabled(false)
+			if is_invincible:
+				blink_animator.play("invincible")
+			else:
+				_set_shader_enabled(false)
 			
 	match to:
 		State.IDLE:
@@ -193,11 +205,13 @@ func transition_state(from: State, to: State) -> void:
 			_get_animator().speed_scale = 0 # 下落时暂停播放动画
 		State.ENLARGE:
 			can_enlarge = false
+			can_onfire = false
 			_reset_animator(big_animator)
 			small_animator.play("enlarge")
 		State.ONFIRE:
 			can_onfire = false
 			_reset_animator(fire_animator)
+			big_animator.stop()
 			_set_shader_enabled(true)
 			blink_animator.play("onfire")
 			on_fire_timer.start()
@@ -232,13 +246,14 @@ func _eat(item: Node) -> void:
 		if item.mushroom_type == GameManager.SPAWN_ITEM.UPGRADE:
 			can_enlarge = true
 		elif item.mushroom_type == GameManager.SPAWN_ITEM.LIFE:
-			# 奖命
 			print_debug("Bonus Life!")
-	if item is Flower:
-		if curr_mode == Mode.LARGE:
-			can_onfire = true
-		else :
-			can_enlarge = true
+	elif item is Flower:
+		can_onfire = true
+	elif item is Star:
+		_set_shader_enabled(true)
+		blink_animator.play("invincible")
+		is_invincible = true
+		invincible_timer.start()
 
 func _get_animator() -> AnimationPlayer:
 	if curr_mode == Mode.SMALL:
@@ -253,7 +268,7 @@ func _set_shader_enabled(enabled: bool) -> void:
 	var sprite_material = sprite_2d.material as ShaderMaterial
 	sprite_material.set_shader_parameter("shader_enabled", enabled)
 
-
+var color = Color(0.11372549086809, 0.13333334028721, 0.16078431904316)
 const COLORS_CLASSIC := [
 	Vector4(0.69, 0.20, 0.14, 1.0),
 	Vector4(0.41, 0.41, 0.01, 1.0),
@@ -261,7 +276,7 @@ const COLORS_CLASSIC := [
 ]
 
 const COLORS_FIRE := [
-	Vector4(0.96, 0.86, 0.64, 1.0),
+	Vector4(0.96, 0.83, 0.64, 1.0),
 	Vector4(0.70, 0.19, 0.12, 1.0),
 	Vector4(0.90, 0.61, 0.12, 1.0),
 ]
@@ -285,10 +300,10 @@ const COLORS_BLACK := [
 ]
 
 func _set_shader_colors(color: String) -> void:
-	print_debug("Setting color: %s" % color)
 	var origin_colors := COLORS_FIRE if curr_mode == Mode.FIRE else COLORS_CLASSIC
 	var new_colors: Array = origin_colors if color == "ORIGIN" else self["COLORS_" + color]
 	var sprite_material = sprite_2d.material as ShaderMaterial
+	print_debug(origin_colors)
 	sprite_material.set_shader_parameter("origin_colors", origin_colors)
 	sprite_material.set_shader_parameter("new_colors", new_colors)
 

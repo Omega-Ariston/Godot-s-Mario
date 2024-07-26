@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://ta2kus8p0r8f"]
+[gd_scene load_steps=29 format=3 uid="uid://ta2kus8p0r8f"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_sboe1"]
 [ext_resource type="Texture2D" uid="uid://dfg5kaxqbfu1d" path="res://assets/mario.png" id="2_pqtkg"]
@@ -875,8 +875,38 @@ tracks/0/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_ga6ye"]
+resource_name = "invincible"
+length = 0.1
+loop_mode = 1
+step = 0.025
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.025, 0.05, 0.075),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": ["ORIGIN"],
+"method": &"_set_shader_colors"
+}, {
+"args": ["GREEN"],
+"method": &"_set_shader_colors"
+}, {
+"args": ["RED"],
+"method": &"_set_shader_colors"
+}, {
+"args": ["BLACK"],
+"method": &"_set_shader_colors"
+}]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_6nhb6"]
 _data = {
+"invincible": SubResource("Animation_ga6ye"),
 "onfire": SubResource("Animation_a52c2")
 }
 
@@ -929,4 +959,5 @@ one_shot = true
 one_shot = true
 
 [node name="InvincibleTimer" type="Timer" parent="."]
+wait_time = 10.0
 one_shot = true
