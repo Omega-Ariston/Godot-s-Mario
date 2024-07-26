@@ -66,7 +66,6 @@ var is_first_tick := false
 var action_requested := RequestableAction.NONE
 var can_enlarge := false
 var can_onfire := false
-var transforming_fire := false
 var direction_before_turn := Direction.RIGHT
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
@@ -148,7 +147,6 @@ func get_next_state(state: State) -> int:
 				return state_machine.last_state
 		State.ONFIRE:
 			if on_fire_timer.is_stopped():
-				_set_shader_enabled(false)
 				return state_machine.last_state
 	return StateMachine.KEEP_CURRENT
 
@@ -167,8 +165,12 @@ func transition_state(from: State, to: State) -> void:
 		State.FALL:
 			_get_animator().speed_scale = 1 # 恢复播放动画
 		State.ENLARGE:
+			curr_mode = Mode.LARGE
 			small_animator.stop()
 		State.ONFIRE:
+			curr_mode = Mode.FIRE
+			_set_shader_enabled(false)
+			blink_animator.stop()
 			big_animator.stop()
 			
 	match to:
@@ -190,18 +192,15 @@ func transition_state(from: State, to: State) -> void:
 				_get_animator().play("walk") # 空中不能转身停顿
 			_get_animator().speed_scale = 0 # 下落时暂停播放动画
 		State.ENLARGE:
-			curr_mode = Mode.LARGE
 			can_enlarge = false
 			_reset_animator(big_animator)
 			small_animator.play("enlarge")
 		State.ONFIRE:
-			curr_mode = Mode.FIRE
 			can_onfire = false
 			_reset_animator(fire_animator)
 			_set_shader_enabled(true)
 			blink_animator.play("onfire")
 			on_fire_timer.start()
-			# _onfire()
 	is_first_tick = true
 	
 	
@@ -226,19 +225,6 @@ func stand(gravity: float, delta:float) -> void:
 	move_and_slide()
 	global_position.x = max(global_position.x, GameManager.max_left_x + 8)
 
-func _onfire() -> void:
-	transforming_fire = true
-	big_animator.stop()
-	var yValues = [48, 192, 240, 144, 48] # 四个不同颜色的马里奥y值
-	var currRect := sprite_2d.get_region_rect()
-	# 循环播放四次
-	for i in range(4):
-		for yValue in yValues:
-			currRect.position.y = yValue
-			sprite_2d.set_region_rect(currRect)
-			# 等0.07秒
-			await get_tree().create_timer(0.07).timeout
-	transforming_fire = false
 	
 func _eat(item: Node) -> void:
 	print_debug("Eatting: %s" % item.name)
@@ -299,6 +285,7 @@ const COLORS_BLACK := [
 ]
 
 func _set_shader_colors(color: String) -> void:
+	print_debug("Setting color: %s" % color)
 	var origin_colors := COLORS_FIRE if curr_mode == Mode.FIRE else COLORS_CLASSIC
 	var new_colors: Array = origin_colors if color == "ORIGIN" else self["COLORS_" + color]
 	var sprite_material = sprite_2d.material as ShaderMaterial
