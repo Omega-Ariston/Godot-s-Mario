@@ -16,4 +16,6 @@ func launch() -> void:
 		print_debug("LAUNCH: Fireball")
 		var fireball_instance = load("res://scenes/items/fireball.tscn").instantiate() as Fireball
 		fireball_instance.direction = owner.direction
-		call_deferred("add_child", fireball_instance)
+		fireball_instance.global_position = global_position
+		get_tree().root.add_child(fireball_instance)
+		# call_deferred("add_child", fireball_instance)

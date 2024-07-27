@@ -7,7 +7,7 @@ const AIR_ACCELERATION := WALK_SPEED / 0.3
 const JUMP_VELOCITY := -350.0
 const MIN_ANIMATION_SPEED := 0.8
 const MIN_TURN_SPEED = WALK_SPEED / 1.5
-const FIREBALL_LIMIT = 9999
+const FIREBALL_LIMIT = 2
 
 enum State {
 	IDLE,
@@ -71,7 +71,6 @@ const TRANSFORM_STATES := [
 var is_first_tick := false
 var can_enlarge := false
 var can_onfire := false
-var fireball_launched := false
 var crouch_requested := false
 var jump_requested := false
 var action_requested := false
@@ -101,7 +100,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		action_requested = true
 	if event.is_action_released("action"):
 		action_requested = false
-		fireball_launched = false
 	if event.is_action_pressed("crouch"):
 		crouch_requested = true
 	if event.is_action_released("crouch"):
@@ -158,7 +156,7 @@ func get_next_state(state: State) -> int:
 	if state in GROUND_STATES and not is_on_floor():
 		return State.FALL
 	
-	var can_launch_fireball := curr_mode == Mode.FIRE and not fireball_launched and state not in CROUCH_STATES
+	var can_launch_fireball :=  curr_mode == Mode.FIRE and state not in CROUCH_STATES and state != State.LAUNCH
 	var should_launch_fireball := can_launch_fireball and action_requested and get_tree().get_nodes_in_group("fireball").size() < FIREBALL_LIMIT
 	if should_launch_fireball:
 		return State.LAUNCH
@@ -255,10 +253,9 @@ func transition_state(from: State, to: State) -> void:
 			_get_animator().speed_scale = 0 # 下落时暂停播放动画
 		State.LAUNCH:
 			last_animation = fire_animator.current_animation
-			print_debug(last_animation)
+			action_requested = false
 			fire_animator.play("launch")
 			fireball_launcher.launch()
-			fireball_launched = true
 		State.ENLARGE:
 			can_enlarge = false
 			can_onfire = false

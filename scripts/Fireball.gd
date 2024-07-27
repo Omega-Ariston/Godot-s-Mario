@@ -1,9 +1,9 @@
 class_name Fireball
 extends CharacterBody2D
 
-const HORIZONTAL_SPEED := 200
+const HORIZONTAL_SPEED := 300
 const JUMP_VELOCITY := -250.0
-const LAUNCH_FALL_SPEED := 100
+const LAUNCH_FALL_SPEED := 200
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
@@ -11,8 +11,6 @@ var direction := 1
 var has_grouded := false
 
 func _ready() -> void:
-	velocity.x = 0
-	velocity.y = 0
 	animation_player.play("fire")
 	# 随机出一个火球形态
 	var offset := randf() * animation_player.get_animation("fire").length
