@@ -12,6 +12,8 @@ enum State {
 	IDLE,
 	WALK,
 	TURN,
+	CROUCH,
+	CROUCH_JUMP,
 	JUMP,
 	FALL,
 	ENLARGE,
@@ -30,11 +32,6 @@ enum Direction {
 	RIGHT = +1
 }
 
-enum RequestableAction {
-	NONE,
-	JUMP,
-	FIRE
-}
 
 const GROUND_STATES := [
 	State.IDLE, State.WALK, State.TURN
@@ -62,9 +59,11 @@ const TRANSFORM_STATES := [
 		sprite_2d.scale.x = direction
 
 var is_first_tick := false
-var action_requested := RequestableAction.NONE
 var can_enlarge := false
 var can_onfire := false
+var crouch_requested := false
+var jump_requested := false
+var action_requested := false
 var direction_before_turn := Direction.RIGHT
 var is_invincible := false
 
@@ -80,12 +79,14 @@ var is_invincible := false
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("jump"):
-		action_requested = RequestableAction.JUMP
+		jump_requested = true
 	if event.is_action_released("jump"):
 		if velocity.y < JUMP_VELOCITY / 2:
 			velocity.y = JUMP_VELOCITY / 2
-		if action_requested == RequestableAction.JUMP:
-			action_requested = RequestableAction.NONE
+	if event.is_action_pressed("crouch"):
+		crouch_requested = true
+	if event.is_action_released("crouch"):
+		crouch_requested = false
 
 
 func tick_physics(state: State, delta: float) -> void:
@@ -105,7 +106,9 @@ func tick_physics(state: State, delta: float) -> void:
 			# 动画播放速度与走路速度正相关
 			_get_animator().speed_scale = max(MIN_ANIMATION_SPEED, abs(velocity.x) / WALK_SPEED * 2)
 			move(GameManager.default_gravity, delta)
-		State.JUMP:
+		State.CROUCH:
+			stand(GameManager.default_gravity, delta)
+		State.JUMP, State.CROUCH_JUMP:
 			move(0.0 if is_first_tick else GameManager.default_gravity, delta)
 		State.FALL:
 			move(GameManager.default_gravity, delta)
@@ -121,10 +124,15 @@ func get_next_state(state: State) -> int:
 	if should_onfire:
 		return State.ONFIRE
 	
+	var can_crouch := is_on_floor() and state not in TRANSFORM_STATES and curr_mode != Mode.SMALL
+	var should_crouch := can_crouch and crouch_requested and state not in [State.CROUCH, State.CROUCH_JUMP]
+	if should_crouch:
+		return State.CROUCH
+	
 	var can_jump := is_on_floor() and state not in TRANSFORM_STATES
-	var should_jump := can_jump and action_requested == RequestableAction.JUMP
+	var should_jump := can_jump and jump_requested
 	if should_jump:
-		return State.JUMP
+		return State.CROUCH_JUMP if crouch_requested else State.JUMP
 		
 	if state in GROUND_STATES and not is_on_floor():
 		return State.FALL
@@ -144,7 +152,10 @@ func get_next_state(state: State) -> int:
 		State.TURN:
 			if movement * direction_before_turn > 0 or is_zero_approx(velocity.x):
 				return State.IDLE
-		State.JUMP:
+		State.CROUCH:
+			if is_on_floor() and crouch_requested == false:
+				return State.IDLE
+		State.JUMP, State.CROUCH_JUMP:
 			if velocity.y >= 0:
 				return State.FALL
 		State.FALL:
@@ -193,11 +204,18 @@ func transition_state(from: State, to: State) -> void:
 			_get_animator().play("turn")
 			if from not in TRANSFORM_STATES:
 				direction_before_turn = direction
+		State.CROUCH:
+			_get_animator().play("crouch")
 		State.JUMP:
 			_get_animator().play("jump")
 			if from not in TRANSFORM_STATES: # 变身结束后不用跳
 				velocity.y = JUMP_VELOCITY
-			action_requested = RequestableAction.NONE
+			jump_requested = false
+		State.CROUCH_JUMP:
+			_get_animator().play("crouch")
+			if from not in TRANSFORM_STATES: # 变身结束后不用跳
+				velocity.y = JUMP_VELOCITY
+			jump_requested = false
 		State.FALL:
 			if from == State.TURN:
 				_get_animator().play("walk") # 空中不能转身停顿
@@ -219,7 +237,7 @@ func transition_state(from: State, to: State) -> void:
 	
 func move(gravity: float, delta: float) -> void:
 	var movement := Input.get_axis("move_left", "move_right")
-	if not is_zero_approx(movement):
+	if not is_zero_approx(movement) and is_on_floor():
 		direction = Direction.LEFT if movement < 0 else Direction.RIGHT
 		
 	var acceleration := WALK_ACCELERATION if is_on_floor() else AIR_ACCELERATION
