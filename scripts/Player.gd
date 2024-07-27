@@ -92,12 +92,11 @@ func tick_physics(state: State, delta: float) -> void:
 	if is_invincible:
 		if invincible_timer.time_left == 0:
 			is_invincible = false
-			blink_animator.speed_scale = 1
 			if state != State.ONFIRE:
 				blink_animator.stop()
 				_set_shader_enabled(false)
 		elif invincible_timer.time_left <= 2 and state != State.ONFIRE:
-			blink_animator.speed_scale = 0.25
+			blink_animator.play("invincible", -1, 0.25, false)
 		
 	match state:
 		State.IDLE:
@@ -213,7 +212,7 @@ func transition_state(from: State, to: State) -> void:
 			_reset_animator(fire_animator)
 			big_animator.stop()
 			_set_shader_enabled(true)
-			blink_animator.play("onfire")
+			blink_animator.play("onfire", -1, 1.0, false)
 			on_fire_timer.start()
 	is_first_tick = true
 	
