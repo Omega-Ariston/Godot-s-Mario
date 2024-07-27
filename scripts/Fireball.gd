@@ -35,6 +35,6 @@ func move(gravity: float, delta: float) -> void:
 		velocity.y += gravity * delta
 	move_and_slide()
 
-func _on_VisibilityNotifier2D_screen_exited():
+func _on_visible_on_screen_notifier_2d_screen_exited():
 	# 离开屏幕时销毁
 	queue_free()
