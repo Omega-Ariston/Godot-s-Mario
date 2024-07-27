@@ -1,9 +1,11 @@
 class_name Player
 extends CharacterBody2D
 
-const WALK_SPEED := 100.0
+const WALK_SPEED := 80.0
+const RUN_SPEED := WALK_SPEED * 2
 const WALK_ACCELERATION := WALK_SPEED / 0.4
-const AIR_ACCELERATION := WALK_SPEED / 0.3
+const RUN_ACCELERATION := WALK_ACCELERATION * 2
+const AIR_ACCELERATION := WALK_SPEED / 0.2
 const JUMP_VELOCITY := -350.0
 const MIN_ANIMATION_SPEED := 0.8
 const MIN_TURN_SPEED = WALK_SPEED / 1.5
@@ -73,7 +75,10 @@ var can_enlarge := false
 var can_onfire := false
 var crouch_requested := false
 var jump_requested := false
-var action_requested := false
+var launch_requested := false
+var accelerate_requested := false
+var air_accelerate_requested := false # 在空中按下加速时要在落地后生效
+var air_accelerate_cancel_requested := false # 在空中松开加速时也在落地后生效
 var direction_before_turn := Direction.RIGHT
 var is_invincible := false
 var last_animation : String
@@ -94,12 +99,22 @@ func _unhandled_input(event: InputEvent) -> void:
 		jump_requested = true
 	if event.is_action_released("jump"):
 		if velocity.y < JUMP_VELOCITY / 2:
-			velocity.y = JUMP_VELOCITY / 2
+			velocity.y = JUMP_VELOCITY / 2 # 最小跳跃高度
 		jump_requested = false
 	if event.is_action_pressed("action"):
-		action_requested = true
+		launch_requested = true
+		if is_on_floor():
+			accelerate_requested = true
+		else:
+			air_accelerate_requested = true
+			air_accelerate_cancel_requested = false
 	if event.is_action_released("action"):
-		action_requested = false
+		launch_requested = false
+		if is_on_floor():
+			accelerate_requested = false
+		else:
+			air_accelerate_cancel_requested = true
+			air_accelerate_requested = false
 	if event.is_action_pressed("crouch"):
 		crouch_requested = true
 	if event.is_action_released("crouch"):
@@ -107,6 +122,16 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func tick_physics(state: State, delta: float) -> void:
+	if is_on_floor():
+		if air_accelerate_requested:
+			# 空中按的加速在落地后生效
+			air_accelerate_requested = false
+			accelerate_requested = true
+		if air_accelerate_cancel_requested:
+			# 空中松开的加速在落地后生效
+			air_accelerate_cancel_requested = false
+			accelerate_requested = false
+	
 	if is_invincible:
 		if invincible_timer.time_left == 0:
 			is_invincible = false
@@ -121,7 +146,7 @@ func tick_physics(state: State, delta: float) -> void:
 			move(GameManager.default_gravity, delta)
 		State.WALK, State.TURN:
 			# 动画播放速度与走路速度正相关
-			_get_animator().speed_scale = max(MIN_ANIMATION_SPEED, abs(velocity.x) / WALK_SPEED * 2)
+			_get_animator().speed_scale = max(MIN_ANIMATION_SPEED, abs(velocity.x) / WALK_SPEED * 1.5)
 			move(GameManager.default_gravity, delta)
 		State.CROUCH:
 			stand(GameManager.default_gravity, delta)
@@ -157,7 +182,7 @@ func get_next_state(state: State) -> int:
 		return State.FALL
 	
 	var can_launch_fireball :=  curr_mode == Mode.FIRE and state not in CROUCH_STATES and state != State.LAUNCH
-	var should_launch_fireball := can_launch_fireball and action_requested and get_tree().get_nodes_in_group("fireball").size() < FIREBALL_LIMIT
+	var should_launch_fireball := can_launch_fireball and launch_requested and get_tree().get_nodes_in_group("fireball").size() < FIREBALL_LIMIT
 	if should_launch_fireball:
 		return State.LAUNCH
 		
@@ -253,7 +278,7 @@ func transition_state(from: State, to: State) -> void:
 			_get_animator().speed_scale = 0 # 下落时暂停播放动画
 		State.LAUNCH:
 			last_animation = fire_animator.current_animation
-			action_requested = false
+			launch_requested = false
 			fire_animator.play("launch")
 			fireball_launcher.launch()
 		State.ENLARGE:
@@ -275,9 +300,9 @@ func move(gravity: float, delta: float) -> void:
 	var movement := Input.get_axis("move_left", "move_right")
 	if not is_zero_approx(movement) and is_on_floor():
 		direction = Direction.LEFT if movement < 0 else Direction.RIGHT
-		
-	var acceleration := WALK_ACCELERATION if is_on_floor() else AIR_ACCELERATION
-	velocity.x = move_toward(velocity.x, movement * WALK_SPEED, acceleration * delta)
+	var speed = RUN_SPEED if accelerate_requested else WALK_SPEED
+	var acceleration := AIR_ACCELERATION if not is_on_floor() else RUN_ACCELERATION if accelerate_requested else WALK_ACCELERATION
+	velocity.x = move_toward(velocity.x, movement * speed, acceleration * delta)
 	velocity.y += gravity * delta
 	
 	move_and_slide()
