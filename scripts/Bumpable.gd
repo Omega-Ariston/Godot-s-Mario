@@ -22,6 +22,7 @@ func do_bump() -> void:
 	var originalY := owner.position.y as float
 	tween.tween_property(owner, "position:y", originalY - BUMP_HEIGHT, BUMP_DURATION)
 	tween.tween_property(owner, "position:y", originalY, BUMP_DURATION)
+	await tween.finished
 	
 
 func do_spawn(node: Node, item: GameManager.SPAWN_ITEM, player: Player) -> void:

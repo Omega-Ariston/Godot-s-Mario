@@ -11,7 +11,12 @@ func _ready() -> void:
 
 func on_bumped(player: Player) -> void:
 	if bumpable.can_bump:
-		bumpable.do_bump()
+		if spawn_item == GameManager.SPAWN_ITEM.COIN:
+			# 金币直接顶
+			bumpable.do_bump()
+		else:
+			# 道具等顶完再生成
+			await bumpable.do_bump()
 		if spawn_item != GameManager.SPAWN_ITEM.EMPTY:
 			animation_player.play("bumped")
 			bumpable.do_spawn(self, spawn_item, player)

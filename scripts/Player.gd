@@ -267,7 +267,7 @@ func _set_shader_enabled(enabled: bool) -> void:
 	var sprite_material = sprite_2d.material as ShaderMaterial
 	sprite_material.set_shader_parameter("shader_enabled", enabled)
 
-var color = Color(0.11372549086809, 0.13333334028721, 0.16078431904316)
+
 const COLORS_CLASSIC := [
 	Vector4(0.69, 0.20, 0.14, 1.0),
 	Vector4(0.41, 0.41, 0.01, 1.0),
@@ -302,7 +302,6 @@ func _set_shader_colors(color: String) -> void:
 	var origin_colors := COLORS_FIRE if curr_mode == Mode.FIRE else COLORS_CLASSIC
 	var new_colors: Array = origin_colors if color == "ORIGIN" else self["COLORS_" + color]
 	var sprite_material = sprite_2d.material as ShaderMaterial
-	print_debug(origin_colors)
 	sprite_material.set_shader_parameter("origin_colors", origin_colors)
 	sprite_material.set_shader_parameter("new_colors", new_colors)
 
