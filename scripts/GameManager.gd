@@ -23,7 +23,7 @@ func init_contact(node: RigidBody2D):
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("esc"):
 		change_scene(get_tree().current_scene.scene_file_path)
-	if event.is_action_pressed("fire"):
+	if event.is_action_pressed("test"):
 		get_tree().get_first_node_in_group("Player").can_onfire = true
 
 func change_scene(path: String):

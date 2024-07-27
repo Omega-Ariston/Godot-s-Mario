@@ -4,9 +4,10 @@ extends CharacterBody2D
 const WALK_SPEED := 100.0
 const WALK_ACCELERATION := WALK_SPEED / 0.4
 const AIR_ACCELERATION := WALK_SPEED / 0.3
-const JUMP_VELOCITY := -320.0
+const JUMP_VELOCITY := -350.0
 const MIN_ANIMATION_SPEED := 0.8
 const MIN_TURN_SPEED = WALK_SPEED / 1.5
+const FIREBALL_LIMIT = 9999
 
 enum State {
 	IDLE,
@@ -14,6 +15,7 @@ enum State {
 	TURN,
 	CROUCH,
 	CROUCH_JUMP,
+	LAUNCH,
 	JUMP,
 	FALL,
 	ENLARGE,
@@ -37,6 +39,10 @@ const GROUND_STATES := [
 	State.IDLE, State.WALK, State.TURN
 ]
 
+const CROUCH_STATES := [
+	State.CROUCH, State.CROUCH_JUMP
+]
+
 const TRANSFORM_STATES := [
 	State.ENLARGE, State.ONFIRE, State.HURT
 ]
@@ -56,16 +62,22 @@ const TRANSFORM_STATES := [
 		direction = v
 		if not is_node_ready():
 			await ready
+		# 翻转人物图像
 		sprite_2d.scale.x = direction
+		# 翻转火焰发射点
+		if fireball_launcher.position.x * direction < 0:
+			fireball_launcher.position.x *= -1
 
 var is_first_tick := false
 var can_enlarge := false
 var can_onfire := false
+var fireball_launched := false
 var crouch_requested := false
 var jump_requested := false
 var action_requested := false
 var direction_before_turn := Direction.RIGHT
 var is_invincible := false
+var last_animation : String
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var small_animator: AnimationPlayer = $SmallAnimator
@@ -76,13 +88,20 @@ var is_invincible := false
 @onready var on_fire_timer: Timer = $OnFireTimer
 @onready var star_timer: Timer = $StarTimer
 @onready var invincible_timer: Timer = $InvincibleTimer
+@onready var fireball_launcher: ItemLauncher = $FireballLauncher
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("jump"):
+	if event.is_action_pressed("jump") and is_on_floor(): #防止在空中保存跳跃指令
 		jump_requested = true
 	if event.is_action_released("jump"):
 		if velocity.y < JUMP_VELOCITY / 2:
 			velocity.y = JUMP_VELOCITY / 2
+		jump_requested = false
+	if event.is_action_pressed("action"):
+		action_requested = true
+	if event.is_action_released("action"):
+		action_requested = false
+		fireball_launched = false
 	if event.is_action_pressed("crouch"):
 		crouch_requested = true
 	if event.is_action_released("crouch"):
@@ -98,7 +117,7 @@ func tick_physics(state: State, delta: float) -> void:
 				_set_shader_enabled(false)
 		elif invincible_timer.time_left <= 2 and state != State.ONFIRE:
 			blink_animator.play("invincible", -1, 0.25, false)
-		
+	
 	match state:
 		State.IDLE:
 			move(GameManager.default_gravity, delta)
@@ -111,6 +130,8 @@ func tick_physics(state: State, delta: float) -> void:
 		State.JUMP, State.CROUCH_JUMP:
 			move(0.0 if is_first_tick else GameManager.default_gravity, delta)
 		State.FALL:
+			move(GameManager.default_gravity, delta)
+		State.LAUNCH:
 			move(GameManager.default_gravity, delta)
 	is_first_tick = false
 
@@ -125,7 +146,7 @@ func get_next_state(state: State) -> int:
 		return State.ONFIRE
 	
 	var can_crouch := is_on_floor() and state not in TRANSFORM_STATES and curr_mode != Mode.SMALL
-	var should_crouch := can_crouch and crouch_requested and state not in [State.CROUCH, State.CROUCH_JUMP]
+	var should_crouch := can_crouch and crouch_requested and state not in CROUCH_STATES
 	if should_crouch:
 		return State.CROUCH
 	
@@ -136,6 +157,11 @@ func get_next_state(state: State) -> int:
 		
 	if state in GROUND_STATES and not is_on_floor():
 		return State.FALL
+	
+	var can_launch_fireball := curr_mode == Mode.FIRE and not fireball_launched and state not in CROUCH_STATES
+	var should_launch_fireball := can_launch_fireball and action_requested and get_tree().get_nodes_in_group("fireball").size() < FIREBALL_LIMIT
+	if should_launch_fireball:
+		return State.LAUNCH
 		
 	var movement := Input.get_axis("move_left", "move_right")
 	var is_still := is_zero_approx(movement) and is_zero_approx(velocity.x)
@@ -150,7 +176,7 @@ func get_next_state(state: State) -> int:
 			if is_still:
 				return State.IDLE
 		State.TURN:
-			if movement * direction_before_turn > 0 or is_zero_approx(velocity.x):
+			if not _get_animator().is_playing() or movement * direction_before_turn > 0 or is_zero_approx(velocity.x):
 				return State.IDLE
 		State.CROUCH:
 			if is_on_floor() and crouch_requested == false:
@@ -161,6 +187,9 @@ func get_next_state(state: State) -> int:
 		State.FALL:
 			if is_on_floor():
 				return State.WALK
+		State.LAUNCH:
+			if not fire_animator.is_playing():
+				return state_machine.last_state
 		State.ENLARGE:
 			if not small_animator.is_playing():
 				return state_machine.last_state
@@ -179,13 +208,15 @@ func transition_state(from: State, to: State) -> void:
 	])
 	
 	match from:
-		State.WALK:
+		State.WALK, State.FALL:
 			_get_animator().speed_scale = 1 # 恢复动画播放速度
-		State.FALL:
-			_get_animator().speed_scale = 1 # 恢复播放动画
 		State.ENLARGE:
 			curr_mode = Mode.LARGE
 			small_animator.stop()
+		State.TURN:
+			if not _get_animator().is_playing():
+				# 只有刹车状态需要重置速度，其余状态维持原有速度
+				velocity.x = 0
 		State.ONFIRE:
 			curr_mode = Mode.FIRE
 			blink_animator.stop()
@@ -208,7 +239,7 @@ func transition_state(from: State, to: State) -> void:
 			_get_animator().play("crouch")
 		State.JUMP:
 			_get_animator().play("jump")
-			if from not in TRANSFORM_STATES: # 变身结束后不用跳
+			if from not in TRANSFORM_STATES and from != State.LAUNCH: # 变身结束或发完炮后不用跳
 				velocity.y = JUMP_VELOCITY
 			jump_requested = false
 		State.CROUCH_JUMP:
@@ -219,7 +250,15 @@ func transition_state(from: State, to: State) -> void:
 		State.FALL:
 			if from == State.TURN:
 				_get_animator().play("walk") # 空中不能转身停顿
+			elif from == State.LAUNCH:
+				_get_animator().play(last_animation)
 			_get_animator().speed_scale = 0 # 下落时暂停播放动画
+		State.LAUNCH:
+			last_animation = fire_animator.current_animation
+			print_debug(last_animation)
+			fire_animator.play("launch")
+			fireball_launcher.launch()
+			fireball_launched = true
 		State.ENLARGE:
 			can_enlarge = false
 			can_onfire = false
@@ -255,7 +294,7 @@ func stand(gravity: float, delta:float) -> void:
 	
 	move_and_slide()
 	global_position.x = max(global_position.x, GameManager.max_left_x + 8)
-
+		
 	
 func _eat(item: Node) -> void:
 	print_debug("Eatting: %s" % item.name)
