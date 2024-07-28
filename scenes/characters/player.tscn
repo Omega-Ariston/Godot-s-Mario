@@ -226,7 +226,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_on3sy"]
 resource_name = "turn"
-length = 0.3
+length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -539,7 +539,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_7ncsk"]
 resource_name = "turn"
-length = 0.3
+length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -891,7 +891,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_71yy0"]
 resource_name = "turn"
-length = 0.3
+length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true

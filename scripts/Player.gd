@@ -2,9 +2,9 @@ class_name Player
 extends CharacterBody2D
 
 const WALK_SPEED := 80.0
-const RUN_SPEED := WALK_SPEED * 2
+const DASH_SPEED := WALK_SPEED * 2
 const WALK_ACCELERATION := WALK_SPEED / 0.4
-const RUN_ACCELERATION := WALK_ACCELERATION * 2
+const DASH_ACCELERATION := WALK_ACCELERATION * 2
 const AIR_ACCELERATION := WALK_SPEED / 0.2
 const JUMP_VELOCITY := -350.0
 const MIN_ANIMATION_SPEED := 0.8
@@ -257,7 +257,9 @@ func transition_state(from: State, to: State) -> void:
 		State.WALK:
 			_get_animator().play("walk")
 		State.TURN:
-			_get_animator().play("turn")
+			# 水平速度越大，转身需要的时间越长，转身速度越慢
+			var turn_speed :float = abs(DASH_SPEED / velocity.x)
+			_get_animator().play("turn", -1, turn_speed, false)
 			if from not in TRANSFORM_STATES:
 				direction_before_turn = direction
 		State.CROUCH:
@@ -302,8 +304,8 @@ func move(gravity: float, delta: float) -> void:
 	var movement := Input.get_axis("move_left", "move_right")
 	if not is_zero_approx(movement) and is_on_floor():
 		direction = Direction.LEFT if movement < 0 else Direction.RIGHT
-	var speed = RUN_SPEED if dash_requested else WALK_SPEED
-	var acceleration := AIR_ACCELERATION if not is_on_floor() else RUN_ACCELERATION if dash_requested else WALK_ACCELERATION
+	var speed = DASH_SPEED if dash_requested else WALK_SPEED
+	var acceleration := AIR_ACCELERATION if not is_on_floor() else DASH_ACCELERATION if dash_requested else WALK_ACCELERATION
 	velocity.x = move_toward(velocity.x, movement * speed, acceleration * delta)
 	velocity.y += gravity * delta
 	

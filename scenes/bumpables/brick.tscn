@@ -1,0 +1,94 @@
+[gd_scene load_steps=10 format=3 uid="uid://c30i335tpkrd8"]
+
+[ext_resource type="Script" path="res://scripts/Brick.gd" id="1_650d6"]
+[ext_resource type="Texture2D" uid="uid://c7gt8s3r65s32" path="res://assets/map.png" id="1_qy6wh"]
+[ext_resource type="Script" path="res://scripts/Bumpable.gd" id="2_4kbqw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uayt3"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nas4u"]
+size = Vector2(14, 0.213685)
+
+[sub_resource type="Animation" id="Animation_32smg"]
+resource_name = "unbumped"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(16, 0, 16, 16)]
+}
+
+[sub_resource type="Animation" id="Animation_noko0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(16, 0, 16, 16)]
+}
+
+[sub_resource type="Animation" id="Animation_f8v2d"]
+resource_name = "bumped"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(48, 0, 16, 16)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_30e7g"]
+_data = {
+"RESET": SubResource("Animation_noko0"),
+"bumped": SubResource("Animation_f8v2d"),
+"unbumped": SubResource("Animation_32smg")
+}
+
+[node name="Brick" type="StaticBody2D"]
+script = ExtResource("1_650d6")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(8, 8)
+texture = ExtResource("1_qy6wh")
+region_enabled = true
+region_rect = Rect2(16, 0, 16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_uayt3")
+
+[node name="Bumpable" type="Area2D" parent="."]
+script = ExtResource("2_4kbqw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bumpable"]
+position = Vector2(8, 15.9806)
+shape = SubResource("RectangleShape2D_nas4u")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_30e7g")
+}
+
+[node name="BumpTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true

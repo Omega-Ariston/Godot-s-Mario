@@ -156,6 +156,7 @@ libraries = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(8, 8)
+scale = Vector2(1, -1)
 shape = SubResource("RectangleShape2D_4uehg")
 
 [node name="Bumpable" type="Area2D" parent="."]
