@@ -64,6 +64,16 @@ const TRANSFORM_STATES := [
 		Mode.keys()[v]
 	])
 		curr_mode = v
+		match curr_mode:
+			Mode.SMALL:
+				_reset_animator(big_animator)
+				_reset_animator(fire_animator)
+			Mode.LARGE:
+				_reset_animator(small_animator)
+				_reset_animator(fire_animator)
+			Mode.FIRE:
+				_reset_animator(small_animator)
+				_reset_animator(big_animator)
 		
 @export var direction := Direction.RIGHT:
 	set(v):
@@ -88,6 +98,7 @@ var direction_before_turn := Direction.RIGHT
 var is_invincible := false
 var last_animation : String
 var controllable := true
+var is_spawning := false
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
@@ -164,6 +175,9 @@ func tick_physics(state: State, delta: float) -> void:
 
 
 func get_next_state(state: State) -> int:
+	if is_spawning:
+		return State.IDLE if state != State.IDLE else state_machine.KEEP_CURRENT
+	
 	var should_enlarge := (can_enlarge or can_onfire) and curr_mode == Mode.SMALL
 	if should_enlarge:
 		return State.ENLARGE
@@ -180,7 +194,7 @@ func get_next_state(state: State) -> int:
 	var can_jump := is_on_floor() and state not in TRANSFORM_STATES
 	var should_jump := can_jump and jump_requested
 	if should_jump:
-		return State.CROUCH_JUMP if crouch_requested else State.JUMP
+		return State.CROUCH_JUMP if state == State.CROUCH else State.JUMP
 		
 	if state in GROUND_STATES and not is_on_floor():
 		return State.FALL
@@ -239,7 +253,6 @@ func transition_state(from: State, to: State) -> void:
 			_get_animator().speed_scale = 1 # 恢复动画播放速度
 		State.ENLARGE:
 			curr_mode = Mode.LARGE
-			small_animator.stop()
 		State.TURN:
 			if not _get_animator().is_playing():
 				# 只有刹车状态需要重置速度，其余状态维持原有速度
@@ -247,7 +260,6 @@ func transition_state(from: State, to: State) -> void:
 		State.ONFIRE:
 			curr_mode = Mode.FIRE
 			blink_animator.stop()
-			big_animator.stop()
 			if is_invincible:
 				blink_animator.play("invincible")
 			else:
@@ -323,18 +335,6 @@ func stand(gravity: float, delta:float) -> void:
 	move_and_slide()
 	global_position.x = max(global_position.x, GameManager.max_left_x + 8)
 		
-func dive_into_pipe() -> void:
-	# 禁用角色碰撞和输入事件
-	velocity = Vector2.ZERO
-	collision_shape_2d.disabled = true
-	set_process_input(false)
-	controllable = false
-	# 角色下移两个瓦片长度
-	var dive_distance := GameManager.TILE_SIZE.y * 2
-	var dive_duration := 1.0
-	var tween = create_tween()
-	tween.tween_property(self, "global_position:y", global_position.y + dive_distance, dive_duration)
-	await tween.finished
 
 func _eat(item: Node) -> void:
 	print_debug("Eatting: %s" % item.name)
@@ -404,3 +404,4 @@ func _set_shader_colors(color: String) -> void:
 
 func _reset_animator(animator: AnimationPlayer) -> void:
 	animator.speed_scale = 1
+	animator.stop()
