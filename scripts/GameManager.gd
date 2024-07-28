@@ -56,12 +56,14 @@ func change_scene(path: String, params: Dictionary = {}):
 	max_left_x = 0
 
 func uncontrol_player(player: Player) -> void:
+	player.state_machine.enabled = false
 	player.velocity = Vector2.ZERO
 	player.collision_shape_2d.set_deferred("disabled", true)
 	player.set_process_input(false)
 	player.controllable = false
 
 func control_player(player: Player) -> void:
+	player.state_machine.enabled = true
 	player.collision_shape_2d.set_deferred("disabled", false)
 	player.set_process_input(true)
 	player.controllable = true

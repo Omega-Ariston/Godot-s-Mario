@@ -5,8 +5,6 @@ extends Marker2D
 @export var spawn_point_name : String
 @export var direction : ENTER_DIRECTION
 
-const MIN_ENTER_DISTANCE := 6
-
 enum ENTER_DIRECTION {
 	DOWN,
 	RIGHT,
@@ -30,7 +28,8 @@ func _input(event: InputEvent) -> void:
 func _physics_process(_delta: float) -> void:
 	if enter_requested:
 		var player := get_tree().get_first_node_in_group("Player") as Player
-		if player.is_on_floor() and global_position.distance_to(player.global_position) <= MIN_ENTER_DISTANCE:
+		var min_enter_distance := 6.0 if direction == ENTER_DIRECTION.DOWN or player.curr_mode == player.Mode.SMALL else GameManager.TILE_SIZE.x / 2
+		if player.state_machine.current_state in player.GROUND_STATES and global_position.distance_to(player.global_position) <= min_enter_distance:
 			enter_requested = false
 			await enter_pipe(player)
 			# 切换场景
@@ -43,7 +42,7 @@ func enter_pipe(player: Player) -> void:
 	# 禁用角色碰撞和输入事件
 	GameManager.uncontrol_player(player)
 	# 角色移动入口方向的三个瓦片长度
-	var enter_distance := GameManager.TILE_SIZE.y * 3
+	var enter_distance := GameManager.TILE_SIZE.y * 3 if direction == ENTER_DIRECTION.DOWN else GameManager.TILE_SIZE.x
 	var enter_duration := 1.0
 	var tween = create_tween()
 	match direction:

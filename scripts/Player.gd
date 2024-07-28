@@ -44,7 +44,7 @@ enum Direction {
 
 
 const GROUND_STATES := [
-	State.IDLE, State.WALK, State.TURN
+	State.IDLE, State.WALK, State.TURN, State.CROUCH
 ]
 
 const CROUCH_STATES := [
@@ -218,7 +218,7 @@ func get_next_state(state: State) -> int:
 				return State.IDLE
 		State.TURN:
 			if not _get_animator().is_playing() or movement * direction_before_turn > 0 or is_zero_approx(velocity.x):
-				return State.IDLE
+				return State.IDLE if is_still else State.WALK
 		State.CROUCH:
 			if is_on_floor() and crouch_requested == false:
 				return State.IDLE
@@ -227,7 +227,7 @@ func get_next_state(state: State) -> int:
 				return State.FALL
 		State.FALL:
 			if is_on_floor():
-				return State.WALK
+				return State.IDLE if is_still else State.WALK
 		State.LAUNCH:
 			if not fire_animator.is_playing():
 				return state_machine.last_state
