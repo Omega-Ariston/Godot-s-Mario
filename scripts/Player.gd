@@ -87,8 +87,10 @@ var dash_requested := false
 var direction_before_turn := Direction.RIGHT
 var is_invincible := false
 var last_animation : String
+var controllable := true
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
+@onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 @onready var small_animator: AnimationPlayer = $SmallAnimator
 @onready var big_animator: AnimationPlayer = $BigAnimator
 @onready var fire_animator: AnimationPlayer = $FireAnimator
@@ -188,7 +190,7 @@ func get_next_state(state: State) -> int:
 	if should_launch_fireball:
 		return State.LAUNCH
 		
-	var movement := Input.get_axis("move_left", "move_right")
+	var movement := Input.get_axis("move_left", "move_right") if controllable else 0.0
 	var is_still := is_zero_approx(movement) and is_zero_approx(velocity.x)
 	
 	match state:
@@ -301,7 +303,7 @@ func transition_state(from: State, to: State) -> void:
 	
 	
 func move(gravity: float, delta: float) -> void:
-	var movement := Input.get_axis("move_left", "move_right")
+	var movement := Input.get_axis("move_left", "move_right") if controllable else 0.0
 	if not is_zero_approx(movement) and is_on_floor():
 		direction = Direction.LEFT if movement < 0 else Direction.RIGHT
 	var speed = DASH_SPEED if dash_requested else WALK_SPEED
@@ -321,7 +323,19 @@ func stand(gravity: float, delta:float) -> void:
 	move_and_slide()
 	global_position.x = max(global_position.x, GameManager.max_left_x + 8)
 		
-	
+func dive_into_pipe() -> void:
+	# 禁用角色碰撞和输入事件
+	velocity = Vector2.ZERO
+	collision_shape_2d.disabled = true
+	set_process_input(false)
+	controllable = false
+	# 角色下移两个瓦片长度
+	var dive_distance := GameManager.TILE_SIZE.y * 2
+	var dive_duration := 1.0
+	var tween = create_tween()
+	tween.tween_property(self, "global_position:y", global_position.y + dive_distance, dive_duration)
+	await tween.finished
+
 func _eat(item: Node) -> void:
 	print_debug("Eatting: %s" % item.name)
 	if item is Mushroom:

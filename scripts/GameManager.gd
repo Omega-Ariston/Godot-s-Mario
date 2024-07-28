@@ -15,10 +15,6 @@ enum SPAWN_ITEM {
 const MAX_ITEM_CONTACT := 3
 var default_gravity := ProjectSettings.get("physics/2d/default_gravity") as float
 
-func init_contact(node: RigidBody2D):
-	node.contact_monitor = true
-	node.max_contacts_reported = MAX_ITEM_CONTACT
-
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("esc"):
