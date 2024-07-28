@@ -25,6 +25,12 @@ enum State {
 	HURT,
 }
 
+enum AirRequest {
+	NONE,
+	DASH,
+	DASH_CANCEL,
+}
+
 enum Mode {
 	SMALL,
 	LARGE,
@@ -76,9 +82,8 @@ var can_onfire := false
 var crouch_requested := false
 var jump_requested := false
 var launch_requested := false
-var accelerate_requested := false
-var air_accelerate_requested := false # 在空中按下加速时要在落地后生效
-var air_accelerate_cancel_requested := false # 在空中松开加速时也在落地后生效
+var air_action_requested : AirRequest
+var dash_requested := false
 var direction_before_turn := Direction.RIGHT
 var is_invincible := false
 var last_animation : String
@@ -104,17 +109,15 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("action"):
 		launch_requested = true
 		if is_on_floor():
-			accelerate_requested = true
+			dash_requested = true
 		else:
-			air_accelerate_requested = true
-			air_accelerate_cancel_requested = false
+			air_action_requested = AirRequest.DASH
 	if event.is_action_released("action"):
 		launch_requested = false
 		if is_on_floor():
-			accelerate_requested = false
+			dash_requested = false
 		else:
-			air_accelerate_cancel_requested = true
-			air_accelerate_requested = false
+			air_action_requested = AirRequest.DASH_CANCEL
 	if event.is_action_pressed("crouch"):
 		crouch_requested = true
 	if event.is_action_released("crouch"):
@@ -123,14 +126,13 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func tick_physics(state: State, delta: float) -> void:
 	if is_on_floor():
-		if air_accelerate_requested:
-			# 空中按的加速在落地后生效
-			air_accelerate_requested = false
-			accelerate_requested = true
-		if air_accelerate_cancel_requested:
-			# 空中松开的加速在落地后生效
-			air_accelerate_cancel_requested = false
-			accelerate_requested = false
+		# 空中按下或松开加速在落地后才生效
+		match air_action_requested:
+			AirRequest.DASH:
+				dash_requested = true
+			AirRequest.DASH_CANCEL:
+				dash_requested = false
+		air_action_requested = AirRequest.NONE
 	
 	if is_invincible:
 		if invincible_timer.time_left == 0:
@@ -300,8 +302,8 @@ func move(gravity: float, delta: float) -> void:
 	var movement := Input.get_axis("move_left", "move_right")
 	if not is_zero_approx(movement) and is_on_floor():
 		direction = Direction.LEFT if movement < 0 else Direction.RIGHT
-	var speed = RUN_SPEED if accelerate_requested else WALK_SPEED
-	var acceleration := AIR_ACCELERATION if not is_on_floor() else RUN_ACCELERATION if accelerate_requested else WALK_ACCELERATION
+	var speed = RUN_SPEED if dash_requested else WALK_SPEED
+	var acceleration := AIR_ACCELERATION if not is_on_floor() else RUN_ACCELERATION if dash_requested else WALK_ACCELERATION
 	velocity.x = move_toward(velocity.x, movement * speed, acceleration * delta)
 	velocity.y += gravity * delta
 	
