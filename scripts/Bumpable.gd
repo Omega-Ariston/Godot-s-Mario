@@ -4,6 +4,14 @@ extends Area2D
 const BUMP_HEIGHT := 8.0
 const BUMP_DURATION := 0.1
 
+enum SPAWN_ITEM {
+	EMPTY,
+	COIN,
+	UPGRADE,
+	LIFE,
+	STAR,
+}
+
 var can_bump := true
 
 func _ready() -> void:
@@ -25,23 +33,23 @@ func do_bump() -> void:
 	await tween.finished
 	
 
-func do_spawn(node: Node, item: GameManager.SPAWN_ITEM, player: Player) -> void:
+func do_spawn(node: Node, item: SPAWN_ITEM, player: Player) -> void:
 	# 生成被顶出的物品
-	print_debug("Spawning %s" % GameManager.SPAWN_ITEM.keys()[item])
+	print_debug("Spawning %s" % SPAWN_ITEM.keys()[item])
 	var item_instance: Node2D
 	
 	match item:
-		GameManager.SPAWN_ITEM.COIN:
+		SPAWN_ITEM.COIN:
 			item_instance = load("res://scenes/items/coin_bumped.tscn").instantiate() as CoinBumped
-		GameManager.SPAWN_ITEM.LIFE:
+		SPAWN_ITEM.LIFE:
 			item_instance = load("res://scenes/items/mushroom.tscn").instantiate() as Mushroom
-			item_instance.mushroom_type = GameManager.SPAWN_ITEM.LIFE
-		GameManager.SPAWN_ITEM.UPGRADE:
+			item_instance.mushroom_type = SPAWN_ITEM.LIFE
+		SPAWN_ITEM.UPGRADE:
 			if player.curr_mode == Player.Mode.LARGE or player.curr_mode == Player.Mode.FIRE:
 				item_instance = load("res://scenes/items/flower.tscn").instantiate() as Flower
 			else:
 				item_instance = load("res://scenes/items/mushroom.tscn").instantiate() as Mushroom
-				item_instance.mushroom_type = GameManager.SPAWN_ITEM.UPGRADE
-		GameManager.SPAWN_ITEM.STAR:
+				item_instance.mushroom_type = SPAWN_ITEM.UPGRADE
+		SPAWN_ITEM.STAR:
 			item_instance = load("res://scenes/items/star.tscn").instantiate() as Star
 	node.call_deferred("add_child", item_instance)

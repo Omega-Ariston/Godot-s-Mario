@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://by0stfwg5c7pm" path="res://scenes/bumpables/coin_brick.tscn" id="5_c0g8v"]
 [ext_resource type="PackedScene" uid="uid://c30i335tpkrd8" path="res://scenes/bumpables/brick.tscn" id="6_pa5kd"]
 [ext_resource type="Script" path="res://scripts/EnterPoint.gd" id="7_omhyb"]
-[ext_resource type="Script" path="res://SpawnPoint.gd" id="8_03tw3"]
+[ext_resource type="Script" path="res://scripts/SpawnPoint.gd" id="8_03tw3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1uoqp"]
 texture = ExtResource("1_8sw01")

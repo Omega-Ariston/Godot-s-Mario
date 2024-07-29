@@ -321,9 +321,9 @@ func stand(gravity: float, delta:float) -> void:
 func _eat(item: Node) -> void:
 	print_debug("Eatting: %s" % item.name)
 	if item is Mushroom:
-		if item.mushroom_type == GameManager.SPAWN_ITEM.UPGRADE:
+		if item.mushroom_type == Bumpable.SPAWN_ITEM.UPGRADE:
 			can_enlarge = true
-		elif item.mushroom_type == GameManager.SPAWN_ITEM.LIFE:
+		elif item.mushroom_type == Bumpable.SPAWN_ITEM.LIFE:
 			print_debug("Bonus Life!")
 	elif item is Flower:
 		can_onfire = true
