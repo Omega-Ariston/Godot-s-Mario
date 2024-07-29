@@ -25,12 +25,6 @@ enum State {
 	HURT,
 }
 
-enum AirRequest {
-	NONE,
-	DASH,
-	DASH_CANCEL,
-}
-
 enum Mode {
 	SMALL,
 	LARGE,
@@ -80,11 +74,8 @@ const TRANSFORM_STATES := [
 		direction = v
 		if not is_node_ready():
 			await ready
-		# 翻转人物图像
-		sprite_2d.scale.x = direction
-		# 翻转火焰发射点
-		if fireball_launcher.position.x * direction < 0:
-			fireball_launcher.position.x *= -1
+		# 翻转图像
+		graphics.scale.x = direction
 
 var is_first_tick := false
 var can_enlarge := false
@@ -92,7 +83,6 @@ var can_onfire := false
 var crouch_requested := false
 var jump_requested := false
 var launch_requested := false
-var air_action_requested : AirRequest
 var dash_requested := false
 var direction_before_turn := Direction.RIGHT
 var is_invincible := false
@@ -100,7 +90,8 @@ var last_animation : String
 var controllable := true
 var is_spawning := false
 
-@onready var sprite_2d: Sprite2D = $Sprite2D
+@onready var graphics: Node = $Graphics
+@onready var sprite_2d: Sprite2D = $Graphics/Sprite2D
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 @onready var small_animator: AnimationPlayer = $SmallAnimator
 @onready var big_animator: AnimationPlayer = $BigAnimator
@@ -110,7 +101,7 @@ var is_spawning := false
 @onready var on_fire_timer: Timer = $OnFireTimer
 @onready var star_timer: Timer = $StarTimer
 @onready var invincible_timer: Timer = $InvincibleTimer
-@onready var fireball_launcher: ItemLauncher = $FireballLauncher
+@onready var fireball_launcher: ItemLauncher = $Graphics/FireballLauncher
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("jump") and is_on_floor(): #防止在空中保存跳跃指令
@@ -121,16 +112,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		jump_requested = false
 	if event.is_action_pressed("action"):
 		launch_requested = true
-		if is_on_floor():
-			dash_requested = true
-		else:
-			air_action_requested = AirRequest.DASH
 	if event.is_action_released("action"):
 		launch_requested = false
-		if is_on_floor():
-			dash_requested = false
-		else:
-			air_action_requested = AirRequest.DASH_CANCEL
 	if event.is_action_pressed("crouch"):
 		crouch_requested = true
 	if event.is_action_released("crouch"):
@@ -139,14 +122,13 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func tick_physics(state: State, delta: float) -> void:
 	if is_on_floor():
-		# 空中按下或松开加速在落地后才生效
-		match air_action_requested:
-			AirRequest.DASH:
+		# 开始和结束加速都要在地面上判断
+		if Input.is_action_pressed("action"):
 				dash_requested = true
-			AirRequest.DASH_CANCEL:
+		else:
+			if is_on_floor():
 				dash_requested = false
-		air_action_requested = AirRequest.NONE
-	
+
 	if is_invincible:
 		if invincible_timer.time_left == 0:
 			is_invincible = false
@@ -200,7 +182,7 @@ func get_next_state(state: State) -> int:
 		return State.FALL
 	
 	var can_launch_fireball :=  curr_mode == Mode.FIRE and state not in CROUCH_STATES and state != State.LAUNCH
-	var should_launch_fireball := can_launch_fireball and launch_requested and get_tree().get_nodes_in_group("fireball").size() < FIREBALL_LIMIT
+	var should_launch_fireball := can_launch_fireball and launch_requested and get_tree().get_nodes_in_group("Fireballs").size() < FIREBALL_LIMIT
 	if should_launch_fireball:
 		return State.LAUNCH
 		
