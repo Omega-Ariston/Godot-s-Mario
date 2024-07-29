@@ -28,7 +28,12 @@ func _input(event: InputEvent) -> void:
 func _physics_process(_delta: float) -> void:
 	if enter_requested:
 		var player := get_tree().get_first_node_in_group("Player") as Player
-		var min_enter_distance := 6.0 if direction == ENTER_DIRECTION.DOWN or player.curr_mode == player.Mode.SMALL else GameManager.TILE_SIZE.x / 2
+		var min_enter_distance
+		if direction == ENTER_DIRECTION.DOWN:
+			min_enter_distance = 6
+		else:
+			# 角色碰撞体积的一半
+			min_enter_distance = floori(player.collision_shape_2d.shape.get_rect().size.x / 2)
 		if player.state_machine.current_state in player.GROUND_STATES and global_position.distance_to(player.global_position) <= min_enter_distance:
 			enter_requested = false
 			await enter_pipe(player)
