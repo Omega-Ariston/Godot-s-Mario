@@ -1,7 +1,7 @@
 class_name CoinBumped
 extends Node2D
 
-const BOUNCE_HEIGHT := 48
+const BOUNCE_HEIGHT := Variables.TILE_SIZE.y * 3
 const BOUNCE_DURATION := 0.2
 
 func _ready() -> void:

@@ -21,7 +21,7 @@ func _ready() -> void:
 	
 	# 让自身向上顶出一个砖的高度，并开始向右以固定速度移动
 	var tween := create_tween()
-	tween.tween_property(self, "position:y", position.y - GameManager.TILE_SIZE.y, SPAWN_DURATION)
+	tween.tween_property(self, "position:y", position.y - Variables.TILE_SIZE.y, SPAWN_DURATION)
 	await tween.finished
 	# 延迟一会
 	await get_tree().create_timer(MOVE_DELAY).timeout

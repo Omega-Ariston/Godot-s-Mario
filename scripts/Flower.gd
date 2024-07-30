@@ -10,5 +10,5 @@ func _ready() -> void:
 
 	# 让自身向上顶出一个砖的高度
 	var tween := create_tween()
-	tween.tween_property(self, "position:y", position.y - GameManager.TILE_SIZE.y, SPAWN_DURATION)
+	tween.tween_property(self, "position:y", position.y - Variables.TILE_SIZE.y, SPAWN_DURATION)
 	await tween.finished

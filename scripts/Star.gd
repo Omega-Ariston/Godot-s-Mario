@@ -15,7 +15,7 @@ func _ready() -> void:
 	animation_player.play("blink")
 	# 让自身向上顶出一个砖的高度，并开始向右以固定速度跳跃移动
 	var tween := create_tween()
-	tween.tween_property(self, "position:y", position.y - GameManager.TILE_SIZE.y, SPAWN_DURATION)
+	tween.tween_property(self, "position:y", position.y - Variables.TILE_SIZE.y, SPAWN_DURATION)
 	await tween.finished
 	spawning = false
 	collision_shape_2d.disabled = false

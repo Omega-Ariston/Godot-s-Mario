@@ -8,7 +8,7 @@ var viewport_size: Vector2
 func _ready() -> void:
 	viewport_size = get_viewport_rect().size
 	var used := tile_map.get_used_rect()
-	var tile_size := GameManager.TILE_SIZE
+	var tile_size := Variables.TILE_SIZE
 	
 	camera_2d.limit_top = floori(used.position.y * tile_size.y)
 	camera_2d.limit_right = floori(used.end.x * tile_size.x)

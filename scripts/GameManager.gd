@@ -1,7 +1,6 @@
 extends Node
 
 var max_left_x: float
-const TILE_SIZE := Vector2(16, 16)
 const CHANGE_SCENE_DURATION := 0.5
 
 var default_gravity := ProjectSettings.get("physics/2d/default_gravity") as float
@@ -51,7 +50,7 @@ func change_scene(path: String, params: Dictionary = {}):
 					if invincible_time_left > 0:
 						player.is_invincible = true
 						player.blink_animator.play("invincible")
-					player.global_position.y += TILE_SIZE.y * 3 * point.direction
+					player.global_position.y += Variables.TILE_SIZE.y * 3 * point.direction
 					var tween := create_tween()
 					tween.tween_property(player, "global_position:y", point.global_position.y, 1.0)
 					await tween.finished
