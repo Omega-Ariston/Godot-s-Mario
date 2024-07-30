@@ -10,6 +10,7 @@ enum SPAWN_ITEM {
 	UPGRADE,
 	LIFE,
 	STAR,
+	VINE,
 }
 
 var can_bump := true
@@ -52,4 +53,6 @@ func do_spawn(node: Node, item: SPAWN_ITEM, player: Player) -> void:
 				item_instance.mushroom_type = SPAWN_ITEM.UPGRADE
 		SPAWN_ITEM.STAR:
 			item_instance = load("res://scenes/items/star.tscn").instantiate() as Star
+		SPAWN_ITEM.VINE:
+			item_instance = load("res://scenes/climables/vine.tscn").instantiate() as Vine
 	node.call_deferred("add_child", item_instance)

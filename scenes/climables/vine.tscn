@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://bsj7t14bkcqnd"]
+
+[ext_resource type="Script" path="res://scripts/Vine.gd" id="1_k7lep"]
+[ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/items-objects.png" id="2_ny7yv"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5babj"]
+texture = ExtResource("2_ny7yv")
+4:4/0 = 0
+4:3/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_fds51"]
+sources/3 = SubResource("TileSetAtlasSource_5babj")
+
+[node name="Vine" type="Node2D"]
+z_index = -1
+script = ExtResource("1_k7lep")
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_fds51")
+format = 2
+layer_0/tile_data = PackedInt32Array(0, 262147, 3)
