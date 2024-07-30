@@ -32,9 +32,12 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player:
 		# 让玩家进入攀爬状态，并设置正确的朝向
 		body.can_climb = true
+		body.climbing_vine = self
 		if body.velocity.x < 0:
 			body.direction = body.Direction.LEFT
 		else:
 			body.direction = body.Direction.RIGHT
+		# 把玩家固定到攀爬点
+		body.global_position.x = climb_area.global_position.x - body.direction * body.collision_shape_2d.shape.get_rect().size.x / 2
 		body.velocity = Vector2.ZERO
 

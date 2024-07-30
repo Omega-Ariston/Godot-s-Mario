@@ -10,7 +10,7 @@ func _ready() -> void:
 	var used := tile_map.get_used_rect()
 	var tile_size := Variables.TILE_SIZE
 	
-	camera_2d.limit_top = floori(used.position.y - 0.5 * tile_size.y)
+	camera_2d.limit_top = floori(used.position.y * tile_size.y)
 	camera_2d.limit_right = floori(used.end.x * tile_size.x)
 	camera_2d.limit_bottom = ceili((used.end.y - 0.5) * tile_size.y) # 最下面一个方块只显示一半
 	camera_2d.limit_left = ceili((used.position.x + 1) * tile_size.x) # 不显示最左的一行墙壁

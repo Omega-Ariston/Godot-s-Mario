@@ -85,6 +85,7 @@ var is_first_tick := false
 var can_enlarge := false
 var can_onfire := false
 var can_climb := false
+var climbing_vine : Vine
 var crouch_requested := false
 var jump_requested := false
 var launch_requested := false
@@ -159,16 +160,16 @@ func tick_physics(state: State, delta: float) -> void:
 		State.CLIMB:
 			if Input.is_action_just_pressed("move_right"):
 				if direction == Direction.LEFT:
-					can_climb = false
+					_unclimb()
 				if direction == Direction.RIGHT:
 					_change_climb_side()
 			if Input.is_action_just_pressed("move_left"):
 				if direction == Direction.RIGHT:
-					can_climb = false
+					_unclimb()
 				if direction == Direction.LEFT:
 					_change_climb_side()
 			# 没爬的时候不动
-			_get_animator().speed_scale = velocity.y / CLIMB_SPEED
+			_get_animator().speed_scale = abs(velocity.y / CLIMB_SPEED)
 			climb(delta)
 		State.LAUNCH:
 			move(GameManager.default_gravity, delta)
@@ -191,12 +192,12 @@ func get_next_state(state: State) -> int:
 	if should_onfire:
 		return State.ONFIRE
 	
-	var can_crouch := is_on_floor() and state not in TRANSFORM_STATES and curr_mode != Mode.SMALL
+	var can_crouch := state in GROUND_STATES and state not in TRANSFORM_STATES and curr_mode != Mode.SMALL
 	var should_crouch := can_crouch and crouch_requested and state not in CROUCH_STATES
 	if should_crouch:
 		return State.CROUCH
 	
-	var can_jump := is_on_floor() and state not in TRANSFORM_STATES
+	var can_jump := state in GROUND_STATES and state not in TRANSFORM_STATES
 	var should_jump := can_jump and jump_requested
 	if should_jump:
 		return State.CROUCH_JUMP if state == State.CROUCH else State.JUMP
@@ -352,8 +353,14 @@ func climb(delta:float) -> void:
 	move_and_slide()
 
 func _change_climb_side() -> void:
-	global_position.x += Variables.TILE_SIZE.x * direction
-	direction = Direction.LEFT if direction == Direction.RIGHT else Direction.LEFT		
+	var distance := abs(global_position.x - climbing_vine.climb_area.global_position.x) * 2 as float
+	global_position.x += distance * direction
+	direction = Direction.LEFT if direction == Direction.RIGHT else Direction.RIGHT
+
+func _unclimb() -> void:
+	can_climb = false
+	climbing_vine = null
+	velocity.x = direction * -CLIMB_SPEED # 给一点初速度，免得直接掉到藤下面
 
 func _eat(item: Node) -> void:
 	print_debug("Eatting: %s" % item.name)
