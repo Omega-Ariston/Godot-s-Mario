@@ -3,13 +3,16 @@ extends CharacterBody2D
 
 const WALK_SPEED := 80.0
 const DASH_SPEED := WALK_SPEED * 2
+const CLIMB_SPEED := 40.0
 const WALK_ACCELERATION := WALK_SPEED / 0.4
 const DASH_ACCELERATION := WALK_ACCELERATION * 2
+const CLIMB_ACCELERATION := CLIMB_SPEED / 0.2
 const AIR_ACCELERATION := WALK_SPEED / 0.2
 const JUMP_VELOCITY := -350.0
 const MIN_ANIMATION_SPEED := 0.8
 const MIN_TURN_SPEED = WALK_SPEED / 1.5
 const FIREBALL_LIMIT = 2
+
 
 enum State {
 	IDLE,
@@ -20,6 +23,7 @@ enum State {
 	LAUNCH,
 	JUMP,
 	FALL,
+	CLIMB,
 	ENLARGE,
 	ONFIRE,
 	HURT,
@@ -80,6 +84,7 @@ const TRANSFORM_STATES := [
 var is_first_tick := false
 var can_enlarge := false
 var can_onfire := false
+var can_climb := false
 var crouch_requested := false
 var jump_requested := false
 var launch_requested := false
@@ -114,9 +119,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		launch_requested = true
 	if event.is_action_released("action"):
 		launch_requested = false
-	if event.is_action_pressed("crouch"):
+	if event.is_action_pressed("move_down"):
 		crouch_requested = true
-	if event.is_action_released("crouch"):
+	if event.is_action_released("move_down"):
 		crouch_requested = false
 
 
@@ -151,6 +156,20 @@ func tick_physics(state: State, delta: float) -> void:
 			move(0.0 if is_first_tick else GameManager.default_gravity, delta)
 		State.FALL:
 			move(GameManager.default_gravity, delta)
+		State.CLIMB:
+			if Input.is_action_just_pressed("move_right"):
+				if direction == Direction.LEFT:
+					can_climb = false
+				if direction == Direction.RIGHT:
+					_change_climb_side()
+			if Input.is_action_just_pressed("move_left"):
+				if direction == Direction.RIGHT:
+					can_climb = false
+				if direction == Direction.LEFT:
+					_change_climb_side()
+			# 没爬的时候不动
+			_get_animator().speed_scale = velocity.y / CLIMB_SPEED
+			climb(delta)
 		State.LAUNCH:
 			move(GameManager.default_gravity, delta)
 	is_first_tick = false
@@ -159,6 +178,10 @@ func tick_physics(state: State, delta: float) -> void:
 func get_next_state(state: State) -> int:
 	if is_spawning:
 		return State.IDLE if state != State.IDLE else state_machine.KEEP_CURRENT
+	
+	var should_climb := can_climb and state != State.CLIMB
+	if should_climb:
+		return State.CLIMB
 	
 	var should_enlarge := (can_enlarge or can_onfire) and curr_mode == Mode.SMALL
 	if should_enlarge:
@@ -210,6 +233,9 @@ func get_next_state(state: State) -> int:
 		State.FALL:
 			if is_on_floor():
 				return State.IDLE if is_still else State.WALK
+		State.CLIMB:
+			if can_climb == false:
+				return State.FALL
 		State.LAUNCH:
 			if not fire_animator.is_playing():
 				return state_machine.last_state
@@ -231,7 +257,7 @@ func transition_state(from: State, to: State) -> void:
 	])
 	
 	match from:
-		State.WALK, State.FALL:
+		State.WALK, State.FALL, State.CLIMB:
 			_get_animator().speed_scale = 1 # 恢复动画播放速度
 		State.ENLARGE:
 			curr_mode = Mode.LARGE
@@ -271,11 +297,13 @@ func transition_state(from: State, to: State) -> void:
 				velocity.y = JUMP_VELOCITY
 			jump_requested = false
 		State.FALL:
-			if from == State.TURN:
-				_get_animator().play("walk") # 空中不能转身停顿
+			if from in [State.TURN, State.CLIMB]:
+				_get_animator().play("walk")
 			elif from == State.LAUNCH:
 				_get_animator().play(last_animation)
 			_get_animator().speed_scale = 0 # 下落时暂停播放动画
+		State.CLIMB:
+			_get_animator().play("climb")
 		State.LAUNCH:
 			last_animation = fire_animator.current_animation
 			launch_requested = false
@@ -298,7 +326,7 @@ func transition_state(from: State, to: State) -> void:
 	
 func move(gravity: float, delta: float) -> void:
 	var movement := Input.get_axis("move_left", "move_right") if controllable else 0.0
-	if not is_zero_approx(movement) and is_on_floor():
+	if not is_zero_approx(movement) and (is_first_tick or is_on_floor()):
 		direction = Direction.LEFT if movement < 0 else Direction.RIGHT
 	var speed = DASH_SPEED if dash_requested else WALK_SPEED
 	var acceleration := AIR_ACCELERATION if not is_on_floor() else DASH_ACCELERATION if dash_requested else WALK_ACCELERATION
@@ -317,6 +345,15 @@ func stand(gravity: float, delta:float) -> void:
 	move_and_slide()
 	global_position.x = max(global_position.x, GameManager.max_left_x + 8)
 		
+
+func climb(delta:float) -> void:
+	var movement := Input.get_axis("move_up", "move_down")
+	velocity.y = move_toward(velocity.y, movement * CLIMB_SPEED, CLIMB_ACCELERATION * delta)
+	move_and_slide()
+
+func _change_climb_side() -> void:
+	global_position.x += Variables.TILE_SIZE.x * direction
+	direction = Direction.LEFT if direction == Direction.RIGHT else Direction.LEFT		
 
 func _eat(item: Node) -> void:
 	print_debug("Eatting: %s" % item.name)

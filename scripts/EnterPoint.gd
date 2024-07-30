@@ -19,7 +19,7 @@ func _physics_process(_delta: float) -> void:
 	var enter_requested: bool
 	var min_enter_distance: float
 	if direction == ENTER_DIRECTION.DOWN:
-		enter_requested = Input.is_action_pressed("crouch")
+		enter_requested = Input.is_action_pressed("move_down")
 		min_enter_distance = 6.0
 	else:
 		enter_requested = Input.is_action_pressed("move_right")

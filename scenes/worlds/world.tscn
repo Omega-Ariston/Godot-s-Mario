@@ -65,7 +65,7 @@ layer_1/tile_data = PackedInt32Array(851968, 524288, 8, 851969, 524288, 9, 85197
 
 [node name="CoinBrick" parent="." instance=ExtResource("5_c0g8v")]
 position = Vector2(80, 160)
-spawn_item = 4
+spawn_item = 5
 is_hidden = true
 
 [node name="CoinBrick2" parent="." instance=ExtResource("5_c0g8v")]
@@ -78,7 +78,7 @@ spawn_item = 2
 
 [node name="CoinBrick4" parent="." instance=ExtResource("5_c0g8v")]
 position = Vector2(0, 160)
-spawn_item = 5
+spawn_item = 1
 
 [node name="Brick" parent="." instance=ExtResource("6_pa5kd")]
 position = Vector2(240, 160)

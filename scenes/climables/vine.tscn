@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bsj7t14bkcqnd"]
+[gd_scene load_steps=6 format=3 uid="uid://bsj7t14bkcqnd"]
 
 [ext_resource type="Script" path="res://scripts/Vine.gd" id="1_k7lep"]
 [ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/items-objects.png" id="2_ny7yv"]
@@ -11,6 +11,9 @@ texture = ExtResource("2_ny7yv")
 [sub_resource type="TileSet" id="TileSet_fds51"]
 sources/3 = SubResource("TileSetAtlasSource_5babj")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_onpk7"]
+size = Vector2(6, 14)
+
 [node name="Vine" type="Node2D"]
 z_index = -1
 script = ExtResource("1_k7lep")
@@ -19,3 +22,12 @@ script = ExtResource("1_k7lep")
 tile_set = SubResource("TileSet_fds51")
 format = 2
 layer_0/tile_data = PackedInt32Array(0, 262147, 3)
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_mask = 3
+
+[node name="ClimbArea" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(8, 9)
+shape = SubResource("RectangleShape2D_onpk7")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
