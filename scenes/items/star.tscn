@@ -56,18 +56,19 @@ collision_mask = 3
 script = ExtResource("1_jknvf")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(7, 8)
+position = Vector2(-1, 0)
 texture = ExtResource("1_rodou")
 region_enabled = true
 region_rect = Rect2(5, 94, 14, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(7, 8)
+position = Vector2(-1, 0)
 shape = SubResource("CircleShape2D_oa3gk")
 disabled = true
 one_way_collision = true
 
 [node name="Eatable" type="Area2D" parent="."]
+position = Vector2(-8, -8)
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_moecc")

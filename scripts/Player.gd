@@ -158,12 +158,12 @@ func tick_physics(state: State, delta: float) -> void:
 		State.FALL:
 			move(GameManager.default_gravity, delta)
 		State.CLIMB:
-			if Input.is_action_just_pressed("move_right"):
+			if controllable and Input.is_action_just_pressed("move_right"):
 				if direction == Direction.LEFT:
 					_unclimb()
 				if direction == Direction.RIGHT:
 					_change_climb_side()
-			if Input.is_action_just_pressed("move_left"):
+			if controllable and Input.is_action_just_pressed("move_left"):
 				if direction == Direction.RIGHT:
 					_unclimb()
 				if direction == Direction.LEFT:

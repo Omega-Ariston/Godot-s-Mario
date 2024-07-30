@@ -2,6 +2,7 @@ extends Node
 
 var max_left_x: float
 const CHANGE_SCENE_DURATION := 0.5
+const VINE_RISE_COUNT := 4
 
 var default_gravity := ProjectSettings.get("physics/2d/default_gravity") as float
 
@@ -31,7 +32,7 @@ func change_scene(path: String, params: Dictionary = {}):
 	scene_changer.color.a = 0.0
 	
 	var player := tree.get_first_node_in_group("Player") as Player
-	
+	player.direction = player.Direction.RIGHT
 	if params.has("player_mode"):
 		player.curr_mode = params.get("player_mode")
 	
@@ -41,19 +42,42 @@ func change_scene(path: String, params: Dictionary = {}):
 			# 找到指定点
 			if point.name == spawn_point:
 				player.global_position = point.global_position
-				# 如果需要从管道钻出来，则从指定点的反方向3个瓦片的距离出生，并且提前禁用物理碰撞和控制 TODO:这个应该是默认配置
-				if point.direction != point.SPAWN_DIRECTION.NONE:
+				
+				if point.direction != SpawnPoint.Spawn_Direction.NONE:
 					uncontrol_player(player)
 					player.is_spawning = true
-					player._get_animator().play("idle") # 默认刚出来就是站立姿势
+					
+					# 如果有无敌，播放无敌动画
 					var invincible_time_left = params.get("invincible_time_left", 0.0) as float
 					if invincible_time_left > 0:
 						player.is_invincible = true
 						player.blink_animator.play("invincible")
-					player.global_position.y += Variables.TILE_SIZE.y * 3 * point.direction
-					var tween := create_tween()
-					tween.tween_property(player, "global_position:y", point.global_position.y, 1.0)
-					await tween.finished
+						
+					if point.type == SpawnPoint.Type.VINE:
+						# 如果从藤蔓爬出来，则从指定点下一个瓦片出生，并等藤蔓长完4个瓦片高度后爬上来落地
+						player._get_animator().play("climb")
+						player.can_climb = true
+						player.state_machine.current_state = player.State.CLIMB
+						player.global_position.y += Variables.TILE_SIZE.y * 2
+						var vine_instance = load("res://scenes/climables/vine.tscn").instantiate() as Vine
+						vine_instance.rise_count = VINE_RISE_COUNT
+						vine_instance.position.y += Variables.TILE_SIZE.y / 2 # 中心点偏移量
+						point.add_child(vine_instance)
+						vine_instance.attach_player(player)
+						player.climbing_vine = vine_instance
+						await vine_instance.rise_completed
+						var tween := create_tween()
+						tween.tween_property(player, "global_position:y", point.global_position.y - (VINE_RISE_COUNT - 1) * Variables.TILE_SIZE.y, (VINE_RISE_COUNT - 1) * 0.5)
+						await tween.finished
+					else:
+						# 如果需要从管道钻出来，则从指定点的反方向3个瓦片的距离出生，并且提前禁用物理碰撞和控制 TODO:这个应该是默认配置
+						player._get_animator().play("idle") # 默认刚出来就是站立姿势
+						player.global_position.y += Variables.TILE_SIZE.y * 3 * point.direction
+						var tween := create_tween()
+						tween.tween_property(player, "global_position:y", point.global_position.y, 1.0)
+						await tween.finished
+					
+					# 恢复角色控制和无敌计时
 					player.is_spawning = false
 					control_player(player)
 					if player.is_invincible:

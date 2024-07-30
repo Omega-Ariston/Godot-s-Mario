@@ -68,16 +68,15 @@ _data = {
 script = ExtResource("1_650d6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(8, 8)
 texture = ExtResource("1_qy6wh")
 region_enabled = true
 region_rect = Rect2(16, 0, 16, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_uayt3")
 
 [node name="Bumpable" type="Area2D" parent="."]
+position = Vector2(-8, -8)
 script = ExtResource("2_4kbqw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Bumpable"]

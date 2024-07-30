@@ -19,11 +19,13 @@ z_index = -1
 script = ExtResource("1_k7lep")
 
 [node name="TileMap" type="TileMap" parent="."]
+position = Vector2(-8, -8)
 tile_set = SubResource("TileSet_fds51")
 format = 2
 layer_0/tile_data = PackedInt32Array(0, 262147, 3)
 
 [node name="Area2D" type="Area2D" parent="."]
+position = Vector2(-8, -8)
 collision_mask = 3
 
 [node name="ClimbArea" type="CollisionShape2D" parent="Area2D"]

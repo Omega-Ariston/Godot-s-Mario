@@ -142,6 +142,7 @@ size = Vector2(14, 0.213685)
 script = ExtResource("1_yxd1f")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-8, -8)
 texture = ExtResource("1_m8h7w")
 centered = false
 hframes = 3
@@ -155,11 +156,11 @@ libraries = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(8, 8)
 scale = Vector2(1, -1)
 shape = SubResource("RectangleShape2D_4uehg")
 
 [node name="Bumpable" type="Area2D" parent="."]
+position = Vector2(-8, -8)
 script = ExtResource("3_1mikh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Bumpable"]

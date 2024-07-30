@@ -98,7 +98,6 @@ z_index = -1
 script = ExtResource("1_mcwkb")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(8, 8)
 texture = ExtResource("2_ude21")
 region_enabled = true
 region_rect = Rect2(34, 64, 16, 16)
@@ -110,6 +109,7 @@ libraries = {
 autoplay = "idle"
 
 [node name="Eatable" type="Area2D" parent="."]
+position = Vector2(-8, -8)
 script = ExtResource("3_oniff")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Eatable"]

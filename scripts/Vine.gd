@@ -10,12 +10,16 @@ const SOURCE_ID := 3
 const SINGLE_DURATION := 0.5
 
 var curr_spawn_point := Vector2(0, 1)
+var rise_count: int
 
-# 实例化时不断上升，并且每上升一个瓦片高度就在脚下生成一个新的藤枝，上升终点为地图高度+2瓦片高度
+signal rise_completed
+
+# 实例化时不断上升，并且每上升一个瓦片高度就在脚下生成一个新的藤枝，没指定终点时上升终点为地图高度+2瓦片高度
 func _ready() -> void:
 	var tile_height := Variables.TILE_SIZE.y
-	var loop_count := global_position.y / tile_height + 2
-	for i in loop_count:
+	if not rise_count:
+		rise_count = ceili(global_position.y / tile_height + 2)
+	for i in rise_count:
 		var tween := create_tween()
 		# 上升的同时拉长碰撞判定面积
 		tween.set_parallel(true)
@@ -26,6 +30,7 @@ func _ready() -> void:
 		# 生成新藤枝
 		tile_map.set_cell(LAYER, curr_spawn_point, SOURCE_ID, VINE_TILE_COORDS)
 		curr_spawn_point.y += 1
+	rise_completed.emit()
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
@@ -37,7 +42,8 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 			body.direction = body.Direction.LEFT
 		else:
 			body.direction = body.Direction.RIGHT
-		# 把玩家固定到攀爬点
-		body.global_position.x = climb_area.global_position.x - body.direction * body.collision_shape_2d.shape.get_rect().size.x / 2
-		body.velocity = Vector2.ZERO
-
+		attach_player(body)
+func attach_player(player: Player) -> void:
+	# 把玩家固定到攀爬点
+	player.global_position.x = climb_area.global_position.x - player.direction * player.collision_shape_2d.shape.get_rect().size.x / 2
+	player.velocity = Vector2.ZERO
