@@ -1,15 +1,19 @@
 class_name CoinBumped
-extends Node2D
+extends CharacterBody2D
 
-const BOUNCE_HEIGHT := Variables.TILE_SIZE.y * 3
-const BOUNCE_DURATION := 0.2
+const BOUNCE_VELOCITY := -240.0
+
+@onready var timer: Timer = $Timer
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 func _ready() -> void:
-	# 让自身向上抛起两个tile_size后落下，然后消失，并出现分数200分
-	var originalY := position.y
-	var tween := create_tween()
-	tween.tween_property(self, "position:y", originalY - BOUNCE_HEIGHT, BOUNCE_DURATION)
-	tween.tween_property(self, "position:y", originalY - BOUNCE_HEIGHT * 1/3, BOUNCE_DURATION)
-	await tween.finished
-	queue_free()
+	velocity.y = BOUNCE_VELOCITY
+	animation_player.play("idle", -1, 1.5, false)
+	timer.start()
 	
+func _physics_process(delta: float) -> void:
+	velocity.y += GameManager.default_gravity / 1.5 * delta
+	move_and_slide()
+
+func _on_timer_timeout() -> void:
+	queue_free()

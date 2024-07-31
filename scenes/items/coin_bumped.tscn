@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://1e5y2w6vswir"]
+[gd_scene load_steps=7 format=3 uid="uid://1e5y2w6vswir"]
 
 [ext_resource type="Script" path="res://scripts/CoinBumped.gd" id="1_yd546"]
 [ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/items-objects.png" id="2_1riix"]
@@ -90,12 +90,14 @@ _data = {
 "idle": SubResource("Animation_q48o8")
 }
 
-[node name="CoinBumped" type="Node2D"]
-position = Vector2(4, -15)
+[sub_resource type="CircleShape2D" id="CircleShape2D_m7uvl"]
+radius = 8.0
+
+[node name="CoinBumped" type="CharacterBody2D"]
 script = ExtResource("1_yd546")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-4, 7)
+position = Vector2(0, -16)
 texture = ExtResource("2_1riix")
 hframes = 4
 region_enabled = true
@@ -106,3 +108,13 @@ libraries = {
 "": SubResource("AnimationLibrary_8gqyp")
 }
 autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -16)
+shape = SubResource("CircleShape2D_m7uvl")
+disabled = true
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.7
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

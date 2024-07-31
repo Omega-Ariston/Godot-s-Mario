@@ -10,7 +10,7 @@ const SOURCE_ID := 3
 const SINGLE_DURATION := 0.5
 
 var curr_spawn_point := Vector2(0, 1)
-var rise_count: int
+var rise_count: int # 在过场动画中会被手动指定，其余情况根据开始生长的高度来确定
 
 signal rise_completed
 
