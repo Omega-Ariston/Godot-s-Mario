@@ -21,22 +21,23 @@ func _physics_process(_delta: float) -> void:
 	if not entered:
 		var can_enter: bool
 		var should_enter: bool
-		var min_enter_distance: float
 		match direction:
 			ENTER_DIRECTION.DOWN:
 				can_enter = Input.is_action_pressed("move_down")
-				should_enter = player.state_machine.current_state in player.GROUND_STATES
-				min_enter_distance = 6.0
+				# 距离小于一个比较小的值
+				should_enter = player.state_machine.current_state in player.GROUND_STATES \
+						and global_position.distance_to(player.global_position) <= 6.0 # 一个相对小的值
 			ENTER_DIRECTION.RIGHT:
 				can_enter = Input.is_action_pressed("move_right")
-				should_enter = player.state_machine.current_state in player.GROUND_STATES
-				# 角色碰撞体积的一半
-				min_enter_distance = ceilf(player.collision_shape_2d.shape.get_rect().size.x / 2)
+				# 距离小于角色碰撞体积的一半
+				var min_enter_distance := ceilf(player.collision_shape_2d.shape.get_rect().size.x / 2)
+				should_enter = player.state_machine.current_state in player.GROUND_STATES \
+						and global_position.distance_to(player.global_position) <= min_enter_distance
 			ENTER_DIRECTION.UP:
 				can_enter = true
-				should_enter = player.state_machine.current_state == player.State.CLIMB
-				min_enter_distance = Variables.TILE_SIZE.y
-		should_enter = should_enter and global_position.distance_to(player.global_position) <= min_enter_distance 
+				# 玩家位置比进入点高就行
+				should_enter = player.state_machine.current_state == player.State.CLIMB \
+						and player.global_position.y <= global_position.y
 		if can_enter and should_enter:
 			await enter()
 			# 切换场景
@@ -49,7 +50,6 @@ func _physics_process(_delta: float) -> void:
 
 func enter() -> void:
 	entered = true
-	var curr_velocity = Vector2(player.velocity)
 	var player_width := player.sprite_2d.get_rect().size.x
 	var player_height := player.sprite_2d.get_rect().size.y
 	# 禁用角色碰撞和输入事件
@@ -57,10 +57,14 @@ func enter() -> void:
 	var tween = create_tween()
 	match direction:
 		ENTER_DIRECTION.RIGHT:
+			# 播放走路动画
+			player._get_animator().speed_scale = 1
 			tween.tween_property(player, "global_position:x", global_position.x + player_width, 0.8)
 		ENTER_DIRECTION.DOWN: 
 			tween.tween_property(player, "global_position:y", global_position.y + player_height, 0.8)
 		ENTER_DIRECTION.UP:
-			var duration := abs(player.global_position.y / curr_velocity.y) as float
+			# 播放动画攀爬动画
+			player._get_animator().speed_scale = 1
+			var duration := abs(player.global_position.y / player.CLIMB_SPEED) as float
 			tween.tween_property(player, "global_position:y", -Variables.TILE_SIZE.y, duration)
 	await tween.finished

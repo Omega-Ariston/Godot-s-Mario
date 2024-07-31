@@ -7,7 +7,7 @@ extends StaticBody2D
 @onready var sprite_2d: Sprite2D = $Sprite2D
 
 
-@export var spawn_item: Bumpable.SPAWN_ITEM
+@export var spawn_item: Bumpable.SpawnItem
 @export var is_hidden := false
 
 func _ready() -> void:
@@ -31,13 +31,13 @@ func on_bumped(player: Player) -> void:
 				return
 				
 		animation_player.play("bumped")
-		if spawn_item == Bumpable.SPAWN_ITEM.COIN:
+		if spawn_item == Bumpable.SpawnItem.COIN:
 			# 金币直接顶
 			bumpable.do_bump()
 		else:
 			# 道具等顶完再生成
 			await bumpable.do_bump()
-		if spawn_item != Bumpable.SPAWN_ITEM.EMPTY:
+		if spawn_item != Bumpable.SpawnItem.EMPTY:
 			bumpable.do_spawn(self, spawn_item, player)
 			bumpable.can_bump = false
 

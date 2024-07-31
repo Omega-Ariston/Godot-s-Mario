@@ -374,9 +374,9 @@ func _unclimb() -> void:
 func _eat(item: Node) -> void:
 	print_debug("Eatting: %s" % item.name)
 	if item is Mushroom:
-		if item.mushroom_type == Bumpable.SPAWN_ITEM.UPGRADE:
+		if item.mushroom_type == Bumpable.SpawnItem.UPGRADE:
 			can_enlarge = true
-		elif item.mushroom_type == Bumpable.SPAWN_ITEM.LIFE:
+		elif item.mushroom_type == Bumpable.SpawnItem.LIFE:
 			print_debug("Bonus Life!")
 	elif item is Flower:
 		can_onfire = true

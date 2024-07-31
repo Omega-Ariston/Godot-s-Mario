@@ -1,7 +1,7 @@
 class_name Mushroom
 extends CharacterBody2D
 
-@export var mushroom_type: Bumpable.SPAWN_ITEM
+@export var mushroom_type: Bumpable.SpawnItem
 
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -14,9 +14,9 @@ var direction := 1
 var spawning := true
 
 func _ready() -> void:
-	if mushroom_type == Bumpable.SPAWN_ITEM.UPGRADE:
+	if mushroom_type == Bumpable.SpawnItem.UPGRADE:
 		animation_player.play("big")
-	elif mushroom_type == Bumpable.SPAWN_ITEM.LIFE:
+	elif mushroom_type == Bumpable.SpawnItem.LIFE:
 		animation_player.play("life")
 	
 	# 让自身向上顶出一个砖的高度，并开始向右以固定速度移动
