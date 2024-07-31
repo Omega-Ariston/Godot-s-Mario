@@ -64,28 +64,28 @@ layer_1/name = "Foreground"
 layer_1/tile_data = PackedInt32Array(851968, 524288, 8, 851969, 524288, 9, 851970, 589824, 9, 786434, 524288, 9, 786433, 524288, 8, 786435, 655360, 8, 851972, 655360, 8, 851971, 655360, 9, 720898, 589824, 8, 851979, 720896, 9, 851980, 786432, 9, 851981, 786432, 9, 851982, 786432, 9, 851983, 851968, 9, 851984, 524288, 8, 851985, 524288, 9, 851986, 655360, 8, 786449, 589824, 8, 851991, 720896, 9, 851992, 786432, 9, 851993, 851968, 9, 262152, 0, 20, 327688, 0, 21, 262153, 65536, 20, 327689, 65536, 21, 262154, 131072, 20, 327690, 131072, 21, 196627, 0, 20, 262163, 0, 21, 196628, 65536, 20, 262164, 65536, 21, 196629, 131072, 20, 262165, 131072, 21, 262171, 0, 20, 327707, 0, 21, 262172, 65536, 20, 327708, 65536, 21, 262173, 65536, 20, 327709, 65536, 21, 262175, 131072, 20, 327711, 131072, 21, 262174, 65536, 20, 327710, 65536, 21, 196644, 0, 20, 262180, 0, 21, 196645, 65536, 20, 262181, 65536, 21, 196646, 65536, 20, 262182, 65536, 21, 196647, 131072, 20, 262183, 131072, 21, 852009, 720896, 9, 852010, 786432, 9, 852011, 786432, 9, 852012, 851968, 9)
 
 [node name="CoinBrick" parent="." instance=ExtResource("5_c0g8v")]
-position = Vector2(40, 160)
+position = Vector2(40, 168)
 spawn_item = 5
 is_hidden = true
 
 [node name="CoinBrick2" parent="." instance=ExtResource("5_c0g8v")]
-position = Vector2(56, 160)
+position = Vector2(56, 168)
 spawn_item = 2
 
 [node name="CoinBrick3" parent="." instance=ExtResource("5_c0g8v")]
-position = Vector2(8, 160)
+position = Vector2(8, 168)
 spawn_item = 1
 
 [node name="CoinBrick4" parent="." instance=ExtResource("5_c0g8v")]
-position = Vector2(24, 160)
+position = Vector2(24, 168)
 spawn_item = 4
 
 [node name="Brick" parent="." instance=ExtResource("6_pa5kd")]
-position = Vector2(248, 184)
+position = Vector2(248, 168)
 spawn_item = 1
 
 [node name="Brick2" parent="." instance=ExtResource("6_pa5kd")]
-position = Vector2(216, 184)
+position = Vector2(216, 168)
 spawn_item = 2
 
 [node name="EnterPointRight" type="Marker2D" parent="."]

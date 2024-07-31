@@ -115,6 +115,6 @@ shape = SubResource("CircleShape2D_m7uvl")
 disabled = true
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 0.7
+wait_time = 0.55
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
