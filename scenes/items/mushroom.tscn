@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://c4nctl8wtw7ps"]
 
-[ext_resource type="Texture2D" uid="uid://s8hpmkufaw42" path="res://assets/item.png" id="1_kh0kn"]
 [ext_resource type="Script" path="res://scripts/mushroom.gd" id="1_uux6v"]
+[ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/items-objects.png" id="2_dwdrb"]
 [ext_resource type="Script" path="res://scripts/Eatable.gd" id="3_5oykf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3teqi"]
@@ -19,7 +19,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Rect2(184, 34, 16, 16)]
+"values": [Rect2(0, 0, 16, 16)]
 }
 
 [sub_resource type="Animation" id="Animation_id6e8"]
@@ -34,7 +34,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Rect2(184, 34, 16, 16)]
+"values": [Rect2(0, 0, 16, 16)]
 }
 
 [sub_resource type="Animation" id="Animation_8d560"]
@@ -49,7 +49,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Rect2(214, 34, 16, 16)]
+"values": [Rect2(16, 0, 16, 16)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vxsn6"]
@@ -69,9 +69,9 @@ collision_mask = 3
 script = ExtResource("1_uux6v")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_kh0kn")
+texture = ExtResource("2_dwdrb")
 region_enabled = true
-region_rect = Rect2(184, 34, 16, 16)
+region_rect = Rect2(0, 0, 16, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_3teqi")
