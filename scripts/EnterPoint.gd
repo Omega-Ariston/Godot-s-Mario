@@ -38,7 +38,7 @@ func _physics_process(_delta: float) -> void:
 				min_enter_distance = Variables.TILE_SIZE.y
 		should_enter = should_enter and global_position.distance_to(player.global_position) <= min_enter_distance 
 		if can_enter and should_enter:
-			await enter_pipe()
+			await enter()
 			# 切换场景
 			var params := { "player_mode": player.curr_mode }
 			if spawn_point_name:
@@ -47,7 +47,7 @@ func _physics_process(_delta: float) -> void:
 				params["invincible_time_left"] = player.invincible_timer.time_left
 			GameManager.change_scene(new_scene, params)
 
-func enter_pipe() -> void:
+func enter() -> void:
 	entered = true
 	var curr_velocity = Vector2(player.velocity)
 	var player_width := player.sprite_2d.get_rect().size.x

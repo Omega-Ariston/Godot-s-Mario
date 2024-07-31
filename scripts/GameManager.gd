@@ -69,6 +69,12 @@ func change_scene(path: String, params: Dictionary = {}):
 						var tween := create_tween()
 						tween.tween_property(player, "global_position:y", point.global_position.y - (VINE_RISE_COUNT - 1) * Variables.TILE_SIZE.y, (VINE_RISE_COUNT - 1) * 0.5)
 						await tween.finished
+						player._get_animator().speed_scale = 0
+						player._change_climb_side()
+						await get_tree().create_timer(0.5).timeout
+						player._unclimb()
+						player.transition_state(player.State.CLIMB, player.State.FALL)
+						await get_tree().create_timer(0.1).timeout
 					else:
 						# 如果需要从管道钻出来，则从指定点的反方向3个瓦片的距离出生，并且提前禁用物理碰撞和控制 TODO:这个应该是默认配置
 						player._get_animator().play("idle") # 默认刚出来就是站立姿势

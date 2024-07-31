@@ -43,7 +43,15 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		else:
 			body.direction = body.Direction.RIGHT
 		attach_player(body)
+		
+
+func _on_area_2d_body_exited(body: Node2D) -> void:
+	if body is Player and not body.collision_shape_2d.disabled:
+		# 让玩家下去
+		body._unclimb()
+
 func attach_player(player: Player) -> void:
 	# 把玩家固定到攀爬点
 	player.global_position.x = climb_area.global_position.x - player.direction * player.collision_shape_2d.shape.get_rect().size.x / 2
 	player.velocity = Vector2.ZERO
+

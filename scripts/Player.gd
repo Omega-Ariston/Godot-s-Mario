@@ -75,6 +75,13 @@ const TRANSFORM_STATES := [
 		
 @export var direction := Direction.RIGHT:
 	set(v):
+		if direction != v:
+			print_debug(
+				"Direction: [%s] %s => %s" % [
+				Engine.get_physics_frames(),
+				direction,
+				v
+			])
 		direction = v
 		if not is_node_ready():
 			await ready
@@ -163,14 +170,15 @@ func tick_physics(state: State, delta: float) -> void:
 					_unclimb()
 				if direction == Direction.RIGHT:
 					_change_climb_side()
-			if controllable and Input.is_action_just_pressed("move_left"):
+			elif controllable and Input.is_action_just_pressed("move_left"):
 				if direction == Direction.RIGHT:
 					_unclimb()
 				if direction == Direction.LEFT:
 					_change_climb_side()
-			# 没爬的时候不动
-			_get_animator().speed_scale = abs(velocity.y / CLIMB_SPEED)
-			climb(delta)
+			else:
+				# 没爬的时候不动
+				_get_animator().speed_scale = abs(velocity.y / CLIMB_SPEED)
+				climb(delta)
 		State.LAUNCH:
 			move(GameManager.default_gravity, delta)
 	is_first_tick = false
@@ -236,7 +244,7 @@ func get_next_state(state: State) -> int:
 				return State.IDLE if is_still else State.WALK
 		State.CLIMB:
 			if can_climb == false:
-				return State.FALL
+				return State.FALL if not is_on_floor() else State.WALK
 		State.LAUNCH:
 			if not fire_animator.is_playing():
 				return state_machine.last_state
@@ -327,7 +335,7 @@ func transition_state(from: State, to: State) -> void:
 	
 func move(gravity: float, delta: float) -> void:
 	var movement := Input.get_axis("move_left", "move_right") if controllable else 0.0
-	if not is_zero_approx(movement) and (is_first_tick or is_on_floor()):
+	if not is_zero_approx(movement) and not is_first_tick and is_on_floor():
 		direction = Direction.LEFT if movement < 0 else Direction.RIGHT
 	var speed = DASH_SPEED if dash_requested else WALK_SPEED
 	var acceleration := AIR_ACCELERATION if not is_on_floor() else DASH_ACCELERATION if dash_requested else WALK_ACCELERATION
@@ -335,10 +343,10 @@ func move(gravity: float, delta: float) -> void:
 	velocity.y += gravity * delta
 	
 	move_and_slide()
-	global_position.x = max(global_position.x, GameManager.max_left_x + 8)
+	global_position.x = max(global_position.x, GameManager.max_left_x + Variables.TILE_SIZE.x / 2)
 	
 	
-func stand(gravity: float, delta:float) -> void:
+func stand(gravity: float, delta: float) -> void:
 	var acceleration := WALK_ACCELERATION if is_on_floor() else AIR_ACCELERATION
 	velocity.x = move_toward(velocity.x, 0.0, acceleration * delta)
 	velocity.y += gravity * delta
@@ -348,7 +356,7 @@ func stand(gravity: float, delta:float) -> void:
 		
 
 func climb(delta:float) -> void:
-	var movement := Input.get_axis("move_up", "move_down")
+	var movement := Input.get_axis("move_up", "move_down") if controllable else 0.0
 	velocity.y = move_toward(velocity.y, movement * CLIMB_SPEED, CLIMB_ACCELERATION * delta)
 	move_and_slide()
 
@@ -358,9 +366,10 @@ func _change_climb_side() -> void:
 	direction = Direction.LEFT if direction == Direction.RIGHT else Direction.RIGHT
 
 func _unclimb() -> void:
-	can_climb = false
-	climbing_vine = null
-	velocity.x = direction * -CLIMB_SPEED # 给一点初速度，免得直接掉到藤下面
+	if can_climb:
+		can_climb = false
+		climbing_vine = null
+		global_position.x -= direction * Variables.TILE_SIZE.x / 2 # 给一点初速度，避免直接掉到藤下面
 
 func _eat(item: Node) -> void:
 	print_debug("Eatting: %s" % item.name)
