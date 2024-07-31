@@ -58,8 +58,8 @@ const TRANSFORM_STATES := [
 		print_debug(
 		"Mode: [%s] %s => %s" % [
 		Engine.get_physics_frames(),
-		Mode.keys()[curr_mode],
-		Mode.keys()[v]
+		Mode.find_key(curr_mode),
+		Mode.find_key(v)
 	])
 		curr_mode = v
 		match curr_mode:
@@ -79,8 +79,8 @@ const TRANSFORM_STATES := [
 			print_debug(
 				"Direction: [%s] %s => %s" % [
 				Engine.get_physics_frames(),
-				direction,
-				v
+				Direction.find_key(direction),
+				Direction.find_key(v)
 			])
 		direction = v
 		if not is_node_ready():

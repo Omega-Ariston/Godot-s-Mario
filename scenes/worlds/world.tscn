@@ -74,7 +74,7 @@ spawn_item = 2
 
 [node name="CoinBrick3" parent="." instance=ExtResource("5_c0g8v")]
 position = Vector2(8, 160)
-spawn_item = 2
+spawn_item = 1
 
 [node name="CoinBrick4" parent="." instance=ExtResource("5_c0g8v")]
 position = Vector2(24, 160)
@@ -82,7 +82,7 @@ spawn_item = 4
 
 [node name="Brick" parent="." instance=ExtResource("6_pa5kd")]
 position = Vector2(248, 160)
-spawn_item = 2
+spawn_item = 1
 
 [node name="Brick2" parent="." instance=ExtResource("6_pa5kd")]
 position = Vector2(312, 160)
