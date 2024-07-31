@@ -85,8 +85,8 @@ position = Vector2(248, 184)
 spawn_item = 1
 
 [node name="Brick2" parent="." instance=ExtResource("6_pa5kd")]
-position = Vector2(312, 160)
-spawn_item = 3
+position = Vector2(216, 184)
+spawn_item = 2
 
 [node name="EnterPointRight" type="Marker2D" parent="."]
 position = Vector2(144, 224)

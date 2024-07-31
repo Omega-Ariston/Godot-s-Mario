@@ -50,8 +50,6 @@ func _physics_process(_delta: float) -> void:
 
 func enter() -> void:
 	entered = true
-	var player_width := player.sprite_2d.get_rect().size.x
-	var player_height := player.sprite_2d.get_rect().size.y
 	# 禁用角色碰撞和输入事件
 	GameManager.uncontrol_player(player)
 	var tween = create_tween()
@@ -59,12 +57,15 @@ func enter() -> void:
 		ENTER_DIRECTION.RIGHT:
 			# 播放走路动画
 			player._get_animator().speed_scale = 1
-			tween.tween_property(player, "global_position:x", global_position.x + player_width, 0.8)
+			tween.tween_property(player, "global_position:x", global_position.x + Variables.TILE_SIZE.x / 2, 0.5)
+			await tween.finished
+			await get_tree().create_timer(0.5).timeout
 		ENTER_DIRECTION.DOWN: 
-			tween.tween_property(player, "global_position:y", global_position.y + player_height, 0.8)
+			tween.tween_property(player, "global_position:y", global_position.y + Variables.TILE_SIZE.y * 2, 0.8)
+			await tween.finished
 		ENTER_DIRECTION.UP:
 			# 播放动画攀爬动画
 			player._get_animator().speed_scale = 1
-			var duration := abs(player.global_position.y / player.CLIMB_SPEED) as float
+			var duration := abs((player.global_position.y + Variables.TILE_SIZE.y) / player.CLIMB_SPEED) as float
 			tween.tween_property(player, "global_position:y", -Variables.TILE_SIZE.y, duration)
-	await tween.finished
+			await tween.finished

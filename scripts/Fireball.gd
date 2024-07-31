@@ -22,7 +22,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if is_on_wall():
 		# 撞到墙就爆炸 TODO:碰到敌人也是
-		animation_player.play("blast")
+		animation_player.play("blast", -1, 3.0, false)
 		return
 	if is_on_floor():
 		has_grouded = true
