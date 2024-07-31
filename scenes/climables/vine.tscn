@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bsj7t14bkcqnd"]
+[gd_scene load_steps=7 format=3 uid="uid://bsj7t14bkcqnd"]
 
 [ext_resource type="Script" path="res://scripts/Vine.gd" id="1_k7lep"]
 [ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/items-objects.png" id="2_ny7yv"]
+[ext_resource type="Script" path="res://scripts/Climable.gd" id="3_ch3rt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5babj"]
 texture = ExtResource("2_ny7yv")
@@ -24,13 +25,13 @@ tile_set = SubResource("TileSet_fds51")
 format = 2
 layer_0/tile_data = PackedInt32Array(0, 262147, 3)
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Climable" type="Area2D" parent="."]
 position = Vector2(-8, -8)
 collision_mask = 3
+script = ExtResource("3_ch3rt")
 
-[node name="ClimbArea" type="CollisionShape2D" parent="Area2D"]
+[node name="ClimbArea" type="CollisionShape2D" parent="Climable"]
 position = Vector2(8, 10)
 shape = SubResource("RectangleShape2D_onpk7")
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="body_exited" from="Climable" to="." method="_on_area_2d_body_exited"]

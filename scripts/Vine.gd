@@ -2,7 +2,8 @@ class_name Vine
 extends Node2D
 
 @onready var tile_map: TileMap = $TileMap
-@onready var climb_area: CollisionShape2D = $Area2D/ClimbArea
+@onready var climable: Climable = $Climable
+@onready var climb_area: CollisionShape2D = $Climable/ClimbArea
 
 const VINE_TILE_COORDS := Vector2(4,4)
 const LAYER := 0
@@ -33,25 +34,7 @@ func _ready() -> void:
 	rise_completed.emit()
 
 
-func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body is Player:
-		# 让玩家进入攀爬状态，并设置正确的朝向
-		body.can_climb = true
-		body.climbing_vine = self
-		if body.velocity.x < 0:
-			body.direction = body.Direction.LEFT
-		else:
-			body.direction = body.Direction.RIGHT
-		attach_player(body)
-		
-
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body is Player and not body.collision_shape_2d.disabled:
 		# 让玩家下去
 		body._unclimb()
-
-func attach_player(player: Player) -> void:
-	# 把玩家固定到攀爬点
-	player.global_position.x = climb_area.global_position.x - player.direction * player.collision_shape_2d.shape.get_rect().size.x / 2
-	player.velocity = Vector2.ZERO
-

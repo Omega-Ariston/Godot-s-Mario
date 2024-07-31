@@ -100,11 +100,11 @@ func _animate_vine(player: Player, spawn_point: SpawnPoint) -> void:
 	spawn_point.add_child(vine_instance)
 	# 设置玩家的攀爬状态
 	player.can_climb = true
-	player.climbing_vine = vine_instance
+	player.climbing_object = vine_instance
 	player.state_machine.current_state = player.State.CLIMB
 	player._get_animator().play("climb")
 	# 把玩家吸上藤蔓
-	vine_instance.attach_player(player)
+	vine_instance.climable.attach_player(player)
 	await vine_instance.rise_completed
 	# 等藤蔓长完之后让玩家上来
 	var tween := create_tween()

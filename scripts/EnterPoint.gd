@@ -35,9 +35,10 @@ func _physics_process(_delta: float) -> void:
 						and global_position.distance_to(player.global_position) <= min_enter_distance
 			ENTER_DIRECTION.UP:
 				can_enter = true
-				# 玩家位置比进入点高就行
+				# 玩家位置比进入点高就行，并且x轴在当前进入点的左右两边
 				should_enter = player.state_machine.current_state == player.State.CLIMB \
-						and player.global_position.y <= global_position.y
+						and player.global_position.y <= global_position.y \
+						and abs(player.global_position.x - global_position.x) < Variables.TILE_SIZE.x
 		if can_enter and should_enter:
 			await enter()
 			# 切换场景

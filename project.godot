@@ -23,7 +23,7 @@ Variables="*res://scripts/Variables.gd"
 [display]
 
 window/size/viewport_width=256
-window/size/viewport_height=256
+window/size/viewport_height=240
 window/size/window_width_override=1152
 window/size/window_height_override=648
 window/stretch/mode="canvas_items"
@@ -85,4 +85,3 @@ test={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
-2d/snap/snap_2d_vertices_to_pixel=true

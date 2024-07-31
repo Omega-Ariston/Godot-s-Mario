@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://d2c7t8p75thld"]
+
+[ext_resource type="Script" path="res://scripts/Climable.gd" id="1_y82l0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_58g88"]
+
+[node name="Climable" type="Area2D"]
+collision_mask = 3
+script = ExtResource("1_y82l0")
+
+[node name="ClimbArea" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_58g88")

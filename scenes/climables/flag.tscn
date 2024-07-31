@@ -1,0 +1,55 @@
+[gd_scene load_steps=8 format=3 uid="uid://23x77sf5ec41"]
+
+[ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/items-objects.png" id="1_dv8us"]
+[ext_resource type="Script" path="res://scripts/Flag.gd" id="1_h62ks"]
+[ext_resource type="Texture2D" uid="uid://c7gt8s3r65s32" path="res://assets/map.png" id="2_cx7q5"]
+[ext_resource type="Script" path="res://scripts/Climable.gd" id="4_dvfl8"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7o6wk"]
+texture = ExtResource("2_cx7q5")
+16:8/0 = 0
+16:8/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+16:8/0/physics_layer_0/angular_velocity = 0.0
+16:9/0 = 0
+16:9/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+16:9/0/physics_layer_0/angular_velocity = 0.0
+0:1/0 = 0
+0:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:1/0/physics_layer_0/angular_velocity = 0.0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSet" id="TileSet_201kx"]
+physics_layer_0/collision_layer = 1
+physics_layer_0/collision_mask = 3
+sources/1 = SubResource("TileSetAtlasSource_7o6wk")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g8xbe"]
+size = Vector2(2, 152)
+
+[node name="FlagPole" type="Node2D"]
+z_index = -1
+position = Vector2(8, 0)
+script = ExtResource("1_h62ks")
+
+[node name="TileMap" type="TileMap" parent="."]
+position = Vector2(-8, 0)
+tile_set = SubResource("TileSet_201kx")
+format = 2
+layer_0/name = "pole"
+layer_0/tile_data = PackedInt32Array(-65536, 1, 1, -131072, 1048577, 9, -196608, 1048577, 9, -262144, 1048577, 9, -327680, 1048577, 9, -393216, 1048577, 9, -458752, 1048577, 9, -524288, 1048577, 9, -589824, 1048577, 9, -655360, 1048577, 9, -720896, 1048577, 8)
+
+[node name="Flag" type="Sprite2D" parent="."]
+position = Vector2(-8, -152)
+texture = ExtResource("1_dv8us")
+region_enabled = true
+region_rect = Rect2(128, 16, 16, 16)
+
+[node name="Climable" type="Area2D" parent="."]
+collision_mask = 3
+script = ExtResource("4_dvfl8")
+
+[node name="ClimbArea" type="CollisionShape2D" parent="Climable"]
+position = Vector2(0, -92)
+shape = SubResource("RectangleShape2D_g8xbe")
+
+[connection signal="body_entered" from="Climable" to="." method="_on_climable_body_entered"]

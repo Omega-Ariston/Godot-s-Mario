@@ -92,7 +92,7 @@ var is_first_tick := false
 var can_enlarge := false
 var can_onfire := false
 var can_climb := false
-var climbing_vine : Vine
+var climbing_object # 可能是藤蔓或旗杆
 var crouch_requested := false
 var jump_requested := false
 var launch_requested := false
@@ -361,14 +361,14 @@ func climb(delta:float) -> void:
 	move_and_slide()
 
 func _change_climb_side() -> void:
-	var distance := abs(global_position.x - climbing_vine.climb_area.global_position.x) * 2 as float
+	var distance := abs(global_position.x - climbing_object.climb_area.global_position.x) * 2 as float
 	global_position.x += distance * direction
 	direction = Direction.LEFT if direction == Direction.RIGHT else Direction.RIGHT
 
 func _unclimb() -> void:
 	if can_climb:
 		can_climb = false
-		climbing_vine = null
+		climbing_object = null
 		global_position.x -= direction * Variables.TILE_SIZE.x / 2 # 给一点初速度，避免直接掉到藤下面
 
 func _eat(item: Node) -> void:
