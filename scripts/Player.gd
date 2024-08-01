@@ -103,6 +103,12 @@ var last_animation : String
 var controllable := true
 var is_spawning := false
 
+# 用于模拟玩家移动
+var input_x := 0.0
+var input_y := 0.0
+var constant_speed_x: float
+var constant_speed_y: float
+
 @onready var graphics: Node = $Graphics
 @onready var sprite_2d: Sprite2D = $Graphics/Sprite2D
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
@@ -165,12 +171,14 @@ func tick_physics(state: State, delta: float) -> void:
 		State.FALL:
 			move(GameManager.default_gravity, delta)
 		State.CLIMB:
-			if controllable and Input.is_action_just_pressed("move_right"):
+			if (controllable and Input.is_action_just_pressed("move_right")) \
+					or (not controllable and input_x > 0):
 				if direction == Direction.LEFT:
 					_unclimb()
 				if direction == Direction.RIGHT:
 					_change_climb_side()
-			elif controllable and Input.is_action_just_pressed("move_left"):
+			elif (controllable and Input.is_action_just_pressed("move_left")) \
+					or (not controllable and input_x < 0):
 				if direction == Direction.RIGHT:
 					_unclimb()
 				if direction == Direction.LEFT:
@@ -218,7 +226,7 @@ func get_next_state(state: State) -> int:
 	if should_launch_fireball:
 		return State.LAUNCH
 		
-	var movement := Input.get_axis("move_left", "move_right") if controllable else 0.0
+	var movement := Input.get_axis("move_left", "move_right") if controllable else input_x
 	var is_still := is_zero_approx(movement) and is_zero_approx(velocity.x)
 	
 	match state:
@@ -334,12 +342,12 @@ func transition_state(from: State, to: State) -> void:
 	
 	
 func move(gravity: float, delta: float) -> void:
-	var movement := Input.get_axis("move_left", "move_right") if controllable else 0.0
+	var movement := Input.get_axis("move_left", "move_right") if controllable else input_x
 	if not is_zero_approx(movement) and not is_first_tick and is_on_floor():
 		direction = Direction.LEFT if movement < 0 else Direction.RIGHT
 	var speed = DASH_SPEED if dash_requested else WALK_SPEED
 	var acceleration := AIR_ACCELERATION if not is_on_floor() else DASH_ACCELERATION if dash_requested else WALK_ACCELERATION
-	velocity.x = move_toward(velocity.x, movement * speed, acceleration * delta)
+	velocity.x = constant_speed_x if constant_speed_x else move_toward(velocity.x, movement * speed, acceleration * delta)
 	velocity.y += gravity * delta
 	
 	move_and_slide()
@@ -356,8 +364,8 @@ func stand(gravity: float, delta: float) -> void:
 		
 
 func climb(delta:float) -> void:
-	var movement := Input.get_axis("move_up", "move_down") if controllable else 0.0
-	velocity.y = move_toward(velocity.y, movement * CLIMB_SPEED, CLIMB_ACCELERATION * delta)
+	var movement := Input.get_axis("move_up", "move_down") if controllable else input_y
+	velocity.y = constant_speed_y if constant_speed_y else move_toward(velocity.y, movement * CLIMB_SPEED, CLIMB_ACCELERATION * delta)
 	move_and_slide()
 
 func _change_climb_side() -> void:

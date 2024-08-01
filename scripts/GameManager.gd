@@ -115,6 +115,7 @@ func _animate_vine(player: Player, spawn_point: SpawnPoint) -> void:
 	player._change_climb_side()
 	await get_tree().create_timer(0.5).timeout
 	player._unclimb()
+	player.direction = player.Direction.RIGHT
 	# 手动切换状态
 	player.transition_state(player.State.CLIMB, player.State.FALL)
 	# 等一小会，角色碰撞还没恢复，容易出问题

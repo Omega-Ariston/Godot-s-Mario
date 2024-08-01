@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://23x77sf5ec41"]
 
 [ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/items-objects.png" id="1_dv8us"]
-[ext_resource type="Script" path="res://scripts/Flag.gd" id="1_h62ks"]
+[ext_resource type="Script" path="res://scripts/FlagPole.gd" id="1_h62ks"]
 [ext_resource type="Texture2D" uid="uid://c7gt8s3r65s32" path="res://assets/map.png" id="2_cx7q5"]
 [ext_resource type="Script" path="res://scripts/Climable.gd" id="4_dvfl8"]
 
