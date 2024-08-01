@@ -55,23 +55,26 @@ const TRANSFORM_STATES := [
 
 @export var curr_mode := Mode.SMALL as Mode:
 	set(v):
-		print_debug(
-		"Mode: [%s] %s => %s" % [
-		Engine.get_physics_frames(),
-		Mode.find_key(curr_mode),
-		Mode.find_key(v)
-	])
-		curr_mode = v
-		match curr_mode:
-			Mode.SMALL:
-				_reset_animator(big_animator)
-				_reset_animator(fire_animator)
-			Mode.LARGE:
-				_reset_animator(small_animator)
-				_reset_animator(fire_animator)
-			Mode.FIRE:
-				_reset_animator(small_animator)
-				_reset_animator(big_animator)
+		if curr_mode != v:
+			print_debug(
+				"Mode: [%s] %s => %s" % [
+				Engine.get_physics_frames(),
+				Mode.find_key(curr_mode),
+				Mode.find_key(v)
+			])
+			curr_mode = v
+			if not is_node_ready():
+				await ready
+			match curr_mode:
+				Mode.SMALL:
+					_reset_animator(big_animator)
+					_reset_animator(fire_animator)
+				Mode.LARGE:
+					_reset_animator(small_animator)
+					_reset_animator(fire_animator)
+				Mode.FIRE:
+					_reset_animator(small_animator)
+					_reset_animator(big_animator)
 		
 @export var direction := Direction.RIGHT:
 	set(v):
@@ -82,11 +85,11 @@ const TRANSFORM_STATES := [
 				Direction.find_key(direction),
 				Direction.find_key(v)
 			])
-		direction = v
-		if not is_node_ready():
-			await ready
-		# 翻转图像
-		graphics.scale.x = direction
+			direction = v
+			if not is_node_ready():
+				await ready
+			# 翻转图像
+			graphics.scale.x = direction
 
 var is_first_tick := false
 var can_enlarge := false
@@ -185,7 +188,7 @@ func tick_physics(state: State, delta: float) -> void:
 					_change_climb_side()
 			else:
 				# 没爬的时候不动
-				_get_animator().speed_scale = abs(velocity.y / CLIMB_SPEED)
+				_get_animator().speed_scale = min(abs(velocity.y / CLIMB_SPEED), 2.0)
 				climb(delta)
 		State.LAUNCH:
 			move(GameManager.default_gravity, delta)

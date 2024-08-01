@@ -14,7 +14,12 @@ func _ready() -> void:
 
 func on_bumped(player: Player) -> void:
 	if bumpable.can_bump:
-		if spawn_item == Bumpable.SpawnItem.COIN:
+		if spawn_item == Bumpable.SpawnItem.EMPTY and player.curr_mode != player.Mode.SMALL:
+			var instance := load("res://scenes/bumpables/broken_brick.tscn").instantiate() as BrokenBrick
+			instance.global_position = global_position
+			get_tree().root.add_child(instance)
+			queue_free()
+		elif spawn_item == Bumpable.SpawnItem.COIN:
 			# 金币在第一次顶之后开始计时，时间到达之后只能顶最后一下
 			if not bumped:
 				bumped = true
@@ -26,7 +31,8 @@ func on_bumped(player: Player) -> void:
 			bumpable.do_spawn(self, spawn_item, player)
 		else:
 			# 道具要等顶完再生成
-			animation_player.play("bumped")
+			if spawn_item != Bumpable.SpawnItem.EMPTY:
+				animation_player.play("bumped")
 			await bumpable.do_bump()
 			if spawn_item != Bumpable.SpawnItem.EMPTY:
 				bumpable.do_spawn(self, spawn_item, player)

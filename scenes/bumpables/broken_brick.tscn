@@ -1,0 +1,70 @@
+[gd_scene load_steps=6 format=3 uid="uid://bhi8eg1qmfrjv"]
+
+[ext_resource type="Script" path="res://scripts/BrokenBrick.gd" id="1_hp52f"]
+[ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/items-objects.png" id="2_wkgu6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ag33a"]
+atlas = ExtResource("2_wkgu6")
+region = Rect2(64, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ix5i"]
+atlas = ExtResource("2_wkgu6")
+region = Rect2(64, 32, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5fviv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ag33a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ix5i")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}]
+
+[node name="BrokenBrick" type="Node2D"]
+z_index = 5
+script = ExtResource("1_hp52f")
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+position = Vector2(-4, -4)
+collision_layer = 0
+collision_mask = 0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="RigidBody2D"]
+sprite_frames = SubResource("SpriteFrames_5fviv")
+animation = &"idle"
+frame_progress = 0.58244
+
+[node name="RigidBody2D2" type="RigidBody2D" parent="."]
+position = Vector2(4, -4)
+collision_layer = 0
+collision_mask = 0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="RigidBody2D2"]
+sprite_frames = SubResource("SpriteFrames_5fviv")
+animation = &"idle"
+frame_progress = 0.58244
+
+[node name="RigidBody2D3" type="RigidBody2D" parent="."]
+position = Vector2(-4, 4)
+collision_layer = 0
+collision_mask = 0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="RigidBody2D3"]
+sprite_frames = SubResource("SpriteFrames_5fviv")
+animation = &"idle"
+frame_progress = 0.58244
+
+[node name="RigidBody2D4" type="RigidBody2D" parent="."]
+position = Vector2(4, 4)
+collision_layer = 0
+collision_mask = 0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="RigidBody2D4"]
+sprite_frames = SubResource("SpriteFrames_5fviv")
+animation = &"idle"
+frame_progress = 0.58244
