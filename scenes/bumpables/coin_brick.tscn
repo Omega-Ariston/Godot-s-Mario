@@ -150,6 +150,7 @@ region_enabled = true
 region_rect = Rect2(368, 0, 48, 16)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+process_mode = 3
 deterministic = true
 libraries = {
 "": SubResource("AnimationLibrary_eywl7")

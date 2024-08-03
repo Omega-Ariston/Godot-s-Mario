@@ -23,8 +23,8 @@ func change_scene(path: String, params: Dictionary = {}):
 	scene_changer.color.a = 1.0	
 	# 重置相机镜头
 	max_left_x = 0
-	var timer := get_tree().create_timer(CHANGE_SCENE_DURATION)
 	var tree := get_tree()
+	var timer := tree.create_timer(CHANGE_SCENE_DURATION)
 	tree.change_scene_to_file(path)
 	await tree.tree_changed
 	await timer.timeout
@@ -52,10 +52,10 @@ func change_scene(path: String, params: Dictionary = {}):
 			player.is_spawning = true
 			
 			# 如果有无敌，播放无敌动画
-			var invincible_time_left = params.get("invincible_time_left", 0.0) as float
-			if invincible_time_left > 0:
-				player.is_invincible = true
-				player.blink_animator.play("invincible")
+			var star_time_left = params.get("star_time_left", 0.0) as float
+			if star_time_left > 0:
+				player.is_under_star = true
+				player.blink_animator.play("star")
 			
 			# 播放出场动画
 			if spawn_point.type == SpawnPoint.Type.VINE:
@@ -66,8 +66,8 @@ func change_scene(path: String, params: Dictionary = {}):
 			# 恢复角色控制和无敌计时
 			player.is_spawning = false
 			control_player(player)
-			if player.is_invincible:
-				player.invincible_timer.start(invincible_time_left)
+			if player.is_under_star:
+				player.star_timer.start(star_time_left)
 						
 
 func uncontrol_player(player: Player) -> void:

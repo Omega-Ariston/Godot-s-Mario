@@ -9,6 +9,7 @@ const LAUNCH_FALL_SPEED := 200
 
 var direction := 1
 var has_grouded := false
+var hit_enemy := false
 
 func _init() -> void:
 	add_to_group("Fireballs")
@@ -20,15 +21,16 @@ func _ready() -> void:
 	animation_player.advance(offset)
 
 func _physics_process(delta: float) -> void:
-	if is_on_wall():
-		# 撞到墙就爆炸 TODO:碰到敌人也是
-		animation_player.play("blast", -1, 3.0, false)
-		return
-	if is_on_floor():
-		has_grouded = true
-		# 碰到地就跳
-		velocity.y = JUMP_VELOCITY
-	move(GameManager.default_gravity * 2, delta)
+	if not hit_enemy:
+		if is_on_wall():
+			# 撞到墙就爆炸
+			animation_player.play("blast", -1, 3.0, false)
+			return
+		if is_on_floor():
+			has_grouded = true
+			# 碰到地就跳
+			velocity.y = JUMP_VELOCITY
+		move(GameManager.default_gravity * 2, delta)
 			
 func move(gravity: float, delta: float) -> void:
 	velocity.x = HORIZONTAL_SPEED * direction
@@ -41,3 +43,9 @@ func move(gravity: float, delta: float) -> void:
 func _on_visible_on_screen_notifier_2d_screen_exited():
 	# 离开屏幕时销毁
 	queue_free()
+
+func on_hit_enemy(enemy: Enemy) -> void:
+	hit_enemy = true
+	velocity = Vector2.ZERO
+	if enemy is Goomba:
+		animation_player.play("blast", -1, 3.0, false)

@@ -27,6 +27,7 @@ enum State {
 	ENLARGE,
 	ONFIRE,
 	HURT,
+	DEAD,
 }
 
 enum Mode {
@@ -101,7 +102,9 @@ var jump_requested := false
 var launch_requested := false
 var dash_requested := false
 var direction_before_turn := Direction.RIGHT
-var is_invincible := false
+var is_under_star := false # 是否在无敌星作用下
+var is_invincible := false # 是否处于受伤后无敌状态
+var is_hurt := false # 是否处于受伤状态
 var last_animation : String
 var controllable := true
 var is_spawning := false
@@ -123,6 +126,7 @@ var constant_speed_y: float
 @onready var on_fire_timer: Timer = $OnFireTimer
 @onready var star_timer: Timer = $StarTimer
 @onready var invincible_timer: Timer = $InvincibleTimer
+@onready var dying_timer: Timer = $DyingTimer
 @onready var fireball_launcher: ItemLauncher = $Graphics/FireballLauncher
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -150,15 +154,23 @@ func tick_physics(state: State, delta: float) -> void:
 		else:
 			if is_on_floor():
 				dash_requested = false
-
+	
 	if is_invincible:
 		if invincible_timer.time_left == 0:
 			is_invincible = false
+			graphics.modulate.a = 1
+		else:
+			# 闪烁角色
+			_blink_character()
+
+	if is_under_star:
+		if star_timer.time_left == 0:
+			is_under_star = false
 			if state != State.ONFIRE:
 				blink_animator.stop()
 				_set_shader_enabled(false)
-		elif invincible_timer.time_left <= 2 and state != State.ONFIRE:
-			blink_animator.play("invincible", -1, 0.25, false)
+		elif star_timer.time_left <= 2 and state != State.ONFIRE:
+			blink_animator.play("star", -1, 0.25, false)
 	
 	match state:
 		State.IDLE:
@@ -171,6 +183,9 @@ func tick_physics(state: State, delta: float) -> void:
 			stand(GameManager.default_gravity, delta)
 		State.JUMP, State.CROUCH_JUMP:
 			move(0.0 if is_first_tick else GameManager.default_gravity, delta)
+		State.DEAD:
+			if dying_timer.time_left == 0:
+				move(0.0 if is_first_tick else GameManager.default_gravity, delta)
 		State.FALL:
 			move(GameManager.default_gravity, delta)
 		State.CLIMB:
@@ -192,12 +207,19 @@ func tick_physics(state: State, delta: float) -> void:
 				climb(delta)
 		State.LAUNCH:
 			move(GameManager.default_gravity, delta)
+		State.HURT:
+			# 闪烁角色
+			_blink_character()
+			
 	is_first_tick = false
 
 
 func get_next_state(state: State) -> int:
 	if is_spawning:
 		return State.IDLE if state != State.IDLE else state_machine.KEEP_CURRENT
+	
+	if is_hurt:
+		return State.DEAD if curr_mode == Mode.SMALL else State.HURT
 	
 	var should_climb := can_climb and state != State.CLIMB
 	if should_climb:
@@ -224,7 +246,7 @@ func get_next_state(state: State) -> int:
 	if state in GROUND_STATES and not is_on_floor():
 		return State.FALL
 	
-	var can_launch_fireball :=  curr_mode == Mode.FIRE and state not in CROUCH_STATES and state != State.LAUNCH
+	var can_launch_fireball :=  curr_mode == Mode.FIRE and state not in CROUCH_STATES and state not in TRANSFORM_STATES and state != State.LAUNCH
 	var should_launch_fireball := can_launch_fireball and launch_requested and get_tree().get_nodes_in_group("Fireballs").size() < FIREBALL_LIMIT
 	if should_launch_fireball:
 		return State.LAUNCH
@@ -265,6 +287,9 @@ func get_next_state(state: State) -> int:
 		State.ONFIRE:
 			if on_fire_timer.is_stopped():
 				return state_machine.last_state
+		State.HURT:
+			if not _get_animator().is_playing():
+				return state_machine.last_state
 	return StateMachine.KEEP_CURRENT
 
 
@@ -280,18 +305,29 @@ func transition_state(from: State, to: State) -> void:
 		State.WALK, State.FALL, State.CLIMB:
 			_get_animator().speed_scale = 1 # 恢复动画播放速度
 		State.ENLARGE:
+			# 恢复时间
+			get_tree().paused = false
 			curr_mode = Mode.LARGE
 		State.TURN:
 			if not _get_animator().is_playing():
 				# 只有刹车状态需要重置速度，其余状态维持原有速度
 				velocity.x = 0
 		State.ONFIRE:
+			# 恢复时间
+			get_tree().paused = false
 			curr_mode = Mode.FIRE
 			blink_animator.stop()
-			if is_invincible:
-				blink_animator.play("invincible")
+			if is_under_star:
+				blink_animator.play("star")
 			else:
 				_set_shader_enabled(false)
+		State.HURT:
+			curr_mode = Mode.SMALL
+			# 恢复游戏
+			get_tree().paused = false
+			# 进入无敌时间
+			is_invincible = true
+			invincible_timer.start()
 			
 	match to:
 		State.IDLE:
@@ -324,6 +360,11 @@ func transition_state(from: State, to: State) -> void:
 			_get_animator().speed_scale = 0 # 下落时暂停播放动画
 		State.CLIMB:
 			_get_animator().play("climb")
+		State.HURT:
+			is_hurt = false
+			get_tree().paused = true # 静止游戏场景
+			_reset_animator(small_animator)
+			_get_animator().play("hurt")
 		State.LAUNCH:
 			last_animation = fire_animator.current_animation
 			launch_requested = false
@@ -332,15 +373,30 @@ func transition_state(from: State, to: State) -> void:
 		State.ENLARGE:
 			can_enlarge = false
 			can_onfire = false
+			# 暂停时间
+			get_tree().paused = true
 			_reset_animator(big_animator)
 			small_animator.play("enlarge")
 		State.ONFIRE:
 			can_onfire = false
+			# 暂停时间
+			get_tree().paused = true
 			_reset_animator(fire_animator)
 			big_animator.stop()
 			_set_shader_enabled(true)
 			blink_animator.play("onfire", -1, 1.0, false)
 			on_fire_timer.start()
+		State.DEAD:
+			is_hurt = false
+			velocity = Vector2.ZERO
+			get_tree().paused = true # 静止游戏场景
+			collision_shape_2d.set_deferred("disabled", true)
+			set_process_input(false)
+			controllable = false
+			_get_animator().play("dead")
+			# 到前面来
+			z_index = 5
+			dying_timer.start()
 	is_first_tick = true
 	
 	
@@ -371,6 +427,15 @@ func climb(delta:float) -> void:
 	velocity.y = constant_speed_y if constant_speed_y else move_toward(velocity.y, movement * CLIMB_SPEED, CLIMB_ACCELERATION * delta)
 	move_and_slide()
 
+
+func hurt(enemy: Enemy) -> void:
+	print_debug("HURT BY:", enemy.name)
+	if not is_invincible:
+		is_hurt = true
+
+func dead() -> void:
+	GameManager.change_scene(get_tree().current_scene.scene_file_path)
+
 func _change_climb_side() -> void:
 	var distance := abs(global_position.x - climbing_object.climb_area.global_position.x) * 2 as float
 	global_position.x += distance * direction
@@ -393,9 +458,9 @@ func _eat(item: Node) -> void:
 		can_onfire = true
 	elif item is Star:
 		_set_shader_enabled(true)
-		blink_animator.play("invincible")
-		is_invincible = true
-		invincible_timer.start()
+		blink_animator.play("star")
+		is_under_star = true
+		star_timer.start()
 
 func _get_animator() -> AnimationPlayer:
 	if curr_mode == Mode.SMALL:
@@ -441,6 +506,11 @@ const COLORS_BLACK := [
 	Vector4(1.0, 0.80, 0.77, 1.0),
 ]
 
+
+func _blink_character() -> void:
+	graphics.modulate.a = 0 if (Time.get_ticks_msec() / 10) % 2 == 0 else 1
+
+
 func _set_shader_colors(color: String) -> void:
 	var origin_colors := COLORS_FIRE if curr_mode == Mode.FIRE else COLORS_CLASSIC
 	var new_colors: Array = origin_colors if color == "ORIGIN" else self["COLORS_" + color]
@@ -448,6 +518,11 @@ func _set_shader_colors(color: String) -> void:
 	sprite_material.set_shader_parameter("origin_colors", origin_colors)
 	sprite_material.set_shader_parameter("new_colors", new_colors)
 
+
 func _reset_animator(animator: AnimationPlayer) -> void:
 	animator.speed_scale = 1
 	animator.stop()
+
+
+func _on_dying_timer_timeout() -> void:
+	velocity.y = JUMP_VELOCITY

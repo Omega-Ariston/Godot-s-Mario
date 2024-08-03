@@ -209,7 +209,6 @@ _data = {
 
 [node name="Fireball" type="CharacterBody2D"]
 collision_layer = 32
-collision_mask = 65
 script = ExtResource("1_ke4pu")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

@@ -45,8 +45,8 @@ func _physics_process(_delta: float) -> void:
 			var params := { "player_mode": player.curr_mode }
 			if spawn_point_name:
 				params["spawn_point"] = spawn_point_name
-			if player.is_invincible:
-				params["invincible_time_left"] = player.invincible_timer.time_left
+			if player.is_under_star:
+				params["star_time_left"] = player.star_timer.time_left
 			GameManager.change_scene(new_scene, params)
 
 func enter() -> void:

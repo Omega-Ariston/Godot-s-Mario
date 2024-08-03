@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://scripts/Eatable.gd" id="3_5oykf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3teqi"]
-radius = 7.81736
+radius = 7.9
 
 [sub_resource type="Animation" id="Animation_jueac"]
 length = 0.001

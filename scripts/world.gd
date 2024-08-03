@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var tile_map: TileMap = $TileMap
 @onready var camera_2d: Camera2D = $Player/Camera2D
+@onready var player: Player = $Player
 
 var viewport_size: Vector2
 
@@ -9,6 +10,8 @@ func _ready() -> void:
 	viewport_size = get_viewport_rect().size
 	var used := tile_map.get_used_rect()
 	var tile_size := Variables.TILE_SIZE
+	
+	GameManager.control_player(player)
 	
 	camera_2d.limit_top = floori(used.position.y + 0.5 * tile_size.y)
 	camera_2d.limit_right = floori(used.end.x * tile_size.x)

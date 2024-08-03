@@ -76,12 +76,12 @@ test={
 
 2d_physics/layer_1="Environment"
 2d_physics/layer_2="Player"
-2d_physics/layer_3="Bumper"
-2d_physics/layer_4="BumpArea"
+2d_physics/layer_3="Enemy"
+2d_physics/layer_4="Bumpable"
 2d_physics/layer_5="Item"
 2d_physics/layer_6="Bullet"
-2d_physics/layer_7="Enemy"
 
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+2d/snap/snap_2d_vertices_to_pixel=true
