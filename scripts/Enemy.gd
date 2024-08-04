@@ -49,6 +49,10 @@ func on_stomped(player: Player) -> void:
 	# 取消对玩家的碰撞检测
 	hurtbox.set_deferred("monitoring", false)
 	set_collision_mask_value(2, false)
+	
+# 被无敌星撞
+func on_charged() -> void:
+	charged = true
 
 # 被火球打
 func on_hit() -> void:

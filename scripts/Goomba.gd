@@ -12,7 +12,6 @@ const SPEED := 30.0
 func get_next_state(state: State) -> int:
 	match state:
 		State.WALK:
-			# 优先处理被击中和被撞到
 			if hit or charged or bumped:
 				return State.HIT
 			if stomped:
