@@ -50,8 +50,8 @@ const CROUCH_STATES := [
 	State.CROUCH, State.CROUCH_JUMP
 ]
 
-const TRANSFORM_STATES := [
-	State.ENLARGE, State.ONFIRE, State.HURT
+const UNSAFE_STATES := [
+	State.ENLARGE, State.ONFIRE, State.HURT, State.LAUNCH
 ]
 
 @export var curr_mode := Mode.SMALL as Mode:
@@ -233,12 +233,12 @@ func get_next_state(state: State) -> int:
 	if should_onfire:
 		return State.ONFIRE
 	
-	var can_crouch := state in GROUND_STATES and state not in TRANSFORM_STATES and curr_mode != Mode.SMALL
+	var can_crouch := state in GROUND_STATES and state not in UNSAFE_STATES and curr_mode != Mode.SMALL
 	var should_crouch := can_crouch and crouch_requested and state not in CROUCH_STATES
 	if should_crouch:
 		return State.CROUCH
 	
-	var can_jump := state in GROUND_STATES and state not in TRANSFORM_STATES
+	var can_jump := state in GROUND_STATES and state not in UNSAFE_STATES
 	var should_jump := can_jump and jump_requested
 	if should_jump:
 		return State.CROUCH_JUMP if state == State.CROUCH else State.JUMP
@@ -246,7 +246,7 @@ func get_next_state(state: State) -> int:
 	if state in GROUND_STATES and not is_on_floor():
 		return State.FALL
 	
-	var can_launch_fireball :=  curr_mode == Mode.FIRE and state not in CROUCH_STATES and state not in TRANSFORM_STATES and state != State.LAUNCH
+	var can_launch_fireball :=  curr_mode == Mode.FIRE and state not in CROUCH_STATES and state not in UNSAFE_STATES
 	var should_launch_fireball := can_launch_fireball and launch_requested and get_tree().get_nodes_in_group("Fireballs").size() < FIREBALL_LIMIT
 	if should_launch_fireball:
 		return State.LAUNCH
@@ -280,16 +280,16 @@ func get_next_state(state: State) -> int:
 				return State.FALL if not is_on_floor() else State.WALK
 		State.LAUNCH:
 			if not fire_animator.is_playing():
-				return state_machine.last_state
+				return state_machine.get_last_safe_state(_is_safe_state)
 		State.ENLARGE:
 			if not small_animator.is_playing():
-				return state_machine.last_state
+				return state_machine.get_last_safe_state(_is_safe_state)
 		State.ONFIRE:
 			if on_fire_timer.is_stopped():
-				return state_machine.last_state
+				return state_machine.get_last_safe_state(_is_safe_state)
 		State.HURT:
 			if not _get_animator().is_playing():
-				return state_machine.last_state
+				return state_machine.get_last_safe_state(_is_safe_state)
 	return StateMachine.KEEP_CURRENT
 
 
@@ -338,18 +338,18 @@ func transition_state(from: State, to: State) -> void:
 			# 水平速度越大，转身需要的时间越长，转身速度越慢
 			var turn_speed :float = abs(DASH_SPEED / velocity.x)
 			_get_animator().play("turn", -1, turn_speed, false)
-			if from not in TRANSFORM_STATES:
+			if from not in UNSAFE_STATES:
 				direction_before_turn = direction
 		State.CROUCH:
 			_get_animator().play("crouch")
 		State.JUMP:
 			_get_animator().play("jump")
-			if from not in TRANSFORM_STATES and from != State.LAUNCH: # 变身结束或发完炮后不用跳
+			if from not in UNSAFE_STATES and from != State.LAUNCH: # 变身结束或发完炮后不用跳
 				velocity.y = JUMP_VELOCITY
 			jump_requested = false
 		State.CROUCH_JUMP:
 			_get_animator().play("crouch")
-			if from not in TRANSFORM_STATES: # 变身结束后不用跳
+			if from not in UNSAFE_STATES: # 变身结束后不用跳
 				velocity.y = JUMP_VELOCITY
 			jump_requested = false
 		State.FALL:
@@ -435,6 +435,11 @@ func hurt(enemy: Enemy) -> void:
 
 func dead() -> void:
 	GameManager.change_scene(get_tree().current_scene.scene_file_path)
+
+
+func _is_safe_state(state: State) -> bool:
+	return state not in UNSAFE_STATES
+
 
 func _change_climb_side() -> void:
 	var distance := abs(global_position.x - climbing_object.climb_area.global_position.x) * 2 as float

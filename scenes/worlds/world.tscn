@@ -128,4 +128,4 @@ position = Vector2(536, 224)
 position = Vector2(312, 224)
 
 [node name="Goomba2" parent="." instance=ExtResource("10_607go")]
-position = Vector2(328, 224)
+position = Vector2(335, 224)
