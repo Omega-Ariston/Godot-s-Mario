@@ -20,7 +20,7 @@ enum Direction {
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 @onready var hurtbox: Hurtbox = $Hurtbox
 
-const DEAD_BOUNCE := Vector2(50, -150)
+const DEAD_BOUNCE := Vector2(50, -250)
 const DEAD_Z_INDEX := 5
 const PLAYER_STOMPED_BOUNCE := -200.0
 
@@ -31,7 +31,7 @@ var hit := false # 被火焰打中
 var charged := false # 被无敌星撞到
 var bumped := false # 被下方的砖块顶到
 
-var hit_direction := Direction.RIGHT # 受到攻击时攻击的指向
+var attack_direction := Direction.RIGHT # 受到攻击时攻击的指向
 
 func _ready() -> void:
 	z_index = -1 # 不能站主角前面
@@ -51,12 +51,19 @@ func on_stomped(player: Player) -> void:
 	set_collision_mask_value(2, false)
 	
 # 被无敌星撞
-func on_charged() -> void:
+func on_charged(body: Player) -> void:
 	charged = true
+	attack_direction = Enemy.Direction.LEFT if body.global_position.x > global_position.x else Enemy.Direction.RIGHT
 
 # 被火球打
-func on_hit() -> void:
+func on_hit(body: Fireball) -> void:
 	hit = true
+	attack_direction = Enemy.Direction.LEFT if body.global_position.x > global_position.x else Enemy.Direction.RIGHT
+
+# 被砖块从下面顶
+func on_bumped(bumpable: Bumpable) -> void:
+	attack_direction = Enemy.Direction.LEFT if bumpable.global_position.x > global_position.x else Enemy.Direction.RIGHT
+	bumped = true
 
 func die() -> void:
 	# 禁用碰撞

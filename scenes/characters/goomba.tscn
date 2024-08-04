@@ -152,6 +152,7 @@ size = Vector2(16, 16)
 
 [node name="Goomba" instance=ExtResource("1_300fq")]
 script = ExtResource("2_joamn")
+direction = -1
 
 [node name="Sprite2D" parent="Graphics" index="0"]
 position = Vector2(0, -8)

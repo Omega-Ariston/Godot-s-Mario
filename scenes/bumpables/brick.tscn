@@ -1,14 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://c30i335tpkrd8"]
+[gd_scene load_steps=9 format=3 uid="uid://c30i335tpkrd8"]
 
 [ext_resource type="Script" path="res://scripts/Brick.gd" id="1_650d6"]
 [ext_resource type="Texture2D" uid="uid://c7gt8s3r65s32" path="res://assets/map.png" id="1_qy6wh"]
-[ext_resource type="Script" path="res://scripts/Bumpable.gd" id="2_4kbqw"]
+[ext_resource type="PackedScene" uid="uid://ctkrrllkodgol" path="res://scenes/bumpables/bumpable.tscn" id="3_jt57t"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uayt3"]
 size = Vector2(16, 16)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_nas4u"]
-size = Vector2(14, 0.213685)
 
 [sub_resource type="Animation" id="Animation_noko0"]
 length = 0.001
@@ -75,14 +72,6 @@ region_rect = Rect2(16, 0, 16, 16)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_uayt3")
 
-[node name="Bumpable" type="Area2D" parent="."]
-position = Vector2(-8, -8)
-script = ExtResource("2_4kbqw")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Bumpable"]
-position = Vector2(8, 15.9806)
-shape = SubResource("RectangleShape2D_nas4u")
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_30e7g")
@@ -91,3 +80,5 @@ libraries = {
 [node name="BumpTimer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
+
+[node name="Bumpable" parent="." instance=ExtResource("3_jt57t")]

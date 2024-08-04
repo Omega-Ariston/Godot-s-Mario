@@ -9,6 +9,7 @@ extends CharacterBody2D
 const SPAWN_DURATION := 1.0
 const MOVE_DELAY := 0.1
 const SPEED := 60.0
+const BOUNCE_SPEED := -200
 
 var direction := 1
 var spawning := true
@@ -39,3 +40,8 @@ func move(gravity: float, delta: float) -> void:
 	velocity.x = SPEED * direction
 	velocity.y += gravity * delta
 	move_and_slide()
+
+func on_bumped(bumpable: Bumpable) -> void:
+	# 根据顶砖的位置确定蘑菇的新前进方向，并给予一个小跳的速度
+	direction = -1 if bumpable.global_position.x > global_position.x else 1
+	velocity.y = BOUNCE_SPEED

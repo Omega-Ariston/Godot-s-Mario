@@ -29,7 +29,7 @@ func tick_physics(state: State, delta: float) -> void:
 		State.STOMPED:
 			velocity = Vector2.ZERO
 		State.HIT:
-			move(DEAD_BOUNCE.x, hit_direction, delta)
+			move(DEAD_BOUNCE.x, attack_direction, delta)
 
 
 func transition_state(_from: State, to: State) -> void:

@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://ctkrrllkodgol"]
+
+[ext_resource type="Script" path="res://scripts/Bumpable.gd" id="1_oxqiy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vwiof"]
+size = Vector2(14, 0.2)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4o4or"]
+size = Vector2(16, 0.1)
+
+[node name="Bumpable" type="Node2D"]
+script = ExtResource("1_oxqiy")
+
+[node name="BumpArea" type="Area2D" parent="."]
+position = Vector2(0, 8)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BumpArea"]
+shape = SubResource("RectangleShape2D_vwiof")
+
+[node name="EffectArea" type="Area2D" parent="."]
+position = Vector2(0, -8)
+collision_layer = 0
+collision_mask = 20
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EffectArea"]
+shape = SubResource("RectangleShape2D_4o4or")
+
+[connection signal="body_entered" from="BumpArea" to="." method="_on_bump_area_body_entered"]
+[connection signal="body_entered" from="EffectArea" to="." method="_on_effect_area_body_entered"]

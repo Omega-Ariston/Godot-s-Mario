@@ -3,7 +3,6 @@ extends StaticBody2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var bumpable: Bumpable = $Bumpable
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
-@onready var bump_area: CollisionShape2D = $Bumpable/CollisionShape2D
 @onready var sprite_2d: Sprite2D = $Sprite2D
 
 
