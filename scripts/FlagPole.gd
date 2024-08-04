@@ -35,10 +35,8 @@ func _physics_process(_delta: float) -> void:
 		# 控制角色匀速滑行，直到滑到底
 		if is_equal_approx(player.global_position.y, player_destination_y):
 			player_slipping = false
-			player.input_y = 0.0
 		else:
 			player.constant_speed_y = DOWN_SPEED
-			player.input_y = DOWN_SPEED / player.CLIMB_SPEED
 	else:
 		# 检查角色是否已经走到了终止点，如果是就把角色杀掉并发出通知
 		if player and player.global_position.x >= global_position.x + Variables.TILE_SIZE.x * door_distance:
@@ -51,7 +49,8 @@ func _on_flag_down_finished() -> void:
 	# 旗子落完角色就要停了
 	if player_slipping:
 		player_slipping = false
-		player.input_y = 0.0
+		player.velocity.y = 0
+		player.constant_speed_y = 0
 	# 下旗
 	player._change_climb_side()
 	await get_tree().create_timer(0.5).timeout

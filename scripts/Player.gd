@@ -406,7 +406,7 @@ func move(gravity: float, delta: float) -> void:
 		direction = Direction.LEFT if movement < 0 else Direction.RIGHT
 	var speed = DASH_SPEED if dash_requested else WALK_SPEED
 	var acceleration := AIR_ACCELERATION if not is_on_floor() else DASH_ACCELERATION if dash_requested else WALK_ACCELERATION
-	velocity.x = constant_speed_x if constant_speed_x else move_toward(velocity.x, movement * speed, acceleration * delta)
+	velocity.x = constant_speed_x if constant_speed_x != 0 else move_toward(velocity.x, movement * speed, acceleration * delta)
 	velocity.y += gravity * delta
 	
 	move_and_slide()
@@ -424,7 +424,7 @@ func stand(gravity: float, delta: float) -> void:
 
 func climb(delta:float) -> void:
 	var movement := Input.get_axis("move_up", "move_down") if controllable else input_y
-	velocity.y = constant_speed_y if constant_speed_y else move_toward(velocity.y, movement * CLIMB_SPEED, CLIMB_ACCELERATION * delta)
+	velocity.y = constant_speed_y if constant_speed_y != 0 else move_toward(velocity.y, movement * CLIMB_SPEED, CLIMB_ACCELERATION * delta)
 	move_and_slide()
 
 
