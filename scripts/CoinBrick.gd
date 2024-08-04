@@ -1,3 +1,4 @@
+class_name CoinBrick
 extends StaticBody2D
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer

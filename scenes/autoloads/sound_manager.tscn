@@ -31,56 +31,75 @@ script = ExtResource("1_7dn2k")
 
 [node name="ExtraLife" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource("2_jt70j")
+bus = &"SFX"
 
 [node name="Bump" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource("3_a6s2c")
+bus = &"SFX"
 
 [node name="Coin" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource("4_xdljh")
+bus = &"SFX"
 
 [node name="Fireball" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource("5_2w0gy")
+bus = &"SFX"
 
 [node name="Fireworks" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource("6_vv1ir")
+bus = &"SFX"
 
 [node name="FlagPole" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource("7_3qqrw")
+bus = &"SFX"
 
 [node name="Gameover" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource("8_hrke7")
+bus = &"SFX"
 
 [node name="JumpSmall" type="AudioStreamPlayer" parent="SFX"]
 stream = SubResource("AudioStreamWAV_pyfde")
+bus = &"SFX"
 
 [node name="JumpLarge" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource("10_m6dh7")
+bus = &"SFX"
 
 [node name="Kill" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource("11_bggvf")
+bus = &"SFX"
 
 [node name="MarioDie" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource("12_llg6c")
+bus = &"SFX"
 
 [node name="Pause" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource("13_h5web")
+bus = &"SFX"
 
 [node name="PipeHurt" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource("14_xqacd")
+bus = &"SFX"
 
 [node name="Upgrade" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource("15_g72dt")
+bus = &"SFX"
 
 [node name="UpgradeAppear" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource("16_ibi6s")
+bus = &"SFX"
 
 [node name="Stomp" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource("17_r7xod")
+bus = &"SFX"
 
 [node name="Vine" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource("18_ivxv1")
+bus = &"SFX"
 
 [node name="BrokenBrick" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource("18_wv8uj")
+bus = &"SFX"
 
 [node name="BGMPlayer" type="AudioStreamPlayer" parent="."]
+bus = &"BGM"

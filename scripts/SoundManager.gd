@@ -13,7 +13,8 @@ func play_sfx(sfx_name: String) -> void:
 	var audio_player := sfx.get_node(sfx_name) as AudioStreamPlayer
 	if not audio_player:
 		return
-	audio_player.play()
+	if not audio_player.playing:
+		audio_player.play()
 
 func play_world_bgm(world_type: World.Type) -> void:
 	match world_type:

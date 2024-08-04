@@ -31,6 +31,7 @@ func do_bump() -> void:
 	# 下落的过程就不用应用上顶效果了
 	effect_area.set_deferred("monitoring", false)
 	tween = create_tween()
+	tween.tween_property(owner, "position:y", originalY + 1, BUMP_DURATION)
 	tween.tween_property(owner, "position:y", originalY, BUMP_DURATION)
 	await tween.finished
 	
@@ -63,7 +64,8 @@ func do_spawn(node: Node, item: SpawnItem, player: Player) -> void:
 func _on_bump_area_body_entered(body: Node2D) -> void:
 	if body is Player:
 		print_debug("[Bumped] %s" % [ owner.name])
-		SoundManager.play_sfx("Bump")
+		if not (owner is CoinBrick and can_bump): # 还没顶的隐藏砖不要出声
+			SoundManager.play_sfx("Bump")
 		owner.on_bumped(body)
 
 # 把顶的效果应用到上方的物体

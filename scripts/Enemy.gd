@@ -65,8 +65,9 @@ func on_hit(body: Fireball) -> void:
 
 # 被砖块从下面顶
 func on_bumped(bumpable: Bumpable) -> void:
-	attack_direction = Enemy.Direction.LEFT if bumpable.global_position.x > global_position.x else Enemy.Direction.RIGHT
 	bumped = true
+	SoundManager.play_sfx("Kill")
+	attack_direction = Enemy.Direction.LEFT if bumpable.global_position.x > global_position.x else Enemy.Direction.RIGHT
 
 func die() -> void:
 	# 禁用碰撞

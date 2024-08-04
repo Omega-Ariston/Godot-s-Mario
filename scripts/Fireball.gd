@@ -24,6 +24,7 @@ func _physics_process(delta: float) -> void:
 	if not hit_enemy:
 		if is_on_wall():
 			# 撞到墙就爆炸
+			SoundManager.play_sfx("Bump")
 			animation_player.play("blast", -1, 3.0, false)
 			return
 		if is_on_floor():
