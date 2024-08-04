@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 GameManager="*res://scenes/autoloads/game_manager.tscn"
 Variables="*res://scripts/Variables.gd"
+SoundManager="*res://scenes/autoloads/sound_manager.tscn"
 
 [display]
 
@@ -28,6 +29,21 @@ window/size/window_width_override=1152
 window/size/window_height_override=648
 window/stretch/mode="canvas_items"
 window/size/always_on_top.editor=true
+
+[importer_defaults]
+
+wav={
+"compress/mode": 0,
+"edit/loop_begin": 0,
+"edit/loop_end": -1,
+"edit/loop_mode": 0,
+"edit/normalize": false,
+"edit/trim": false,
+"force/8_bit": true,
+"force/max_rate": false,
+"force/max_rate_hz": 44100,
+"force/mono": false
+}
 
 [input]
 

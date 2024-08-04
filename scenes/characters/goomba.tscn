@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://3dn4vucj2s00"]
 
 [ext_resource type="PackedScene" uid="uid://7mm1fthd05j6" path="res://scenes/characters/enemy.tscn" id="1_300fq"]
-[ext_resource type="Texture2D" uid="uid://eh5egx0rrwpa" path="res://assets/enemies.png" id="2_6cs4q"]
+[ext_resource type="Texture2D" uid="uid://eh5egx0rrwpa" path="res://assets/graphics/enemies.png" id="2_6cs4q"]
 [ext_resource type="Script" path="res://scripts/Goomba.gd" id="2_joamn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_65u6n"]
@@ -152,7 +152,6 @@ size = Vector2(16, 16)
 
 [node name="Goomba" instance=ExtResource("1_300fq")]
 script = ExtResource("2_joamn")
-direction = -1
 
 [node name="Sprite2D" parent="Graphics" index="0"]
 position = Vector2(0, -8)

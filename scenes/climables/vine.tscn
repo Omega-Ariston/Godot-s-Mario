@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://bsj7t14bkcqnd"]
 
 [ext_resource type="Script" path="res://scripts/Vine.gd" id="1_k7lep"]
-[ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/items-objects.png" id="2_ny7yv"]
+[ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/graphics/items-objects.png" id="2_ny7yv"]
 [ext_resource type="Script" path="res://scripts/Climable.gd" id="3_ch3rt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5babj"]

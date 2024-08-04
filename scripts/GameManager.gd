@@ -84,6 +84,7 @@ func control_player(player: Player) -> void:
 	player.controllable = true
 
 func _animate_pipe(player: Player, spawn_point: SpawnPoint) -> void:
+	SoundManager.play_sfx("PipeHurt")
 	# 如果需要从管道钻出来，则从指定点的反方向3个瓦片的距离出生，并且提前禁用物理碰撞和控制 TODO:这个应该是默认配置
 	player._get_animator().play("idle") # 默认刚出来就是站立姿势
 	player.global_position.y += Variables.TILE_SIZE.y * 3 * spawn_point.direction
@@ -92,6 +93,7 @@ func _animate_pipe(player: Player, spawn_point: SpawnPoint) -> void:
 	await tween.finished
 
 func _animate_vine(player: Player, spawn_point: SpawnPoint) -> void:
+	SoundManager.play_sfx("Vine")
 	# 如果从藤蔓爬出来，则从指定点下两个瓦片出生，并等藤蔓长完4个瓦片高度后爬上来落地
 	player.global_position.y += Variables.TILE_SIZE.y * 2
 	var vine_instance = load("res://scenes/climables/vine.tscn").instantiate() as Vine

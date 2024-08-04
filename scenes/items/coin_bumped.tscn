@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://1e5y2w6vswir"]
 
 [ext_resource type="Script" path="res://scripts/CoinBumped.gd" id="1_yd546"]
-[ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/items-objects.png" id="2_1riix"]
+[ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/graphics/items-objects.png" id="2_1riix"]
 
 [sub_resource type="Animation" id="Animation_dk6wa"]
 length = 0.001
@@ -94,6 +94,7 @@ _data = {
 radius = 8.0
 
 [node name="CoinBumped" type="CharacterBody2D"]
+process_mode = 3
 script = ExtResource("1_yd546")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

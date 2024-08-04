@@ -28,13 +28,14 @@ func on_bumped(player: Player) -> void:
 				collision_shape_2d.set_deferred("disabled", false)
 			else:
 				return
-				
 		animation_player.play("bumped")
 		if spawn_item == Bumpable.SpawnItem.COIN:
 			# 金币直接顶
+			SoundManager.play_sfx("Coin")
 			bumpable.do_bump()
 		else:
 			# 道具等顶完再生成
+			SoundManager.play_sfx("Vine" if spawn_item == Bumpable.SpawnItem.VINE else "UpgradeAppear")
 			await bumpable.do_bump()
 		if spawn_item != Bumpable.SpawnItem.EMPTY:
 			bumpable.do_spawn(self, spawn_item, player)

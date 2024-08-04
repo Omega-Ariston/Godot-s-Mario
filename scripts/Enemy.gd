@@ -44,6 +44,7 @@ func move(speed_var: float, direction_var: int, delta: float) -> void:
 # 被踩
 func on_stomped(player: Player) -> void:
 	stomped = true
+	SoundManager.play_sfx("Stomp")
 	# 给玩家施加一个向上小跳的力
 	player.velocity.y = PLAYER_STOMPED_BOUNCE
 	# 取消对玩家的碰撞检测
@@ -53,11 +54,13 @@ func on_stomped(player: Player) -> void:
 # 被无敌星撞
 func on_charged(body: Player) -> void:
 	charged = true
+	SoundManager.play_sfx("Kill")
 	attack_direction = Enemy.Direction.LEFT if body.global_position.x > global_position.x else Enemy.Direction.RIGHT
 
 # 被火球打
 func on_hit(body: Fireball) -> void:
 	hit = true
+	SoundManager.play_sfx("Kill")
 	attack_direction = Enemy.Direction.LEFT if body.global_position.x > global_position.x else Enemy.Direction.RIGHT
 
 # 被砖块从下面顶

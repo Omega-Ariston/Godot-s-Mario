@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://c30i335tpkrd8"]
 
 [ext_resource type="Script" path="res://scripts/Brick.gd" id="1_650d6"]
-[ext_resource type="Texture2D" uid="uid://c7gt8s3r65s32" path="res://assets/map.png" id="1_qy6wh"]
+[ext_resource type="Texture2D" uid="uid://c7gt8s3r65s32" path="res://assets/graphics/map.png" id="1_qy6wh"]
 [ext_resource type="PackedScene" uid="uid://ctkrrllkodgol" path="res://scenes/bumpables/bumpable.tscn" id="3_jt57t"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uayt3"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=39 format=3 uid="uid://ta2kus8p0r8f"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_sboe1"]
-[ext_resource type="Texture2D" uid="uid://dfg5kaxqbfu1d" path="res://assets/mario.png" id="2_pqtkg"]
+[ext_resource type="Texture2D" uid="uid://dfg5kaxqbfu1d" path="res://assets/graphics/mario.png" id="2_pqtkg"]
 [ext_resource type="Shader" path="res://shaders/blink.gdshader" id="2_ssa0e"]
 [ext_resource type="Script" path="res://scripts/StateMachine.gd" id="4_vytt3"]
 [ext_resource type="Script" path="res://scripts/ItemLauncher.gd" id="5_su61k"]

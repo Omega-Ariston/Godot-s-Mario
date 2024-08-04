@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://bxtapjauwhc3i"]
 
 [ext_resource type="Script" path="res://scripts/Flower.gd" id="1_mcwkb"]
-[ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/items-objects.png" id="2_2p4qs"]
+[ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/graphics/items-objects.png" id="2_2p4qs"]
 [ext_resource type="Script" path="res://scripts/Eatable.gd" id="3_oniff"]
 
 [sub_resource type="Animation" id="Animation_el2oe"]

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dfg5kaxqbfu1d"
-path="res://.godot/imported/mario.png-e0067e72bc20cbd9d4337ce648171fac.ctex"
+uid="uid://c7gt8s3r65s32"
+path="res://.godot/imported/map.png-4ae415e44a96f83e3974b72741bf5f34.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/mario.png"
-dest_files=["res://.godot/imported/mario.png-e0067e72bc20cbd9d4337ce648171fac.ctex"]
+source_file="res://assets/graphics/map.png"
+dest_files=["res://.godot/imported/map.png-4ae415e44a96f83e3974b72741bf5f34.ctex"]
 
 [params]
 

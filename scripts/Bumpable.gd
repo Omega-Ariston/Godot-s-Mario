@@ -63,6 +63,7 @@ func do_spawn(node: Node, item: SpawnItem, player: Player) -> void:
 func _on_bump_area_body_entered(body: Node2D) -> void:
 	if body is Player:
 		print_debug("[Bumped] %s" % [ owner.name])
+		SoundManager.play_sfx("Bump")
 		owner.on_bumped(body)
 
 # 把顶的效果应用到上方的物体

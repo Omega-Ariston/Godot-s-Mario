@@ -17,6 +17,8 @@ signal player_entered
 func _on_climable_body_entered(body: Node2D) -> void:
 	if body is Player:
 		player = body
+		SoundManager.pause_bgm()
+		SoundManager.play_sfx("FlagPole")
 		# 降落旗子
 		var flag_tween := create_tween()
 		var flag_destination_y = global_position.y - Variables.TILE_SIZE.y * 1.5
@@ -55,6 +57,7 @@ func _on_flag_down_finished() -> void:
 	player._change_climb_side()
 	await get_tree().create_timer(0.5).timeout
 	player._unclimb()
+	SoundManager.course_clear()
 	# 往门的方向走
 	player.direction = player.Direction.RIGHT
 	player.input_x = 1.0

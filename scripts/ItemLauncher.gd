@@ -18,3 +18,4 @@ func launch() -> void:
 		fireball_instance.direction = owner.direction
 		fireball_instance.global_position = global_position
 		get_tree().root.add_child(fireball_instance)
+		SoundManager.play_sfx("Fireball")

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/Star.gd" id="1_jknvf"]
 [ext_resource type="Script" path="res://scripts/Eatable.gd" id="1_moecc"]
-[ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/items-objects.png" id="2_f407k"]
+[ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/graphics/items-objects.png" id="2_f407k"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_oa3gk"]
 radius = 6.0

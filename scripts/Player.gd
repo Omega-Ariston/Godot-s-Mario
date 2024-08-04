@@ -344,11 +344,13 @@ func transition_state(from: State, to: State) -> void:
 			_get_animator().play("crouch")
 		State.JUMP:
 			_get_animator().play("jump")
-			if from not in UNSAFE_STATES and from != State.LAUNCH: # 变身结束或发完炮后不用跳
+			if from not in UNSAFE_STATES: # 变身结束或发完炮后不用跳
 				velocity.y = JUMP_VELOCITY
+				SoundManager.play_sfx("JumpSmall" if curr_mode == Mode.SMALL else "JumpLarge")
 			jump_requested = false
 		State.CROUCH_JUMP:
 			_get_animator().play("crouch")
+			SoundManager.play_sfx("JumpSmall" if curr_mode == Mode.SMALL else "JumpLarge")
 			if from not in UNSAFE_STATES: # 变身结束后不用跳
 				velocity.y = JUMP_VELOCITY
 			jump_requested = false
@@ -365,6 +367,7 @@ func transition_state(from: State, to: State) -> void:
 			get_tree().paused = true # 静止游戏场景
 			_reset_animator(small_animator)
 			_get_animator().play("hurt")
+			SoundManager.play_sfx("PipeHurt")
 		State.LAUNCH:
 			last_animation = fire_animator.current_animation
 			launch_requested = false
@@ -377,6 +380,7 @@ func transition_state(from: State, to: State) -> void:
 			get_tree().paused = true
 			_reset_animator(big_animator)
 			small_animator.play("enlarge")
+			SoundManager.play_sfx("Upgrade")
 		State.ONFIRE:
 			can_onfire = false
 			# 暂停时间
@@ -385,6 +389,7 @@ func transition_state(from: State, to: State) -> void:
 			big_animator.stop()
 			_set_shader_enabled(true)
 			blink_animator.play("onfire", -1, 1.0, false)
+			SoundManager.play_sfx("Upgrade")
 			on_fire_timer.start()
 		State.DEAD:
 			is_hurt = false
@@ -394,6 +399,8 @@ func transition_state(from: State, to: State) -> void:
 			set_process_input(false)
 			controllable = false
 			_get_animator().play("dead")
+			SoundManager.pause_bgm()
+			SoundManager.play_sfx("MarioDie")
 			# 到前面来
 			z_index = 5
 			dying_timer.start()
@@ -458,7 +465,7 @@ func _eat(item: Node) -> void:
 		if item.mushroom_type == Bumpable.SpawnItem.UPGRADE:
 			can_enlarge = true
 		elif item.mushroom_type == Bumpable.SpawnItem.LIFE:
-			print_debug("Bonus Life!")
+			SoundManager.play_sfx("ExtraLife")
 	elif item is Flower:
 		can_onfire = true
 	elif item is Star:

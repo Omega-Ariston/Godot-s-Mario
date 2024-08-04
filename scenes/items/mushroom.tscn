@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://c4nctl8wtw7ps"]
 
-[ext_resource type="Script" path="res://scripts/mushroom.gd" id="1_uux6v"]
-[ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/items-objects.png" id="2_dwdrb"]
+[ext_resource type="Script" path="res://scripts/Mushroom.gd" id="1_uux6v"]
+[ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/graphics/items-objects.png" id="2_dwdrb"]
 [ext_resource type="Script" path="res://scripts/Eatable.gd" id="3_5oykf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3teqi"]

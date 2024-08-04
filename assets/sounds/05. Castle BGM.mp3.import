@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://0hiioduoha2e"
+path="res://.godot/imported/05. Castle BGM.mp3-ebc589c88ab4a682a141d16be3cf02f3.mp3str"
+
+[deps]
+
+source_file="res://assets/sounds/05. Castle BGM.mp3"
+dest_files=["res://.godot/imported/05. Castle BGM.mp3-ebc589c88ab4a682a141d16be3cf02f3.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

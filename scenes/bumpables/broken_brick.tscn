@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://bhi8eg1qmfrjv"]
 
 [ext_resource type="Script" path="res://scripts/BrokenBrick.gd" id="1_hp52f"]
-[ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/items-objects.png" id="2_wkgu6"]
+[ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/graphics/items-objects.png" id="2_wkgu6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ag33a"]
 atlas = ExtResource("2_wkgu6")

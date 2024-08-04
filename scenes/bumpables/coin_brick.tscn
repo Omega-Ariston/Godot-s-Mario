@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://by0stfwg5c7pm"]
 
-[ext_resource type="Texture2D" uid="uid://c7gt8s3r65s32" path="res://assets/map.png" id="1_m8h7w"]
+[ext_resource type="Texture2D" uid="uid://c7gt8s3r65s32" path="res://assets/graphics/map.png" id="1_m8h7w"]
 [ext_resource type="Script" path="res://scripts/CoinBrick.gd" id="1_yxd1f"]
 [ext_resource type="PackedScene" uid="uid://ctkrrllkodgol" path="res://scenes/bumpables/bumpable.tscn" id="3_1s83g"]
 
