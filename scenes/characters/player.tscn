@@ -1439,7 +1439,7 @@ wait_time = 1.2
 one_shot = true
 
 [node name="StarTimer" type="Timer" parent="."]
-wait_time = 8.0
+wait_time = 13.5
 one_shot = true
 
 [node name="InvincibleTimer" type="Timer" parent="."]

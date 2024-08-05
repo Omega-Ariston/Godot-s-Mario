@@ -169,8 +169,10 @@ func tick_physics(state: State, delta: float) -> void:
 			if state != State.ONFIRE:
 				blink_animator.stop()
 				_set_shader_enabled(false)
-		elif star_timer.time_left <= 2 and state != State.ONFIRE:
-			blink_animator.play("star", -1, 0.25, false)
+		elif (SoundManager.bgm_player.stream == SoundManager.starBGM and not SoundManager.bgm_player.playing):
+			SoundManager.play_world_bgm()
+			if state != State.ONFIRE:
+				blink_animator.play("star", -1, 0.25, false)
 	
 	match state:
 		State.IDLE:
@@ -472,6 +474,7 @@ func _eat(item: Node) -> void:
 		_set_shader_enabled(true)
 		blink_animator.play("star")
 		is_under_star = true
+		SoundManager.go_star()
 		star_timer.start()
 
 func _get_animator() -> AnimationPlayer:

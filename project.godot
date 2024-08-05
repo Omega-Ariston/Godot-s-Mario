@@ -21,6 +21,10 @@ GameManager="*res://scenes/autoloads/game_manager.tscn"
 Variables="*res://scripts/Variables.gd"
 SoundManager="*res://scenes/autoloads/sound_manager.tscn"
 
+[debug]
+
+gdscript/warnings/integer_division=0
+
 [display]
 
 window/size/viewport_width=256

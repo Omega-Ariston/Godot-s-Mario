@@ -17,8 +17,8 @@ enum Type {
 }
 
 func _ready() -> void:
-	setup_bgm()
 	setup_camera()
+	SoundManager.play_world_bgm()
 	GameManager.control_player(player)
 
 func _process(_delta: float) -> void:
@@ -27,8 +27,6 @@ func _process(_delta: float) -> void:
 	GameManager.max_left_x = max(left_coord, GameManager.max_left_x)
 	camera_2d.limit_left = ceili(GameManager.max_left_x)
 
-func setup_bgm() -> void:
-	SoundManager.play_world_bgm(world_type)
 
 func setup_camera() -> void:
 	viewport_size = get_viewport_rect().size
