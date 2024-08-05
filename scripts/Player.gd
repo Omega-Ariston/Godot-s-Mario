@@ -10,9 +10,9 @@ const CLIMB_ACCELERATION := CLIMB_SPEED / 0.2
 const AIR_ACCELERATION := WALK_SPEED / 0.2
 const JUMP_VELOCITY := -350.0
 const MIN_ANIMATION_SPEED := 0.8
-const MIN_TURN_SPEED = WALK_SPEED / 1.5
-const FIREBALL_LIMIT = 2
-
+const MIN_TURN_SPEED := WALK_SPEED / 1.5
+const FIREBALL_LIMIT := 2
+const CLIFF_LIMIT := Variables.TILE_SIZE.y * 18
 
 enum State {
 	IDLE,
@@ -220,6 +220,9 @@ func get_next_state(state: State) -> int:
 	if is_spawning:
 		return State.IDLE if state != State.IDLE else state_machine.KEEP_CURRENT
 	
+	if global_position.y > CLIFF_LIMIT:
+		return State.DEAD if state != State.DEAD else state_machine.KEEP_CURRENT
+	
 	if is_hurt:
 		return State.DEAD if curr_mode == Mode.SMALL else State.HURT
 	
@@ -395,12 +398,14 @@ func transition_state(from: State, to: State) -> void:
 			on_fire_timer.start()
 		State.DEAD:
 			is_hurt = false
+			if global_position.y > CLIFF_LIMIT:
+				sprite_2d.visible = false # 摔死的时候不让死亡动画被看见
 			velocity = Vector2.ZERO
 			get_tree().paused = true # 静止游戏场景
 			collision_shape_2d.set_deferred("disabled", true)
 			set_process_input(false)
 			controllable = false
-			_get_animator().play("dead")
+			small_animator.play("dead")
 			SoundManager.pause_bgm()
 			SoundManager.play_sfx("MarioDie")
 			# 到前面来
