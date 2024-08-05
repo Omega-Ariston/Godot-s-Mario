@@ -59,5 +59,4 @@ func _on_flag_down_finished() -> void:
 	player._unclimb()
 	SoundManager.course_clear()
 	# 往门的方向走
-	player.direction = player.Direction.RIGHT
 	player.input_x = 1.0

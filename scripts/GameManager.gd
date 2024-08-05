@@ -8,6 +8,8 @@ var default_gravity := ProjectSettings.get("physics/2d/default_gravity") as floa
 
 @onready var scene_changer: ColorRect = $CanvasLayer/SceneChanger
 
+signal screen_ready
+
 func _ready() -> void:
 	scene_changer.color.a = 0.0
 
@@ -24,12 +26,14 @@ func change_scene(path: String, params: Dictionary = {}):
 	# 重置相机镜头
 	max_left_x = 0
 	var tree := get_tree()
+	tree.paused = false
 	var timer := tree.create_timer(CHANGE_SCENE_DURATION)
 	tree.change_scene_to_file(path)
 	await tree.tree_changed
 	await timer.timeout
 	# 恢复屏幕
 	scene_changer.color.a = 0.0
+	screen_ready.emit()
 	
 	var player := tree.get_first_node_in_group("Player") as Player
 	player.direction = player.Direction.RIGHT

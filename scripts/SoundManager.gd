@@ -30,7 +30,7 @@ func play_world_bgm() -> void:
 			stream = underwaterBGM
 		World.Type.CASTLE:
 			stream = castleBGM
-	if stream != bgm_player.stream:
+	if stream != bgm_player.stream or not bgm_player.playing:
 		bgm_player.stream = stream
 		bgm_player.play()
 

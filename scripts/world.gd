@@ -17,6 +17,7 @@ enum Type {
 }
 
 func _ready() -> void:
+	# await GameManager.screen_ready
 	setup_camera()
 	SoundManager.play_world_bgm()
 	GameManager.control_player(player)
