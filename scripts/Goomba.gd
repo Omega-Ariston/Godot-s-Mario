@@ -4,7 +4,7 @@ extends Enemy
 enum State {
 	WALK,
 	STOMPED,
-	HIT,
+	DEAD,
 }
 
 const SPEED := 30.0
@@ -13,7 +13,7 @@ func get_next_state(state: State) -> int:
 	match state:
 		State.WALK:
 			if hit or charged or bumped:
-				return State.HIT
+				return State.DEAD
 			if stomped:
 				return State.STOMPED
 	return state_machine.KEEP_CURRENT
@@ -28,7 +28,7 @@ func tick_physics(state: State, delta: float) -> void:
 			move(SPEED, direction, delta)
 		State.STOMPED:
 			velocity = Vector2.ZERO
-		State.HIT:
+		State.DEAD:
 			move(DEAD_BOUNCE.x, attack_direction, delta)
 
 
@@ -38,5 +38,5 @@ func transition_state(_from: State, to: State) -> void:
 			animation_player.play("walk")
 		State.STOMPED:
 			animation_player.play("stomped")
-		State.HIT:
+		State.DEAD:
 			die()

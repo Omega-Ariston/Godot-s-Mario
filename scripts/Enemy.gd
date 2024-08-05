@@ -55,28 +55,29 @@ func on_stomped(player: Player) -> void:
 func on_charged(body: Player) -> void:
 	charged = true
 	SoundManager.play_sfx("Kill")
-	attack_direction = Enemy.Direction.LEFT if body.global_position.x > global_position.x else Enemy.Direction.RIGHT
+	attack_direction = Direction.LEFT if body.global_position.x > global_position.x else Direction.RIGHT
 
 # 被火球打
-func on_hit(body: Fireball) -> void:
+func on_hit(body: CharacterBody2D) -> void:
 	hit = true
 	SoundManager.play_sfx("Kill")
-	attack_direction = Enemy.Direction.LEFT if body.global_position.x > global_position.x else Enemy.Direction.RIGHT
+	attack_direction = Direction.LEFT if body.global_position.x > global_position.x else Direction.RIGHT
 
 # 被砖块从下面顶
 func on_bumped(bumpable: Bumpable) -> void:
 	bumped = true
 	SoundManager.play_sfx("Kill")
-	attack_direction = Enemy.Direction.LEFT if bumpable.global_position.x > global_position.x else Enemy.Direction.RIGHT
+	attack_direction = Direction.LEFT if bumpable.global_position.x > global_position.x else Direction.RIGHT
 
-func die() -> void:
+func die(pause := true) -> void:
 	# 禁用碰撞
 	collision_shape_2d.set_deferred("disabled", true)
 	hurtbox.set_deferred("monitoring", false)
 	# 来到屏幕前面
 	z_index = DEAD_Z_INDEX
 	# 冻结动画并上下倒转
-	animation_player.pause()
+	if pause:
+		animation_player.call_deferred("pause")
 	graphics.scale.y = -1
 	# 给一个小弹跳
 	velocity.y = DEAD_BOUNCE.y

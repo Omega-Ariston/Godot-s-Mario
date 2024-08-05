@@ -48,5 +48,5 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 func on_hit_enemy(enemy: Enemy) -> void:
 	hit_enemy = true
 	velocity = Vector2.ZERO
-	if enemy is Goomba:
+	if enemy is Enemy:
 		animation_player.play("blast", -1, 3.0, false)

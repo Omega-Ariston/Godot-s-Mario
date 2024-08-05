@@ -20,6 +20,7 @@ func _ready() -> void:
 
 func on_bumped(player: Player) -> void:
 	if bumpable.can_bump:
+		bumpable.can_bump = false
 		if is_hidden:
 			if player.velocity.y < 0:
 				# 判断是否是来自下方的撞击，如果是，则砖显形并恢复碰撞体积
@@ -40,5 +41,4 @@ func on_bumped(player: Player) -> void:
 			await bumpable.do_bump()
 		if spawn_item != Bumpable.SpawnItem.EMPTY:
 			bumpable.do_spawn(self, spawn_item, player)
-			bumpable.can_bump = false
 

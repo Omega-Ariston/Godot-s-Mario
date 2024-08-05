@@ -15,6 +15,7 @@ func _ready() -> void:
 func on_bumped(player: Player) -> void:
 	if bumpable.can_bump:
 		if spawn_item == Bumpable.SpawnItem.EMPTY and player.curr_mode != player.Mode.SMALL:
+			bumpable.can_bump = false
 			SoundManager.play_sfx("BrokenBrick")
 			var instance := load("res://scenes/bumpables/broken_brick.tscn").instantiate() as BrokenBrick
 			instance.global_position = global_position
@@ -34,10 +35,10 @@ func on_bumped(player: Player) -> void:
 		else:
 			# 道具要等顶完再生成
 			if spawn_item != Bumpable.SpawnItem.EMPTY:
+				bumpable.can_bump = false
 				SoundManager.play_sfx("Vine" if spawn_item == Bumpable.SpawnItem.VINE else "UpgradeAppear")
 				animation_player.play("bumped")
 			await bumpable.do_bump()
 			if spawn_item != Bumpable.SpawnItem.EMPTY:
 				bumpable.do_spawn(self, spawn_item, player)
-				bumpable.can_bump = false
 
