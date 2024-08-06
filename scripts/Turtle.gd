@@ -63,7 +63,11 @@ func tick_physics(state: State, delta: float) -> void:
 			move(DEAD_BOUNCE.x, attack_direction, delta)
 
 
-func transition_state(_from: State, to: State) -> void:
+func transition_state(from: State, to: State) -> void:
+	match from:
+		State.SHOOT:
+			set_collision_mask_value(3, true)
+		
 	match to:
 		State.WALK:
 			animation_player.play("walk")
@@ -76,6 +80,8 @@ func transition_state(_from: State, to: State) -> void:
 			animation_player.play("stomped")
 		State.SHOOT:
 			stomped = false
+			# 不再碰到敌人反弹
+			set_collision_mask_value(3, false)
 		State.RECOVERING:
 			wake_up_timer.start()
 			animation_player.play("recovering")
