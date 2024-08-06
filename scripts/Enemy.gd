@@ -18,7 +18,7 @@ enum Direction {
 @onready var state_machine: StateMachine = $StateMachine
 @onready var visible_on_screen_enabler_2d: VisibleOnScreenEnabler2D = $VisibleOnScreenEnabler2D
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
-@onready var hurtbox: Hurtbox = $Hurtbox
+@onready var hurtbox: Area2D = $Hurtbox
 
 const DEAD_BOUNCE := Vector2(50, -250)
 const DEAD_Z_INDEX := 5
@@ -81,3 +81,24 @@ func die(pause := true) -> void:
 	graphics.scale.y = -1
 	# 给一个小弹跳
 	velocity.y = DEAD_BOUNCE.y
+
+func _on_hurtbox_area_entered(area: Area2D) -> void:
+	print_debug("%s hit %s" % [area.owner.name, name])
+	if area.owner is Player:
+		# 优先处理无敌星，然后才是被踩
+		var player := area.owner as Player
+		print_debug(player.global_position.y, global_position.y)
+		if player.is_under_star:
+			# 碰到无敌星了
+			on_charged(player)
+		elif player.global_position.y < (global_position.y - Variables.TILE_SIZE.y / 2):
+			# 如果来自上方就自己被踩
+			on_stomped(player)
+		elif self is Turtle and state_machine.current_state == Turtle.State.STOMPED:
+			# 龟壳被玩家撞跑
+			on_stomped(player)
+	if area.owner is Fireball:
+		on_hit(area.owner)
+		area.owner.on_hit_enemy(self)
+	if area.owner is Turtle and area.owner.state_machine.current_state == Turtle.State.SHOOT:
+		on_hit(area.owner)

@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://dova5a3dsso7"]
+
+[node name="Hitbox" type="Area2D"]
+collision_layer = 128
+collision_mask = 0

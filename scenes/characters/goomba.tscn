@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://3dn4vucj2s00"]
+[gd_scene load_steps=11 format=3 uid="uid://3dn4vucj2s00"]
 
 [ext_resource type="PackedScene" uid="uid://7mm1fthd05j6" path="res://scenes/characters/enemy.tscn" id="1_300fq"]
 [ext_resource type="Texture2D" uid="uid://eh5egx0rrwpa" path="res://assets/graphics/enemies.png" id="2_6cs4q"]
@@ -147,6 +147,9 @@ _data = {
 "walk": SubResource("Animation_a7e50")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_7lgsu"]
+radius = 6.0
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vlcgl"]
 size = Vector2(16, 16)
 
@@ -165,6 +168,7 @@ region_rect = Rect2(0, 16, 32, 16)
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2(0, -8)
 shape = SubResource("CircleShape2D_65u6n")
+debug_color = Color(0.664949, 0.506021, 0.221523, 0.42)
 
 [node name="AnimationPlayer" parent="." index="2"]
 libraries = {
@@ -174,6 +178,11 @@ libraries = {
 [node name="VisibleOnScreenEnabler2D" parent="." index="4"]
 position = Vector2(-2.38419e-07, -8)
 scale = Vector2(0.8, 0.8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" index="0"]
+position = Vector2(0, -8)
+shape = SubResource("CircleShape2D_7lgsu")
+debug_color = Color(0.89279, 0.299703, 0.314116, 0.42)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
 position = Vector2(0, -8)

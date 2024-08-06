@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://7mm1fthd05j6"]
+[gd_scene load_steps=5 format=3 uid="uid://7mm1fthd05j6"]
 
 [ext_resource type="Script" path="res://scripts/Enemy.gd" id="1_0cop4"]
 [ext_resource type="Script" path="res://scripts/StateMachine.gd" id="1_muhse"]
 [ext_resource type="PackedScene" uid="uid://d2ywk3kf3g0wx" path="res://scenes/characters/hurtbox.tscn" id="3_8wb8l"]
+[ext_resource type="PackedScene" uid="uid://dova5a3dsso7" path="res://scenes/characters/hitbox.tscn" id="4_guuny"]
 
 [node name="Enemy" type="CharacterBody2D"]
 collision_layer = 4
@@ -22,4 +23,9 @@ script = ExtResource("1_muhse")
 
 [node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
 
+[node name="Hitbox" parent="." instance=ExtResource("4_guuny")]
+
 [node name="Hurtbox" parent="." instance=ExtResource("3_8wb8l")]
+collision_mask = 130
+
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]

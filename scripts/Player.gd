@@ -129,6 +129,7 @@ var constant_speed_y: float
 @onready var dying_timer: Timer = $DyingTimer
 @onready var fireball_launcher: ItemLauncher = $Graphics/FireballLauncher
 
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("jump") and is_on_floor(): #防止在空中保存跳跃指令
 		jump_requested = true
@@ -546,3 +547,13 @@ func _reset_animator(animator: AnimationPlayer) -> void:
 
 func _on_dying_timer_timeout() -> void:
 	velocity.y = JUMP_VELOCITY
+
+
+func _on_hurtbox_area_entered(area: Area2D) -> void:
+	if area.owner is Enemy:
+		if area.owner is Turtle:
+			print_debug(area.owner.state_machine.current_state)
+			var turtle := area.owner as Turtle
+			if turtle.state_machine.current_state in [Turtle.State.STOMPED, Turtle.State.RECOVERING]:
+				return
+		hurt(area.owner)
