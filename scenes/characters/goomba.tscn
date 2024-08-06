@@ -153,8 +153,10 @@ size = Vector2(16, 16)
 [node name="Goomba" instance=ExtResource("1_300fq")]
 script = ExtResource("2_joamn")
 
-[node name="Sprite2D" parent="Graphics" index="0"]
+[node name="Graphics" parent="." index="0"]
 position = Vector2(0, -8)
+
+[node name="Sprite2D" parent="Graphics" index="0"]
 texture = ExtResource("2_6cs4q")
 hframes = 2
 region_enabled = true
