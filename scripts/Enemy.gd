@@ -51,8 +51,8 @@ func on_stomped(player: Player) -> void:
 	hurtbox.set_deferred("monitoring", false)
 	set_collision_mask_value(2, false)
 	
-# 被无敌星撞
-func on_charged(body: Player) -> void:
+# 被无敌星撞或被龟壳撞
+func on_charged(body: CharacterBody2D) -> void:
 	charged = true
 	SoundManager.play_sfx("Kill")
 	attack_direction = Direction.LEFT if body.global_position.x > global_position.x else Direction.RIGHT

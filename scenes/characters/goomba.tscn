@@ -4,8 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://eh5egx0rrwpa" path="res://assets/graphics/enemies.png" id="2_6cs4q"]
 [ext_resource type="Script" path="res://scripts/Goomba.gd" id="2_joamn"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_65u6n"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0vfs1"]
 radius = 7.0
+height = 16.0
 
 [sub_resource type="Animation" id="Animation_m8x6m"]
 length = 0.001
@@ -148,7 +149,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vlcgl"]
-size = Vector2(16, 16)
+size = Vector2(18, 16)
 
 [node name="Goomba" instance=ExtResource("1_300fq")]
 script = ExtResource("2_joamn")
@@ -164,7 +165,7 @@ region_rect = Rect2(0, 16, 32, 16)
 
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2(0, -8)
-shape = SubResource("CircleShape2D_65u6n")
+shape = SubResource("CapsuleShape2D_0vfs1")
 
 [node name="AnimationPlayer" parent="." index="2"]
 libraries = {

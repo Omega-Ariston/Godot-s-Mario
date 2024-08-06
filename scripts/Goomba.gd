@@ -27,7 +27,7 @@ func tick_physics(state: State, delta: float) -> void:
 		State.WALK:
 			move(SPEED, direction, delta)
 		State.STOMPED:
-			velocity = Vector2.ZERO
+			velocity.x = 0.0
 		State.DEAD:
 			move(DEAD_BOUNCE.x, attack_direction, delta)
 

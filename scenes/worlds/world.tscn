@@ -129,7 +129,8 @@ spawn_item = 5
 position = Vector2(872, 224)
 
 [node name="Goomba" parent="." instance=ExtResource("10_607go")]
-position = Vector2(304, 223)
+position = Vector2(280, 223)
+direction = 1
 
 [node name="Goomba2" parent="." instance=ExtResource("10_607go")]
 position = Vector2(392, 160)
@@ -159,4 +160,4 @@ direction = 1
 type = 1
 
 [node name="Turtle" parent="." instance=ExtResource("11_t6nc4")]
-position = Vector2(240, 223)
+position = Vector2(248, 223)
