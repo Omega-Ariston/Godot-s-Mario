@@ -1,8 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://bwpeyjyvsbtbh"]
+[gd_scene load_steps=8 format=3 uid="uid://bwpeyjyvsbtbh"]
 
 [ext_resource type="Script" path="res://scripts/Fireball.gd" id="1_ke4pu"]
 [ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/graphics/items-objects.png" id="2_jgr36"]
-[ext_resource type="PackedScene" uid="uid://dova5a3dsso7" path="res://scenes/characters/hitbox.tscn" id="3_4e62w"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4ss3t"]
 radius = 4.0
@@ -208,9 +207,6 @@ _data = {
 "fire": SubResource("Animation_aa8t3")
 }
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_wnbvh"]
-radius = 4.12311
-
 [node name="Fireball" type="CharacterBody2D"]
 collision_layer = 32
 script = ExtResource("1_ke4pu")
@@ -233,10 +229,5 @@ libraries = {
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(2.38419e-07, 2.38419e-07)
 scale = Vector2(0.4, 0.4)
-
-[node name="Hitbox" parent="." instance=ExtResource("3_4e62w")]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-shape = SubResource("CircleShape2D_wnbvh")
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

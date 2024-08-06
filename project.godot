@@ -100,8 +100,6 @@ test={
 2d_physics/layer_4="Bumpable"
 2d_physics/layer_5="Item"
 2d_physics/layer_6="Bullet"
-2d_physics/layer_7="Hurtbox"
-2d_physics/layer_8="Hitbox"
 
 [rendering]
 
