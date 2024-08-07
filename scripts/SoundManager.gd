@@ -14,8 +14,7 @@ func play_sfx(sfx_name: String) -> void:
 	var audio_player := sfx.get_node(sfx_name) as AudioStreamPlayer
 	if not audio_player:
 		return
-	if not audio_player.playing:
-		audio_player.play()
+	audio_player.play()
 
 func play_world_bgm() -> void:
 	var world := get_tree().root.get_node("World") as World
@@ -30,9 +29,8 @@ func play_world_bgm() -> void:
 			stream = underwaterBGM
 		World.Type.CASTLE:
 			stream = castleBGM
-	if stream != bgm_player.stream or not bgm_player.playing:
-		bgm_player.stream = stream
-		bgm_player.play()
+	bgm_player.stream = stream
+	bgm_player.play()
 
 
 func course_clear() -> void:

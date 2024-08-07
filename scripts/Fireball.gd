@@ -10,6 +10,7 @@ const LAUNCH_FALL_SPEED := 200
 var direction := 1
 var has_grouded := false
 var hit_enemy := false
+var blasted := false
 
 func _init() -> void:
 	add_to_group("Fireballs")
@@ -23,9 +24,11 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if not hit_enemy:
 		if is_on_wall():
-			# 撞到墙就爆炸
-			SoundManager.play_sfx("Bump")
-			animation_player.play("blast", -1, 3.0, false)
+			if not blasted:
+				# 撞到墙就爆炸
+				blasted = true
+				SoundManager.play_sfx("Bump")
+				animation_player.play("blast", -1, 3.0, false)
 			return
 		if is_on_floor():
 			has_grouded = true

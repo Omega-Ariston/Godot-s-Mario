@@ -31,10 +31,11 @@ const SHOOT_SPEED := 150.0
 @onready var wake_up_timer: Timer = $WakeUpTimer
 
 func get_next_state(state: State) -> int:
+	if hit or charged or bumped:
+		return State.DEAD if state != State.DEAD else state_machine.KEEP_CURRENT
+		
 	match state:
 		State.WALK, State.FLY, State.SHOOT:
-			if hit or charged or bumped:
-				return State.DEAD
 			if stomped:
 				return State.WALK if state == State.FLY else State.STOMPED
 		State.STOMPED:
