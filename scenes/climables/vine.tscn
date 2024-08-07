@@ -13,6 +13,7 @@ texture = ExtResource("2_ny7yv")
 sources/3 = SubResource("TileSetAtlasSource_5babj")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_onpk7"]
+resource_local_to_scene = true
 size = Vector2(2, 12)
 
 [node name="Vine" type="Node2D"]
