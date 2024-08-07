@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://bue0yey4diq1e"]
+
+[ext_resource type="Script" path="res://scripts/Chargeable.gd" id="1_imrgv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6fift"]
+size = Vector2(1, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2gdq7"]
+size = Vector2(1, 16)
+
+[node name="Chargeable" type="Area2D"]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("1_imrgv")
+
+[node name="Left" type="CollisionShape2D" parent="."]
+position = Vector2(-9, 0)
+shape = SubResource("RectangleShape2D_6fift")
+
+[node name="Right" type="CollisionShape2D" parent="."]
+position = Vector2(8, 0)
+shape = SubResource("RectangleShape2D_2gdq7")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

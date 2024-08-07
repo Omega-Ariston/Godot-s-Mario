@@ -13,7 +13,7 @@ func _on_body_entered(body: Node2D) -> void:
 		elif (body.state_machine.current_state in [Player.State.FALL, Player.State.JUMP] or body.velocity.y > 0) and body.global_position.y < owner.global_position.y:
 			# 如果来自上方就自己被踩
 			owner.on_stomped(body)
-		elif owner is Turtle and owner.state_machine.current_state == Turtle.State.SHELL:
+		elif owner is Turtle and owner.state_machine.current_state in Turtle.SHOOTABLE_STATE:
 			# 龟壳被玩家撞跑
 			owner.on_stomped(body)
 		else:

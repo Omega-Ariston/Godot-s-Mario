@@ -44,3 +44,22 @@ func on_bumped(player: Player) -> void:
 		if spawn_item != Bumpable.SpawnItem.EMPTY:
 			bumpable.do_spawn(self, spawn_item, player)
 
+
+func on_charged(player: Player) -> void:
+	if bumpable.can_bump:
+		bumpable.can_bump = false
+		if is_hidden:
+			# 砖显形并恢复碰撞体积
+			sprite_2d.visible = true
+			collision_shape_2d.set_deferred("disabled", false)
+		animation_player.play("bumped")
+		if spawn_item == Bumpable.SpawnItem.COIN:
+			# 金币直接顶
+			SoundManager.play_sfx("Coin")
+			bumpable.do_bump()
+		else:
+			# 道具等顶完再生成
+			SoundManager.play_sfx("Vine" if spawn_item == Bumpable.SpawnItem.VINE else "UpgradeAppear")
+			await bumpable.do_bump()
+		if spawn_item != Bumpable.SpawnItem.EMPTY:
+			bumpable.do_spawn(self, spawn_item, player)

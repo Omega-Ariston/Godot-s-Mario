@@ -1,3 +1,4 @@
+class_name Brick
 extends StaticBody2D
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -41,4 +42,3 @@ func on_bumped(player: Player) -> void:
 			await bumpable.do_bump()
 			if spawn_item != Bumpable.SpawnItem.EMPTY:
 				bumpable.do_spawn(self, spawn_item, player)
-

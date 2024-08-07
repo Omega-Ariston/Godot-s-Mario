@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://by0stfwg5c7pm"]
+[gd_scene load_steps=10 format=3 uid="uid://by0stfwg5c7pm"]
 
 [ext_resource type="Texture2D" uid="uid://c7gt8s3r65s32" path="res://assets/graphics/map.png" id="1_m8h7w"]
 [ext_resource type="Script" path="res://scripts/CoinBrick.gd" id="1_yxd1f"]
-[ext_resource type="PackedScene" uid="uid://ctkrrllkodgol" path="res://scenes/bumpables/bumpable.tscn" id="3_1s83g"]
+[ext_resource type="PackedScene" uid="uid://ctkrrllkodgol" path="res://scenes/bricks/bumpable.tscn" id="3_1s83g"]
+[ext_resource type="PackedScene" uid="uid://bue0yey4diq1e" path="res://scenes/bricks/chargeable.tscn" id="4_44ixi"]
 
 [sub_resource type="Animation" id="Animation_bo7w0"]
 length = 0.001
@@ -158,3 +159,5 @@ scale = Vector2(1, -1)
 shape = SubResource("RectangleShape2D_4uehg")
 
 [node name="Bumpable" parent="." instance=ExtResource("3_1s83g")]
+
+[node name="Chargeable" parent="." instance=ExtResource("4_44ixi")]

@@ -20,6 +20,7 @@ enum State {
 	DEAD,
 }
 
+const SHOOTABLE_STATE := [State.SHELL, State.RECOVERING]
 
 const SPEED := 30.0
 const SHOOT_SPEED := 150.0
@@ -71,6 +72,8 @@ func get_next_state(state: State) -> int:
 			if recover_timer.time_left == 0:
 				return State.RECOVERING
 		State.RECOVERING:
+			if stomped:
+				return State.SHOOT
 			if wake_up_timer.time_left == 0:
 				return State.WALK
 	return state_machine.KEEP_CURRENT
@@ -114,17 +117,18 @@ func transition_state(from: State, to: State) -> void:
 			stomped = false
 			recover_timer.start()
 			direction *= -1
-			animation_player.play("stomped")
+			animation_player.play("shell")
 		State.SHOOT:
 			stomped = false
 			floor_checker.enabled = false
 			# 不再碰到敌人反弹
 			set_collision_mask_value(3, false)
+			animation_player.play("shell")
 		State.RECOVERING:
 			wake_up_timer.start()
 			animation_player.play("recovering")
 		State.DEAD:
-			animation_player.play("stomped")
+			animation_player.play("shell")
 			die(false)
 
 # 被踩
@@ -132,10 +136,10 @@ func on_stomped(player: Player) -> void:
 	stomped = true
 	if state_machine.current_state != State.FLY:
 		direction = Direction.LEFT if player.global_position.x > global_position.x else Direction.RIGHT
-	if state_machine.current_state == State.SHELL:
+	if state_machine.current_state in SHOOTABLE_STATE:
 		SoundManager.play_sfx("Kill")
 	else:
 		SoundManager.play_sfx("Stomp")
-	if state_machine.current_state != State.SHELL:
+	if state_machine.current_state not in SHOOTABLE_STATE:
 		# 给玩家施加一个向上小跳的力
 		player.velocity.y = PLAYER_STOMPED_BOUNCE

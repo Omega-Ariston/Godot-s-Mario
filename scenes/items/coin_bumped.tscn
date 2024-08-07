@@ -95,6 +95,7 @@ radius = 8.0
 
 [node name="CoinBumped" type="CharacterBody2D"]
 process_mode = 3
+z_index = 5
 script = ExtResource("1_yd546")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
