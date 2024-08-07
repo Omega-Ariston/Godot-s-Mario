@@ -5,6 +5,7 @@
 [ext_resource type="Script" path="res://scripts/Goomba.gd" id="2_joamn"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0vfs1"]
+resource_local_to_scene = true
 radius = 7.0
 height = 16.0
 
@@ -149,6 +150,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vlcgl"]
+resource_local_to_scene = true
 size = Vector2(18, 16)
 
 [node name="Goomba" instance=ExtResource("1_300fq")]

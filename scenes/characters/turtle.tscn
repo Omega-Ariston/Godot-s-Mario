@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://eh5egx0rrwpa" path="res://assets/graphics/enemies.png" id="3_u1fou"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fnwon"]
+resource_local_to_scene = true
 radius = 7.0
 height = 23.0
 
@@ -401,6 +402,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xnatj"]
+resource_local_to_scene = true
 size = Vector2(16, 24)
 
 [node name="Turtle" instance=ExtResource("1_askc4")]
