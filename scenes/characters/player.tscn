@@ -619,7 +619,7 @@ tracks/4/keys = {
 
 [sub_resource type="Animation" id="Animation_oy2xd"]
 resource_name = "hurt"
-length = 1.2
+length = 1.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -1050,7 +1050,7 @@ tracks/4/keys = {
 
 [sub_resource type="Animation" id="Animation_rxw0x"]
 resource_name = "hurt"
-length = 1.2
+length = 1.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true

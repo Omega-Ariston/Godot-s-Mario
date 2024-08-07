@@ -24,7 +24,7 @@ const DEAD_BOUNCE := Vector2(50, -250)
 const DEAD_Z_INDEX := 5
 const PLAYER_STOMPED_BOUNCE := -200.0
 
-var gravity := GameManager.default_gravity as float
+var default_gravity := GameManager.default_gravity as float
 
 var stomped := false # 被踩
 var hit := false # 被火焰打中
@@ -36,7 +36,7 @@ var attack_direction := Direction.RIGHT # 受到攻击时攻击的指向
 func _ready() -> void:
 	z_index = -1 # 不能站主角前面
 
-func move(speed_var: float, direction_var: int, delta: float) -> void:
+func move(speed_var: float, direction_var: int, delta: float, gravity: float = default_gravity) -> void:
 	velocity.x = speed_var * direction_var
 	velocity.y += gravity * delta
 	move_and_slide()

@@ -16,9 +16,12 @@ var past_states : Array = [] # 记录状态转换历史，方便回溯
 
 var state_time: float
 
+signal initial_state_set
+
 func _ready() -> void:
 	await owner.ready
 	current_state = 0
+	initial_state_set.emit()
 	
 func _physics_process(delta: float) -> void:
 	if enabled:
