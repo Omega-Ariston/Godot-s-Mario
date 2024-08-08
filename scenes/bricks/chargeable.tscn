@@ -3,10 +3,10 @@
 [ext_resource type="Script" path="res://scripts/Chargeable.gd" id="1_imrgv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6fift"]
-size = Vector2(1, 16)
+size = Vector2(1, 10)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2gdq7"]
-size = Vector2(1, 16)
+size = Vector2(1, 10)
 
 [node name="Chargeable" type="Area2D"]
 collision_layer = 0

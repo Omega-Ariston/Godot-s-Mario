@@ -13,12 +13,12 @@ func _ready() -> void:
 	animation_player.play("unbumped")
 
 
-func on_bumped(player: Player) -> void:
+func on_bumped(player: Player, broken: bool = false) -> void:
 	if bumpable.can_bump:
-		if spawn_item == Bumpable.SpawnItem.EMPTY and player.curr_mode != player.Mode.SMALL:
+		if spawn_item == Bumpable.SpawnItem.EMPTY and (player.curr_mode != player.Mode.SMALL or broken):
 			bumpable.can_bump = false
 			SoundManager.play_sfx("BrokenBrick")
-			var instance := load("res://scenes/bumpables/broken_brick.tscn").instantiate() as BrokenBrick
+			var instance := load("res://scenes/bricks/broken_brick.tscn").instantiate() as BrokenBrick
 			instance.global_position = global_position
 			get_tree().root.add_child(instance)
 			queue_free()

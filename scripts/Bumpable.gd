@@ -21,6 +21,7 @@ var can_bump := true
 
 		
 func do_bump() -> void:
+	owner.z_index = 5
 	# 先往上顶一小段距离，然后下落回来
 	var tween := create_tween()
 	var originalY := owner.position.y as float
@@ -33,6 +34,7 @@ func do_bump() -> void:
 	tween = create_tween()
 	tween.tween_property(owner, "position:y", originalY + 1, BUMP_DURATION)
 	tween.tween_property(owner, "position:y", originalY, BUMP_DURATION)
+	owner.z_index = 0
 	await tween.finished
 	
 

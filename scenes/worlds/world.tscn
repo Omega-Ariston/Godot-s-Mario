@@ -123,7 +123,6 @@ spawn_item = 4
 
 [node name="Brick8" parent="." instance=ExtResource("6_pa5kd")]
 position = Vector2(248, 216)
-spawn_item = 5
 
 [node name="FlagPole" parent="." instance=ExtResource("9_r3vml")]
 position = Vector2(872, 224)

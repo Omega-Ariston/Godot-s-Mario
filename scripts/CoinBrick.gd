@@ -31,6 +31,8 @@ func on_bumped(player: Player) -> void:
 			else:
 				return
 		else:
+			# 到前面来
+			z_index = 5
 			bumpable.can_bump = false
 		animation_player.play("bumped")
 		if spawn_item == Bumpable.SpawnItem.COIN:
