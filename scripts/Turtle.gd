@@ -37,7 +37,7 @@ const COLOR_RED := [
 
 @onready var recover_timer: Timer = $RecoverTimer
 @onready var wake_up_timer: Timer = $WakeUpTimer
-@onready var floor_checker: RayCast2D = $FloorChecker
+@onready var floor_checker: RayCast2D = $Graphics/FloorChecker
 @onready var sprite_2d: Sprite2D = $Graphics/Sprite2D
 
 

@@ -427,6 +427,11 @@ hframes = 2
 region_enabled = true
 region_rect = Rect2(96, 8, 32, 24)
 
+[node name="FloorChecker" type="RayCast2D" parent="Graphics" index="1"]
+position = Vector2(-6, 11)
+enabled = false
+target_position = Vector2(0, 4)
+
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2(0, -12)
 shape = SubResource("CapsuleShape2D_fnwon")
@@ -447,15 +452,10 @@ position = Vector2(0, -12)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
 shape = SubResource("RectangleShape2D_xnatj")
 
-[node name="FloorChecker" type="RayCast2D" parent="." index="6"]
-position = Vector2(-9, -1)
-enabled = false
-target_position = Vector2(0, 4)
-
-[node name="RecoverTimer" type="Timer" parent="." index="7"]
+[node name="RecoverTimer" type="Timer" parent="." index="6"]
 wait_time = 5.0
 one_shot = true
 
-[node name="WakeUpTimer" type="Timer" parent="." index="8"]
+[node name="WakeUpTimer" type="Timer" parent="." index="7"]
 wait_time = 2.0
 one_shot = true
