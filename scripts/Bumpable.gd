@@ -76,3 +76,8 @@ func _on_effect_area_body_entered(body: Node2D) -> void:
 		body.on_bumped(self)
 	elif body is Mushroom and body.is_on_floor():
 		body.on_bumped(self)
+
+# 只有硬币会进这里
+func _on_effect_area_area_entered(area: Area2D) -> void:
+	if area.owner is Coin:
+		area.owner.on_bumped()
