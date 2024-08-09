@@ -40,7 +40,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5dtdw"]
-size = Vector2(16, 16)
+size = Vector2(10, 14)
 
 [node name="Coin" type="Node2D"]
 script = ExtResource("1_2xrxh")
@@ -55,6 +55,7 @@ collision_layer = 16
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_5dtdw")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
