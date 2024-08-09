@@ -6,6 +6,7 @@
 script = ExtResource("1_a2nb4")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 2
 
 [node name="SceneChanger" type="ColorRect" parent="CanvasLayer"]
 offset_right = 256.0

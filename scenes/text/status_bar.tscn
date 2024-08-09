@@ -1,0 +1,63 @@
+[gd_scene load_steps=2 format=3 uid="uid://7rtauqpwrkm1"]
+
+[ext_resource type="Script" path="res://scripts/StatusBar.gd" id="1_32qva"]
+
+[node name="StatusBar" type="CanvasLayer"]
+script = ExtResource("1_32qva")
+
+[node name="Score" type="RichTextLabel" parent="."]
+offset_left = 24.0
+offset_top = 8.0
+offset_right = 80.0
+offset_bottom = 24.0
+theme_override_constants/line_separation = -1
+theme_override_font_sizes/normal_font_size = 8
+text = "mario
+133850"
+scroll_active = false
+
+[node name="Time" type="RichTextLabel" parent="."]
+offset_left = 192.0
+offset_top = 8.0
+offset_right = 232.0
+offset_bottom = 24.0
+theme_override_constants/line_separation = -1
+theme_override_font_sizes/normal_font_size = 8
+text = "TIME
+400"
+scroll_active = false
+text_direction = 2
+
+[node name="Level" type="RichTextLabel" parent="."]
+offset_left = 136.0
+offset_top = 8.0
+offset_right = 192.0
+offset_bottom = 24.0
+theme_override_constants/line_separation = -1
+theme_override_font_sizes/normal_font_size = 8
+bbcode_enabled = true
+text = "[center]WORLD
+1-1[/center]"
+scroll_active = false
+
+[node name="Coin" type="RichTextLabel" parent="."]
+offset_left = 104.0
+offset_top = 16.0
+offset_right = 120.0
+offset_bottom = 24.0
+theme_override_constants/line_separation = -1
+theme_override_font_sizes/normal_font_size = 8
+bbcode_enabled = true
+text = "[center]00[/center]"
+scroll_active = false
+
+[node name="Multiply" type="RichTextLabel" parent="."]
+offset_left = 97.0
+offset_top = 18.0
+offset_right = 103.0
+offset_bottom = 24.0
+theme_override_constants/line_separation = -1
+theme_override_font_sizes/normal_font_size = 6
+bbcode_enabled = true
+text = "*"
+scroll_active = false
