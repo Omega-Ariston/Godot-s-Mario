@@ -1,0 +1,48 @@
+[gd_scene load_steps=3 format=3 uid="uid://dt8ljvpjly58d"]
+
+[ext_resource type="Script" path="res://scripts/Title.gd" id="1_2cfg4"]
+[ext_resource type="Texture2D" uid="uid://dxogc63ttr4us" path="res://assets/graphics/title.png" id="2_s0tl7"]
+
+[node name="Title" type="Node2D"]
+script = ExtResource("1_2cfg4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(128, 70)
+texture = ExtResource("2_s0tl7")
+
+[node name="AuthorName" type="RichTextLabel" parent="."]
+offset_left = 104.0
+offset_top = 114.0
+offset_right = 216.0
+offset_bottom = 122.0
+theme_override_colors/default_color = Color(1, 0.784314, 0.721569, 1)
+theme_override_font_sizes/normal_font_size = 8
+text = "@omega-ariston"
+scroll_active = false
+
+[node name="1Player" type="RichTextLabel" parent="."]
+offset_left = 88.0
+offset_top = 152.0
+offset_right = 192.0
+offset_bottom = 160.0
+theme_override_font_sizes/normal_font_size = 8
+text = "1 Player game"
+scroll_active = false
+
+[node name="2Player" type="RichTextLabel" parent="."]
+offset_left = 88.0
+offset_top = 168.0
+offset_right = 192.0
+offset_bottom = 176.0
+theme_override_font_sizes/normal_font_size = 8
+text = "2 Player game"
+scroll_active = false
+
+[node name="TOP" type="RichTextLabel" parent="."]
+offset_left = 88.0
+offset_top = 192.0
+offset_right = 192.0
+offset_bottom = 200.0
+theme_override_font_sizes/normal_font_size = 8
+text = "top- 000000"
+scroll_active = false

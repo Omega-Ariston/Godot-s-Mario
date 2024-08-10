@@ -6,7 +6,10 @@ const VINE_RISE_COUNT := 4
 
 var default_gravity := ProjectSettings.get("physics/2d/default_gravity") as float
 
+var life := 3
+
 @onready var scene_changer: ColorRect = $CanvasLayer/SceneChanger
+@onready var game_timer: Timer = $GameTimer
 
 signal screen_ready
 
@@ -20,25 +23,25 @@ func _unhandled_input(event: InputEvent) -> void:
 		var player := get_tree().get_first_node_in_group("Player") as Player
 		player.can_onfire = true
 
-func change_scene(path: String, params: Dictionary = {}):
+func get_level_scene_path(world: int, level: int, point: String = "") -> String:
+		return "res://scenes/worlds/" + str(world) + "-" + str(level) + point + ".tscn"
+
+func change_scene(path: String, params: Dictionary = {}) -> void:
 	# 黑幕设为不透明
 	scene_changer.color.a = 1.0	
 	# 重置相机镜头
 	max_left_x = 0
 	var tree := get_tree()
 	tree.paused = false
-	var timer := tree.create_timer(CHANGE_SCENE_DURATION)
+	var scene_change_timer := tree.create_timer(CHANGE_SCENE_DURATION)
 	tree.change_scene_to_file(path)
 	await tree.tree_changed
-	await timer.timeout
-	# 恢复屏幕
-	scene_changer.color.a = 0.0
-	screen_ready.emit()
 	
 	var player := tree.get_first_node_in_group("Player") as Player
-	player.direction = player.Direction.RIGHT
-	if params.has("player_mode"):
-		player.curr_mode = params.get("player_mode")
+	if player:
+		player.direction = player.Direction.RIGHT
+		if params.has("player_mode"):
+			player.curr_mode = params.get("player_mode")
 	
 	var spawn_point: SpawnPoint
 	if params.has("spawn_point"):
@@ -48,10 +51,17 @@ func change_scene(path: String, params: Dictionary = {}):
 			if point.name == spawn_point_name:
 				spawn_point = point
 	
+	# 恢复屏幕
+	await scene_change_timer.timeout
+	scene_changer.color.a = 0.0
+	screen_ready.emit()
+	
 	if spawn_point:
 		player.global_position = spawn_point.global_position
 		
-		if spawn_point.direction != SpawnPoint.Spawn_Direction.NONE:
+		if spawn_point.direction == SpawnPoint.Spawn_Direction.NONE:
+			game_timer.start()
+		else:
 			uncontrol_player(player)
 			player.is_spawning = true
 			
@@ -72,6 +82,7 @@ func change_scene(path: String, params: Dictionary = {}):
 			control_player(player)
 			if player.is_under_star:
 				player.star_timer.start(star_time_left)
+			game_timer.start()
 						
 
 func uncontrol_player(player: Player) -> void:
@@ -126,3 +137,7 @@ func _animate_vine(player: Player, spawn_point: SpawnPoint) -> void:
 	player.transition_state(player.State.CLIMB, player.State.FALL)
 	# 等一小会，角色碰撞还没恢复，容易出问题
 	await get_tree().create_timer(0.1).timeout
+
+
+func _on_game_timer_timeout() -> void:
+	StatusBar.time -= 1

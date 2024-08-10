@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/StatusBar.gd" id="1_32qva"]
 
-[node name="StatusBar" type="CanvasLayer"]
+[node name="StatusBar" type="CanvasLayer" groups=["Status"]]
 script = ExtResource("1_32qva")
 
 [node name="Score" type="RichTextLabel" parent="."]
@@ -13,7 +13,7 @@ offset_bottom = 24.0
 theme_override_constants/line_separation = -1
 theme_override_font_sizes/normal_font_size = 8
 text = "mario
-133850"
+000000"
 scroll_active = false
 
 [node name="Time" type="RichTextLabel" parent="."]
@@ -24,7 +24,7 @@ offset_bottom = 24.0
 theme_override_constants/line_separation = -1
 theme_override_font_sizes/normal_font_size = 8
 text = "TIME
-400"
+"
 scroll_active = false
 text_direction = 2
 

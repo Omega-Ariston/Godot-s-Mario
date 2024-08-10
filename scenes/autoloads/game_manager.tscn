@@ -12,3 +12,8 @@ layer = 2
 offset_right = 256.0
 offset_bottom = 256.0
 color = Color(0, 0, 0, 0)
+
+[node name="GameTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]

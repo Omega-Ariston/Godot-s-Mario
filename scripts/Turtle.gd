@@ -116,7 +116,7 @@ func transition_state(from: State, to: State) -> void:
 		State.SHELL:
 			stomped = false
 			recover_timer.start()
-			direction *= -1
+			direction = Direction.RIGHT if direction == Direction.LEFT else Direction.LEFT
 			animation_player.play("shell")
 		State.SHOOT:
 			stomped = false

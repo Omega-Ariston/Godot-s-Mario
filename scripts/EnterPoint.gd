@@ -51,6 +51,8 @@ func _physics_process(_delta: float) -> void:
 
 func enter() -> void:
 	entered = true
+	# 暂停游戏时间
+	GameManager.game_timer.stop()
 	# 禁用角色碰撞和输入事件
 	GameManager.uncontrol_player(player)
 	var tween = create_tween()

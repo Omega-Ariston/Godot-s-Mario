@@ -405,6 +405,8 @@ func transition_state(from: State, to: State) -> void:
 			collision_shape_2d.set_deferred("disabled", true)
 			set_process_input(false)
 			controllable = false
+			big_animator.stop()
+			fire_animator.stop()
 			small_animator.play("dead")
 			SoundManager.pause_bgm()
 			SoundManager.play_sfx("MarioDie")

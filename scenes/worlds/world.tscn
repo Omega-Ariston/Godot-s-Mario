@@ -1,8 +1,7 @@
-[gd_scene load_steps=16 format=3 uid="uid://bfb0vxdydy2et"]
+[gd_scene load_steps=15 format=3 uid="uid://bfb0vxdydy2et"]
 
 [ext_resource type="Texture2D" uid="uid://c7gt8s3r65s32" path="res://assets/graphics/map.png" id="1_8sw01"]
 [ext_resource type="Script" path="res://scripts/World.gd" id="1_rydws"]
-[ext_resource type="PackedScene" uid="uid://7rtauqpwrkm1" path="res://scenes/text/status_bar.tscn" id="2_d3b2x"]
 [ext_resource type="TileSet" uid="uid://cf516p3bd2t1v" path="res://tiles/world.tres" id="2_erdvd"]
 [ext_resource type="PackedScene" uid="uid://ta2kus8p0r8f" path="res://scenes/characters/player.tscn" id="2_iiukr"]
 [ext_resource type="PackedScene" uid="uid://by0stfwg5c7pm" path="res://scenes/bricks/coin_brick.tscn" id="5_c0g8v"]
@@ -169,8 +168,3 @@ type = 1
 
 [node name="Coin" parent="." instance=ExtResource("12_v4sk0")]
 position = Vector2(328, 152)
-
-[node name="StatusBar" parent="." instance=ExtResource("2_d3b2x")]
-time = 300
-world = 8
-level = 1
