@@ -19,18 +19,13 @@ enum SpawnItem {
 
 var can_bump := true
 
-		
 func do_bump() -> void:
 	owner.z_index = 5
 	# 先往上顶一小段距离，然后下落回来
 	var tween := create_tween()
 	var originalY := owner.position.y as float
-	# 上顶的过程中对上方物体应用上顶效果
-	effect_area.set_deferred("monitoring", true)
 	tween.tween_property(owner, "position:y", originalY - BUMP_HEIGHT, BUMP_DURATION)
 	await tween.finished
-	# 下落的过程就不用应用上顶效果了
-	effect_area.set_deferred("monitoring", false)
 	tween = create_tween()
 	tween.tween_property(owner, "position:y", originalY + 1, BUMP_DURATION)
 	tween.tween_property(owner, "position:y", originalY, BUMP_DURATION)
@@ -61,7 +56,6 @@ func do_spawn(node: Node, item: SpawnItem, player: Player) -> void:
 			item_instance = load("res://scenes/climables/vine.tscn").instantiate() as Vine
 	node.call_deferred("add_child", item_instance)
 
-
 # 被玩家顶
 func _on_bump_area_body_entered(body: Node2D) -> void:
 	if body is Player:
@@ -71,13 +65,11 @@ func _on_bump_area_body_entered(body: Node2D) -> void:
 		owner.on_bumped(body)
 
 # 把顶的效果应用到上方的物体
-func _on_effect_area_body_entered(body: Node2D) -> void:
-	if body is Enemy and body.is_on_floor():
-		body.on_bumped(self)
-	elif body is Mushroom and body.is_on_floor():
-		body.on_bumped(self)
-
-# 只有硬币会进这里
-func _on_effect_area_area_entered(area: Area2D) -> void:
-	if area.owner is Coin:
-		area.owner.on_bumped()
+func apply_bump_effect() -> void:
+	for area in effect_area.get_overlapping_areas():
+		if area.owner.has_method("on_bumped"):
+			area.owner.on_bumped(self)
+	for body in effect_area.get_overlapping_bodies():
+		print_debug(body.name)
+		if body.has_method("on_bumped"):
+			body.on_bumped(self)

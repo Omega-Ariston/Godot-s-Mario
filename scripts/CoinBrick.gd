@@ -28,12 +28,14 @@ func on_bumped(player: Player) -> void:
 				# 重置玩家速度，防止玩家从斜下方蹭着飞上去
 				player.velocity.y = 0
 				collision_shape_2d.set_deferred("disabled", false)
+				bumpable.apply_bump_effect()
 			else:
 				return
 		else:
 			# 到前面来
 			z_index = 5
 			bumpable.can_bump = false
+			bumpable.apply_bump_effect()
 		animation_player.play("bumped")
 		if spawn_item == Bumpable.SpawnItem.COIN:
 			# 金币直接顶

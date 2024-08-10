@@ -15,6 +15,7 @@ func _ready() -> void:
 
 func on_bumped(player: Player, broken: bool = false) -> void:
 	if bumpable.can_bump:
+		bumpable.apply_bump_effect()
 		if spawn_item == Bumpable.SpawnItem.EMPTY and (player.curr_mode != player.Mode.SMALL or broken):
 			bumpable.can_bump = false
 			SoundManager.play_sfx("BrokenBrick")
