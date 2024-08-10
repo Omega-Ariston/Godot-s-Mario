@@ -3,6 +3,7 @@ extends Node2D
 
 @export var world_type: Type
 @export var level_time: int = 400  # 8-1和8-3只有300秒，其余关是400秒
+@export var level_name: String
 
 @onready var tile_map: TileMap = $TileMap
 @onready var camera_2d: Camera2D = $Player/Camera2D
@@ -19,8 +20,10 @@ enum Type {
 }
 
 func _ready() -> void:
+	if GameManager.current_level != level_name:
+		GameManager.current_level = level_name
+		GameManager.current_spawn_point = spawn_point.name
 	StatusBar.time = level_time
-	GameManager.current_spawn_point = spawn_point
 	setup_camera()
 	await GameManager.screen_ready
 	SoundManager.play_world_bgm()

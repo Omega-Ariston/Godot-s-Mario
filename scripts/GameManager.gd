@@ -2,10 +2,13 @@ extends Node
 
 const CHANGE_SCENE_DURATION := 0.5
 const VINE_RISE_COUNT := 4
+const START_SCENE_PATH := "res://scenes/worlds/start.tscn"
 
 var default_gravity := ProjectSettings.get("physics/2d/default_gravity") as float
 var max_left_x: float
-var current_spawn_point: SpawnPoint
+
+var current_level: String
+var current_spawn_point: String
 var life := 3
 
 @onready var scene_changer: ColorRect = $CanvasLayer/SceneChanger
@@ -31,85 +34,75 @@ func end_level(next_level: String) -> void:
 	# 等通关音乐和计分结束
 	await SoundManager.bgm_player.finished
 	# 如果有烟花就放烟花
-	# 切换到下一关的开关画面
-	var start_scene_path := "res://scenes/worlds/start.tscn"
-	var status := {
-		"level": next_level,
-		"time": -1, # 切屏界面不显示时间，用-1表示
-	}
-	change_scene(start_scene_path, {"status": status})
+	# 切换到下一关的开头画面
+	start_scene(next_level)
 
 func get_level_scene_path(level: String) -> String:
 		return "res://scenes/worlds/" + level + ".tscn"
 
-func change_scene(path: String, params: Dictionary = {}) -> void:
+func start_scene(level: String):
 	# 黑幕设为不透明
 	scene_changer.color.a = 1.0	
-
-	# 设置状态栏数据，在关卡切换时使用
-	if params.has("status"):
-		var status = params.get("status") as Dictionary
-		if status.has("coin"):
-			StatusBar.coin = status.get("coin")
-		if status.has("life"):
-			StatusBar.life = status.get("life")
-		if status.has("level"):
-			StatusBar.level = status.get("level")
-		if status.has("time"):
-			StatusBar.time = status.get("time")
-			
 	# 重置相机镜头并解除暂停
 	max_left_x = 0
 	var tree := get_tree()
 	tree.paused = false
-	
+	# 设置状态栏
+	StatusBar.level = level
+	StatusBar.time = -1
+	# 切换场景
+	var scene_change_timer := tree.create_timer(CHANGE_SCENE_DURATION / 2)
+	tree.change_scene_to_file(START_SCENE_PATH)
+	await tree.tree_changed
+	# 恢复屏幕
+	await scene_change_timer.timeout
+	scene_changer.color.a = 0.0
+
+func change_scene(path: String, params: Dictionary = {}) -> void:
+	# 黑幕设为不透明
+	scene_changer.color.a = 1.0	
+	# 重置相机镜头并解除暂停
+	max_left_x = 0
+	var tree := get_tree()
+	tree.paused = false
 	# 切换场景
 	var scene_change_timer := tree.create_timer(CHANGE_SCENE_DURATION)
 	tree.change_scene_to_file(path)
 	await tree.tree_changed
-	
+	# 初始化玩家
 	var player := tree.get_first_node_in_group("Player") as Player
-	if player:
-		player.direction = player.Direction.RIGHT
-		if params.has("player_mode"):
-			player.curr_mode = params.get("player_mode")
-	
+	player.direction = player.Direction.RIGHT
+	if params.has("player_mode"):
+		player.curr_mode = params.get("player_mode")
+	# 初始化出生点
 	var spawn_point: SpawnPoint
-	if params.has("spawn_point"):
-		var spawn_point_name = params.get("spawn_point") as String
-		for point: SpawnPoint in tree.get_nodes_in_group("SpawnPoints"):
-			# 找到指定点
-			if point.name == spawn_point_name:
-				spawn_point = point
-	else:
-		spawn_point = current_spawn_point
-	
+	var spawn_point_name = params.get("spawn_point") as String if params.has("spawn_point") else current_spawn_point
+	for point: SpawnPoint in tree.get_nodes_in_group("SpawnPoints"):
+		# 找到指定点
+		if point.name == spawn_point_name:
+			spawn_point = point
 	# 恢复屏幕
 	await scene_change_timer.timeout
 	scene_changer.color.a = 0.0
 	screen_ready.emit()
-	
+	# 设置出生状态
 	if spawn_point:
 		player.global_position = spawn_point.global_position
-		
 		if spawn_point.direction == SpawnPoint.Spawn_Direction.NONE:
 			game_timer.start()
 		else:
 			uncontrol_player(player)
 			player.is_spawning = true
-			
 			# 如果有无敌，播放无敌动画
 			var star_time_left = params.get("star_time_left", 0.0) as float
 			if star_time_left > 0:
 				player.is_under_star = true
 				player.blink_animator.play("star")
-			
 			# 播放出场动画
 			if spawn_point.type == SpawnPoint.Type.VINE:
 				await _animate_vine(player, spawn_point)
 			else:
 				await _animate_pipe(player, spawn_point)
-			
 			# 恢复角色控制和无敌计时
 			player.is_spawning = false
 			control_player(player)

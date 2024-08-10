@@ -15,6 +15,9 @@
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_d7qaa")
+world_type = null
+level_time = null
+level_name = "1-1"
 
 [node name="1-1" type="Sprite2D" parent="."]
 position = Vector2(1792, 496)
@@ -29,7 +32,7 @@ door_distance = 6
 next_level = "1-1"
 
 [node name="SpawnPoint" type="Marker2D" parent="."]
-position = Vector2(48, 224)
+position = Vector2(3136, 224)
 script = ExtResource("5_g0s2g")
 
 [node name="SpawnPoint2" type="Marker2D" parent="."]

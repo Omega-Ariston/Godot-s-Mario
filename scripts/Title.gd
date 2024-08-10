@@ -11,7 +11,7 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 		# TODO: 续关的逻辑
 	if event.is_action_pressed("start"):
-		GameManager.change_scene("res://scenes/worlds/start.tscn")
+		GameManager.start_scene("1-1")
 
 func setup_camera() -> void:
 	var used := tile_map.get_used_rect()
