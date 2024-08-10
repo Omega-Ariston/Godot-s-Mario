@@ -11,6 +11,7 @@ enum Spawn_Direction {
 }
 
 enum Type {
+	NONE,
 	PIPE,
 	VINE,
 }
