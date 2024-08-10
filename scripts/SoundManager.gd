@@ -35,7 +35,7 @@ func play_world_bgm() -> void:
 
 func course_clear() -> void:
 	bgm_player.stream = courseClearBGM
-	bgm_player.play()	
+	bgm_player.play()
 
 func go_star() -> void:
 	bgm_player.stream = starBGM

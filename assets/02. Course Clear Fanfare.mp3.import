@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://1vtiqiuclkpa"
+path="res://.godot/imported/02. Course Clear Fanfare.mp3-448fba8aa7332b96309f84877284ffdd.mp3str"
+
+[deps]
+
+source_file="res://assets/02. Course Clear Fanfare.mp3"
+dest_files=["res://.godot/imported/02. Course Clear Fanfare.mp3-448fba8aa7332b96309f84877284ffdd.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

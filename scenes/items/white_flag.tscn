@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://b4igl1ywray2k"]
+
+[ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/graphics/items-objects.png" id="1_rtcsf"]
+
+[node name="WhiteFlag" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_rtcsf")
+region_enabled = true
+region_rect = Rect2(128, 0, 16, 16)

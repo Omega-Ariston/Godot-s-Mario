@@ -1,11 +1,11 @@
 extends Node
 
-var max_left_x: float
 const CHANGE_SCENE_DURATION := 0.5
 const VINE_RISE_COUNT := 4
 
 var default_gravity := ProjectSettings.get("physics/2d/default_gravity") as float
-
+var max_left_x: float
+var current_spawn_point: SpawnPoint
 var life := 3
 
 @onready var scene_changer: ColorRect = $CanvasLayer/SceneChanger
@@ -22,17 +22,48 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("test"):
 		var player := get_tree().get_first_node_in_group("Player") as Player
 		player.can_onfire = true
+	
+func end_level(next_level: String) -> void:
+	# 判断是否要放烟花
+	var end_num := StatusBar.time % 10 as int
+	# 计分
+	# 升旗
+	# 等通关音乐和计分结束
+	await SoundManager.bgm_player.finished
+	# 如果有烟花就放烟花
+	# 切换到下一关的开关画面
+	var start_scene_path := "res://scenes/worlds/start.tscn"
+	var status := {
+		"level": next_level,
+		"time": -1, # 切屏界面不显示时间，用-1表示
+	}
+	change_scene(start_scene_path, {"status": status})
 
-func get_level_scene_path(world: int, level: int, point: String = "") -> String:
-		return "res://scenes/worlds/" + str(world) + "-" + str(level) + point + ".tscn"
+func get_level_scene_path(level: String) -> String:
+		return "res://scenes/worlds/" + level + ".tscn"
 
 func change_scene(path: String, params: Dictionary = {}) -> void:
 	# 黑幕设为不透明
 	scene_changer.color.a = 1.0	
-	# 重置相机镜头
+
+	# 设置状态栏数据，在关卡切换时使用
+	if params.has("status"):
+		var status = params.get("status") as Dictionary
+		if status.has("coin"):
+			StatusBar.coin = status.get("coin")
+		if status.has("life"):
+			StatusBar.life = status.get("life")
+		if status.has("level"):
+			StatusBar.level = status.get("level")
+		if status.has("time"):
+			StatusBar.time = status.get("time")
+			
+	# 重置相机镜头并解除暂停
 	max_left_x = 0
 	var tree := get_tree()
 	tree.paused = false
+	
+	# 切换场景
 	var scene_change_timer := tree.create_timer(CHANGE_SCENE_DURATION)
 	tree.change_scene_to_file(path)
 	await tree.tree_changed
@@ -50,6 +81,8 @@ func change_scene(path: String, params: Dictionary = {}) -> void:
 			# 找到指定点
 			if point.name == spawn_point_name:
 				spawn_point = point
+	else:
+		spawn_point = current_spawn_point
 	
 	# 恢复屏幕
 	await scene_change_timer.timeout
@@ -88,13 +121,13 @@ func change_scene(path: String, params: Dictionary = {}) -> void:
 func uncontrol_player(player: Player) -> void:
 	player.state_machine.enabled = false
 	player.velocity = Vector2.ZERO
-	player.collision_shape_2d.set_deferred("disabled", true)
+	# player.collision_shape_2d.set_deferred("disabled", true)
 	player.set_process_input(false)
 	player.controllable = false
 
 func control_player(player: Player) -> void:
 	player.state_machine.enabled = true
-	player.collision_shape_2d.set_deferred("disabled", false)
+	# player.collision_shape_2d.set_deferred("disabled", false)
 	player.set_process_input(true)
 	player.controllable = true
 

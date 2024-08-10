@@ -2,6 +2,7 @@ class_name FlagPole
 extends Node2D
 
 @export var door_distance := 6 as int
+@export var next_level: String
 
 @onready var flag: Sprite2D = $Flag
 @onready var climable: Climable = $Climable
@@ -12,12 +13,11 @@ var player_slipping := false
 var player: Player
 var player_destination_y: float
 
-signal player_entered
-
 func _on_climable_body_entered(body: Node2D) -> void:
 	if body is Player:
 		player = body
 		SoundManager.pause_bgm()
+		GameManager.game_timer.stop()
 		SoundManager.play_sfx("FlagPole")
 		# 降落旗子
 		var flag_tween := create_tween()
@@ -45,7 +45,7 @@ func _physics_process(_delta: float) -> void:
 			player.input_x = 0
 			player.velocity = Vector2.ZERO
 			player.visible = false
-			player_entered.emit()
+			GameManager.end_level(next_level)
 
 func _on_flag_down_finished() -> void:
 	# 旗子落完角色就要停了

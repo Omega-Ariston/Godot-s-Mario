@@ -35,6 +35,12 @@ window/size/window_height_override=648
 window/stretch/mode="canvas_items"
 window/size/always_on_top.editor=true
 
+[file_customization]
+
+folder_colors={
+"res://scenes/characters/": "blue"
+}
+
 [gui]
 
 theme/custom_font="res://assets/font/super-mario-bros-nes.ttf"
