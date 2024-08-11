@@ -3,13 +3,15 @@ extends Node
 const CHANGE_SCENE_DURATION := 0.5
 const VINE_RISE_COUNT := 4
 const TRANSITION_SCENE_PATH := "res://scenes/worlds/transition.tscn"
+const LIFE_COUNT := 3
 
 var default_gravity := ProjectSettings.get("physics/2d/default_gravity") as float
 var max_left_x: float
 
 var current_level: String
 var current_spawn_point: String
-var life := 3
+var player_current_mode: Player.Mode
+var life := LIFE_COUNT
 
 @onready var scene_changer: ColorRect = $CanvasLayer/SceneChanger
 @onready var game_timer: Timer = $GameTimer
@@ -26,14 +28,17 @@ func _unhandled_input(event: InputEvent) -> void:
 		var player := get_tree().get_first_node_in_group("Player") as Player
 		player.can_onfire = true
 
-func restore_life() -> void:
-	life = 3
+func restore_status() -> void:
+	current_level = ""
+	current_spawn_point = ""
+	player_current_mode = Player.Mode.SMALL
+	life = LIFE_COUNT
 
 func add_life() -> void:
 	SoundManager.play_sfx("ExtraLife")
 	life += 1
 	
-func end_level(next_level: String) -> void:
+func end_level(player: Player, next_level: String) -> void:
 	# 判断是否要放烟花
 	var end_num := StatusBar.time % 10 as int
 	# 计分
@@ -41,6 +46,8 @@ func end_level(next_level: String) -> void:
 	# 等通关音乐和计分结束
 	await SoundManager.bgm_player.finished
 	# 如果有烟花就放烟花
+	# 记录玩家状态
+	player_current_mode = player.curr_mode
 	# 切换到下一关的开头画面
 	transition_scene(next_level)
 
@@ -98,8 +105,7 @@ func change_scene(path: String, params: Dictionary = {}) -> void:
 	# 初始化玩家
 	var player := tree.get_first_node_in_group("Player") as Player
 	player.direction = player.Direction.RIGHT
-	if params.has("player_mode"):
-		player.curr_mode = params.get("player_mode")
+	player.curr_mode = player_current_mode
 	# 初始化出生点
 	var spawn_point: SpawnPoint
 	var spawn_point_name = params.get("spawn_point") as String if params.has("spawn_point") else current_spawn_point

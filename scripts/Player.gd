@@ -412,6 +412,7 @@ func transition_state(from: State, to: State) -> void:
 			SoundManager.pause_bgm()
 			SoundManager.play_sfx("MarioDie")
 			GameManager.life -= 1
+			GameManager.player_current_mode = Mode.SMALL
 			# 到前面来
 			z_index = 5
 			dying_timer.start()

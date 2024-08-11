@@ -23,7 +23,7 @@ func _ready() -> void:
 		game_over.visible = true
 		await GameManager.screen_ready
 		await SoundManager.play_sfx("GameOver").finished
-		GameManager.restore_life()
+		GameManager.restore_status()
 		GameManager.title_scene()
 	else:
 		# 普通切关卡

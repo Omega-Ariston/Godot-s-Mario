@@ -45,7 +45,7 @@ func _physics_process(_delta: float) -> void:
 			player.input_x = 0
 			player.velocity = Vector2.ZERO
 			player.visible = false
-			GameManager.end_level(next_level)
+			GameManager.end_level(player, next_level)
 
 func _on_flag_down_finished() -> void:
 	# 旗子落完角色就要停了
