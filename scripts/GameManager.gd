@@ -2,7 +2,7 @@ extends Node
 
 const CHANGE_SCENE_DURATION := 0.5
 const VINE_RISE_COUNT := 4
-const START_SCENE_PATH := "res://scenes/worlds/start.tscn"
+const TRANSITION_SCENE_PATH := "res://scenes/worlds/transition.tscn"
 
 var default_gravity := ProjectSettings.get("physics/2d/default_gravity") as float
 var max_left_x: float
@@ -25,6 +25,13 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("test"):
 		var player := get_tree().get_first_node_in_group("Player") as Player
 		player.can_onfire = true
+
+func restore_life() -> void:
+	life = 3
+
+func add_life() -> void:
+	SoundManager.play_sfx("ExtraLife")
+	life += 1
 	
 func end_level(next_level: String) -> void:
 	# 判断是否要放烟花
@@ -35,28 +42,47 @@ func end_level(next_level: String) -> void:
 	await SoundManager.bgm_player.finished
 	# 如果有烟花就放烟花
 	# 切换到下一关的开头画面
-	start_scene(next_level)
+	transition_scene(next_level)
 
 func get_level_scene_path(level: String) -> String:
 		return "res://scenes/worlds/" + level + ".tscn"
 
-func start_scene(level: String):
+func title_scene() -> void:
 	# 黑幕设为不透明
 	scene_changer.color.a = 1.0	
+	# 切换标题场景
+	var title_scene_path := "res://scenes/worlds/title.tscn"
+	var tree = get_tree()
+	tree.change_scene_to_file(title_scene_path)
+	await tree.tree_changed
+	# 恢复屏幕
+	var scene_change_timer = tree.create_timer(CHANGE_SCENE_DURATION)
+	await scene_change_timer.timeout
+	scene_changer.color.a = 0.0
+
+func transition_scene(level: String, black=true) -> void:
+	if black:
+		# 黑幕设为不透明
+		scene_changer.color.a = 1.0	
 	# 重置相机镜头并解除暂停
 	max_left_x = 0
 	var tree := get_tree()
 	tree.paused = false
 	# 设置状态栏
 	StatusBar.level = level
-	StatusBar.time = -1
-	# 切换场景
-	var scene_change_timer := tree.create_timer(CHANGE_SCENE_DURATION / 2)
-	tree.change_scene_to_file(START_SCENE_PATH)
+	var scene_change_timer: SceneTreeTimer
+	if black:
+		# 切换场景
+		scene_change_timer = tree.create_timer(CHANGE_SCENE_DURATION / 2)
+	tree.change_scene_to_file(TRANSITION_SCENE_PATH)
 	await tree.tree_changed
-	# 恢复屏幕
-	await scene_change_timer.timeout
-	scene_changer.color.a = 0.0
+	if black:
+		# 恢复屏幕
+		await scene_change_timer.timeout
+		scene_changer.color.a = 0.0
+		screen_ready.emit()
+	else:
+		screen_ready.emit()
 
 func change_scene(path: String, params: Dictionary = {}) -> void:
 	# 黑幕设为不透明

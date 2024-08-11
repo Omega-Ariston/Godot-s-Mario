@@ -5,7 +5,7 @@ extends CanvasLayer
 		if not is_node_ready():
 			await ready
 		time = v
-		time_label.text = 'Time\n' + (str(time) if time != -1 else '')
+		time_label.text = 'Time\n' + (("%03d" % time) if time != -1 else '')
 		
 @export var level: String = "1-1": # 关卡编号
 	set(v):
@@ -33,3 +33,6 @@ var coin := 0:
 @onready var level_label: RichTextLabel = $Level
 @onready var coin_label: RichTextLabel = $Coin
 
+func initialize() -> void:
+	score = 0
+	coin = 0

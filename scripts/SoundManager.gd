@@ -10,11 +10,12 @@ var underwaterBGM := preload("res://assets/sounds/04. Underwater BGM.mp3")
 var castleBGM := preload("res://assets/sounds/05. Castle BGM.mp3")
 var starBGM := preload("res://assets/sounds/Super_Star_theme.ogg")
 
-func play_sfx(sfx_name: String) -> void:
+func play_sfx(sfx_name: String) -> AudioStreamPlayer:
 	var audio_player := sfx.get_node(sfx_name) as AudioStreamPlayer
 	if not audio_player:
 		return
 	audio_player.play()
+	return audio_player
 
 func play_world_bgm() -> void:
 	var world := get_tree().root.get_node("World") as World

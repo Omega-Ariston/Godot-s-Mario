@@ -15,9 +15,6 @@
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_87a84")
-world_type = null
-level_time = null
-level_name = null
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource("2_j8km5")

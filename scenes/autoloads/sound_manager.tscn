@@ -53,7 +53,7 @@ bus = &"SFX"
 stream = ExtResource("7_3qqrw")
 bus = &"SFX"
 
-[node name="Gameover" type="AudioStreamPlayer" parent="SFX"]
+[node name="GameOver" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource("8_hrke7")
 bus = &"SFX"
 

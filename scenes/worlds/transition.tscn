@@ -1,0 +1,74 @@
+[gd_scene load_steps=3 format=3 uid="uid://4fkljtkgnspv"]
+
+[ext_resource type="Script" path="res://scripts/Transition.gd" id="1_f7d2q"]
+[ext_resource type="Texture2D" uid="uid://dfg5kaxqbfu1d" path="res://assets/graphics/mario.png" id="1_g775h"]
+
+[node name="Transition" type="Node2D"]
+script = ExtResource("1_f7d2q")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 256.0
+offset_bottom = 240.0
+color = Color(0, 0, 0, 1)
+
+[node name="LevelStart" type="Node2D" parent="."]
+visible = false
+
+[node name="Level" type="RichTextLabel" parent="LevelStart"]
+offset_left = 88.0
+offset_top = 80.0
+offset_right = 168.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 8
+text = "WORLD 1-1"
+scroll_active = false
+
+[node name="Multiply" type="RichTextLabel" parent="LevelStart"]
+offset_left = 120.0
+offset_top = 111.0
+offset_right = 128.0
+offset_bottom = 119.0
+theme_override_font_sizes/normal_font_size = 7
+text = "x"
+scroll_active = false
+
+[node name="Life" type="RichTextLabel" parent="LevelStart"]
+offset_left = 128.0
+offset_top = 110.0
+offset_right = 152.0
+offset_bottom = 118.0
+theme_override_font_sizes/normal_font_size = 8
+text = "  3"
+scroll_active = false
+
+[node name="Sprite2D" type="Sprite2D" parent="LevelStart"]
+position = Vector2(104, 112)
+texture = ExtResource("1_g775h")
+region_enabled = true
+region_rect = Rect2(176, 32, 16, 16)
+
+[node name="TimeUp" type="Node2D" parent="."]
+visible = false
+
+[node name="TimeUp" type="RichTextLabel" parent="TimeUp"]
+offset_left = 88.0
+offset_top = 120.0
+offset_right = 159.0
+offset_bottom = 128.0
+theme_override_font_sizes/normal_font_size = 8
+bbcode_enabled = true
+text = "[center]time up[/center]"
+scroll_active = false
+
+[node name="GameOver" type="Node2D" parent="."]
+visible = false
+
+[node name="GameOver" type="RichTextLabel" parent="GameOver"]
+offset_left = 80.0
+offset_top = 120.0
+offset_right = 168.0
+offset_bottom = 128.0
+theme_override_font_sizes/normal_font_size = 8
+bbcode_enabled = true
+text = "[center]game over[/center]"
+scroll_active = false

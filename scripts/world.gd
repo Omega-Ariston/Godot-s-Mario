@@ -2,7 +2,7 @@ class_name World
 extends Node2D
 
 @export var world_type: Type
-@export var level_time: int = 400  # 8-1和8-3只有300秒，其余关是400秒
+@export var level_time: int  # 8-1和8-3只有300秒，其余关是400秒
 @export var level_name: String
 
 @onready var tile_map: TileMap = $TileMap

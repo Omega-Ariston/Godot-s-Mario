@@ -220,7 +220,7 @@ func get_next_state(state: State) -> int:
 	if is_spawning:
 		return State.IDLE if state != State.IDLE else state_machine.KEEP_CURRENT
 	
-	if global_position.y > CLIFF_LIMIT:
+	if global_position.y > CLIFF_LIMIT or StatusBar.time == 0:
 		return State.DEAD if state != State.DEAD else state_machine.KEEP_CURRENT
 	
 	if is_hurt:
@@ -411,6 +411,7 @@ func transition_state(from: State, to: State) -> void:
 			small_animator.play("dead")
 			SoundManager.pause_bgm()
 			SoundManager.play_sfx("MarioDie")
+			GameManager.life -= 1
 			# 到前面来
 			z_index = 5
 			dying_timer.start()
@@ -451,7 +452,7 @@ func hurt(enemy: Enemy) -> void:
 		is_hurt = true
 
 func dead() -> void:
-	GameManager.start_scene(GameManager.current_level)
+	GameManager.transition_scene(GameManager.current_level)
 
 
 func _is_safe_state(state: State) -> bool:
@@ -475,7 +476,7 @@ func _eat(item: Node) -> void:
 		if item.mushroom_type == Bumpable.SpawnItem.UPGRADE:
 			can_enlarge = true
 		elif item.mushroom_type == Bumpable.SpawnItem.LIFE:
-			SoundManager.play_sfx("ExtraLife")
+			GameManager.add_life()
 	elif item is Flower:
 		can_onfire = true
 	elif item is Star:
