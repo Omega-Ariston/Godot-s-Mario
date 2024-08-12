@@ -21,6 +21,7 @@ GameManager="*res://scenes/autoloads/game_manager.tscn"
 Variables="*res://scripts/Variables.gd"
 SoundManager="*res://scenes/autoloads/sound_manager.tscn"
 StatusBar="*res://scenes/text/status_bar.tscn"
+ScoreManager="*res://scenes/autoloads/score_manager.tscn"
 
 [debug]
 

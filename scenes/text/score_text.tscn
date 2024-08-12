@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3kxtm3vtl8sn"]
+
+[ext_resource type="Script" path="res://scripts/ScoreText.gd" id="1_agams"]
+
+[node name="ScoreText" type="CanvasLayer"]
+script = ExtResource("1_agams")
+
+[node name="Text" type="RichTextLabel" parent="."]
+offset_left = -6.0
+offset_top = -3.0
+offset_right = 38.0
+offset_bottom = 8.0
+scale = Vector2(0.5, 1)
+theme_override_font_sizes/normal_font_size = 8
+scroll_active = false

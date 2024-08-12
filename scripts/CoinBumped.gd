@@ -2,6 +2,7 @@ class_name CoinBumped
 extends CharacterBody2D
 
 const BOUNCE_VELOCITY := -300.0
+const SCORE := 200
 
 @onready var timer: Timer = $Timer
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -21,4 +22,5 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func _on_timer_timeout() -> void:
+	ScoreManager.add_score(position, SCORE, ScoreText.Speed.SLOW)
 	queue_free()
