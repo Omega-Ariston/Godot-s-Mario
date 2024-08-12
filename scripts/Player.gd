@@ -400,8 +400,10 @@ func transition_state(from: State, to: State) -> void:
 			is_hurt = false
 			if global_position.y > CLIFF_LIMIT:
 				sprite_2d.visible = false # 摔死的时候不让死亡动画被看见
+			else:
+				# 非摔死的情况下才会冻结屏幕
+				get_tree().paused = true # 静止游戏场景
 			velocity = Vector2.ZERO
-			get_tree().paused = true # 静止游戏场景
 			GameManager.game_timer.stop() # 停止计时
 			collision_shape_2d.set_deferred("disabled", true)
 			set_process_input(false)
