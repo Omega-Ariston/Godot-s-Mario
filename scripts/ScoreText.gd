@@ -16,7 +16,7 @@ enum Speed {
 func initialize(pos: Vector2, text: String, speed: Speed) -> void:
 	if not is_node_ready():
 		await ready
-	text_label.position = Vector2(128, 128)
+	text_label.position = pos
 	text_label.text = text
 	var tween := create_tween()
 	tween.tween_property(text_label, "position:y", text_label.position.y - RISE_DISTANCE, SLOW_DURATION if speed == Speed.SLOW else FAST_DURATION)
