@@ -19,6 +19,7 @@ func initialize(pos: Vector2, text: String, speed: Speed) -> void:
 	text_label.position = pos
 	text_label.text = text
 	var tween := create_tween()
+	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	tween.tween_property(text_label, "position:y", text_label.position.y - RISE_DISTANCE, SLOW_DURATION if speed == Speed.SLOW else FAST_DURATION)
 	await tween.finished
 	queue_free()

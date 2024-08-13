@@ -22,5 +22,5 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func _on_timer_timeout() -> void:
-	ScoreManager.add_score(get_global_transform_with_canvas().origin, SCORE, ScoreText.Speed.SLOW)
+	ScoreManager.add_score(self)
 	queue_free()

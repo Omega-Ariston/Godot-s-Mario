@@ -38,7 +38,7 @@ func transition_state(_from: State, to: State) -> void:
 		State.WALK:
 			animation_player.play("walk")
 		State.STOMPED:
-			ScoreManager.add_score(get_global_transform_with_canvas().origin, SCORE, ScoreText.Speed.FAST)
+			ScoreManager.add_score(self)
 			animation_player.play("stomped")
 		State.DEAD:
 			die()
