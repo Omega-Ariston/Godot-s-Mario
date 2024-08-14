@@ -21,7 +21,7 @@ func add_life(pos: Vector2) -> void:
 	var instance := load("res://scenes/text/score_text.tscn").instantiate() as ScoreText
 	# 命数生成在物体上方一个格子
 	var new_pos = pos - Vector2(0, Variables.TILE_SIZE.y)
-	instance.initialize(new_pos, "1 UP", ScoreText.Speed.FAST)
+	instance.initialize(new_pos, "1UP", ScoreText.Speed.FAST)
 	get_tree().root.add_child(instance)
 
 func _get_score(item: Node2D) -> int:

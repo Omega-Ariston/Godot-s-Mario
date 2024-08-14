@@ -19,6 +19,6 @@ func _ready() -> void:
 	brick_2.apply_central_impulse(Vector2(HIGHER_IMPULSE.x, -HIGHER_IMPULSE.y))
 	brick_3.apply_central_impulse(Vector2(-LOWER_IMPULSE.x, -LOWER_IMPULSE.y))
 	brick_4.apply_central_impulse(Vector2(LOWER_IMPULSE.x, -LOWER_IMPULSE.y))
-	await get_tree().create_timer(1).timeout
+	await get_tree().create_timer(1, false).timeout
 	queue_free()
 
