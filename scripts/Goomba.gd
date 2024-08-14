@@ -8,7 +8,12 @@ enum State {
 }
 
 const SPEED := 30.0
-const SCORE := 100
+const SCORE := {
+	"stomped" : 100,
+	"hit": 100,
+	"charged": 100,
+	"bumped": 100,
+}
 
 func get_next_state(state: State) -> int:
 	match state:
@@ -38,7 +43,13 @@ func transition_state(_from: State, to: State) -> void:
 		State.WALK:
 			animation_player.play("walk")
 		State.STOMPED:
-			ScoreManager.add_score(self)
+			ScoreManager.add_score(self, SCORE["stomped"])
 			animation_player.play("stomped")
 		State.DEAD:
+			if charged:
+				ScoreManager.add_score(self, SCORE["charged"])
+			elif hit:
+				ScoreManager.add_score(self, SCORE["hit"])
+			elif bumped:
+				ScoreManager.add_score(self, SCORE["bumped"])
 			die()

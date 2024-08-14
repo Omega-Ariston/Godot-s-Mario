@@ -21,10 +21,18 @@ enum State {
 }
 
 const SHOOTABLE_STATE := [State.SHELL, State.RECOVERING]
-
 const SPEED := 30.0
 const SHOOT_SPEED := 150.0
 const JUMP_VELOCITY := -230.0
+const SCORE := {
+	"stomped" : 100,
+	"hit": 200,
+	"charged": 200,
+	"bumped": 100,
+	"shoot_on_shell": 400,
+	"shoot_on_recover": 500,
+}
+
 # 龟壳、龟肉、龟壳边缘
 const COLOR_RED := [
 	Vector4(0.61, 0.15, 0.13, 1.0),
@@ -118,17 +126,29 @@ func transition_state(from: State, to: State) -> void:
 			recover_timer.start()
 			direction = Direction.RIGHT if direction == Direction.LEFT else Direction.LEFT
 			animation_player.play("shell")
+			ScoreManager.add_score(self, SCORE["stomped"])
 		State.SHOOT:
 			stomped = false
 			floor_checker.enabled = false
 			# 不再碰到敌人反弹
 			set_collision_mask_value(3, false)
 			animation_player.play("shell")
+			match from:
+				State.SHELL:
+					ScoreManager.add_score(self, SCORE["shoot_on_shell"])
+				State.RECOVERING:
+					ScoreManager.add_score(self, SCORE["shoot_on_recover"])
 		State.RECOVERING:
 			wake_up_timer.start()
 			animation_player.play("recovering")
 		State.DEAD:
 			animation_player.play("shell")
+			if charged:
+				ScoreManager.add_score(self, SCORE["charged"])
+			elif hit:
+				ScoreManager.add_score(self, SCORE["hit"])
+			elif bumped:
+				ScoreManager.add_score(self, SCORE["bumped"])
 			die(false)
 
 # 被踩

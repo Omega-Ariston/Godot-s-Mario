@@ -4,6 +4,7 @@ extends CharacterBody2D
 const SPAWN_DURATION := 1.0
 const SPEED := 60.0
 const JUMP_VELOCITY := -230.0
+const SCORE := 1000
 
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer

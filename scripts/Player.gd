@@ -478,14 +478,17 @@ func _eat(item: Node) -> void:
 	if item is Mushroom:
 		if item.mushroom_type == Bumpable.SpawnItem.UPGRADE:
 			can_enlarge = true
+			ScoreManager.add_score(item, Mushroom.SCORE)
 		elif item.mushroom_type == Bumpable.SpawnItem.LIFE:
 			ScoreManager.add_life(item.get_global_transform_with_canvas().origin)
 	elif item is Flower:
 		can_onfire = true
+		ScoreManager.add_score(item, Flower.SCORE)
 	elif item is Star:
 		_set_shader_enabled(true)
 		blink_animator.play("star")
 		is_under_star = true
+		ScoreManager.add_score(item, Star.SCORE)
 		SoundManager.go_star()
 		star_timer.start()
 

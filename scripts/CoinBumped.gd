@@ -22,5 +22,5 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func _on_timer_timeout() -> void:
-	ScoreManager.add_score(self)
+	ScoreManager.add_score(self, SCORE)
 	queue_free()

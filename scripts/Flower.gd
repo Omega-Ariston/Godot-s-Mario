@@ -4,6 +4,7 @@ extends Node2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 const SPAWN_DURATION := 1.0
+const SCORE := 1000
 
 func _ready() -> void:
 	animation_player.play("idle")

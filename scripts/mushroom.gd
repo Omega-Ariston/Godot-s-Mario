@@ -10,6 +10,7 @@ const SPAWN_DURATION := 1.0
 const MOVE_DELAY := 0.1
 const SPEED := 60.0
 const BOUNCE_SPEED := -200
+const SCORE := 1000
 
 var direction := 1
 var spawning := true
