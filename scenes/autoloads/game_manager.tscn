@@ -16,4 +16,8 @@ color = Color(0, 0, 0, 0)
 [node name="GameTimer" type="Timer" parent="."]
 wait_time = 0.5
 
+[node name="ScoreTimer" type="Timer" parent="."]
+wait_time = 0.025
+
 [connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]

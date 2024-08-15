@@ -1,10 +1,30 @@
-[gd_scene load_steps=2 format=3 uid="uid://b4igl1ywray2k"]
+[gd_scene load_steps=3 format=3 uid="uid://b4igl1ywray2k"]
 
+[ext_resource type="Script" path="res://scripts/WhiteFlag.gd" id="1_4oygs"]
 [ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/graphics/items-objects.png" id="1_rtcsf"]
 
-[node name="WhiteFlag" type="Node2D"]
+[node name="WhiteFlag" type="Node2D" groups=["WhiteFlag"]]
+script = ExtResource("1_4oygs")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_rtcsf")
 region_enabled = true
 region_rect = Rect2(128, 0, 16, 16)
+
+[node name="Firework1" type="Marker2D" parent="."]
+position = Vector2(-16, -72)
+
+[node name="Firework2" type="Marker2D" parent="."]
+position = Vector2(-48, -24)
+
+[node name="Firework3" type="Marker2D" parent="."]
+position = Vector2(48, -56)
+
+[node name="Firework4" type="Marker2D" parent="."]
+position = Vector2(48, -8)
+
+[node name="Firework5" type="Marker2D" parent="."]
+position = Vector2(-8, -56)
+
+[node name="Firework6" type="Marker2D" parent="."]
+position = Vector2(-48, -24)

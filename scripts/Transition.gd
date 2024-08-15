@@ -9,10 +9,10 @@ extends Node2D
 
 
 func _ready() -> void:
-	var current_time = StatusBar.time
 	# 先显示TimeUp，再显示GameOver，最后是普通切关
 	StatusBar.time = -1
-	if current_time == 0:
+	if GameManager.is_time_up:
+		GameManager.is_time_up = false
 		time_up.visible = true
 		await get_tree().create_timer(2).timeout
 		if GameManager.life > 0:

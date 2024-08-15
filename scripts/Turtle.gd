@@ -126,7 +126,7 @@ func transition_state(from: State, to: State) -> void:
 			recover_timer.start()
 			direction = Direction.RIGHT if direction == Direction.LEFT else Direction.LEFT
 			animation_player.play("shell")
-			ScoreManager.add_score(self, SCORE["stomped"])
+			ScoreManager.add_score(SCORE["stomped"], self)
 		State.SHOOT:
 			stomped = false
 			floor_checker.enabled = false
@@ -135,20 +135,20 @@ func transition_state(from: State, to: State) -> void:
 			animation_player.play("shell")
 			match from:
 				State.SHELL:
-					ScoreManager.add_score(self, SCORE["shoot_on_shell"])
+					ScoreManager.add_score(SCORE["shoot_on_shell"], self)
 				State.RECOVERING:
-					ScoreManager.add_score(self, SCORE["shoot_on_recover"])
+					ScoreManager.add_score(SCORE["shoot_on_recover"], self)
 		State.RECOVERING:
 			wake_up_timer.start()
 			animation_player.play("recovering")
 		State.DEAD:
 			animation_player.play("shell")
 			if charged:
-				ScoreManager.add_score(self, SCORE["charged"])
+				ScoreManager.add_score(SCORE["charged"], self)
 			elif hit:
-				ScoreManager.add_score(self, SCORE["hit"])
+				ScoreManager.add_score(SCORE["hit"], self)
 			elif bumped:
-				ScoreManager.add_score(self, SCORE["bumped"])
+				ScoreManager.add_score(SCORE["bumped"], self)
 			die(false)
 
 # 被踩

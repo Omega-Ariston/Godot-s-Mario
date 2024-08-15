@@ -27,6 +27,7 @@ position = Vector2(3272, 160)
 
 [node name="FlagPole" parent="." instance=ExtResource("7_tvls3")]
 position = Vector2(3176, 224)
+door_distance = 6
 next_level = "1-1"
 
 [node name="SpawnPoint" type="Marker2D" parent="."]
@@ -216,67 +217,51 @@ spawn_item = 4
 
 [node name="Goomba" parent="Enemies/Goombas" instance=ExtResource("8_u6ctx")]
 position = Vector2(360, 224)
-direction = -1
 
 [node name="Goomba2" parent="Enemies/Goombas" instance=ExtResource("8_u6ctx")]
 position = Vector2(648, 224)
-direction = -1
 
 [node name="Goomba3" parent="Enemies/Goombas" instance=ExtResource("8_u6ctx")]
 position = Vector2(824, 224)
-direction = -1
 
 [node name="Goomba4" parent="Enemies/Goombas" instance=ExtResource("8_u6ctx")]
 position = Vector2(848, 224)
-direction = -1
 
 [node name="Goomba5" parent="Enemies/Goombas" instance=ExtResource("8_u6ctx")]
 position = Vector2(1288, 96)
-direction = -1
 
 [node name="Goomba6" parent="Enemies/Goombas" instance=ExtResource("8_u6ctx")]
 position = Vector2(1320, 96)
-direction = -1
 
 [node name="Goomba7" parent="Enemies/Goombas" instance=ExtResource("8_u6ctx")]
 position = Vector2(1560, 224)
-direction = -1
 
 [node name="Goomba8" parent="Enemies/Goombas" instance=ExtResource("8_u6ctx")]
 position = Vector2(1584, 224)
-direction = -1
 
 [node name="Goomba9" parent="Enemies/Goombas" instance=ExtResource("8_u6ctx")]
 position = Vector2(1832, 224)
-direction = -1
 
 [node name="Goomba10" parent="Enemies/Goombas" instance=ExtResource("8_u6ctx")]
 position = Vector2(1856, 224)
-direction = -1
 
 [node name="Goomba11" parent="Enemies/Goombas" instance=ExtResource("8_u6ctx")]
 position = Vector2(1992, 224)
-direction = -1
 
 [node name="Goomba12" parent="Enemies/Goombas" instance=ExtResource("8_u6ctx")]
 position = Vector2(2016, 224)
-direction = -1
 
 [node name="Goomba13" parent="Enemies/Goombas" instance=ExtResource("8_u6ctx")]
 position = Vector2(2056, 224)
-direction = -1
 
 [node name="Goomba14" parent="Enemies/Goombas" instance=ExtResource("8_u6ctx")]
 position = Vector2(2080, 224)
-direction = -1
 
 [node name="Goomba15" parent="Enemies/Goombas" instance=ExtResource("8_u6ctx")]
 position = Vector2(2792, 224)
-direction = -1
 
 [node name="Goomba16" parent="Enemies/Goombas" instance=ExtResource("8_u6ctx")]
 position = Vector2(2816, 224)
-direction = -1
 
 [node name="Turtles" type="Node2D" parent="Enemies"]
 
@@ -285,7 +270,5 @@ position = Vector2(1720, 224)
 
 [node name="Player" parent="." instance=ExtResource("4_lihcs")]
 position = Vector2(16, 224)
-curr_mode = null
-direction = null
 
 [node name="Camera2D" type="Camera2D" parent="Player"]

@@ -12,11 +12,14 @@ var current_level: String
 var current_spawn_point: String
 var player_current_mode: Player.Mode
 var life := LIFE_COUNT
+var is_time_up := false
 
 @onready var scene_changer: ColorRect = $CanvasLayer/SceneChanger
 @onready var game_timer: Timer = $GameTimer
+@onready var score_timer: Timer = $ScoreTimer
 
 signal screen_ready
+signal score_counted
 
 func _ready() -> void:
 	scene_changer.color.a = 0.0
@@ -33,19 +36,29 @@ func restore_status() -> void:
 	current_spawn_point = ""
 	player_current_mode = Player.Mode.SMALL
 	life = LIFE_COUNT
+	is_time_up = false
 
 func add_life() -> void:
 	SoundManager.play_sfx("ExtraLife")
 	life += 1
 	
-func end_level(player: Player, next_level: String) -> void:
+func end_level_by_flag_pole(player: Player, next_level: String) -> void:
 	# 判断是否要放烟花
 	var end_num := StatusBar.time % 10 as int
 	# 计分
+	score_timer.start()
+	await score_counted
 	# 升旗
-	# 等通关音乐和计分结束
-	await SoundManager.bgm_player.finished
-	# 如果有烟花就放烟花
+	var white_flag = get_tree().get_first_node_in_group("WhiteFlag") as WhiteFlag
+	await create_tween().tween_property(white_flag, "global_position:y", white_flag.global_position.y - Variables.TILE_SIZE.y * 1.5, 0.5).finished
+	# 如果有烟花就放烟花 
+	if end_num in [1, 3, 6]:
+		await white_flag.play_firework(end_num)
+	# 等通关音乐结束
+	if SoundManager.bgm_player.playing:
+		await SoundManager.bgm_player.finished
+	# 等两秒
+	await get_tree().create_timer(2).timeout
 	# 记录玩家状态
 	player_current_mode = player.curr_mode
 	# 切换到下一关的开头画面
@@ -198,4 +211,18 @@ func _animate_vine(player: Player, spawn_point: SpawnPoint) -> void:
 
 
 func _on_game_timer_timeout() -> void:
-	StatusBar.time -= 1
+	var new_time = StatusBar.time - 1
+	if new_time < 0:
+		GameManager.is_time_up = true
+		game_timer.stop()
+	else:
+		StatusBar.time = new_time
+
+
+func _on_score_timer_timeout() -> void:
+	if StatusBar.time > 0:
+		StatusBar.time -= 1
+		StatusBar.score += 20
+	else:
+		score_timer.stop()
+		score_counted.emit()

@@ -43,13 +43,13 @@ func transition_state(_from: State, to: State) -> void:
 		State.WALK:
 			animation_player.play("walk")
 		State.STOMPED:
-			ScoreManager.add_score(self, SCORE["stomped"])
+			ScoreManager.add_score(SCORE["stomped"], self)
 			animation_player.play("stomped")
 		State.DEAD:
 			if charged:
-				ScoreManager.add_score(self, SCORE["charged"])
+				ScoreManager.add_score(SCORE["charged"], self)
 			elif hit:
-				ScoreManager.add_score(self, SCORE["hit"])
+				ScoreManager.add_score(SCORE["hit"], self)
 			elif bumped:
-				ScoreManager.add_score(self, SCORE["bumped"])
+				ScoreManager.add_score(SCORE["bumped"], self)
 			die()

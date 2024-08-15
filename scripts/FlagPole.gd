@@ -12,6 +12,7 @@ const DOWN_SPEED := 130.0
 var player_slipping := false
 var player: Player
 var player_destination_y: float
+var is_ended := false
 
 func _on_climable_body_entered(body: Node2D) -> void:
 	if body is Player:
@@ -33,19 +34,21 @@ func _on_climable_body_entered(body: Node2D) -> void:
 		
 
 func _physics_process(_delta: float) -> void:
-	if player_slipping:
-		# 控制角色匀速滑行，直到滑到底
-		if is_equal_approx(player.global_position.y, player_destination_y):
-			player_slipping = false
+	if not is_ended:
+		if player_slipping:
+			# 控制角色匀速滑行，直到滑到底
+			if is_equal_approx(player.global_position.y, player_destination_y):
+				player_slipping = false
+			else:
+				player.constant_speed_y = DOWN_SPEED
 		else:
-			player.constant_speed_y = DOWN_SPEED
-	else:
-		# 检查角色是否已经走到了终止点，如果是就把角色杀掉并发出通知
-		if player and player.global_position.x >= global_position.x + Variables.TILE_SIZE.x * door_distance:
-			player.input_x = 0
-			player.velocity = Vector2.ZERO
-			player.visible = false
-			GameManager.end_level(player, next_level)
+			# 检查角色是否已经走到了终止点，如果是就把角色杀掉并发出通知
+			if player and player.global_position.x >= global_position.x + Variables.TILE_SIZE.x * door_distance:
+				player.input_x = 0
+				player.velocity = Vector2.ZERO
+				player.visible = false
+				is_ended = true
+				GameManager.end_level_by_flag_pole(player, next_level)
 
 func _on_flag_down_finished() -> void:
 	# 旗子落完角色就要停了

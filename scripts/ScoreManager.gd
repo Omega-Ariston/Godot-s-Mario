@@ -1,7 +1,7 @@
 extends Node
 
 
-func add_score(item: Node2D, score: int, showText = true) -> void:
+func add_score(score: int, item: Node2D = null, showText = true) -> void:
 	StatusBar.score += score
 	if showText:
 		var instance := load("res://scenes/text/score_text.tscn").instantiate() as ScoreText

@@ -414,8 +414,9 @@ size = Vector2(16, 24)
 
 [node name="Turtle" instance=ExtResource("1_askc4")]
 script = ExtResource("2_8x3o1")
-iq = 0
-type = 0
+iq = null
+type = null
+direction = null
 
 [node name="Graphics" parent="." index="0"]
 position = Vector2(0, -12)

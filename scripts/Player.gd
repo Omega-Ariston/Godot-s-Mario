@@ -220,7 +220,7 @@ func get_next_state(state: State) -> int:
 	if is_spawning:
 		return State.IDLE if state != State.IDLE else state_machine.KEEP_CURRENT
 	
-	if global_position.y > CLIFF_LIMIT or StatusBar.time == 0:
+	if global_position.y > CLIFF_LIMIT or GameManager.is_time_up:
 		return State.DEAD if state != State.DEAD else state_machine.KEEP_CURRENT
 	
 	if is_hurt:
@@ -478,17 +478,17 @@ func _eat(item: Node) -> void:
 	if item is Mushroom:
 		if item.mushroom_type == Bumpable.SpawnItem.UPGRADE:
 			can_enlarge = true
-			ScoreManager.add_score(item, Mushroom.SCORE)
+			ScoreManager.add_score(Mushroom.SCORE, item)
 		elif item.mushroom_type == Bumpable.SpawnItem.LIFE:
 			ScoreManager.add_life(item.get_global_transform_with_canvas().origin)
 	elif item is Flower:
 		can_onfire = true
-		ScoreManager.add_score(item, Flower.SCORE)
+		ScoreManager.add_score(Flower.SCORE, item)
 	elif item is Star:
 		_set_shader_enabled(true)
 		blink_animator.play("star")
 		is_under_star = true
-		ScoreManager.add_score(item, Star.SCORE)
+		ScoreManager.add_score(Star.SCORE, item)
 		SoundManager.go_star()
 		star_timer.start()
 
