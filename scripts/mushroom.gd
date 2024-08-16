@@ -44,5 +44,6 @@ func move(gravity: float, delta: float) -> void:
 
 func on_bumped(bumpable: Bumpable) -> void:
 	# 根据顶砖的位置确定蘑菇的新前进方向，并给予一个小跳的速度
-	direction = -1 if bumpable.global_position.x > global_position.x else 1
-	velocity.y = BOUNCE_SPEED
+	if not spawning:
+		direction = -1 if bumpable.global_position.x > global_position.x else 1
+		velocity.y = BOUNCE_SPEED

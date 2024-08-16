@@ -4,8 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/graphics/items-objects.png" id="2_dwdrb"]
 [ext_resource type="Script" path="res://scripts/Eatable.gd" id="3_5oykf"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_3teqi"]
-radius = 7.9
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lrnxw"]
+radius = 7.0
+height = 14.0
 
 [sub_resource type="Animation" id="Animation_jueac"]
 length = 0.001
@@ -74,7 +75,8 @@ region_enabled = true
 region_rect = Rect2(0, 0, 16, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_3teqi")
+position = Vector2(0, 1)
+shape = SubResource("CapsuleShape2D_lrnxw")
 disabled = true
 debug_color = Color(0, 0.7, 0.385, 0.419608)
 

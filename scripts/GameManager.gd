@@ -51,7 +51,7 @@ func end_level_by_flag_pole(player: Player, next_level: String) -> void:
 	# 升旗
 	var white_flag = get_tree().get_first_node_in_group("WhiteFlag") as WhiteFlag
 	await create_tween().tween_property(white_flag, "global_position:y", white_flag.global_position.y - Variables.TILE_SIZE.y * 1.5, 0.5).finished
-	# 如果有烟花就放烟花 
+	# 如果有烟花就放烟花
 	if end_num in [1, 3, 6]:
 		await white_flag.play_firework(end_num)
 	# 等通关音乐结束

@@ -33,7 +33,7 @@ func do_bump() -> void:
 	await tween.finished
 	
 
-func do_spawn(node: Node, item: SpawnItem, player: Player) -> void:
+func do_spawn(node: Node2D, item: SpawnItem, player: Player) -> void:
 	# 生成被顶出的物品
 	print_debug("Spawning %s" % SpawnItem.keys()[item])
 	var item_instance: Node2D

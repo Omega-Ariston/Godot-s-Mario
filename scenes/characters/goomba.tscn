@@ -7,7 +7,7 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0vfs1"]
 resource_local_to_scene = true
 radius = 7.0
-height = 16.0
+height = 14.0
 
 [sub_resource type="Animation" id="Animation_m8x6m"]
 length = 0.001
@@ -149,9 +149,9 @@ _data = {
 "walk": SubResource("Animation_a7e50")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_vlcgl"]
-resource_local_to_scene = true
-size = Vector2(18, 16)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1qsru"]
+radius = 8.0
+height = 16.0
 
 [node name="Goomba" instance=ExtResource("1_300fq")]
 script = ExtResource("2_joamn")
@@ -166,7 +166,7 @@ region_enabled = true
 region_rect = Rect2(0, 16, 32, 16)
 
 [node name="CollisionShape2D" parent="." index="1"]
-position = Vector2(0, -8)
+position = Vector2(0, -7)
 shape = SubResource("CapsuleShape2D_0vfs1")
 
 [node name="AnimationPlayer" parent="." index="2"]
@@ -180,4 +180,4 @@ scale = Vector2(0.8, 0.8)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
 position = Vector2(0, -8)
-shape = SubResource("RectangleShape2D_vlcgl")
+shape = SubResource("CapsuleShape2D_1qsru")

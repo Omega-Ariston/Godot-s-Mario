@@ -72,7 +72,7 @@ position = Vector2(56, 168)
 spawn_item = 3
 
 [node name="CoinBrick7" parent="." instance=ExtResource("5_j32yr")]
-position = Vector2(80, 168)
+position = Vector2(88, 168)
 spawn_item = 4
 
 [node name="Brick" parent="." instance=ExtResource("6_v0qrt")]
@@ -93,7 +93,7 @@ position = Vector2(184, 200)
 spawn_item = 2
 
 [node name="Brick6" parent="." instance=ExtResource("6_v0qrt")]
-position = Vector2(216, 168)
+position = Vector2(144, 184)
 spawn_item = 3
 
 [node name="Brick7" parent="." instance=ExtResource("6_v0qrt")]
@@ -101,7 +101,7 @@ position = Vector2(248, 201)
 spawn_item = 4
 
 [node name="Brick8" parent="." instance=ExtResource("6_v0qrt")]
-position = Vector2(248, 216)
+position = Vector2(216, 168)
 
 [node name="FlagPole" parent="." instance=ExtResource("7_sokka")]
 position = Vector2(872, 224)
@@ -138,7 +138,7 @@ type = 1
 
 [node name="Turtle" parent="." instance=ExtResource("11_skq4n")]
 position = Vector2(184, 190)
-iq = 1
+direction = 1
 
 [node name="Turtle2" parent="." instance=ExtResource("11_skq4n")]
 position = Vector2(696, 223)
