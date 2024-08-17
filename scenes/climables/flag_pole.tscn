@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://23x77sf5ec41"]
+[gd_scene load_steps=8 format=4 uid="uid://23x77sf5ec41"]
 
 [ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/graphics/items-objects.png" id="1_dv8us"]
 [ext_resource type="Script" path="res://scripts/FlagPole.gd" id="1_h62ks"]
@@ -8,14 +8,8 @@
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7o6wk"]
 texture = ExtResource("2_cx7q5")
 16:8/0 = 0
-16:8/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-16:8/0/physics_layer_0/angular_velocity = 0.0
 16:9/0 = 0
-16:9/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-16:9/0/physics_layer_0/angular_velocity = 0.0
 0:1/0 = 0
-0:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-0:1/0/physics_layer_0/angular_velocity = 0.0
 0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
 [sub_resource type="TileSet" id="TileSet_201kx"]
@@ -30,21 +24,27 @@ size = Vector2(2, 152)
 z_index = -1
 position = Vector2(8, 0)
 script = ExtResource("1_h62ks")
-door_distance = null
-next_level = null
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="pole" type="TileMapLayer" parent="."]
+use_parent_material = true
 position = Vector2(-8, 0)
+tile_map_data = PackedByteArray("AAAAAP//AQAAAAEAAAAAAP7/AQAQAAkAAAAAAP3/AQAQAAkAAAAAAPz/AQAQAAkAAAAAAPv/AQAQAAkAAAAAAPr/AQAQAAkAAAAAAPn/AQAQAAkAAAAAAPj/AQAQAAkAAAAAAPf/AQAQAAkAAAAAAPb/AQAQAAkAAAAAAPX/AQAQAAgAAAA=")
 tile_set = SubResource("TileSet_201kx")
-format = 2
-layer_0/name = "pole"
-layer_0/tile_data = PackedInt32Array(-65536, 1, 1, -131072, 1048577, 9, -196608, 1048577, 9, -262144, 1048577, 9, -327680, 1048577, 9, -393216, 1048577, 9, -458752, 1048577, 9, -524288, 1048577, 9, -589824, 1048577, 9, -655360, 1048577, 9, -720896, 1048577, 8)
 
 [node name="Flag" type="Sprite2D" parent="."]
 position = Vector2(-8, -152)
 texture = ExtResource("1_dv8us")
 region_enabled = true
 region_rect = Rect2(128, 16, 16, 16)
+
+[node name="Score" type="RichTextLabel" parent="."]
+offset_left = 8.0
+offset_top = -24.0
+offset_right = 56.0
+offset_bottom = -16.0
+scale = Vector2(0.5, 1)
+theme_override_font_sizes/normal_font_size = 8
+scroll_active = false
 
 [node name="Climable" type="Area2D" parent="."]
 collision_mask = 3
