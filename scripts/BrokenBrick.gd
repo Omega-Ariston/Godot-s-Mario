@@ -21,4 +21,3 @@ func _ready() -> void:
 	brick_4.apply_central_impulse(Vector2(LOWER_IMPULSE.x, -LOWER_IMPULSE.y))
 	await get_tree().create_timer(1, false).timeout
 	queue_free()
-

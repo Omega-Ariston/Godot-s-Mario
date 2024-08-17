@@ -20,11 +20,11 @@ size = Vector2(2, 12)
 z_index = -1
 script = ExtResource("1_k7lep")
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="TileMap" type="TileMapLayer" parent="."]
+use_parent_material = true
 position = Vector2(-8, -8)
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 3, 0, 4, 0, 3, 0, 0, 0)
 tile_set = SubResource("TileSet_fds51")
-format = 2
-layer_0/tile_data = PackedInt32Array(0, 262147, 3)
 
 [node name="Climable" type="Area2D" parent="."]
 position = Vector2(-8, -8)

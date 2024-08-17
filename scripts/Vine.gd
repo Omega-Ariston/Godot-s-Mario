@@ -1,12 +1,11 @@
 class_name Vine
 extends Node2D
 
-@onready var tile_map: TileMap = $TileMap
+@onready var tile_map: TileMapLayer = $TileMap
 @onready var climable: Climable = $Climable
 @onready var climb_area: CollisionShape2D = $Climable/ClimbArea
 
 const VINE_TILE_COORDS := Vector2(4,4)
-const LAYER := 0
 const SOURCE_ID := 3
 const SINGLE_DURATION := 0.5
 
@@ -29,7 +28,7 @@ func _ready() -> void:
 		tween.tween_property(climb_area, "position:y", climb_area.position.y + tile_height / 2, SINGLE_DURATION)
 		await tween.finished
 		# 生成新藤枝
-		tile_map.set_cell(LAYER, curr_spawn_point, SOURCE_ID, VINE_TILE_COORDS)
+		tile_map.set_cell(curr_spawn_point, SOURCE_ID, VINE_TILE_COORDS)
 		curr_spawn_point.y += 1
 	rise_completed.emit()
 

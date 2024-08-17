@@ -22,4 +22,3 @@ func attach_player(player: Player) -> void:
 	player.global_position.x = climb_area.global_position.x - \
 			player.direction * player.collision_shape_2d.shape.get_rect().size.x / 2
 	player.velocity = Vector2.ZERO
-

@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://ta2kus8p0r8f"]
+[gd_scene load_steps=39 format=4 uid="uid://ta2kus8p0r8f"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_sboe1"]
 [ext_resource type="Texture2D" uid="uid://dfg5kaxqbfu1d" path="res://assets/graphics/mario.png" id="2_pqtkg"]
@@ -9,8 +9,8 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vwxc3"]
 shader = ExtResource("2_ssa0e")
 shader_parameter/shader_enabled = false
-shader_parameter/origin_colors = PackedFloat32Array()
-shader_parameter/new_colors = PackedFloat32Array()
+shader_parameter/origin_colors = PackedVector4Array()
+shader_parameter/new_colors = PackedVector4Array()
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1oigu"]
 radius = 6.0

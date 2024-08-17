@@ -17,4 +17,3 @@ func add_life(pos: Vector2) -> void:
 	var new_pos = pos - Vector2(0, Variables.TILE_SIZE.y)
 	instance.initialize(new_pos, "1UP", ScoreText.Speed.FAST)
 	get_tree().root.add_child(instance)
-
