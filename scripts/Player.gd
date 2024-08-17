@@ -327,9 +327,9 @@ func transition_state(from: State, to: State) -> void:
 			else:
 				_set_shader_enabled(false)
 		State.HURT:
-			curr_mode = Mode.SMALL
-			# 恢复游戏
+			# 恢复时间
 			get_tree().paused = false
+			curr_mode = Mode.SMALL
 			# 进入无敌时间
 			is_invincible = true
 			invincible_timer.start()
@@ -551,7 +551,7 @@ func _set_shader_colors(color: String) -> void:
 
 func _reset_animator(animator: AnimationPlayer) -> void:
 	animator.speed_scale = 1
-	animator.stop()
+	animator.stop(true)
 
 
 func _on_dying_timer_timeout() -> void:
