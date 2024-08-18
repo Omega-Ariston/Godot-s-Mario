@@ -1,7 +1,7 @@
 class_name EnterPoint
 extends Marker2D
 
-@export_file("*.tscn") var new_scene : String
+@export var new_level : String
 @export var spawn_point_name : String
 @export var direction : ENTER_DIRECTION
 
@@ -43,11 +43,17 @@ func _physics_process(_delta: float) -> void:
 			await enter()
 			# 切换场景
 			var params := { "player_mode": player.curr_mode }
-			if spawn_point_name:
-				params["spawn_point"] = spawn_point_name
-			if player.is_under_star:
-				params["star_time_left"] = player.star_timer.time_left
-			GameManager.change_scene(new_scene, params)
+			params["spawn_point"] = spawn_point_name
+			# 判断是否正在切换新关卡
+			if new_level == StatusBar.level:
+				# 直接切，保留当前关卡状态
+				if player.is_under_star:
+					params["star_time_left"] = player.star_timer.time_left
+				params["time"] = StatusBar.time
+				GameManager.change_scene(new_level, params)
+			else:
+				# 进入关卡切换界面
+				GameManager.transition_scene(new_level)
 
 func enter() -> void:
 	entered = true

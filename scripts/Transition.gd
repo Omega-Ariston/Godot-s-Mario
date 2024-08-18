@@ -32,4 +32,4 @@ func _ready() -> void:
 		level_start.visible = true
 		# 等两秒进入正式关
 		await get_tree().create_timer(2).timeout
-		GameManager.change_scene(GameManager.get_level_scene_path(StatusBar.level))
+		GameManager.change_scene(StatusBar.level)
