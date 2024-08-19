@@ -15,6 +15,29 @@ const SCORE := {
 	"bumped": 100,
 }
 
+# 原始颜色，顺序为蘑菇头、蘑菇柄、脚
+const COLOR_ORIGIN := [
+	Vector4(0.6, 0.29, 0.04, 1.0),
+	Vector4(1.0, 0.78, 0.72, 1.0),
+	Vector4(0, 0, 0, 1.0),
+]
+
+const COLOR_CYAN := [
+	Vector4(0.11, 0.40, 0.46, 1.0),
+	Vector4(0.68, 0.91, 0.91, 1.0),
+	Vector4(0.06, 0.19, 0.22, 1.0)
+]
+
+@onready var sprite_2d: Sprite2D = $Graphics/Sprite2D
+
+func _ready() -> void:
+	await GameManager.world_ready
+	var sprite_material = sprite_2d.material as ShaderMaterial
+	sprite_material.set_shader_parameter("origin_colors", COLOR_ORIGIN)
+	if GameManager.current_world_type == World.Type.UNDER:
+		sprite_material.set_shader_parameter("shader_enabled", true)
+		sprite_material.set_shader_parameter("new_colors", COLOR_CYAN)
+
 func get_next_state(state: State) -> int:
 	match state:
 		State.WALK:

@@ -1,8 +1,15 @@
-[gd_scene load_steps=10 format=3 uid="uid://3dn4vucj2s00"]
+[gd_scene load_steps=12 format=3 uid="uid://3dn4vucj2s00"]
 
 [ext_resource type="PackedScene" uid="uid://7mm1fthd05j6" path="res://scenes/characters/enemy.tscn" id="1_300fq"]
 [ext_resource type="Texture2D" uid="uid://eh5egx0rrwpa" path="res://assets/graphics/enemies.png" id="2_6cs4q"]
 [ext_resource type="Script" path="res://scripts/Goomba.gd" id="2_joamn"]
+[ext_resource type="Shader" path="res://shaders/change_color.gdshader" id="3_y1mbv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l4qhc"]
+shader = ExtResource("3_y1mbv")
+shader_parameter/shader_enabled = false
+shader_parameter/origin_colors = null
+shader_parameter/new_colors = null
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0vfs1"]
 resource_local_to_scene = true
@@ -160,6 +167,7 @@ script = ExtResource("2_joamn")
 position = Vector2(0, -8)
 
 [node name="Sprite2D" parent="Graphics" index="0"]
+material = SubResource("ShaderMaterial_l4qhc")
 texture = ExtResource("2_6cs4q")
 hframes = 2
 region_enabled = true

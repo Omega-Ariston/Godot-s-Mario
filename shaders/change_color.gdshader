@@ -1,8 +1,8 @@
 shader_type canvas_item;
 
-const vec4[] origin_colors = {vec4(0.12, 0.52, 0.0, 1.0) , vec4(0.84, 0.55, 0.13, 1.0), vec4(1.0, 1.0, 1.0, 1.0)};
-
 uniform bool shader_enabled = false;
+
+uniform vec4 origin_colors[3];
 uniform vec4 new_colors[3];
 
 bool colorMatch(vec4 c1, vec4 c2) {
@@ -37,3 +37,4 @@ void fragment() {
 	}
 	
 }
+

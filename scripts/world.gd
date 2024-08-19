@@ -23,8 +23,10 @@ func _ready() -> void:
 	if GameManager.current_level != level_name:
 		GameManager.current_level = level_name
 		GameManager.current_spawn_point = spawn_point.name
+		GameManager.current_world_type = world_type
 	StatusBar.time = level_time
 	setup_camera()
+	GameManager.world_ready.emit()
 	await GameManager.screen_ready
 	SoundManager.play_world_bgm()
 	GameManager.control_player(player)

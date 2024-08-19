@@ -1,9 +1,16 @@
-[gd_scene load_steps=10 format=3 uid="uid://c30i335tpkrd8"]
+[gd_scene load_steps=12 format=3 uid="uid://c30i335tpkrd8"]
 
 [ext_resource type="Script" path="res://scripts/Brick.gd" id="1_650d6"]
 [ext_resource type="Texture2D" uid="uid://c7gt8s3r65s32" path="res://assets/graphics/map.png" id="1_qy6wh"]
+[ext_resource type="Shader" path="res://shaders/change_color.gdshader" id="2_eyoqi"]
 [ext_resource type="PackedScene" uid="uid://ctkrrllkodgol" path="res://scenes/bricks/bumpable.tscn" id="3_jt57t"]
 [ext_resource type="PackedScene" uid="uid://bue0yey4diq1e" path="res://scenes/bricks/chargeable.tscn" id="4_8klxi"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bekjy"]
+shader = ExtResource("2_eyoqi")
+shader_parameter/shader_enabled = false
+shader_parameter/origin_colors = null
+shader_parameter/new_colors = null
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uayt3"]
 size = Vector2(16, 16)
@@ -66,6 +73,7 @@ _data = {
 script = ExtResource("1_650d6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_bekjy")
 texture = ExtResource("1_qy6wh")
 region_enabled = true
 region_rect = Rect2(16, 0, 16, 16)

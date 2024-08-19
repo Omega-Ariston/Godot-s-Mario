@@ -9,6 +9,16 @@ const VINE_TILE_COORDS := Vector2(4,4)
 const SOURCE_ID := 3
 const SINGLE_DURATION := 0.5
 
+# 颜色顺序为叶片、叶茎
+const COLOR_ORIGIN := [
+	Vector4(0.06, 0.65, 0.0, 1.0),
+	Vector4(0.84, 0.60, 0.11, 1.0)
+]
+const COLOR_CYAN := [
+	Vector4(0.0, 0.48, 0.54, 1.0),
+	Vector4(0.47, 0.24, 0.09, 1.0)
+]
+
 var curr_spawn_point := Vector2(0, 1)
 var rise_count: int # 在过场动画中会被手动指定，其余情况根据开始生长的高度来确定
 
@@ -16,6 +26,12 @@ signal rise_completed
 
 # 实例化时不断上升，并且每上升一个瓦片高度就在脚下生成一个新的藤枝，没指定终点时上升终点为地图高度+2瓦片高度
 func _ready() -> void:
+	var sprite_material := tile_map.material as ShaderMaterial
+	sprite_material.set_shader_parameter("origin_colors", COLOR_ORIGIN)
+	if GameManager.current_world_type == World.Type.UNDER:
+		sprite_material.set_shader_parameter("shader_enabled", true)
+		sprite_material.set_shader_parameter("new_colors", COLOR_CYAN)
+		
 	var tile_height := Variables.TILE_SIZE.y
 	if not rise_count:
 		rise_count = ceili(global_position.y / tile_height + 2)

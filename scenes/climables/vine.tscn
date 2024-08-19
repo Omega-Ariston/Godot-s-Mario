@@ -1,8 +1,15 @@
-[gd_scene load_steps=7 format=3 uid="uid://bsj7t14bkcqnd"]
+[gd_scene load_steps=9 format=3 uid="uid://bsj7t14bkcqnd"]
 
 [ext_resource type="Script" path="res://scripts/Vine.gd" id="1_k7lep"]
 [ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/graphics/items-objects.png" id="2_ny7yv"]
+[ext_resource type="Shader" path="res://shaders/change_color.gdshader" id="2_q3pmt"]
 [ext_resource type="Script" path="res://scripts/Climable.gd" id="3_ch3rt"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3y2rc"]
+shader = ExtResource("2_q3pmt")
+shader_parameter/shader_enabled = false
+shader_parameter/origin_colors = null
+shader_parameter/new_colors = null
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5babj"]
 texture = ExtResource("2_ny7yv")
@@ -21,7 +28,7 @@ z_index = -1
 script = ExtResource("1_k7lep")
 
 [node name="TileMap" type="TileMapLayer" parent="."]
-use_parent_material = true
+material = SubResource("ShaderMaterial_3y2rc")
 position = Vector2(-8, -8)
 tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 3, 0, 4, 0, 3, 0, 0, 0)
 tile_set = SubResource("TileSet_fds51")

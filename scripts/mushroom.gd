@@ -4,7 +4,7 @@ extends CharacterBody2D
 @export var mushroom_type: Bumpable.SpawnItem
 
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var sprite_2d: Sprite2D = $Sprite2D
 
 const SPAWN_DURATION := 1.0
 const MOVE_DELAY := 0.1
@@ -12,14 +12,36 @@ const SPEED := 60.0
 const BOUNCE_SPEED := -200
 const SCORE := 1000
 
+# 顺序为蘑菇伞、蘑菇斑点、蘑菇柄
+const COLOR_ORIGIN := [
+	Vector4(0.90, 0.61, 0.12, 1.0),
+	Vector4(0.70, 0.19, 0.12, 1.0),
+	Vector4(0.98, 0.98, 0.98, 1.0)
+]
+const COLOR_GREEN := [
+	Vector4(0.90, 0.61, 0.12, 1.0),
+	Vector4(0.06, 0.58, 0, 1.0),
+	Vector4(0.98, 0.98, 0.98, 1.0)
+]
+const COLOR_CYAN := [
+	Vector4(0.51, 0.22, 0.06, 1.0),
+	Vector4(0.0, 0.48, 0.54, 1.0),
+	Vector4(0.98, 0.73, 0.67, 1.0)
+]
+
 var direction := 1
 var spawning := true
 
 func _ready() -> void:
-	if mushroom_type == Bumpable.SpawnItem.UPGRADE:
-		animation_player.play("big")
-	elif mushroom_type == Bumpable.SpawnItem.LIFE:
-		animation_player.play("life")
+	var sprite_material = sprite_2d.material as ShaderMaterial
+	if mushroom_type == Bumpable.SpawnItem.LIFE:
+		sprite_material.set_shader_parameter("shader_enabled", true)
+		sprite_material.set_shader_parameter("origin_colors", COLOR_ORIGIN)
+		if GameManager.current_world_type == World.Type.UNDER:
+			sprite_material.set_shader_parameter("new_colors", COLOR_CYAN)
+		else:
+			sprite_material.set_shader_parameter("new_colors", COLOR_GREEN)
+			
 	
 	# 让自身向上顶出一个砖的高度，并开始向右以固定速度移动
 	var tween := create_tween()

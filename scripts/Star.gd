@@ -6,6 +6,10 @@ const SPEED := 60.0
 const JUMP_VELOCITY := -230.0
 const SCORE := 1000
 
+const RECT_ORIGIN := Rect2(0, 48, 64, 16)
+const RECT_CYAN := Rect2(144, 48, 64, 16)
+
+@onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
@@ -13,6 +17,11 @@ var direction := 1
 var spawning := true
 
 func _ready() -> void:
+	match GameManager.current_world_type:
+		World.Type.GROUND:
+			sprite_2d.region_rect = RECT_ORIGIN
+		World.Type.UNDER:
+			sprite_2d.region_rect = RECT_CYAN
 	animation_player.play("blink")
 	# 让自身向上顶出一个砖的高度，并开始向右以固定速度跳跃移动
 	var tween := create_tween()

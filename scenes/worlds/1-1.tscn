@@ -27,7 +27,6 @@ position = Vector2(3272, 160)
 
 [node name="FlagPole" parent="." instance=ExtResource("7_tvls3")]
 position = Vector2(3176, 224)
-door_distance = 6
 next_level = "1-1"
 
 [node name="SpawnPoint" type="Marker2D" parent="."]

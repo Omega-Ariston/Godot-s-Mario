@@ -1,7 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://cjahx4qiw0rlv"]
+[gd_scene load_steps=11 format=3 uid="uid://cjahx4qiw0rlv"]
 
 [ext_resource type="Script" path="res://scripts/Coin.gd" id="1_2xrxh"]
 [ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/graphics/items-objects.png" id="1_opp6b"]
+[ext_resource type="Shader" path="res://shaders/change_color.gdshader" id="2_7vycv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o4bta"]
+shader = ExtResource("2_7vycv")
+shader_parameter/shader_enabled = false
+shader_parameter/origin_colors = null
+shader_parameter/new_colors = null
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pug5v"]
 atlas = ExtResource("1_opp6b")
@@ -46,6 +53,7 @@ size = Vector2(10, 14)
 script = ExtResource("1_2xrxh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_o4bta")
 sprite_frames = SubResource("SpriteFrames_wemvc")
 autoplay = "default"
 frame_progress = 0.22503

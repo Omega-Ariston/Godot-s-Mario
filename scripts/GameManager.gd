@@ -13,6 +13,7 @@ var current_level: String:
 		StatusBar.level = v
 		current_level = v
 var current_spawn_point: String
+var current_world_type : World.Type
 var player_current_mode: Player.Mode
 var life := LIFE_COUNT
 var is_time_up := false
@@ -23,6 +24,7 @@ var is_time_up := false
 
 signal screen_ready
 signal score_counted
+signal world_ready
 
 func _ready() -> void:
 	scene_changer.color.a = 0.0

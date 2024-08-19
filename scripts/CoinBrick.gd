@@ -1,6 +1,14 @@
 class_name CoinBrick
 extends StaticBody2D
 
+const COLOR_ORIGIN := [
+	Vector4(0.0, 0.0, 0.0, 1.0)
+]
+
+const COLOR_CYAN := [
+	Vector4(0.0, 0.47, 0.54, 1.0)
+]
+
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var bumpable: Bumpable = $Bumpable
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
@@ -11,6 +19,12 @@ extends StaticBody2D
 @export var is_hidden := false
 
 func _ready() -> void:
+	await GameManager.world_ready
+	var sprite_material = sprite_2d.material as ShaderMaterial
+	sprite_material.set_shader_parameter("origin_colors", COLOR_ORIGIN)
+	if GameManager.current_world_type == World.Type.UNDER:
+		sprite_material.set_shader_parameter("shader_enabled", true)
+		sprite_material.set_shader_parameter("new_colors", COLOR_CYAN)
 	if is_hidden:
 		# 隐藏砖没有碰撞体积，并且图片透明
 		collision_shape_2d.disabled = true

@@ -1,9 +1,16 @@
-[gd_scene load_steps=10 format=3 uid="uid://by0stfwg5c7pm"]
+[gd_scene load_steps=12 format=3 uid="uid://by0stfwg5c7pm"]
 
+[ext_resource type="Shader" path="res://shaders/change_color.gdshader" id="1_jim7a"]
 [ext_resource type="Texture2D" uid="uid://c7gt8s3r65s32" path="res://assets/graphics/map.png" id="1_m8h7w"]
 [ext_resource type="Script" path="res://scripts/CoinBrick.gd" id="1_yxd1f"]
 [ext_resource type="PackedScene" uid="uid://ctkrrllkodgol" path="res://scenes/bricks/bumpable.tscn" id="3_1s83g"]
 [ext_resource type="PackedScene" uid="uid://bue0yey4diq1e" path="res://scenes/bricks/chargeable.tscn" id="4_44ixi"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_laq00"]
+shader = ExtResource("1_jim7a")
+shader_parameter/shader_enabled = false
+shader_parameter/origin_colors = null
+shader_parameter/new_colors = null
 
 [sub_resource type="Animation" id="Animation_bo7w0"]
 length = 0.001
@@ -140,6 +147,7 @@ size = Vector2(16, 16)
 script = ExtResource("1_yxd1f")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_laq00")
 position = Vector2(-8, -8)
 texture = ExtResource("1_m8h7w")
 centered = false

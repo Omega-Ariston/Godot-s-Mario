@@ -1,7 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://bhi8eg1qmfrjv"]
+[gd_scene load_steps=11 format=3 uid="uid://bhi8eg1qmfrjv"]
 
 [ext_resource type="Script" path="res://scripts/BrokenBrick.gd" id="1_hp52f"]
+[ext_resource type="Shader" path="res://shaders/change_color.gdshader" id="2_lv438"]
 [ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/graphics/items-objects.png" id="2_wkgu6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mijlu"]
+shader = ExtResource("2_lv438")
+shader_parameter/shader_enabled = false
+shader_parameter/origin_colors = null
+shader_parameter/new_colors = null
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ag33a"]
 atlas = ExtResource("2_wkgu6")
@@ -25,6 +32,24 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yyd5k"]
+shader = ExtResource("2_lv438")
+shader_parameter/shader_enabled = false
+shader_parameter/origin_colors = null
+shader_parameter/new_colors = null
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5uoe3"]
+shader = ExtResource("2_lv438")
+shader_parameter/shader_enabled = false
+shader_parameter/origin_colors = null
+shader_parameter/new_colors = null
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x6757"]
+shader = ExtResource("2_lv438")
+shader_parameter/shader_enabled = false
+shader_parameter/origin_colors = null
+shader_parameter/new_colors = null
+
 [node name="BrokenBrick" type="Node2D"]
 z_index = 5
 script = ExtResource("1_hp52f")
@@ -35,8 +60,10 @@ collision_layer = 0
 collision_mask = 0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="RigidBody2D"]
+material = SubResource("ShaderMaterial_mijlu")
 sprite_frames = SubResource("SpriteFrames_5fviv")
 animation = &"idle"
+autoplay = "idle"
 frame_progress = 0.58244
 
 [node name="RigidBody2D2" type="RigidBody2D" parent="."]
@@ -45,6 +72,7 @@ collision_layer = 0
 collision_mask = 0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="RigidBody2D2"]
+material = SubResource("ShaderMaterial_yyd5k")
 sprite_frames = SubResource("SpriteFrames_5fviv")
 animation = &"idle"
 autoplay = "idle"
@@ -56,8 +84,10 @@ collision_layer = 0
 collision_mask = 0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="RigidBody2D3"]
+material = SubResource("ShaderMaterial_5uoe3")
 sprite_frames = SubResource("SpriteFrames_5fviv")
 animation = &"idle"
+autoplay = "idle"
 frame_progress = 0.58244
 
 [node name="RigidBody2D4" type="RigidBody2D" parent="."]
@@ -66,6 +96,8 @@ collision_layer = 0
 collision_mask = 0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="RigidBody2D4"]
+material = SubResource("ShaderMaterial_x6757")
 sprite_frames = SubResource("SpriteFrames_5fviv")
 animation = &"idle"
+autoplay = "idle"
 frame_progress = 0.58244

@@ -33,11 +33,23 @@ const SCORE := {
 	"shoot_on_recover": 500,
 }
 
-# 龟壳、龟肉、龟壳边缘
+# 原始颜色，顺序为龟壳、龟肉、龟壳边缘
+const COLOR_ORIGIN := [
+	Vector4(0.12, 0.52, 0.0, 1.0),
+	Vector4(0.84, 0.55, 0.13, 1.0),
+	Vector4(1.0, 1.0, 1.0, 1.0),
+]
+
 const COLOR_RED := [
 	Vector4(0.61, 0.15, 0.13, 1.0),
 	Vector4(0.84, 0.55, 0.13, 1.0),
 	Vector4(1.0, 1.0, 1.0, 1.0),
+]
+
+const COLOR_CYAN := [
+	Vector4(0.11, 0.40, 0.46, 1.0),
+	Vector4(0.51, 0.22, 0.06, 1.0),
+	Vector4(0.98, 0.73, 0.67, 1.0)
 ]
 
 @export var iq: IQ
@@ -51,14 +63,19 @@ const COLOR_RED := [
 
 func _ready() -> void:
 	await state_machine.initial_state_set
+	await GameManager.world_ready
+	var sprite_material = sprite_2d.material as ShaderMaterial
+	sprite_material.set_shader_parameter("origin_colors", COLOR_ORIGIN)
 	if type == Type.FLY:
 		state_machine.current_state = Type.FLY
 	if iq == IQ.SMART:
 		# 改颜色
 		floor_checker.enabled = true
-		var sprite_material = sprite_2d.material as ShaderMaterial
 		sprite_material.set_shader_parameter("shader_enabled", true)
 		sprite_material.set_shader_parameter("new_colors", COLOR_RED)
+	elif GameManager.current_world_type in [World.Type.UNDER, World.Type.CASTLE]:
+		sprite_material.set_shader_parameter("shader_enabled", true)
+		sprite_material.set_shader_parameter("new_colors", COLOR_CYAN)
 
 func get_next_state(state: State) -> int:
 	if hit or charged or bumped:
