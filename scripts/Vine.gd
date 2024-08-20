@@ -27,10 +27,10 @@ signal rise_completed
 # 实例化时不断上升，并且每上升一个瓦片高度就在脚下生成一个新的藤枝，没指定终点时上升终点为地图高度+2瓦片高度
 func _ready() -> void:
 	var sprite_material := tile_map.material as ShaderMaterial
-	sprite_material.set_shader_parameter("origin_colors", COLOR_ORIGIN)
+	sprite_material.set_shader_parameter("origin_colors", COLOR_ORIGIN.duplicate())
 	if GameManager.current_world_type == World.Type.UNDER:
 		sprite_material.set_shader_parameter("shader_enabled", true)
-		sprite_material.set_shader_parameter("new_colors", COLOR_CYAN)
+		sprite_material.set_shader_parameter("new_colors", COLOR_CYAN.duplicate())
 		
 	var tile_height := Variables.TILE_SIZE.y
 	if not rise_count:

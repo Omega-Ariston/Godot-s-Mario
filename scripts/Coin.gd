@@ -14,10 +14,10 @@ const COLOR_CYAN := [
 func _ready() -> void:
 	await GameManager.world_ready
 	var sprite_material = animated_sprite_2d.material as ShaderMaterial
-	sprite_material.set_shader_parameter("origin_colors", COLOR_ORIGIN)
+	sprite_material.set_shader_parameter("origin_colors", COLOR_ORIGIN.duplicate())
 	if GameManager.current_world_type == World.Type.UNDER:
 		sprite_material.set_shader_parameter("shader_enabled", true)
-		sprite_material.set_shader_parameter("new_colors", COLOR_CYAN)
+		sprite_material.set_shader_parameter("new_colors", COLOR_CYAN.duplicate())
 
 func on_bumped(_body=null) -> void:
 	var item_instance = load("res://scenes/items/coin_bumped.tscn").instantiate() as CoinBumped

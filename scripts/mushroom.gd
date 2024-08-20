@@ -36,11 +36,11 @@ func _ready() -> void:
 	var sprite_material = sprite_2d.material as ShaderMaterial
 	if mushroom_type == Bumpable.SpawnItem.LIFE:
 		sprite_material.set_shader_parameter("shader_enabled", true)
-		sprite_material.set_shader_parameter("origin_colors", COLOR_ORIGIN)
+		sprite_material.set_shader_parameter("origin_colors", COLOR_ORIGIN.duplicate())
 		if GameManager.current_world_type == World.Type.UNDER:
-			sprite_material.set_shader_parameter("new_colors", COLOR_CYAN)
+			sprite_material.set_shader_parameter("new_colors", COLOR_CYAN.duplicate())
 		else:
-			sprite_material.set_shader_parameter("new_colors", COLOR_GREEN)
+			sprite_material.set_shader_parameter("new_colors", COLOR_GREEN.duplicate())
 			
 	
 	# 让自身向上顶出一个砖的高度，并开始向右以固定速度移动

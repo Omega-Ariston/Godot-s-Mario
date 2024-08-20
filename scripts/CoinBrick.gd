@@ -21,10 +21,10 @@ const COLOR_CYAN := [
 func _ready() -> void:
 	await GameManager.world_ready
 	var sprite_material = sprite_2d.material as ShaderMaterial
-	sprite_material.set_shader_parameter("origin_colors", COLOR_ORIGIN)
+	sprite_material.set_shader_parameter("origin_colors", COLOR_ORIGIN.duplicate())
 	if GameManager.current_world_type == World.Type.UNDER:
 		sprite_material.set_shader_parameter("shader_enabled", true)
-		sprite_material.set_shader_parameter("new_colors", COLOR_CYAN)
+		sprite_material.set_shader_parameter("new_colors", COLOR_CYAN.duplicate())
 	if is_hidden:
 		# 隐藏砖没有碰撞体积，并且图片透明
 		collision_shape_2d.disabled = true

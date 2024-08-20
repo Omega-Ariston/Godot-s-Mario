@@ -17,9 +17,9 @@ bool colorMatch(vec4 c1, vec4 c2) {
 
 void fragment() {
 	// Called for every pixel the material is visible on.
-	
+
 	vec4 input_color = texture(TEXTURE, UV);
-	
+
 	if (shader_enabled) {
 		bool matched = false;
 		for (int i = 0; i < 3; i++) {
@@ -35,6 +35,6 @@ void fragment() {
 	} else {
 		COLOR = input_color;
 	}
-	
+
 }
 

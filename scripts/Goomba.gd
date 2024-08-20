@@ -33,10 +33,10 @@ const COLOR_CYAN := [
 func _ready() -> void:
 	await GameManager.world_ready
 	var sprite_material = sprite_2d.material as ShaderMaterial
-	sprite_material.set_shader_parameter("origin_colors", COLOR_ORIGIN)
+	sprite_material.set_shader_parameter("origin_colors", COLOR_ORIGIN.duplicate())
 	if GameManager.current_world_type == World.Type.UNDER:
 		sprite_material.set_shader_parameter("shader_enabled", true)
-		sprite_material.set_shader_parameter("new_colors", COLOR_CYAN)
+		sprite_material.set_shader_parameter("new_colors", COLOR_CYAN.duplicate())
 
 func get_next_state(state: State) -> int:
 	match state:

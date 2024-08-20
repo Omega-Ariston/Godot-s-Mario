@@ -545,8 +545,8 @@ func _set_shader_colors(color: String) -> void:
 	var origin_colors := COLORS_FIRE if curr_mode == Mode.FIRE else COLORS_CLASSIC
 	var new_colors: Array = origin_colors if color == "ORIGIN" else self["COLORS_" + color]
 	var sprite_material = sprite_2d.material as ShaderMaterial
-	sprite_material.set_shader_parameter("origin_colors", origin_colors)
-	sprite_material.set_shader_parameter("new_colors", new_colors)
+	sprite_material.set_shader_parameter("origin_colors", origin_colors.duplicate())
+	sprite_material.set_shader_parameter("new_colors", new_colors.duplicate())
 
 
 func _reset_animator(animator: AnimationPlayer) -> void:

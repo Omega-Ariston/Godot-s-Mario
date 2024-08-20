@@ -24,10 +24,10 @@ const COLOR_CYAN := [
 func _ready() -> void:
 	for i in range(4):
 		var sprite_material = self['sprite_' + str(i + 1)].material as ShaderMaterial
-		sprite_material.set_shader_parameter("origin_colors", COLOR_ORIGIN)
+		sprite_material.set_shader_parameter("origin_colors", COLOR_ORIGIN.duplicate())
 		if GameManager.current_world_type == World.Type.UNDER:
 			sprite_material.set_shader_parameter("shader_enabled", true)
-			sprite_material.set_shader_parameter("new_colors", COLOR_CYAN)
+			sprite_material.set_shader_parameter("new_colors", COLOR_CYAN.duplicate())
 			
 	brick_1.apply_central_impulse(Vector2(-HIGHER_IMPULSE.x, -HIGHER_IMPULSE.y))
 	brick_2.apply_central_impulse(Vector2(HIGHER_IMPULSE.x, -HIGHER_IMPULSE.y))
