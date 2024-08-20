@@ -11,12 +11,12 @@ const SINGLE_DURATION := 0.5
 
 # 颜色顺序为叶片、叶茎
 const COLOR_ORIGIN := [
-	Vector4(0.06, 0.65, 0.0, 1.0),
-	Vector4(0.84, 0.60, 0.11, 1.0)
+	Vector4(0.06, 0.58, 0.0, 1.0),
+	Vector4(0.90, 0.61, 0.12, 1.0)
 ]
 const COLOR_CYAN := [
 	Vector4(0.0, 0.48, 0.54, 1.0),
-	Vector4(0.47, 0.24, 0.09, 1.0)
+	Vector4(0.44, 0.25, 0.12, 1.0)
 ]
 
 var curr_spawn_point := Vector2(0, 1)
