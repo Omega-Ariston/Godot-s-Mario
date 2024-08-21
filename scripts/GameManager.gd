@@ -178,7 +178,7 @@ func control_player(player: Player) -> void:
 func _animate_pipe(player: Player, spawn_point: SpawnPoint) -> void:
 	SoundManager.play_sfx("PipeHurt")
 	# 如果需要从管道钻出来，则从指定点的反方向3个瓦片的距离出生，并且提前禁用物理碰撞和控制 TODO:这个应该是默认配置
-	player._get_animator().play("idle") # 默认刚出来就是站立姿势
+	player.animation_player.play("idle") # 默认刚出来就是站立姿势
 	player.global_position.y += Variables.TILE_SIZE.y * 3 * spawn_point.direction
 	var tween := create_tween()
 	tween.tween_property(player, "global_position:y", spawn_point.global_position.y, 1.0)
@@ -196,7 +196,7 @@ func _animate_vine(player: Player, spawn_point: SpawnPoint) -> void:
 	player.can_climb = true
 	player.climbing_object = vine_instance
 	player.state_machine.current_state = player.State.CLIMB
-	player._get_animator().play("climb")
+	player.animation_player.play("climb")
 	# 把玩家吸上藤蔓
 	vine_instance.climable.attach_player(player)
 	await vine_instance.rise_completed
@@ -205,7 +205,7 @@ func _animate_vine(player: Player, spawn_point: SpawnPoint) -> void:
 	tween.tween_property(player, "global_position:y", spawn_point.global_position.y - (VINE_RISE_COUNT - 1) * Variables.TILE_SIZE.y, (VINE_RISE_COUNT - 1) * 0.5)
 	await tween.finished
 	# 爬到顶端后停止动作并换边
-	player._get_animator().speed_scale = 0
+	player.animation_player.speed_scale = 0
 	player._change_climb_side()
 	await get_tree().create_timer(0.5).timeout
 	player._unclimb()

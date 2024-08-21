@@ -66,7 +66,7 @@ func enter() -> void:
 		ENTER_DIRECTION.RIGHT:
 			# 播放走路动画
 			SoundManager.play_sfx("PipeHurt")
-			player._get_animator().speed_scale = 1
+			player.animation_player.speed_scale = 1
 			tween.tween_property(player, "global_position:x", global_position.x + Variables.TILE_SIZE.x / 2, 0.5)
 			await tween.finished
 			await get_tree().create_timer(0.5).timeout
@@ -76,7 +76,7 @@ func enter() -> void:
 			await tween.finished
 		ENTER_DIRECTION.UP:
 			# 播放动画攀爬动画
-			player._get_animator().speed_scale = 1
+			player.animation_player.speed_scale = 1
 			var duration := abs((player.global_position.y + Variables.TILE_SIZE.y) / player.CLIMB_SPEED) as float
 			tween.tween_property(player, "global_position:y", -Variables.TILE_SIZE.y, duration)
 			await tween.finished

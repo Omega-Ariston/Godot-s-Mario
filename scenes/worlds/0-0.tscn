@@ -15,7 +15,6 @@
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_tpqgv")
-world_type = 1
 level_time = 100
 level_name = "0-0"
 
@@ -25,7 +24,7 @@ tile_map_data = PackedByteArray("AABHAA4AAAAAAAAAAABHAA8AAAAAAAAAAABIAA4AAAAAAAA
 tile_set = ExtResource("2_3vma1")
 
 [node name="Player" parent="." instance=ExtResource("8_585gd")]
-position = Vector2(816, 224)
+position = Vector2(57, 221)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(0, -8)
@@ -72,7 +71,7 @@ spawn_item = 1
 
 [node name="CoinBrick6" parent="." instance=ExtResource("5_cpr27")]
 position = Vector2(56, 168)
-spawn_item = 3
+spawn_item = 4
 
 [node name="CoinBrick7" parent="." instance=ExtResource("5_cpr27")]
 position = Vector2(88, 168)
@@ -151,6 +150,7 @@ type = 1
 
 [node name="Turtle3" parent="." instance=ExtResource("11_j5ckl")]
 position = Vector2(720, 224)
+direction = 1
 
 [node name="Coin" parent="." instance=ExtResource("12_hi1si")]
 position = Vector2(328, 152)
