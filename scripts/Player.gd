@@ -340,7 +340,7 @@ func transition_state(from: State, to: State) -> void:
 			curr_mode = Mode.FIRE
 			blink_animator.stop()
 			if is_under_star:
-				blink_animator.play("star", -1, 2.5, false)
+				blink_animator.play("star", -1, 4.0, false)
 			else:
 				set_shader_enabled(false)
 		State.HURT:
@@ -414,7 +414,7 @@ func transition_state(from: State, to: State) -> void:
 			get_tree().paused = true
 			animation_player.stop()
 			set_shader_enabled(true)
-			blink_animator.play("onfire", -1, 1.5, false)
+			blink_animator.play("onfire", -1, 2.0, false)
 			SoundManager.play_sfx("Upgrade")
 			on_fire_timer.start()
 		State.DEAD:
@@ -515,7 +515,7 @@ func _eat(item: Node) -> void:
 		ScoreManager.add_score(Flower.SCORE, item)
 	elif item is Star:
 		set_shader_enabled(true)
-		blink_animator.play("star", -1, 2.5, false)
+		blink_animator.play("star", -1, 4.0, false)
 		is_under_star = true
 		ScoreManager.add_score(Star.SCORE, item)
 		SoundManager.go_star()
@@ -554,6 +554,18 @@ const COLORS_BLACK := [
 	Vector4(1.0, 0.80, 0.77, 1.0),
 ]
 
+const COLORS_BLUE := [
+	Vector4(0.0, 0.48, 0.54, 1.0),
+	Vector4(0.61, 0.29, 0.0, 1.0),
+	Vector4(1.0, 0.80, 0.77, 1.0),
+]
+
+const COLORS_CYAN := [
+	Vector4(0.0, 0.25, 0.29, 1.0),
+	Vector4(0.0, 0.48, 0.54, 1.0),
+	Vector4(0.70, 0.93, 0.93, 1.0),
+]
+
 func set_shader_enabled(enabled: bool) -> void:
 	var sprite_material = sprite_2d.material as ShaderMaterial
 	sprite_material.set_shader_parameter("shader_enabled", enabled)
@@ -565,11 +577,19 @@ func set_onfire_colors(index: int) -> void:
 		0:
 			new_colors = COLORS_FIRE
 		1:
-			new_colors = COLORS_GREEN
+			match GameManager.current_world_type:
+				World.Type.GROUND:
+					new_colors = COLORS_GREEN
+				World.Type.UNDER:
+					new_colors = COLORS_BLUE
 		2:
 			new_colors = COLORS_RED
 		3:
-			new_colors = COLORS_BLACK
+			match GameManager.current_world_type:
+				World.Type.GROUND:
+					new_colors = COLORS_BLACK
+				World.Type.UNDER:
+					new_colors = COLORS_CYAN
 	var sprite_material = sprite_2d.material as ShaderMaterial
 	sprite_material.set_shader_parameter("origin_colors", origin_colors.duplicate())
 	sprite_material.set_shader_parameter("new_colors", new_colors.duplicate())
@@ -581,11 +601,19 @@ func set_star_colors(index: int) -> void:
 		0:
 			new_colors = origin_colors
 		1:
-			new_colors = COLORS_GREEN
+			match GameManager.current_world_type:
+				World.Type.GROUND:
+					new_colors = COLORS_GREEN
+				World.Type.UNDER:
+					new_colors = COLORS_BLUE
 		2:
 			new_colors = COLORS_RED
 		3:
-			new_colors = COLORS_BLACK
+			match GameManager.current_world_type:
+				World.Type.GROUND:
+					new_colors = COLORS_BLACK
+				World.Type.UNDER:
+					new_colors = COLORS_CYAN
 	var sprite_material = sprite_2d.material as ShaderMaterial
 	sprite_material.set_shader_parameter("origin_colors", origin_colors.duplicate())
 	sprite_material.set_shader_parameter("new_colors", new_colors.duplicate())
