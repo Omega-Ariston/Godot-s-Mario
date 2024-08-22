@@ -11,9 +11,12 @@ const COLOR_CYAN := [
 	Vector4(0.0, 0.47, 0.54, 1.0)
 ]
 
+const RECT_ORIGIN := Rect2(16, 0, 16, 16)
+const RECT_BARE := Rect2(32, 0, 16, 16) # 不带亮面
+const RECT_BUMPED := Rect2(48, 0, 16, 16)
+
 @export var spawn_item: Bumpable.SpawnItem
 
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var bumpable: Bumpable = $Bumpable
 @onready var bump_timer: Timer = $BumpTimer
 @onready var sprite_2d: Sprite2D = $Sprite2D
@@ -25,9 +28,9 @@ func _ready() -> void:
 	var sprite_material = sprite_2d.material as ShaderMaterial
 	sprite_material.set_shader_parameter("origin_colors", COLOR_ORIGIN.duplicate())
 	if GameManager.current_world_type == GameManager.WorldType.UNDER:
+		sprite_2d.region_rect = RECT_BARE
 		sprite_material.set_shader_parameter("shader_enabled", true)
 		sprite_material.set_shader_parameter("new_colors", COLOR_CYAN.duplicate())
-	animation_player.play("unbumped")
 
 func on_bumped(player: Player, broken: bool = false) -> void:
 	if bumpable.can_bump:
@@ -47,7 +50,7 @@ func on_bumped(player: Player, broken: bool = false) -> void:
 				bumped = true
 				bump_timer.start()
 			elif bump_timer.time_left == 0:
-					animation_player.play("bumped")
+					sprite_2d.region_rect = RECT_BUMPED
 					bumpable.can_bump = false
 			bumpable.do_bump()
 			bumpable.do_spawn(self, spawn_item, player)
@@ -56,7 +59,7 @@ func on_bumped(player: Player, broken: bool = false) -> void:
 			if spawn_item != Bumpable.SpawnItem.EMPTY:
 				bumpable.can_bump = false
 				SoundManager.play_sfx("Vine" if spawn_item == Bumpable.SpawnItem.VINE else "UpgradeAppear")
-				animation_player.play("bumped")
+				sprite_2d.region_rect = RECT_BUMPED
 			await bumpable.do_bump()
 			if spawn_item != Bumpable.SpawnItem.EMPTY:
 				bumpable.do_spawn(self, spawn_item, player)
