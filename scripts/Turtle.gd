@@ -76,6 +76,8 @@ func _ready() -> void:
 	elif GameManager.current_world_type in [GameManager.WorldType.UNDER, GameManager.WorldType.CASTLE]:
 		sprite_material.set_shader_parameter("shader_enabled", true)
 		sprite_material.set_shader_parameter("new_colors", COLOR_CYAN.duplicate())
+	else:
+		sprite_material.set_shader_parameter("shader_enabled", false)
 
 func get_next_state(state: State) -> int:
 	if hit or charged or bumped:

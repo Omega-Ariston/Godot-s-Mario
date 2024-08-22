@@ -3,8 +3,7 @@ extends Node2D
 
 @export var world_type: GameManager.WorldType
 
-
-@onready var tile_map_layer: TileMapLayer = $TileMapLayer
+@onready var foreground: TileMapLayer = $Foreground
 @onready var player: Player = $Player
 @onready var camera_2d: Camera2D = $Player/Camera2D
 @onready var spawn_point: SpawnPoint = $SpawnPoint
@@ -29,7 +28,7 @@ func _process(_delta: float) -> void:
 
 func setup_camera() -> void:
 	viewport_size = get_viewport_rect().size
-	var used := tile_map_layer.get_used_rect()
+	var used := foreground.get_used_rect()
 	var tile_size := Variables.TILE_SIZE
 	
 	camera_2d.limit_top = floori(0.5 * tile_size.y) # 最上面一个方块只显示一半

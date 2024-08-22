@@ -25,6 +25,9 @@ var coin := 0:
 	set(v):
 		if not is_node_ready():
 			await ready
+		if coin == 100:
+			coin = 0
+			GameManager.add_life()
 		coin = v
 		coin_label.text = ("%02d" % coin)
 

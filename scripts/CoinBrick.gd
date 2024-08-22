@@ -25,6 +25,8 @@ func _ready() -> void:
 	if GameManager.current_world_type == GameManager.WorldType.UNDER:
 		sprite_material.set_shader_parameter("shader_enabled", true)
 		sprite_material.set_shader_parameter("new_colors", COLOR_CYAN.duplicate())
+	else:
+		sprite_material.set_shader_parameter("shader_enabled", false)
 	if is_hidden:
 		# 隐藏砖没有碰撞体积，并且图片透明
 		collision_shape_2d.disabled = true

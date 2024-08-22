@@ -37,6 +37,8 @@ func _ready() -> void:
 	if GameManager.current_world_type == GameManager.WorldType.UNDER:
 		sprite_material.set_shader_parameter("shader_enabled", true)
 		sprite_material.set_shader_parameter("new_colors", COLOR_CYAN.duplicate())
+	else:
+		sprite_material.set_shader_parameter("shader_enabled", false)
 
 func get_next_state(state: State) -> int:
 	match state:

@@ -31,6 +31,8 @@ func _ready() -> void:
 		sprite_2d.region_rect = RECT_BARE
 		sprite_material.set_shader_parameter("shader_enabled", true)
 		sprite_material.set_shader_parameter("new_colors", COLOR_CYAN.duplicate())
+	else:
+		sprite_material.set_shader_parameter("shader_enabled", false)
 
 func on_bumped(player: Player, broken: bool = false) -> void:
 	if bumpable.can_bump:

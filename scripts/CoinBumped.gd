@@ -8,11 +8,7 @@ const SCORE := 200
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 func _ready() -> void:
-	if StatusBar.coin == 99:
-		StatusBar.coin = 0
-		GameManager.add_life()
-	else:
-		StatusBar.coin += 1
+	StatusBar.coin += 1
 	velocity.y = BOUNCE_VELOCITY
 	animation_player.play("idle", -1, 1.5, false)
 	timer.start()
