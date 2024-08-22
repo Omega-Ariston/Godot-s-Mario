@@ -25,7 +25,7 @@ func _ready() -> void:
 	for i in range(4):
 		var sprite_material = self['sprite_' + str(i + 1)].material as ShaderMaterial
 		sprite_material.set_shader_parameter("origin_colors", COLOR_ORIGIN.duplicate())
-		if GameManager.current_world_type == World.Type.UNDER:
+		if GameManager.current_world_type == GameManager.WorldType.UNDER:
 			sprite_material.set_shader_parameter("shader_enabled", true)
 			sprite_material.set_shader_parameter("new_colors", COLOR_CYAN.duplicate())
 			

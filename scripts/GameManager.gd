@@ -5,6 +5,13 @@ const VINE_RISE_COUNT := 4
 const TRANSITION_SCENE_PATH := "res://scenes/worlds/transition.tscn"
 const LIFE_COUNT := 3
 
+enum WorldType {
+	GROUND,
+	UNDER,
+	WATER,
+	CASTLE
+}
+
 var default_gravity := ProjectSettings.get("physics/2d/default_gravity") as float
 var max_left_x: float
 
@@ -13,7 +20,7 @@ var current_level: String:
 		StatusBar.level = v
 		current_level = v
 var current_spawn_point: String
-var current_world_type : World.Type
+var current_world_type : WorldType
 var player_current_mode: Player.Mode
 var life := LIFE_COUNT
 var is_time_up := false
@@ -64,8 +71,6 @@ func end_level_by_flag_pole(player: Player, next_level: String) -> void:
 		await SoundManager.bgm_player.finished
 	# 等两秒
 	await get_tree().create_timer(2).timeout
-	# 记录玩家状态
-	player_current_mode = player.curr_mode
 	# 切换到下一关的开头画面
 	transition_scene(next_level)
 
@@ -119,11 +124,13 @@ func change_scene(level: String, params: Dictionary = {}) -> void:
 	# 切换场景
 	var scene_change_timer := tree.create_timer(CHANGE_SCENE_DURATION)
 	tree.change_scene_to_file(get_level_scene_path(level))
-	await tree.tree_changed
+	await world_ready
 	# 初始化玩家
 	var player := tree.get_first_node_in_group("Player") as Player
 	player.direction = player.Direction.RIGHT
-	player.curr_mode = player_current_mode
+	# 设置时间
+	if params.has("time"):
+		StatusBar.time = params.get("time")
 	# 初始化出生点
 	var spawn_point: SpawnPoint
 	var spawn_point_name = params.get("spawn_point") as String if params.has("spawn_point") else current_spawn_point
@@ -134,32 +141,26 @@ func change_scene(level: String, params: Dictionary = {}) -> void:
 	# 恢复屏幕
 	await scene_change_timer.timeout
 	scene_changer.color.a = 0.0
-	screen_ready.emit()
 	# 设置出生状态
 	player.global_position = spawn_point.global_position
-	if params.has("time"):
-		StatusBar.time = params.get("time")
-	if spawn_point.direction == SpawnPoint.Spawn_Direction.NONE:
-		game_timer.start()
-	else:
+	# 如果有无敌，播放无敌动画
+	var star_time_left = params.get("star_time_left", 0.0) as float
+	if star_time_left > 0:
+		player.is_under_star = true
+		player.blink_animator.play("star", -1, 4.0, false)
+	# 播放出场动画
+	if spawn_point.direction != SpawnPoint.Spawn_Direction.NONE:
 		uncontrol_player(player)
 		player.is_spawning = true
-		# 如果有无敌，播放无敌动画
-		var star_time_left = params.get("star_time_left", 0.0) as float
-		if star_time_left > 0:
-			player.is_under_star = true
-			player.blink_animator.play("star")
-		# 播放出场动画
 		if spawn_point.type == SpawnPoint.Type.VINE:
 			await _animate_vine(player, spawn_point)
 		else:
 			await _animate_pipe(player, spawn_point)
-		# 恢复角色控制和无敌计时
-		player.is_spawning = false
-		control_player(player)
-		if player.is_under_star:
-			player.star_timer.start(star_time_left)
-		game_timer.start()
+	# 恢复星星计时
+	player.is_spawning = false
+	if player.is_under_star:
+		player.star_timer.start(star_time_left)
+	screen_ready.emit()
 						
 
 func uncontrol_player(player: Player) -> void:

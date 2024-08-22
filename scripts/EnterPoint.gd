@@ -29,9 +29,9 @@ func _physics_process(_delta: float) -> void:
 						and global_position.distance_to(player.global_position) <= 6.0 # 一个相对小的值
 			ENTER_DIRECTION.RIGHT:
 				can_enter = Input.is_action_pressed("move_right")
-				# 距离小于角色碰撞体积的一半
-				var min_enter_distance := ceilf(player.collision_shape_2d.shape.get_rect().size.x / 2)
-				should_enter = player.state_machine.current_state in player.GROUND_STATES \
+				# 距离小于角色碰撞体积的2/3
+				var min_enter_distance := ceilf(player.collision_shape_2d.shape.radius * 4 / 3)
+				should_enter = player.state_machine.current_state == player.State.WALK \
 						and global_position.distance_to(player.global_position) <= min_enter_distance
 			ENTER_DIRECTION.UP:
 				can_enter = true
@@ -45,8 +45,8 @@ func _physics_process(_delta: float) -> void:
 			var params := { "player_mode": player.curr_mode }
 			params["spawn_point"] = spawn_point_name
 			# 判断是否正在切换新关卡
-			if new_level == StatusBar.level:
-				# 直接切，保留当前关卡状态
+			if new_level.begins_with(StatusBar.level):
+				# 在子关卡与主世界之间切换需要保留当前关卡状态
 				if player.is_under_star:
 					params["star_time_left"] = player.star_timer.time_left
 				params["time"] = StatusBar.time

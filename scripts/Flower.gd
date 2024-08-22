@@ -12,9 +12,9 @@ const RECT_CYAN := Rect2(144, 32, 64, 16)
 
 func _ready() -> void:
 	match GameManager.current_world_type:
-		World.Type.GROUND:
+		GameManager.WorldType.GROUND:
 			sprite_2d.region_rect = RECT_ORIGIN
-		World.Type.UNDER:
+		GameManager.WorldType.UNDER:
 			sprite_2d.region_rect = RECT_CYAN
 	animation_player.play("idle")
 	# 让自身向上顶出一个砖的高度

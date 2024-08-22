@@ -85,6 +85,7 @@ const COLLISION_ATTR_CROUCH := Vector3(-7, 6, 14)
 				Mode.find_key(v)
 			])
 			curr_mode = v
+			GameManager.player_current_mode = curr_mode
 			initialize_mode()
 		
 @export var direction := Direction.RIGHT:
@@ -154,6 +155,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		crouch_requested = false
 
 func _ready() -> void:
+	curr_mode = GameManager.player_current_mode
 	initialize_mode()
 
 func tick_physics(state: State, delta: float) -> void:
@@ -434,7 +436,6 @@ func transition_state(from: State, to: State) -> void:
 			SoundManager.pause_bgm()
 			SoundManager.play_sfx("MarioDie")
 			GameManager.life -= 1
-			GameManager.player_current_mode = Mode.SMALL
 			# 到前面来
 			z_index = 5
 			dying_timer.start()
@@ -578,17 +579,17 @@ func set_onfire_colors(index: int) -> void:
 			new_colors = COLORS_FIRE
 		1:
 			match GameManager.current_world_type:
-				World.Type.GROUND:
+				GameManager.WorldType.GROUND:
 					new_colors = COLORS_GREEN
-				World.Type.UNDER:
+				GameManager.WorldType.UNDER:
 					new_colors = COLORS_BLUE
 		2:
 			new_colors = COLORS_RED
 		3:
 			match GameManager.current_world_type:
-				World.Type.GROUND:
+				GameManager.WorldType.GROUND:
 					new_colors = COLORS_BLACK
-				World.Type.UNDER:
+				GameManager.WorldType.UNDER:
 					new_colors = COLORS_CYAN
 	var sprite_material = sprite_2d.material as ShaderMaterial
 	sprite_material.set_shader_parameter("origin_colors", origin_colors.duplicate())
@@ -602,17 +603,17 @@ func set_star_colors(index: int) -> void:
 			new_colors = origin_colors
 		1:
 			match GameManager.current_world_type:
-				World.Type.GROUND:
+				GameManager.WorldType.GROUND:
 					new_colors = COLORS_GREEN
-				World.Type.UNDER:
+				GameManager.WorldType.UNDER:
 					new_colors = COLORS_BLUE
 		2:
 			new_colors = COLORS_RED
 		3:
 			match GameManager.current_world_type:
-				World.Type.GROUND:
+				GameManager.WorldType.GROUND:
 					new_colors = COLORS_BLACK
-				World.Type.UNDER:
+				GameManager.WorldType.UNDER:
 					new_colors = COLORS_CYAN
 	var sprite_material = sprite_2d.material as ShaderMaterial
 	sprite_material.set_shader_parameter("origin_colors", origin_colors.duplicate())

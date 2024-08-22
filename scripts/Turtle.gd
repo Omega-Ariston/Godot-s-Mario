@@ -73,7 +73,7 @@ func _ready() -> void:
 		floor_checker.enabled = true
 		sprite_material.set_shader_parameter("shader_enabled", true)
 		sprite_material.set_shader_parameter("new_colors", COLOR_RED.duplicate())
-	elif GameManager.current_world_type in [World.Type.UNDER, World.Type.CASTLE]:
+	elif GameManager.current_world_type in [GameManager.WorldType.UNDER, GameManager.WorldType.CASTLE]:
 		sprite_material.set_shader_parameter("shader_enabled", true)
 		sprite_material.set_shader_parameter("new_colors", COLOR_CYAN.duplicate())
 

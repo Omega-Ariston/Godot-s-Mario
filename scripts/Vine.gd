@@ -28,7 +28,7 @@ signal rise_completed
 func _ready() -> void:
 	var sprite_material := tile_map.material as ShaderMaterial
 	sprite_material.set_shader_parameter("origin_colors", COLOR_ORIGIN.duplicate())
-	if GameManager.current_world_type == World.Type.UNDER:
+	if GameManager.current_world_type == GameManager.WorldType.UNDER:
 		sprite_material.set_shader_parameter("shader_enabled", true)
 		sprite_material.set_shader_parameter("new_colors", COLOR_CYAN.duplicate())
 		

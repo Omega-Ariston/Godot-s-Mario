@@ -18,17 +18,15 @@ func play_sfx(sfx_name: String) -> AudioStreamPlayer:
 	return audio_player
 
 func play_world_bgm() -> void:
-	var world := get_tree().root.get_node("World") as World
-	var world_type := world.world_type
 	var stream: AudioStream
-	match world_type:
-		World.Type.GROUND:
+	match GameManager.current_world_type:
+		GameManager.WorldType.GROUND:
 			stream = aboveGroundBGM
-		World.Type.UNDER:
+		GameManager.WorldType.UNDER:
 			stream = undergroundBGM
-		World.Type.WATER:
+		GameManager.WorldType.WATER:
 			stream = underwaterBGM
-		World.Type.CASTLE:
+		GameManager.WorldType.CASTLE:
 			stream = castleBGM
 	bgm_player.stream = stream
 	bgm_player.play()

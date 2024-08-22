@@ -18,9 +18,9 @@ var spawning := true
 
 func _ready() -> void:
 	match GameManager.current_world_type:
-		World.Type.GROUND:
+		GameManager.WorldType.GROUND:
 			sprite_2d.region_rect = RECT_ORIGIN
-		World.Type.UNDER:
+		GameManager.WorldType.UNDER:
 			sprite_2d.region_rect = RECT_CYAN
 	animation_player.play("blink")
 	# 让自身向上顶出一个砖的高度，并开始向右以固定速度跳跃移动
