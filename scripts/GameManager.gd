@@ -57,7 +57,7 @@ func add_life() -> void:
 	SoundManager.play_sfx("ExtraLife")
 	life += 1
 	
-func end_level_by_flag_pole(player: Player, next_level: String) -> void:
+func end_level_by_flag_pole(next_level: String) -> void:
 	# 判断是否要放烟花
 	var end_num := StatusBar.time % 10 as int
 	# 计分

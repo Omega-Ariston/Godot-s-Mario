@@ -1,27 +1,69 @@
-[gd_scene load_steps=5 format=3 uid="uid://bkoa5bviyhuyp"]
+[gd_scene load_steps=10 format=3 uid="uid://bkoa5bviyhuyp"]
 
-[ext_resource type="PackedScene" uid="uid://7mm1fthd05j6" path="res://scenes/characters/enemy.tscn" id="1_0kc0c"]
+[ext_resource type="Shader" path="res://shaders/change_color.gdshader" id="2_flysn"]
 [ext_resource type="Script" path="res://scripts/Piranha.gd" id="2_xxc8d"]
 [ext_resource type="Texture2D" uid="uid://eh5egx0rrwpa" path="res://assets/graphics/enemies.png" id="3_s4bjf"]
+[ext_resource type="PackedScene" uid="uid://d2ywk3kf3g0wx" path="res://scenes/characters/hurtbox.tscn" id="4_tdmqw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ykir2"]
+shader = ExtResource("2_flysn")
+shader_parameter/shader_enabled = false
+shader_parameter/origin_colors = null
+shader_parameter/new_colors = null
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nx7qf"]
+atlas = ExtResource("3_s4bjf")
+region = Rect2(192, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8jmc2"]
+atlas = ExtResource("3_s4bjf")
+region = Rect2(208, 0, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7sejk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nx7qf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8jmc2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0o6pe"]
-size = Vector2(16.5, 10)
+size = Vector2(16.5, 16)
 
-[node name="Piranha" instance=ExtResource("1_0kc0c")]
+[node name="Piranha" type="StaticBody2D"]
+z_index = -1
+collision_layer = 4
+collision_mask = 5
 script = ExtResource("2_xxc8d")
 
-[node name="Graphics" parent="." index="0"]
-position = Vector2(0, -16)
+[node name="Graphics" type="Node2D" parent="."]
+position = Vector2(0, -15)
 
-[node name="Sprite2D" parent="Graphics" index="0"]
-texture = ExtResource("3_s4bjf")
-hframes = 2
-region_enabled = true
-region_rect = Rect2(192, 0, 32, 32)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Graphics"]
+material = SubResource("ShaderMaterial_ykir2")
+sprite_frames = SubResource("SpriteFrames_7sejk")
+autoplay = "default"
+frame_progress = 0.643039
 
-[node name="CollisionShape2D" parent="." index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 disabled = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
-position = Vector2(-0.25, -5)
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+
+[node name="Hurtbox" parent="." instance=ExtResource("4_tdmqw")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -8)
 shape = SubResource("RectangleShape2D_0o6pe")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

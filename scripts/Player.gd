@@ -467,7 +467,7 @@ func climb(delta:float) -> void:
 	move_and_slide()
 
 
-func hurt(enemy: Enemy) -> void:
+func hurt(enemy: Node2D) -> void:
 	print_debug("HURT BY:", enemy.name)
 	if not is_invincible:
 		is_hurt = true

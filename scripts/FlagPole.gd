@@ -31,7 +31,7 @@ func _physics_process(_delta: float) -> void:
 				player.velocity = Vector2.ZERO
 				player.visible = false
 				is_ended = true
-				GameManager.end_level_by_flag_pole(player, next_level)
+				GameManager.end_level_by_flag_pole(next_level)
 				
 
 func _on_climable_body_entered(body: Node2D) -> void:

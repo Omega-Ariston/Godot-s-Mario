@@ -33,9 +33,6 @@ var bumped := false # 被下方的砖块顶到
 
 var attack_direction := Direction.RIGHT # 受到攻击时攻击的指向
 
-func _ready() -> void:
-	z_index = -1 # 不能站主角前面
-
 func move(speed_var: float, direction_var: int, delta: float, gravity: float = default_gravity) -> void:
 	velocity.x = speed_var * direction_var
 	velocity.y += gravity * delta

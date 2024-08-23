@@ -48,8 +48,8 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 	# 离开屏幕时销毁
 	queue_free()
 
-func on_hit_enemy(enemy: Enemy) -> void:
+func on_hit_enemy(enemy: Node2D) -> void:
 	hit_enemy = true
 	velocity = Vector2.ZERO
-	if enemy is Enemy:
+	if enemy is Enemy or enemy is Piranha:
 		animation_player.play("blast", -1, 3.0, false)
