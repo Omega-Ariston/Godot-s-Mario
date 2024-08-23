@@ -243,12 +243,10 @@ func get_next_state(state: State) -> int:
 	if should_climb:
 		return State.CLIMB
 	
-	var should_enlarge := (can_enlarge or can_onfire) and curr_mode == Mode.SMALL
-	if should_enlarge:
+	if can_enlarge:
 		return State.ENLARGE
 	
-	var should_onfire := can_onfire and curr_mode == Mode.LARGE
-	if should_onfire:
+	if can_onfire:
 		return State.ONFIRE
 	
 	var can_crouch := state in GROUND_STATES and state not in UNSAFE_STATES and curr_mode != Mode.SMALL
@@ -405,7 +403,6 @@ func transition_state(from: State, to: State) -> void:
 			fireball_launcher.launch()
 		State.ENLARGE:
 			can_enlarge = false
-			can_onfire = false
 			# 暂停时间
 			get_tree().paused = true
 			animation_player.play("enlarge")
@@ -507,12 +504,16 @@ func _eat(item: Node) -> void:
 	print_debug("Eatting: %s" % item.name)
 	if item is Mushroom:
 		if item.mushroom_type == Bumpable.SpawnItem.UPGRADE:
-			can_enlarge = true
+			if curr_mode == Mode.SMALL:
+				can_enlarge = true
 			ScoreManager.add_score(Mushroom.SCORE, item)
 		elif item.mushroom_type == Bumpable.SpawnItem.LIFE:
 			ScoreManager.add_life(item.get_global_transform_with_canvas().origin)
 	elif item is Flower:
-		can_onfire = true
+		if curr_mode == Mode.SMALL:
+			can_enlarge = true
+		elif curr_mode == Mode.LARGE:
+			can_onfire = true
 		ScoreManager.add_score(Flower.SCORE, item)
 	elif item is Star:
 		set_shader_enabled(true)

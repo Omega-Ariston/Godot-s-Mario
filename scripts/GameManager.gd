@@ -41,7 +41,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		change_scene(StatusBar.level)
 	if event.is_action_pressed("test"):
 		var player := get_tree().get_first_node_in_group("Player") as Player
-		player.can_onfire = true
+		if player.curr_mode == Player.Mode.SMALL:
+			player.can_enlarge = true
+		elif player.curr_mode == Player.Mode.LARGE:
+			player.can_onfire = true
 
 func restore_status() -> void:
 	current_level = ""
