@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=4 uid="uid://bpklk5c8l7csv"]
+[gd_scene load_steps=14 format=4 uid="uid://bpklk5c8l7csv"]
 
 [ext_resource type="Script" path="res://scripts/World.gd" id="1_2o7f6"]
 [ext_resource type="Texture2D" uid="uid://b1bsw6g0md4yt" path="res://assets/maps/1-2.png" id="2_y7uwb"]
 [ext_resource type="TileSet" uid="uid://bru6c57447abq" path="res://tiles/background.tres" id="3_wyd0w"]
 [ext_resource type="TileSet" uid="uid://cf516p3bd2t1v" path="res://tiles/world.tres" id="4_luixm"]
 [ext_resource type="PackedScene" uid="uid://c30i335tpkrd8" path="res://scenes/bricks/brick.tscn" id="5_gmyou"]
+[ext_resource type="PackedScene" uid="uid://bm5n06o4v0mm6" path="res://scenes/items/platform_vertical.tscn" id="6_rb4ai"]
 [ext_resource type="PackedScene" uid="uid://by0stfwg5c7pm" path="res://scenes/bricks/coin_brick.tscn" id="6_x8kr3"]
 [ext_resource type="PackedScene" uid="uid://cjahx4qiw0rlv" path="res://scenes/items/coin.tscn" id="7_ol6jv"]
 [ext_resource type="PackedScene" uid="uid://3dn4vucj2s00" path="res://scenes/characters/goomba.tscn" id="8_1sghj"]
@@ -36,6 +37,22 @@ tile_set = ExtResource("4_luixm")
 [node name="SpawnPoint" type="Marker2D" parent="."]
 position = Vector2(48, 72)
 script = ExtResource("11_18yd0")
+
+[node name="Platforms" type="Node2D" parent="."]
+
+[node name="PlatformVertical" parent="Platforms" instance=ExtResource("6_rb4ai")]
+position = Vector2(2260, 228)
+direction = 1
+
+[node name="PlatformVertical2" parent="Platforms" instance=ExtResource("6_rb4ai")]
+position = Vector2(2260, 132)
+direction = 1
+
+[node name="PlatformVertical3" parent="Platforms" instance=ExtResource("6_rb4ai")]
+position = Vector2(2500, 92)
+
+[node name="PlatformVertical4" parent="Platforms" instance=ExtResource("6_rb4ai")]
+position = Vector2(2500, 220)
 
 [node name="Bricks" type="Node2D" parent="."]
 
