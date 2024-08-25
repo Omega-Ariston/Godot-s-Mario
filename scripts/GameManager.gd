@@ -32,6 +32,7 @@ var is_time_up := false
 signal screen_ready
 signal score_counted
 signal world_ready
+signal player_ready
 
 func _ready() -> void:
 	scene_changer.color.a = 0.0
@@ -146,6 +147,7 @@ func change_scene(level: String, params: Dictionary = {}) -> void:
 	scene_changer.color.a = 0.0
 	# 设置出生状态
 	player.global_position = spawn_point.global_position
+	player_ready.emit()
 	# 如果有无敌，播放无敌动画
 	var star_time_left = params.get("star_time_left", 0.0) as float
 	if star_time_left > 0:

@@ -27,7 +27,7 @@ tile_map_data = PackedByteArray("AABHAA4AAAAAAAAAAABHAA8AAAAAAAAAAABIAA4AAAAAAAA
 tile_set = ExtResource("2_3vma1")
 
 [node name="Player" parent="." instance=ExtResource("8_585gd")]
-position = Vector2(440, 224)
+position = Vector2(336, 216)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(0, -8)
@@ -161,7 +161,7 @@ direction = 1
 position = Vector2(328, 152)
 
 [node name="SpawnPoint" type="Marker2D" parent="."]
-position = Vector2(816, 224)
+position = Vector2(464, 192)
 script = ExtResource("10_sfy30")
 
 [node name="Piranha" parent="." instance=ExtResource("13_xdkfm")]
