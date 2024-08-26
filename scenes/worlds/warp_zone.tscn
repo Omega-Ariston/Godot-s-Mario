@@ -1,0 +1,83 @@
+[gd_scene load_steps=5 format=4 uid="uid://m2agj2g2u6vw"]
+
+[ext_resource type="Script" path="res://scripts/WarpZone.gd" id="1_ku1qa"]
+[ext_resource type="PackedScene" uid="uid://bkoa5bviyhuyp" path="res://scenes/characters/piranha.tscn" id="2_85nkj"]
+[ext_resource type="TileSet" uid="uid://cf516p3bd2t1v" path="res://tiles/world.tres" id="3_bl75a"]
+[ext_resource type="Script" path="res://scripts/EnterPoint.gd" id="4_kmx3o"]
+
+[node name="WarpZone" type="Node2D"]
+script = ExtResource("1_ku1qa")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+position = Vector2(-8, 0)
+tile_map_data = PackedByteArray("AAD7/wgAAAAAAAgAAAD7/wkAAAAAAAkAAAD8/wgAAAABAAgAAAD8/wkAAAABAAkAAAD//wgAAAAAAAgAAAD//wkAAAAAAAkAAAAAAAgAAAABAAgAAAAAAAkAAAABAAkAAAADAAgAAAAAAAgAAAADAAkAAAAAAAkAAAAEAAgAAAABAAgAAAAEAAkAAAABAAkAAAD7/woAAAAAAAkAAAD8/woAAAABAAkAAAD//woAAAAAAAkAAAAAAAoAAAABAAkAAAADAAoAAAAAAAkAAAAEAAoAAAABAAkAAAA=")
+tile_set = ExtResource("3_bl75a")
+
+[node name="Text" type="Node2D" parent="."]
+visible = false
+
+[node name="Welcome" type="RichTextLabel" parent="Text"]
+offset_left = -88.0
+offset_top = 64.0
+offset_right = 80.0
+offset_bottom = 72.0
+theme_override_font_sizes/normal_font_size = 8
+text = "welcome to warp zone!"
+scroll_active = false
+
+[node name="LevelA" type="RichTextLabel" parent="Text"]
+offset_left = -80.0
+offset_top = 104.0
+offset_right = -72.0
+offset_bottom = 112.0
+theme_override_font_sizes/normal_font_size = 8
+text = "4"
+scroll_active = false
+
+[node name="LevelB" type="RichTextLabel" parent="Text"]
+offset_left = -16.0
+offset_top = 104.0
+offset_right = -8.0
+offset_bottom = 112.0
+theme_override_font_sizes/normal_font_size = 8
+text = "3
+"
+scroll_active = false
+
+[node name="LevelC" type="RichTextLabel" parent="Text"]
+offset_left = 48.0
+offset_top = 104.0
+offset_right = 56.0
+offset_bottom = 112.0
+theme_override_font_sizes/normal_font_size = 8
+text = "2"
+scroll_active = false
+
+[node name="Piranhas" type="Node2D" parent="."]
+
+[node name="Piranha" parent="Piranhas" instance=ExtResource("2_85nkj")]
+position = Vector2(-72, 152)
+
+[node name="Piranha2" parent="Piranhas" instance=ExtResource("2_85nkj")]
+position = Vector2(-8, 152)
+
+[node name="Piranha3" parent="Piranhas" instance=ExtResource("2_85nkj")]
+position = Vector2(56, 152)
+
+[node name="EnterPoints" type="Node2D" parent="."]
+
+[node name="EnterPoint" type="Marker2D" parent="EnterPoints"]
+position = Vector2(-72, 128)
+script = ExtResource("4_kmx3o")
+
+[node name="EnterPoint2" type="Marker2D" parent="EnterPoints"]
+position = Vector2(-8, 128)
+script = ExtResource("4_kmx3o")
+
+[node name="EnterPoint3" type="Marker2D" parent="EnterPoints"]
+position = Vector2(56, 128)
+script = ExtResource("4_kmx3o")
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+position = Vector2(3.8147e-06, 88)
+scale = Vector2(10.4, 8.8)
