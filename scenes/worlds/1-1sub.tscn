@@ -214,5 +214,8 @@ new_level = "1-1"
 spawn_point_name = "SpawnPoint3"
 direction = 1
 
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(128, 128)
+
 [node name="Player" parent="." instance=ExtResource("7_2xwyr")]
 position = Vector2(40, 56)

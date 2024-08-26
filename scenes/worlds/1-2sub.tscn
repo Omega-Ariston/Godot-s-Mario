@@ -364,5 +364,8 @@ position = Vector2(168, 216)
 [node name="Coin16" parent="Coins" instance=ExtResource("5_wfc2t")]
 position = Vector2(184, 216)
 
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(128, 128)
+
 [node name="Player" parent="." instance=ExtResource("6_b1tbl")]
 position = Vector2(32, 64)
