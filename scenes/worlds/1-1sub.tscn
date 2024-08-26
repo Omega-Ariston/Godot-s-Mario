@@ -216,5 +216,3 @@ direction = 1
 
 [node name="Player" parent="." instance=ExtResource("7_2xwyr")]
 position = Vector2(40, 56)
-
-[node name="Camera2D" type="Camera2D" parent="Player"]

@@ -65,6 +65,18 @@ new_level = "1-2flag"
 spawn_point_name = "SpawnPoint"
 direction = 1
 
+[node name="EnterPoint2" type="Marker2D" parent="."]
+position = Vector2(1664, 176)
+script = ExtResource("7_0m6wr")
+new_level = "1-2sub"
+spawn_point_name = "SpawnPoint"
+
+[node name="SpawnPoint2" type="Marker2D" parent="."]
+position = Vector2(1856, 192)
+script = ExtResource("11_18yd0")
+direction = 1
+type = 1
+
 [node name="Platforms" type="Node2D" parent="."]
 
 [node name="PlatformVertical" parent="Platforms" instance=ExtResource("6_rb4ai")]
@@ -1604,7 +1616,5 @@ position = Vector2(1856, 216)
 
 [node name="Player" parent="." instance=ExtResource("10_8ahtl")]
 position = Vector2(48, 72)
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
 
 [editable path="WarpZone"]

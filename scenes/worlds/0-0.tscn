@@ -29,15 +29,6 @@ tile_set = ExtResource("2_3vma1")
 [node name="Player" parent="." instance=ExtResource("8_585gd")]
 position = Vector2(336, 216)
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
-position = Vector2(0, -8)
-process_callback = 0
-drag_horizontal_enabled = true
-drag_vertical_enabled = true
-drag_top_margin = 1.0
-drag_bottom_margin = 1.0
-editor_draw_drag_margin = true
-
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]

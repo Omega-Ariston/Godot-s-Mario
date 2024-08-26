@@ -285,5 +285,3 @@ position = Vector2(1720, 224)
 
 [node name="Player" parent="." instance=ExtResource("4_lihcs")]
 position = Vector2(16, 224)
-
-[node name="Camera2D" type="Camera2D" parent="Player"]

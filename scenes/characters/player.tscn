@@ -421,4 +421,6 @@ process_mode = 3
 wait_time = 0.5
 one_shot = true
 
+[node name="Camera2D" type="Camera2D" parent="."]
+
 [connection signal="timeout" from="DyingTimer" to="." method="_on_dying_timer_timeout"]

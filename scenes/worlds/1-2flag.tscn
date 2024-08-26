@@ -38,8 +38,6 @@ next_level = "4-1"
 [node name="Player" parent="." instance=ExtResource("7_ep7hj")]
 position = Vector2(64, 192)
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
-
 [node name="SpawnPoint" type="Marker2D" parent="."]
 position = Vector2(64, 192)
 script = ExtResource("8_r1ch2")
