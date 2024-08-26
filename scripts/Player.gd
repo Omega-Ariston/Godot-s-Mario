@@ -15,8 +15,8 @@ const FIREBALL_LIMIT := 2
 const CLIFF_LIMIT := Variables.TILE_SIZE.y * 18
 
 enum State {
-	IDLE,
 	WALK,
+	IDLE,
 	TURN,
 	CROUCH,
 	CROUCH_JUMP,
