@@ -5,7 +5,7 @@ extends Node2D
 @onready var player: Player = $Player
 
 func _ready() -> void:
-	GameManager.uncontrol_player(player)
+	player.controllable = false
 	setup_camera()
 
 func _unhandled_input(event: InputEvent) -> void:
