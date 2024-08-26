@@ -24,6 +24,7 @@ var current_world_type : WorldType
 var player_current_mode: Player.Mode
 var life := LIFE_COUNT
 var is_time_up := false
+var into_the_under := false
 
 @onready var scene_changer: ColorRect = $CanvasLayer/SceneChanger
 @onready var game_timer: Timer = $GameTimer
@@ -76,6 +77,8 @@ func end_level_by_flag_pole(next_level: String) -> void:
 	# 等两秒
 	await get_tree().create_timer(2).timeout
 	# 切换到下一关的开头画面
+	if next_level in ["1-2", "4-2"]:
+		GameManager.into_the_under = true
 	transition_scene(next_level)
 
 func get_level_scene_path(level: String) -> String:
@@ -127,6 +130,16 @@ func change_scene(level: String, params: Dictionary = {}) -> void:
 	tree.paused = false
 	# 切换场景
 	var scene_change_timer := tree.create_timer(CHANGE_SCENE_DURATION)
+	# 进入地下的动画走单独的逻辑
+	if into_the_under:
+		into_the_under = false
+		tree.change_scene_to_file("res://scenes/worlds/into_the_under.tscn")
+		# 恢复屏幕
+		await scene_change_timer.timeout
+		scene_changer.color.a = 0.0
+		screen_ready.emit()
+		return
+	# 初始化关卡
 	tree.change_scene_to_file(get_level_scene_path(level))
 	await world_ready
 	# 初始化玩家
