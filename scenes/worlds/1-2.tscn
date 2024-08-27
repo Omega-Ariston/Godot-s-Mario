@@ -1618,4 +1618,6 @@ position = Vector2(1856, 216)
 [node name="Player" parent="." instance=ExtResource("10_8ahtl")]
 position = Vector2(48, 72)
 
+[node name="Camera2D" type="Camera2D" parent="Player"]
+
 [editable path="WarpZone"]

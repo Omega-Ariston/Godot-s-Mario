@@ -161,3 +161,5 @@ direction = 1
 
 [node name="Player" parent="." instance=ExtResource("8_585gd")]
 position = Vector2(336, 216)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
