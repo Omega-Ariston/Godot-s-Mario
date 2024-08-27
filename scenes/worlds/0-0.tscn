@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://bfb0vxdydy2et"]
+[gd_scene load_steps=16 format=4 uid="uid://bfb0vxdydy2et"]
 
 [ext_resource type="Script" path="res://scripts/World.gd" id="1_tpqgv"]
 [ext_resource type="TileSet" uid="uid://cf516p3bd2t1v" path="res://tiles/world.tres" id="2_3vma1"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://cjahx4qiw0rlv" path="res://scenes/items/coin.tscn" id="12_hi1si"]
 [ext_resource type="PackedScene" uid="uid://bkoa5bviyhuyp" path="res://scenes/characters/piranha.tscn" id="13_xdkfm"]
 [ext_resource type="PackedScene" uid="uid://bm5n06o4v0mm6" path="res://scenes/items/platform_vertical.tscn" id="14_bjemg"]
+[ext_resource type="PackedScene" uid="uid://bmj4wwc8y1hpb" path="res://scenes/characters/spiny.tscn" id="15_m75tq"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_tpqgv")
@@ -55,7 +56,7 @@ spawn_item = 1
 
 [node name="CoinBrick4" parent="." instance=ExtResource("5_cpr27")]
 position = Vector2(376, 168)
-spawn_item = 1
+spawn_item = 3
 
 [node name="CoinBrick5" parent="." instance=ExtResource("5_cpr27")]
 position = Vector2(360, 104)
@@ -164,3 +165,12 @@ direction = 1
 position = Vector2(336, 216)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
+
+[node name="Spiny" parent="." instance=ExtResource("15_m75tq")]
+position = Vector2(664, 48)
+
+[node name="Spiny2" parent="." instance=ExtResource("15_m75tq")]
+position = Vector2(288, 56)
+
+[node name="Spiny3" parent="." instance=ExtResource("15_m75tq")]
+position = Vector2(392, 56)
