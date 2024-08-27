@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/Eatable.gd" id="3_5oykf"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5tkcc"]
+resource_local_to_scene = true
 shader = ExtResource("2_fso1w")
 shader_parameter/shader_enabled = false
 shader_parameter/origin_colors = null
