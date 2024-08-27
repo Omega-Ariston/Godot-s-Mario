@@ -54,4 +54,8 @@ script = ExtResource("4_dvfl8")
 position = Vector2(0, -92)
 shape = SubResource("RectangleShape2D_g8xbe")
 
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+position = Vector2(0, -84)
+scale = Vector2(0.8, 8.4)
+
 [connection signal="body_entered" from="Climable" to="." method="_on_climable_body_entered"]
