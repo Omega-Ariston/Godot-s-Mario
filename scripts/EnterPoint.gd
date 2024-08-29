@@ -44,15 +44,19 @@ func _physics_process(_delta: float) -> void:
 			# 切换场景
 			var params := { "player_mode": player.curr_mode }
 			params["spawn_point"] = spawn_point_name
-			# 判断是否正在切换新关卡
-			if new_level.begins_with(StatusBar.level):
-				# 在子关卡与主世界之间切换需要保留当前关卡状态
+			# 三种情况：
+			if not new_level:
+				# 子->主
+				params["time"] = StatusBar.time
+				GameManager.change_scene(StatusBar.level, params)
+			elif new_level.begins_with('sub'):
+				# 主->子
 				if player.is_under_star:
 					params["star_time_left"] = player.star_timer.time_left
 				params["time"] = StatusBar.time
 				GameManager.change_scene(new_level, params)
 			else:
-				# 进入关卡切换界面
+				# 主->主
 				GameManager.transition_scene(new_level)
 
 func enter() -> void:

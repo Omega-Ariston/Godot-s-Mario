@@ -14,7 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://3dn4vucj2s00" path="res://scenes/characters/goomba.tscn" id="8_u6ctx"]
 [ext_resource type="PackedScene" uid="uid://b3sa7c80qbgij" path="res://scenes/characters/turtle.tscn" id="9_372ao"]
 
-[node name="World" type="Node2D"]
+[node name="1-1" type="Node2D"]
 script = ExtResource("1_d7qaa")
 level_time = 400
 level_name = "1-1"
@@ -36,25 +36,27 @@ position = Vector2(3176, 224)
 door_distance = null
 next_level = "1-2"
 
-[node name="SpawnPoint" type="Marker2D" parent="."]
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="SpawnPoint" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(40, 224)
 script = ExtResource("5_g0s2g")
 
-[node name="SpawnPoint2" type="Marker2D" parent="."]
+[node name="SpawnPoint2" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(1320, 224)
 script = ExtResource("5_g0s2g")
 
-[node name="EnterPoint" type="Marker2D" parent="."]
-position = Vector2(928, 160)
-script = ExtResource("6_3ukx0")
-new_level = "1-1sub"
-spawn_point_name = "SpawnPoint"
-
-[node name="SpawnPoint3" type="Marker2D" parent="."]
+[node name="SubA" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(2624, 192)
 script = ExtResource("5_g0s2g")
 direction = 1
 type = 1
+
+[node name="EnterPoint" type="Marker2D" parent="."]
+position = Vector2(928, 160)
+script = ExtResource("6_3ukx0")
+new_level = "sub-A"
+spawn_point_name = "SpawnPoint"
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 

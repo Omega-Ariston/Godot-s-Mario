@@ -8,7 +8,7 @@ extends Node2D
 @onready var foreground: TileMapLayer = $Foreground
 @onready var camera_2d: Camera2D = $Player/Camera2D
 @onready var player: Player = $Player
-@onready var spawn_point: SpawnPoint = $SpawnPoint
+@onready var spawn_point: SpawnPoint = $SpawnPoints/SpawnPoint
 
 var viewport_size: Vector2
 

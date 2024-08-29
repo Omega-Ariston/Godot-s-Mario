@@ -1,6 +1,6 @@
 extends World
 
-@onready var spawn_point_2: SpawnPoint = $SpawnPoint2
+@onready var spawn_point_2: SpawnPoint = $SpawnPoints/SpawnPoint2
 
 
 func _process(delta: float) -> void:

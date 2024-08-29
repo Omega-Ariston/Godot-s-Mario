@@ -1,221 +1,220 @@
 [gd_scene load_steps=9 format=4 uid="uid://dgpjebaljt1xi"]
 
-[ext_resource type="Script" path="res://scripts/SubWorld.gd" id="1_cd6sm"]
-[ext_resource type="TileSet" uid="uid://cf516p3bd2t1v" path="res://tiles/world.tres" id="2_eijf8"]
-[ext_resource type="TileSet" uid="uid://bru6c57447abq" path="res://tiles/background.tres" id="2_s8j25"]
-[ext_resource type="PackedScene" uid="uid://c30i335tpkrd8" path="res://scenes/bricks/brick.tscn" id="4_c6isv"]
-[ext_resource type="PackedScene" uid="uid://cjahx4qiw0rlv" path="res://scenes/items/coin.tscn" id="4_idi22"]
-[ext_resource type="Script" path="res://scripts/SpawnPoint.gd" id="5_vxt4q"]
-[ext_resource type="Script" path="res://scripts/EnterPoint.gd" id="6_g30mj"]
-[ext_resource type="PackedScene" uid="uid://ta2kus8p0r8f" path="res://scenes/characters/player.tscn" id="7_2xwyr"]
+[ext_resource type="Script" path="res://scripts/SubWorld.gd" id="1_jjba2"]
+[ext_resource type="TileSet" uid="uid://bru6c57447abq" path="res://tiles/background.tres" id="2_sccjc"]
+[ext_resource type="TileSet" uid="uid://cf516p3bd2t1v" path="res://tiles/world.tres" id="3_itltj"]
+[ext_resource type="Script" path="res://scripts/SpawnPoint.gd" id="4_eaung"]
+[ext_resource type="Script" path="res://scripts/EnterPoint.gd" id="5_0dlq0"]
+[ext_resource type="PackedScene" uid="uid://c30i335tpkrd8" path="res://scenes/bricks/brick.tscn" id="6_dijwr"]
+[ext_resource type="PackedScene" uid="uid://cjahx4qiw0rlv" path="res://scenes/items/coin.tscn" id="7_0q6bk"]
+[ext_resource type="PackedScene" uid="uid://ta2kus8p0r8f" path="res://scenes/characters/player.tscn" id="8_l703m"]
 
-[node name="1-1sub" type="Node2D"]
-script = ExtResource("1_cd6sm")
+[node name="SubA" type="Node2D"]
+script = ExtResource("1_jjba2")
 world_type = 1
 
 [node name="Background" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAAAAAAAAAANAAEAAAAAAAEAAAANAAEAAAAAAAIAAAANAAEAAAAAAAMAAAANAAEAAAAAAAQAAAANAAEAAAAAAAUAAAANAAEAAAAAAAYAAAANAAEAAAAAAAcAAAANAAEAAAAAAAgAAAANAAEAAAAAAAkAAAANAAEAAAAAAAoAAAANAAEAAAAAAAsAAAANAAEAAAAAAAwAAAANAAEAAAAAAA0AAAANAAEAAAAAAA4AAAANAAEAAAAAAA8AAAANAAEAAAABAAAAAAANAAEAAAABAAEAAAANAAEAAAABAAIAAAANAAEAAAABAAMAAAANAAEAAAABAAQAAAANAAEAAAABAAUAAAANAAEAAAABAAYAAAANAAEAAAABAAcAAAANAAEAAAABAAgAAAANAAEAAAABAAkAAAANAAEAAAABAAoAAAANAAEAAAABAAsAAAANAAEAAAABAAwAAAANAAEAAAABAA0AAAANAAEAAAABAA4AAAANAAEAAAABAA8AAAANAAEAAAACAAAAAAANAAEAAAACAAEAAAANAAEAAAACAAIAAAANAAEAAAACAAMAAAANAAEAAAACAAQAAAANAAEAAAACAAUAAAANAAEAAAACAAYAAAANAAEAAAACAAcAAAANAAEAAAACAAgAAAANAAEAAAACAAkAAAANAAEAAAACAAoAAAANAAEAAAACAAsAAAANAAEAAAACAAwAAAANAAEAAAACAA0AAAANAAEAAAACAA4AAAANAAEAAAACAA8AAAANAAEAAAADAAAAAAANAAEAAAADAAEAAAANAAEAAAADAAIAAAANAAEAAAADAAMAAAANAAEAAAADAAQAAAANAAEAAAADAAUAAAANAAEAAAADAAYAAAANAAEAAAADAAcAAAANAAEAAAADAAgAAAANAAEAAAADAAkAAAANAAEAAAADAAoAAAANAAEAAAADAAsAAAANAAEAAAADAAwAAAANAAEAAAADAA0AAAANAAEAAAADAA4AAAANAAEAAAADAA8AAAANAAEAAAAEAAAAAAANAAEAAAAEAAEAAAANAAEAAAAEAAIAAAANAAEAAAAEAAMAAAANAAEAAAAEAAQAAAANAAEAAAAEAAUAAAANAAEAAAAEAAYAAAANAAEAAAAEAAcAAAANAAEAAAAEAAgAAAANAAEAAAAEAAkAAAANAAEAAAAEAAoAAAANAAEAAAAEAAsAAAANAAEAAAAEAAwAAAANAAEAAAAEAA0AAAANAAEAAAAEAA4AAAANAAEAAAAEAA8AAAANAAEAAAAFAAAAAAANAAEAAAAFAAEAAAANAAEAAAAFAAIAAAANAAEAAAAFAAMAAAANAAEAAAAFAAQAAAANAAEAAAAFAAUAAAANAAEAAAAFAAYAAAANAAEAAAAFAAcAAAANAAEAAAAFAAgAAAANAAEAAAAFAAkAAAANAAEAAAAFAAoAAAANAAEAAAAFAAsAAAANAAEAAAAFAAwAAAANAAEAAAAFAA0AAAANAAEAAAAFAA4AAAANAAEAAAAFAA8AAAANAAEAAAAGAAAAAAANAAEAAAAGAAEAAAANAAEAAAAGAAIAAAANAAEAAAAGAAMAAAANAAEAAAAGAAQAAAANAAEAAAAGAAUAAAANAAEAAAAGAAYAAAANAAEAAAAGAAcAAAANAAEAAAAGAAgAAAANAAEAAAAGAAkAAAANAAEAAAAGAAoAAAANAAEAAAAGAAsAAAANAAEAAAAGAAwAAAANAAEAAAAGAA0AAAANAAEAAAAGAA4AAAANAAEAAAAGAA8AAAANAAEAAAAHAAAAAAANAAEAAAAHAAEAAAANAAEAAAAHAAIAAAANAAEAAAAHAAMAAAANAAEAAAAHAAQAAAANAAEAAAAHAAUAAAANAAEAAAAHAAYAAAANAAEAAAAHAAcAAAANAAEAAAAHAAgAAAANAAEAAAAHAAkAAAANAAEAAAAHAAoAAAANAAEAAAAHAAsAAAANAAEAAAAHAAwAAAANAAEAAAAHAA0AAAANAAEAAAAHAA4AAAANAAEAAAAHAA8AAAANAAEAAAAIAAAAAAANAAEAAAAIAAEAAAANAAEAAAAIAAIAAAANAAEAAAAIAAMAAAANAAEAAAAIAAQAAAANAAEAAAAIAAUAAAANAAEAAAAIAAYAAAANAAEAAAAIAAcAAAANAAEAAAAIAAgAAAANAAEAAAAIAAkAAAANAAEAAAAIAAoAAAANAAEAAAAIAAsAAAANAAEAAAAIAAwAAAANAAEAAAAIAA0AAAANAAEAAAAIAA4AAAANAAEAAAAIAA8AAAANAAEAAAAJAAAAAAANAAEAAAAJAAEAAAANAAEAAAAJAAIAAAANAAEAAAAJAAMAAAANAAEAAAAJAAQAAAANAAEAAAAJAAUAAAANAAEAAAAJAAYAAAANAAEAAAAJAAcAAAANAAEAAAAJAAgAAAANAAEAAAAJAAkAAAANAAEAAAAJAAoAAAANAAEAAAAJAAsAAAANAAEAAAAJAAwAAAANAAEAAAAJAA0AAAANAAEAAAAJAA4AAAANAAEAAAAJAA8AAAANAAEAAAAKAAAAAAANAAEAAAAKAAEAAAANAAEAAAAKAAIAAAANAAEAAAAKAAMAAAANAAEAAAAKAAQAAAANAAEAAAAKAAUAAAANAAEAAAAKAAYAAAANAAEAAAAKAAcAAAANAAEAAAAKAAgAAAANAAEAAAAKAAkAAAANAAEAAAAKAAoAAAANAAEAAAAKAAsAAAANAAEAAAAKAAwAAAANAAEAAAAKAA0AAAANAAEAAAAKAA4AAAANAAEAAAAKAA8AAAANAAEAAAALAAAAAAANAAEAAAALAAEAAAANAAEAAAALAAIAAAANAAEAAAALAAMAAAANAAEAAAALAAQAAAANAAEAAAALAAUAAAANAAEAAAALAAYAAAANAAEAAAALAAcAAAANAAEAAAALAAgAAAANAAEAAAALAAkAAAANAAEAAAALAAoAAAANAAEAAAALAAsAAAANAAEAAAALAAwAAAANAAEAAAALAA0AAAANAAEAAAALAA4AAAANAAEAAAALAA8AAAANAAEAAAAMAAAAAAANAAEAAAAMAAEAAAANAAEAAAAMAAIAAAANAAEAAAAMAAMAAAANAAEAAAAMAAQAAAANAAEAAAAMAAUAAAANAAEAAAAMAAYAAAANAAEAAAAMAAcAAAANAAEAAAAMAAgAAAANAAEAAAAMAAkAAAANAAEAAAAMAAoAAAANAAEAAAAMAAsAAAANAAEAAAAMAAwAAAANAAEAAAAMAA0AAAANAAEAAAAMAA4AAAANAAEAAAAMAA8AAAANAAEAAAANAAAAAAANAAEAAAANAAEAAAANAAEAAAANAAIAAAANAAEAAAANAAMAAAANAAEAAAANAAQAAAANAAEAAAANAAUAAAANAAEAAAANAAYAAAANAAEAAAANAAcAAAANAAEAAAANAAgAAAANAAEAAAANAAkAAAANAAEAAAANAAoAAAANAAEAAAANAAsAAAANAAEAAAANAAwAAAANAAEAAAANAA0AAAANAAEAAAANAA4AAAANAAEAAAANAA8AAAANAAEAAAAOAAAAAAANAAEAAAAOAAEAAAANAAEAAAAOAAIAAAANAAEAAAAOAAMAAAANAAEAAAAOAAQAAAANAAEAAAAOAAUAAAANAAEAAAAOAAYAAAANAAEAAAAOAAcAAAANAAEAAAAOAAgAAAANAAEAAAAOAAkAAAANAAEAAAAOAAoAAAANAAEAAAAOAAsAAAANAAEAAAAOAAwAAAANAAEAAAAOAA0AAAANAAEAAAAOAA4AAAANAAEAAAAOAA8AAAANAAEAAAAPAAAAAAANAAEAAAAPAAEAAAANAAEAAAAPAAIAAAANAAEAAAAPAAMAAAANAAEAAAAPAAQAAAANAAEAAAAPAAUAAAANAAEAAAAPAAYAAAANAAEAAAAPAAcAAAANAAEAAAAPAAgAAAANAAEAAAAPAAkAAAANAAEAAAAPAAoAAAANAAEAAAAPAAsAAAANAAEAAAAPAAwAAAANAAEAAAAPAA0AAAANAAEAAAAPAA4AAAANAAEAAAAPAA8AAAANAAEAAAAQAAAAAAANAAEAAAAQAAEAAAANAAEAAAAQAAIAAAANAAEAAAAQAAMAAAANAAEAAAAQAAQAAAANAAEAAAAQAAUAAAANAAEAAAAQAAYAAAANAAEAAAAQAAcAAAANAAEAAAAQAAgAAAANAAEAAAAQAAkAAAANAAEAAAAQAAoAAAANAAEAAAAQAAsAAAANAAEAAAAQAAwAAAANAAEAAAAQAA0AAAANAAEAAAAQAA4AAAANAAEAAAAQAA8AAAANAAEAAAA=")
-tile_set = ExtResource("2_s8j25")
+tile_set = ExtResource("2_sccjc")
 
 [node name="Foreground" type="TileMapLayer" parent="."]
 position = Vector2(0, 16)
 tile_map_data = PackedByteArray("AAAAAA4AAAAAAAIAAAABAA4AAAAAAAIAAAACAA4AAAAAAAIAAAADAA4AAAAAAAIAAAAEAA4AAAAAAAIAAAAFAA4AAAAAAAIAAAAGAA4AAAAAAAIAAAAHAA4AAAAAAAIAAAAIAA4AAAAAAAIAAAAJAA4AAAAAAAIAAAAKAA4AAAAAAAIAAAALAA4AAAAAAAIAAAAMAA4AAAAAAAIAAAANAA4AAAAAAAIAAAAOAA4AAAAAAAIAAAAPAA4AAAAAAAIAAAAPAA0AAAAAAAIAAAAOAA0AAAAAAAIAAAANAA0AAAAAAAIAAAAMAA0AAAAAAAIAAAALAA0AAAAAAAIAAAAKAA0AAAAAAAIAAAAJAA0AAAAAAAIAAAAIAA0AAAAAAAIAAAAHAA0AAAAAAAIAAAAGAA0AAAAAAAIAAAAFAA0AAAAAAAIAAAAEAA0AAAAAAAIAAAADAA0AAAAAAAIAAAACAA0AAAAAAAIAAAABAA0AAAAAAAIAAAAAAA0AAAAAAAIAAAAQAA0AAAAAAAIAAAAQAA4AAAAAAAIAAAANAAsAAAACAAgAAAANAAwAAAACAAkAAAAOAAsAAAADAAgAAAAOAAwAAAADAAkAAAAPAAsAAAAEAAgAAAAPAAwAAAAEAAkAAAAPAAoAAAAAAAkAAAAQAAoAAAABAAkAAAAPAAkAAAAAAAkAAAAQAAkAAAABAAkAAAAPAAgAAAAAAAkAAAAQAAgAAAABAAkAAAAPAAcAAAAAAAkAAAAQAAcAAAABAAkAAAAPAAYAAAAAAAkAAAAQAAYAAAABAAkAAAAPAAUAAAAAAAkAAAAQAAUAAAABAAkAAAAPAAQAAAAAAAkAAAAQAAQAAAABAAkAAAAPAAMAAAAAAAkAAAAQAAMAAAABAAkAAAAPAAIAAAAAAAkAAAAQAAIAAAABAAkAAAAQAAsAAAABAAkAAAAQAAwAAAABAAkAAAAQAAEAAAABAAkAAAAPAAEAAAAAAAkAAAA=")
-tile_set = ExtResource("2_eijf8")
+tile_set = ExtResource("3_itltj")
+
+[node name="SpawnPoint" type="Marker2D" parent="."]
+position = Vector2(40, 56)
+script = ExtResource("4_eaung")
+
+[node name="EnterPoint" type="Marker2D" parent="."]
+position = Vector2(208, 224)
+script = ExtResource("5_0dlq0")
+spawn_point_name = "SubA"
+direction = 1
 
 [node name="Bricks" type="Node2D" parent="."]
 
-[node name="Brick" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(8, 40)
 
-[node name="Brick2" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick2" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(8, 56)
 
-[node name="Brick3" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick3" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(8, 72)
 
-[node name="Brick4" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick4" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(8, 88)
 
-[node name="Brick5" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick5" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(8, 104)
 
-[node name="Brick6" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick6" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(8, 120)
 
-[node name="Brick7" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick7" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(8, 136)
 
-[node name="Brick8" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick8" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(8, 152)
 
-[node name="Brick9" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick9" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(8, 168)
 
-[node name="Brick10" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick10" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(8, 184)
 
-[node name="Brick11" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick11" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(8, 200)
 
-[node name="Brick12" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick12" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(8, 216)
 
-[node name="Brick13" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick13" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(72, 40)
 
-[node name="Brick14" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick14" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(88, 40)
 
-[node name="Brick15" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick15" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(104, 40)
 
-[node name="Brick16" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick16" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(120, 40)
 
-[node name="Brick17" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick17" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(136, 40)
 
-[node name="Brick18" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick18" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(152, 40)
 
-[node name="Brick19" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick19" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(168, 40)
 
-[node name="Brick20" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick20" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(72, 184)
 
-[node name="Brick21" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick21" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(88, 184)
 
-[node name="Brick22" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick22" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(104, 184)
 
-[node name="Brick23" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick23" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(120, 184)
 
-[node name="Brick24" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick24" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(136, 184)
 
-[node name="Brick25" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick25" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(152, 184)
 
-[node name="Brick26" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick26" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(168, 184)
 
-[node name="Brick27" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick27" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(72, 200)
 
-[node name="Brick28" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick28" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(88, 200)
 
-[node name="Brick29" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick29" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(104, 200)
 
-[node name="Brick30" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick30" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(120, 200)
 
-[node name="Brick31" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick31" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(136, 200)
 
-[node name="Brick32" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick32" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(152, 200)
 
-[node name="Brick33" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick33" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(168, 200)
 
-[node name="Brick34" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick34" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(72, 216)
 
-[node name="Brick35" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick35" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(88, 216)
 
-[node name="Brick36" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick36" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(104, 216)
 
-[node name="Brick37" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick37" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(120, 216)
 
-[node name="Brick38" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick38" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(136, 216)
 
-[node name="Brick39" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick39" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(152, 216)
 
-[node name="Brick40" parent="Bricks" instance=ExtResource("4_c6isv")]
+[node name="Brick40" parent="Bricks" instance=ExtResource("6_dijwr")]
 position = Vector2(168, 216)
 
 [node name="Coins" type="Node2D" parent="."]
 
-[node name="Coin" parent="Coins" instance=ExtResource("4_idi22")]
+[node name="Coin" parent="Coins" instance=ExtResource("7_0q6bk")]
 position = Vector2(72, 168)
 
-[node name="Coin2" parent="Coins" instance=ExtResource("4_idi22")]
+[node name="Coin2" parent="Coins" instance=ExtResource("7_0q6bk")]
 position = Vector2(88, 168)
 
-[node name="Coin3" parent="Coins" instance=ExtResource("4_idi22")]
+[node name="Coin3" parent="Coins" instance=ExtResource("7_0q6bk")]
 position = Vector2(104, 168)
 
-[node name="Coin4" parent="Coins" instance=ExtResource("4_idi22")]
+[node name="Coin4" parent="Coins" instance=ExtResource("7_0q6bk")]
 position = Vector2(120, 168)
 
-[node name="Coin5" parent="Coins" instance=ExtResource("4_idi22")]
+[node name="Coin5" parent="Coins" instance=ExtResource("7_0q6bk")]
 position = Vector2(136, 168)
 
-[node name="Coin6" parent="Coins" instance=ExtResource("4_idi22")]
+[node name="Coin6" parent="Coins" instance=ExtResource("7_0q6bk")]
 position = Vector2(152, 168)
 
-[node name="Coin7" parent="Coins" instance=ExtResource("4_idi22")]
+[node name="Coin7" parent="Coins" instance=ExtResource("7_0q6bk")]
 position = Vector2(168, 168)
 
-[node name="Coin8" parent="Coins" instance=ExtResource("4_idi22")]
+[node name="Coin8" parent="Coins" instance=ExtResource("7_0q6bk")]
 position = Vector2(72, 136)
 
-[node name="Coin9" parent="Coins" instance=ExtResource("4_idi22")]
+[node name="Coin9" parent="Coins" instance=ExtResource("7_0q6bk")]
 position = Vector2(88, 136)
 
-[node name="Coin10" parent="Coins" instance=ExtResource("4_idi22")]
+[node name="Coin10" parent="Coins" instance=ExtResource("7_0q6bk")]
 position = Vector2(104, 136)
 
-[node name="Coin11" parent="Coins" instance=ExtResource("4_idi22")]
+[node name="Coin11" parent="Coins" instance=ExtResource("7_0q6bk")]
 position = Vector2(120, 136)
 
-[node name="Coin12" parent="Coins" instance=ExtResource("4_idi22")]
+[node name="Coin12" parent="Coins" instance=ExtResource("7_0q6bk")]
 position = Vector2(136, 136)
 
-[node name="Coin13" parent="Coins" instance=ExtResource("4_idi22")]
+[node name="Coin13" parent="Coins" instance=ExtResource("7_0q6bk")]
 position = Vector2(152, 136)
 
-[node name="Coin15" parent="Coins" instance=ExtResource("4_idi22")]
+[node name="Coin15" parent="Coins" instance=ExtResource("7_0q6bk")]
 position = Vector2(88, 104)
 
-[node name="Coin16" parent="Coins" instance=ExtResource("4_idi22")]
+[node name="Coin16" parent="Coins" instance=ExtResource("7_0q6bk")]
 position = Vector2(104, 104)
 
-[node name="Coin17" parent="Coins" instance=ExtResource("4_idi22")]
+[node name="Coin17" parent="Coins" instance=ExtResource("7_0q6bk")]
 position = Vector2(120, 104)
 
-[node name="Coin18" parent="Coins" instance=ExtResource("4_idi22")]
+[node name="Coin18" parent="Coins" instance=ExtResource("7_0q6bk")]
 position = Vector2(136, 104)
 
-[node name="Coin19" parent="Coins" instance=ExtResource("4_idi22")]
+[node name="Coin19" parent="Coins" instance=ExtResource("7_0q6bk")]
 position = Vector2(152, 104)
 
-[node name="Coin14" parent="Coins" instance=ExtResource("4_idi22")]
+[node name="Coin14" parent="Coins" instance=ExtResource("7_0q6bk")]
 position = Vector2(168, 136)
-
-[node name="SpawnPoint" type="Marker2D" parent="."]
-position = Vector2(40, 56)
-script = ExtResource("5_vxt4q")
-
-[node name="EnterPoint" type="Marker2D" parent="."]
-position = Vector2(208, 224)
-script = ExtResource("6_g30mj")
-new_level = "1-1"
-spawn_point_name = "SpawnPoint3"
-direction = 1
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(128, 128)
 
-[node name="Player" parent="." instance=ExtResource("7_2xwyr")]
+[node name="Player" parent="." instance=ExtResource("8_l703m")]
 position = Vector2(40, 56)

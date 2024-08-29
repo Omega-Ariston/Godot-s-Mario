@@ -59,7 +59,7 @@ func add_life() -> void:
 	SoundManager.play_sfx("ExtraLife")
 	life += 1
 	
-func end_level_by_flag_pole(next_level: String) -> void:
+func end_level_by_flag_pole() -> void:
 	# 判断是否要放烟花
 	var end_num := StatusBar.time % 10 as int
 	# 计分
@@ -76,9 +76,21 @@ func end_level_by_flag_pole(next_level: String) -> void:
 		await SoundManager.bgm_player.finished
 	# 等两秒
 	await get_tree().create_timer(2).timeout
-	# 切换到下一关的开头画面
-	if next_level in ["1-2", "4-2"]:
+	# 1-1和4-1有特殊开场动画
+	if StatusBar.level in ["1-1", "4-1"]:
 		GameManager.into_the_under = true
+	var next_level
+	# 特殊跳关
+	if StatusBar.level == '1-2':
+		# 1-2直接跳到4-1
+		next_level = "4-1"
+	elif StatusBar.level == '4-2':
+		# 4-2直接跳到8-1
+		next_level = "8-1"
+	else:
+		# 普通情况关卡数+1即可
+		var level_array = StatusBar.level.split('-')
+		next_level = level_array[0] + '-' + str(int(level_array[1]) + 1)
 	transition_scene(next_level)
 
 func get_level_scene_path(level: String) -> String:

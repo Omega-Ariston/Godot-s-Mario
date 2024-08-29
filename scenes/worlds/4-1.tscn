@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://blghq5i5psual"]
+[gd_scene load_steps=15 format=4 uid="uid://blghq5i5psual"]
 
 [ext_resource type="Script" path="res://scripts/World.gd" id="1_7mmtm"]
 [ext_resource type="Texture2D" uid="uid://b0genkdxoo47b" path="res://assets/maps/4-1.png" id="2_r1mrb"]
@@ -8,6 +8,7 @@
 [ext_resource type="TileSet" uid="uid://bru6c57447abq" path="res://tiles/background.tres" id="6_akj7o"]
 [ext_resource type="Script" path="res://scripts/SpawnPoint.gd" id="6_dkuyc"]
 [ext_resource type="PackedScene" uid="uid://by0stfwg5c7pm" path="res://scenes/bricks/coin_brick.tscn" id="7_7umxy"]
+[ext_resource type="Script" path="res://scripts/EnterPoint.gd" id="7_072c8"]
 [ext_resource type="PackedScene" uid="uid://ta2kus8p0r8f" path="res://scenes/characters/player.tscn" id="7_noudm"]
 [ext_resource type="PackedScene" uid="uid://c30i335tpkrd8" path="res://scenes/bricks/brick.tscn" id="8_1wep1"]
 [ext_resource type="PackedScene" uid="uid://cjahx4qiw0rlv" path="res://scenes/items/coin.tscn" id="9_358dk"]
@@ -33,11 +34,26 @@ tile_set = ExtResource("4_36sv8")
 
 [node name="FlagPole" parent="." instance=ExtResource("5_fppah")]
 position = Vector2(3608, 224)
+door_distance = null
 next_level = "4-2"
 
-[node name="SpawnPoint" type="Marker2D" parent="."]
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="SpawnPoint" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(56, 224)
 script = ExtResource("6_dkuyc")
+
+[node name="SubC" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(2624, 192)
+script = ExtResource("6_dkuyc")
+direction = 1
+type = 1
+
+[node name="EnterPoint" type="Marker2D" parent="."]
+position = Vector2(2128, 160)
+script = ExtResource("7_072c8")
+new_level = "sub-C"
+spawn_point_name = "SpawnPoint"
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 

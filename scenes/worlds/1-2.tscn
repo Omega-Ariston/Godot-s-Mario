@@ -55,28 +55,30 @@ spawn_point_name = "SpawnPoint"
 new_level = "4-1"
 spawn_point_name = "SpawnPoint"
 
-[node name="SpawnPoint" type="Marker2D" parent="."]
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="SpawnPoint" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(48, 72)
 script = ExtResource("11_18yd0")
+
+[node name="SubB" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1856, 192)
+script = ExtResource("11_18yd0")
+direction = 1
+type = 1
 
 [node name="EnterPoint" type="Marker2D" parent="."]
 position = Vector2(2656, 176)
 script = ExtResource("7_0m6wr")
-new_level = "1-2flag"
+new_level = "sub-Flag"
 spawn_point_name = "SpawnPoint"
 direction = 1
 
 [node name="EnterPoint2" type="Marker2D" parent="."]
 position = Vector2(1664, 176)
 script = ExtResource("7_0m6wr")
-new_level = "1-2sub"
+new_level = "sub-B"
 spawn_point_name = "SpawnPoint"
-
-[node name="SpawnPoint2" type="Marker2D" parent="."]
-position = Vector2(1856, 192)
-script = ExtResource("11_18yd0")
-direction = 1
-type = 1
 
 [node name="Bumpables" type="Node2D" parent="."]
 

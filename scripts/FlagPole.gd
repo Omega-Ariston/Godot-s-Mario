@@ -2,7 +2,6 @@ class_name FlagPole
 extends Node2D
 
 @export var door_distance := 6 as int
-@export var next_level: String
 
 @onready var flag: Sprite2D = $Flag
 @onready var climable: Climable = $Climable
@@ -31,7 +30,7 @@ func _physics_process(_delta: float) -> void:
 				player.velocity = Vector2.ZERO
 				player.visible = false
 				is_ended = true
-				GameManager.end_level_by_flag_pole(next_level)
+				GameManager.end_level_by_flag_pole()
 				
 
 func _on_climable_body_entered(body: Node2D) -> void:

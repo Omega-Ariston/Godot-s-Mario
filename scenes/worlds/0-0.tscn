@@ -41,6 +41,24 @@ use_parent_material = true
 tile_map_data = PackedByteArray("AAAAAA0AAAAIAAgAAAABAA0AAAAIAAkAAAACAA0AAAAJAAkAAAACAAwAAAAIAAkAAAABAAwAAAAIAAgAAAADAAwAAAAKAAgAAAAEAA0AAAAKAAgAAAADAA0AAAAKAAkAAAACAAsAAAAJAAgAAAALAA0AAAALAAkAAAAMAA0AAAAMAAkAAAANAA0AAAAMAAkAAAAOAA0AAAAMAAkAAAAPAA0AAAANAAkAAAAQAA0AAAAIAAgAAAARAA0AAAAIAAkAAAASAA0AAAAKAAgAAAARAAwAAAAJAAgAAAAXAA0AAAALAAkAAAAYAA0AAAAMAAkAAAAZAA0AAAANAAkAAAAIAAQAAAAAABQAAAAIAAUAAAAAABUAAAAJAAQAAAABABQAAAAJAAUAAAABABUAAAAKAAQAAAACABQAAAAKAAUAAAACABUAAAATAAMAAAAAABQAAAATAAQAAAAAABUAAAAUAAMAAAABABQAAAAUAAQAAAABABUAAAAVAAMAAAACABQAAAAVAAQAAAACABUAAAAbAAQAAAAAABQAAAAbAAUAAAAAABUAAAAcAAQAAAABABQAAAAcAAUAAAABABUAAAAdAAQAAAABABQAAAAdAAUAAAABABUAAAAfAAQAAAACABQAAAAfAAUAAAACABUAAAAeAAQAAAABABQAAAAeAAUAAAABABUAAAAkAAMAAAAAABQAAAAkAAQAAAAAABUAAAAlAAMAAAABABQAAAAlAAQAAAABABUAAAAmAAMAAAABABQAAAAmAAQAAAABABUAAAAnAAMAAAACABQAAAAnAAQAAAACABUAAAApAA0AAAALAAkAAAAqAA0AAAAMAAkAAAArAA0AAAAMAAkAAAAsAA0AAAANAAkAAAA=")
 tile_set = ExtResource("3_8f2e5")
 
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="SpawnPoint" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(568, 224)
+script = ExtResource("10_sfy30")
+
+[node name="A" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(464, 192)
+script = ExtResource("10_sfy30")
+direction = 1
+type = 1
+
+[node name="B" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(552, 256)
+script = ExtResource("10_sfy30")
+direction = 1
+type = 2
+
 [node name="EnterPointPipe" type="Marker2D" parent="."]
 position = Vector2(464, 192)
 script = ExtResource("9_vnvtr")
@@ -54,24 +72,8 @@ new_level = "0-0"
 spawn_point_name = "B"
 direction = 2
 
-[node name="A" type="Marker2D" parent="."]
-position = Vector2(464, 192)
-script = ExtResource("10_sfy30")
-direction = 1
-type = 1
-
-[node name="B" type="Marker2D" parent="."]
-position = Vector2(552, 256)
-script = ExtResource("10_sfy30")
-direction = 1
-type = 2
-
 [node name="Coin" parent="." instance=ExtResource("12_hi1si")]
 position = Vector2(328, 152)
-
-[node name="SpawnPoint" type="Marker2D" parent="."]
-position = Vector2(568, 224)
-script = ExtResource("10_sfy30")
 
 [node name="PlatformVertical" parent="." instance=ExtResource("14_bjemg")]
 position = Vector2(528, 224)
