@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://d2ywk3kf3g0wx" path="res://scenes/characters/hurtbox.tscn" id="3_8wb8l"]
 
 [node name="Enemy" type="CharacterBody2D"]
+process_mode = 4
 collision_layer = 4
 collision_mask = 5
 script = ExtResource("1_0cop4")
@@ -20,6 +21,9 @@ script = ExtResource("1_0cop4")
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("1_muhse")
 
-[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 
 [node name="Hurtbox" parent="." instance=ExtResource("3_8wb8l")]
+
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

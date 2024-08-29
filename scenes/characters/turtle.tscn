@@ -263,8 +263,8 @@ libraries = {
 "": SubResource("AnimationLibrary_e822t")
 }
 
-[node name="VisibleOnScreenEnabler2D" parent="." index="4"]
-position = Vector2(-4.76837e-07, -11.5)
+[node name="VisibleOnScreenNotifier2D" parent="." index="4"]
+position = Vector2(4.17233e-07, -11.5)
 scale = Vector2(0.8, 1.15)
 
 [node name="Hurtbox" parent="." index="5"]

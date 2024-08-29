@@ -70,7 +70,7 @@ _data = {
 radius = 8.0
 height = 16.0
 
-[node name="Spiny" instance=ExtResource("1_0xb8u")]
+[node name="Spiny" groups=["Spiny"] instance=ExtResource("1_0xb8u")]
 script = ExtResource("2_vw3nk")
 
 [node name="Graphics" parent="." index="0"]
@@ -91,8 +91,8 @@ libraries = {
 "": SubResource("AnimationLibrary_ampog")
 }
 
-[node name="VisibleOnScreenEnabler2D" parent="." index="4"]
-position = Vector2(-3.27826e-07, -8)
+[node name="VisibleOnScreenNotifier2D" parent="." index="4"]
+position = Vector2(4.17233e-07, -8)
 scale = Vector2(0.8, 0.8)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]

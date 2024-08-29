@@ -16,7 +16,6 @@ enum Direction {
 @onready var graphics: Node2D = $Graphics
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var state_machine: StateMachine = $StateMachine
-@onready var visible_on_screen_enabler_2d: VisibleOnScreenEnabler2D = $VisibleOnScreenEnabler2D
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 @onready var hurtbox: Hurtbox = $Hurtbox
 
@@ -78,3 +77,10 @@ func die(pause := true) -> void:
 	graphics.scale.y = -1
 	# 给一个小弹跳
 	velocity.y = DEAD_BOUNCE.y
+
+
+func _on_visible_on_screen_notifier_2d_screen_entered() -> void:
+	set_process_mode(Node.PROCESS_MODE_INHERIT)
+
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	queue_free()
