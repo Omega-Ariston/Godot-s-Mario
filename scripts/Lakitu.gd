@@ -8,6 +8,7 @@ enum State {
 	DASH,
 	BRAKE,
 	BYE,
+	DYING,
 	DEAD,
 }
 
@@ -20,17 +21,21 @@ const SCORE := {
 const SPEED := 30.0
 const WONDER_SPEED := 50.0
 const DASH_SPEED := 200.0
+const BYE_SPEED := 100.0
+const MAX_SPINY_NUM := 4
 
 const ACCELERATION := SPEED / 0.4
 const DASH_ACCELERATION := DASH_SPEED / 0.4
 
 const WONDER_RANGE := Variables.TILE_SIZE.x * 3.5
-const BYE_RANGE := Variables.TILE_SIZE.x * 16
+const BYE_RANGE := Variables.TILE_SIZE.x * 20
+const NOT_SPAWN_RANGE := Variables.TILE_SIZE.x * 30
 
 var player: Player
 var flag_pole : FlagPole
 
 var original_y : float
+var can_throw := false
 
 @onready var throw_timer: Timer = $ThrowTimer
 @onready var respawn_timer: Timer = $RespawnTimer
@@ -48,7 +53,7 @@ func _ready() -> void:
 
 func get_next_state(state: State) -> int:
 	if hit or charged or stomped:
-		return State.DEAD if state != State.DEAD else state_machine.KEEP_CURRENT
+		return State.DYING if state != State.DYING else state_machine.KEEP_CURRENT
 	
 	if flag_pole.global_position.x - global_position.x <= BYE_RANGE:
 		return State.BYE if state != State.BYE else state_machine.KEEP_CURRENT
@@ -84,10 +89,17 @@ func get_next_state(state: State) -> int:
 
 func tick_physics(state: State, delta: float) -> void:
 	
-	# 始终朝向玩家
-	if state != State.DEAD:
+	if state != State.DYING:
+		# 始终朝向玩家
 		direction = Direction.LEFT if player.global_position.x < global_position.x else Direction.RIGHT
-	
+		# 丢刺怪
+		if can_throw and get_tree().get_node_count_in_group("Spiny") < MAX_SPINY_NUM:
+			can_throw = false
+			var spiny_instance := load("res://scenes/characters/spiny.tscn").instantiate() as Spiny
+			animation_player.play("idle")
+			spiny_instance.global_position = global_position
+			owner.add_child(spiny_instance)
+			
 	match state:
 		State.APPROACH:
 			move(SPEED, -1, delta)
@@ -97,10 +109,10 @@ func tick_physics(state: State, delta: float) -> void:
 			move(SPEED, +1, delta)
 		State.DASH:
 			move(DASH_SPEED, +1, delta)
-		State.DEAD:
+		State.DYING:
 			move(0, attack_direction, delta, default_gravity)
 		State.BYE:
-			move(SPEED, -1, delta)
+			move(BYE_SPEED, -1, delta)
 		State.BRAKE:
 			move(0, -1, delta)
 
@@ -109,7 +121,7 @@ func move(speed: float, dir: int, delta: float, gravity : float = 0) -> void:
 	velocity.x = move_toward(velocity.x, dir * speed, acceleration * delta)
 	velocity.y += gravity * delta
 	move_and_slide()
-	if not state_machine.current_state in [State.BYE, State.DEAD]:
+	if not state_machine.current_state in [State.BYE, State.DYING]:
 		global_position.x = max(global_position.x, GameManager.max_left_x)
 	if state_machine.current_state == State.DASH:
 		global_position.x = min(global_position.x, player.global_position.x + Variables.TILE_SIZE.x * 5)
@@ -126,7 +138,7 @@ func transition_state(from: State, to: State) -> void:
 			velocity.x = 0
 			animation_player.pause()
 			throw_timer.stop()
-		State.DEAD:
+		State.DYING:
 			if charged:
 				charged = false
 				ScoreManager.add_score(SCORE["charged"], self)
@@ -137,6 +149,8 @@ func transition_state(from: State, to: State) -> void:
 				stomped = false
 				ScoreManager.add_score(SCORE["stomped"], self)
 			die()
+		State.DEAD:
+			velocity = Vector2.ZERO
 			
 func die(_pause := false) -> void:
 	# 别再丢怪了
@@ -154,23 +168,19 @@ func die(_pause := false) -> void:
 
 func _on_throw_timer_timeout() -> void:
 	animation_player.play("throw")
-	var spiny_instance := load("res://scenes/characters/spiny.tscn").instantiate() as Spiny
 	await get_tree().create_timer(0.3).timeout
-	animation_player.play("idle")
-	spiny_instance.global_position = global_position
-	owner.add_child(spiny_instance)
+	can_throw = true
 
 
 func _on_respawn_timer_timeout() -> void:
-	# 玩家快到终点了就别复活了
-	if flag_pole.global_position.x - player.global_position.x > BYE_RANGE * 2:
+	# 玩家离终点很远时才复活了
+	if flag_pole.global_position.x - player.global_position.x > NOT_SPAWN_RANGE:
 		# 恢复碰撞
 		hurtbox.set_deferred("monitoring", true)
 		# 恢复朝向
 		graphics.scale.y = 1
 		# 恢复位置
 		z_index = 0
-		velocity = Vector2(0, 0)
 		global_position.y = original_y
 		global_position.x = player.global_position.x + Variables.TILE_SIZE.x * 16 # 出生在一个屏幕以外
 		# 恢复状态
@@ -178,3 +188,7 @@ func _on_respawn_timer_timeout() -> void:
 		state_machine.current_state = State.APPROACH
 		# 恢复丢怪
 		throw_timer.start()
+
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	# 在屏幕外面等着复活
+	state_machine.current_state = State.DEAD
