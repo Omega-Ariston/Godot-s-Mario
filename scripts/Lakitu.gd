@@ -104,9 +104,9 @@ func tick_physics(state: State, delta: float) -> void:
 		State.APPROACH:
 			move(SPEED, -1, delta)
 		State.WONDER_LEFT:
-			move(SPEED, -1, delta)
+			move(DASH_SPEED if direction == Direction.LEFT else SPEED, -1, delta)
 		State.WONDER_RIGHT:
-			move(SPEED, +1, delta)
+			move(DASH_SPEED if direction == Direction.RIGHT else SPEED, +1, delta)
 		State.DASH:
 			move(DASH_SPEED, +1, delta)
 		State.DYING:
@@ -139,6 +139,7 @@ func transition_state(from: State, to: State) -> void:
 			animation_player.pause()
 			throw_timer.stop()
 		State.DYING:
+			animation_player.play("idle")
 			if charged:
 				charged = false
 				ScoreManager.add_score(SCORE["charged"], self)
@@ -192,3 +193,4 @@ func _on_respawn_timer_timeout() -> void:
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	# 在屏幕外面等着复活
 	state_machine.current_state = State.DEAD
+	set_process_mode(Node.PROCESS_MODE_DISABLED)

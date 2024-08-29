@@ -97,6 +97,7 @@ wait_time = 2.0
 autostart = true
 
 [node name="RespawnTimer" type="Timer" parent="." index="7"]
+process_mode = 1
 wait_time = 8.0
 one_shot = true
 
