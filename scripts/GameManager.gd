@@ -4,6 +4,8 @@ const CHANGE_SCENE_DURATION := 0.5
 const VINE_RISE_COUNT := 4
 const TRANSITION_SCENE_PATH := "res://scenes/worlds/transition.tscn"
 const LIFE_COUNT := 3
+const INITIAL_CAMERA_OFFSET := Variables.TILE_SIZE.x * 3
+const INITIAL_CAMERA_OFFSET_SUB := Variables.TILE_SIZE.x * 4
 
 enum WorldType {
 	GROUND,
@@ -113,8 +115,7 @@ func transition_scene(level: String, black=true) -> void:
 	if black:
 		# 黑幕设为不透明
 		scene_changer.color.a = 1.0	
-	# 重置相机镜头并解除暂停
-	max_left_x = 0
+	# 解除暂停
 	var tree := get_tree()
 	tree.paused = false
 	# 设置状态栏
@@ -136,8 +137,7 @@ func transition_scene(level: String, black=true) -> void:
 func change_scene(level: String, params: Dictionary = {}) -> void:
 	# 黑幕设为不透明
 	scene_changer.color.a = 1.0	
-	# 重置相机镜头并解除暂停
-	max_left_x = 0
+	# 解除暂停
 	var tree := get_tree()
 	tree.paused = false
 	# 切换场景
@@ -167,12 +167,12 @@ func change_scene(level: String, params: Dictionary = {}) -> void:
 		# 找到指定点
 		if point.name == spawn_point_name:
 			spawn_point = point
-	# 恢复屏幕
-	await scene_change_timer.timeout
-	scene_changer.color.a = 0.0
 	# 设置出生状态
 	player.global_position = spawn_point.global_position
 	player_ready.emit()
+	# 恢复屏幕
+	await scene_change_timer.timeout
+	scene_changer.color.a = 0.0
 	# 如果有无敌，播放无敌动画
 	var star_time_left = params.get("star_time_left", 0.0) as float
 	if star_time_left > 0:
@@ -180,6 +180,7 @@ func change_scene(level: String, params: Dictionary = {}) -> void:
 		player.blink_animator.play("star", -1, 4.0, false)
 	# 播放出场动画
 	if spawn_point.direction != SpawnPoint.Spawn_Direction.NONE:
+		max_left_x = max(0, spawn_point.global_position.x - GameManager.INITIAL_CAMERA_OFFSET_SUB)
 		uncontrol_player(player)
 		player.is_spawning = true
 		if spawn_point.type == SpawnPoint.Type.VINE:

@@ -43,7 +43,7 @@ position = Vector2(40, 224)
 script = ExtResource("5_g0s2g")
 
 [node name="SpawnPoint2" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(1320, 224)
+position = Vector2(1328, 224)
 script = ExtResource("5_g0s2g")
 
 [node name="SubA" type="Marker2D" parent="SpawnPoints"]

@@ -44,7 +44,7 @@ tile_set = ExtResource("3_8f2e5")
 [node name="SpawnPoints" type="Node2D" parent="."]
 
 [node name="SpawnPoint" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(568, 224)
+position = Vector2(400, 224)
 script = ExtResource("10_sfy30")
 
 [node name="A" type="Marker2D" parent="SpawnPoints"]
@@ -62,13 +62,11 @@ type = 2
 [node name="EnterPointPipe" type="Marker2D" parent="."]
 position = Vector2(464, 192)
 script = ExtResource("9_vnvtr")
-new_level = "0-0"
 spawn_point_name = "A"
 
 [node name="EnterPointVine" type="Marker2D" parent="."]
 position = Vector2(840, 64)
 script = ExtResource("9_vnvtr")
-new_level = "0-0"
 spawn_point_name = "B"
 direction = 2
 

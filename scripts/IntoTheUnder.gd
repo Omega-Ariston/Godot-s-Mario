@@ -6,6 +6,7 @@ extends Node2D
 
 
 func _ready() -> void:
+	GameManager.max_left_x = 0
 	await GameManager.screen_ready
 	GameManager.uncontrol_player(player)
 	var bgm_player := SoundManager.into_the_under()

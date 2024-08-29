@@ -8,6 +8,7 @@ extends Node2D
 @onready var foreground: TileMapLayer = $Foreground
 @onready var camera_2d: Camera2D = $Player/Camera2D
 @onready var player: Player = $Player
+@onready var spawn_points: Node2D = $SpawnPoints
 @onready var spawn_point: SpawnPoint = $SpawnPoints/SpawnPoint
 
 var viewport_size: Vector2
@@ -16,6 +17,7 @@ func _ready() -> void:
 	if GameManager.current_level != level_name:
 		GameManager.current_level = level_name
 		GameManager.current_spawn_point = spawn_point.name
+	GameManager.max_left_x = max(0, spawn_points.find_child(GameManager.current_spawn_point).global_position.x - GameManager.INITIAL_CAMERA_OFFSET)
 	StatusBar.time = level_time
 	GameManager.current_world_type = world_type
 	setup_camera()
@@ -35,6 +37,7 @@ func setup_camera() -> void:
 	viewport_size = get_viewport_rect().size
 	var used := foreground.get_used_rect()
 	var tile_size := Variables.TILE_SIZE
+	
 	
 	camera_2d.limit_top = floori(0.5 * tile_size.y) # 最上面一个方块只显示一半
 	camera_2d.limit_right = floori(used.end.x * tile_size.x)
