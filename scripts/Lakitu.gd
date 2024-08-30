@@ -41,12 +41,11 @@ var can_throw := false
 @onready var respawn_timer: Timer = $RespawnTimer
 
 func _ready() -> void:
-	await GameManager.world_ready
+	await GameManager.player_ready
 	player = get_tree().get_first_node_in_group("Player")
 	flag_pole = get_tree().get_first_node_in_group("FlagPole")
 	original_y = global_position.y
 	animation_player.play("idle")
-	await GameManager.player_ready
 	if player.global_position.x > global_position.x:
 		# 角色重生或从管道里出来时
 		global_position.x = player.global_position.x + Variables.TILE_SIZE.x * 16

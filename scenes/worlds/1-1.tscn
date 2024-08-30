@@ -34,7 +34,6 @@ tile_set = ExtResource("2_p5xmh")
 [node name="FlagPole" parent="." instance=ExtResource("7_tvls3")]
 position = Vector2(3176, 224)
 door_distance = null
-next_level = "1-2"
 
 [node name="SpawnPoints" type="Node2D" parent="."]
 

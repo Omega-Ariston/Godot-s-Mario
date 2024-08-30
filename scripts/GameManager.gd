@@ -154,9 +154,6 @@ func change_scene(level: String, params: Dictionary = {}) -> void:
 	# 初始化关卡
 	tree.change_scene_to_file(get_level_scene_path(level))
 	await world_ready
-	# 初始化玩家
-	var player := tree.get_first_node_in_group("Player") as Player
-	player.direction = player.Direction.RIGHT
 	# 设置时间
 	if params.has("time"):
 		StatusBar.time = params.get("time")
@@ -167,7 +164,9 @@ func change_scene(level: String, params: Dictionary = {}) -> void:
 		# 找到指定点
 		if point.name == spawn_point_name:
 			spawn_point = point
-	# 设置出生状态
+	# 初始化玩家
+	var player := tree.get_first_node_in_group("Player") as Player
+	player.direction = player.Direction.RIGHT
 	player.global_position = spawn_point.global_position
 	player_ready.emit()
 	# 恢复屏幕
