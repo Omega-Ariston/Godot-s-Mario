@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=4 uid="uid://bfb0vxdydy2et"]
+[gd_scene load_steps=17 format=4 uid="uid://bfb0vxdydy2et"]
 
 [ext_resource type="Script" path="res://scripts/World.gd" id="1_tpqgv"]
 [ext_resource type="TileSet" uid="uid://cf516p3bd2t1v" path="res://tiles/world.tres" id="2_3vma1"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://cjahx4qiw0rlv" path="res://scenes/items/coin.tscn" id="12_hi1si"]
 [ext_resource type="PackedScene" uid="uid://bkoa5bviyhuyp" path="res://scenes/characters/piranha.tscn" id="13_xdkfm"]
 [ext_resource type="PackedScene" uid="uid://bm5n06o4v0mm6" path="res://scenes/items/platform_vertical.tscn" id="14_bjemg"]
+[ext_resource type="PackedScene" uid="uid://bm8y4aylq5pn3" path="res://scenes/characters/beetle.tscn" id="14_cvnhl"]
 [ext_resource type="PackedScene" uid="uid://hwvatwkj6km6" path="res://scenes/characters/lakitu.tscn" id="14_ofgc4"]
 
 [node name="World" type="Node2D"]
@@ -44,7 +45,7 @@ tile_set = ExtResource("3_8f2e5")
 [node name="SpawnPoints" type="Node2D" parent="."]
 
 [node name="SpawnPoint" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(400, 224)
+position = Vector2(288, 224)
 script = ExtResource("10_sfy30")
 
 [node name="A" type="Marker2D" parent="SpawnPoints"]
@@ -139,7 +140,7 @@ position = Vector2(216, 168)
 [node name="Enemies" type="Node2D" parent="."]
 
 [node name="Goomba" parent="Enemies" instance=ExtResource("7_hsuf8")]
-position = Vector2(280, 223)
+position = Vector2(216, 224)
 
 [node name="Goomba2" parent="Enemies" instance=ExtResource("7_hsuf8")]
 position = Vector2(392, 160)
@@ -153,6 +154,9 @@ position = Vector2(464, 216)
 
 [node name="Lakitu" parent="Enemies" instance=ExtResource("14_ofgc4")]
 position = Vector2(624, 96)
+
+[node name="Beetle" parent="Enemies" instance=ExtResource("14_cvnhl")]
+position = Vector2(376, 160)
 
 [node name="FlagPole" parent="." instance=ExtResource("7_dd00r")]
 position = Vector2(1912, 224)
