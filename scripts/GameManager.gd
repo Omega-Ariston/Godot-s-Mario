@@ -167,6 +167,7 @@ func change_scene(level: String, params: Dictionary = {}) -> void:
 	# 初始化玩家
 	var player := tree.get_first_node_in_group("Player") as Player
 	player.direction = player.Direction.RIGHT
+	uncontrol_player(player)
 	player.global_position = spawn_point.global_position
 	player_ready.emit()
 	# 恢复屏幕
@@ -180,7 +181,6 @@ func change_scene(level: String, params: Dictionary = {}) -> void:
 	# 播放出场动画
 	if spawn_point.direction != SpawnPoint.Spawn_Direction.NONE:
 		max_left_x = max(0, spawn_point.global_position.x - GameManager.INITIAL_CAMERA_OFFSET_SUB)
-		uncontrol_player(player)
 		player.is_spawning = true
 		if spawn_point.type == SpawnPoint.Type.VINE:
 			await _animate_vine(player, spawn_point)
