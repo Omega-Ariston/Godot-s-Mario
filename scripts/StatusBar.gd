@@ -25,10 +25,11 @@ var coin := 0:
 	set(v):
 		if not is_node_ready():
 			await ready
-		if coin == 100:
+		if v == 100:
 			coin = 0
 			GameManager.add_life()
-		coin = v
+		else:
+			coin = v
 		coin_label.text = ("%02d" % coin)
 
 @onready var score_label: RichTextLabel = $Score
