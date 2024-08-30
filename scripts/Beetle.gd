@@ -146,5 +146,5 @@ func on_stomped(player: Player) -> void:
 		player.velocity.y = PLAYER_STOMPED_BOUNCE
 
 # 被火球打
-func on_hit(body: CharacterBody2D) -> void:
+func on_hit(_body: CharacterBody2D) -> void:
 	pass
