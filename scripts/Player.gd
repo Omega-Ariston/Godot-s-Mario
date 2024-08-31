@@ -15,8 +15,8 @@ const FIREBALL_LIMIT := 2
 const CLIFF_LIMIT := Variables.TILE_SIZE.y * 18
 
 enum State {
-	WALK,
 	IDLE,
+	WALK,
 	TURN,
 	CROUCH,
 	CROUCH_JUMP,
@@ -385,7 +385,7 @@ func transition_state(from: State, to: State) -> void:
 				velocity.y = JUMP_VELOCITY
 			jump_requested = false
 		State.FALL:
-			if from in [State.TURN, State.CLIMB]:
+			if from in [State.IDLE, State.TURN, State.CLIMB]:
 				animation_player.play("walk")
 			elif from == State.LAUNCH:
 				animation_player.play(last_animation)
