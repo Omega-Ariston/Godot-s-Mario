@@ -28,22 +28,20 @@ const ACCELERATION := SPEED / 0.4
 const DASH_ACCELERATION := DASH_SPEED / 0.4
 
 const WONDER_RANGE := Variables.TILE_SIZE.x * 3.5
-const BYE_RANGE := Variables.TILE_SIZE.x * 20
-const NOT_SPAWN_RANGE := Variables.TILE_SIZE.x * 30
+const SPAWN_DISTANCE := Variables.TILE_SIZE.x * 16 # 复活在一个屏幕以外
 
 var player: Player
-var flag_pole : FlagPole
 
 var original_y : float
 var can_throw := false
 
 @onready var throw_timer: Timer = $ThrowTimer
 @onready var respawn_timer: Timer = $RespawnTimer
+@onready var bye_point: Marker2D = $ByePoint
 
 func _ready() -> void:
 	await GameManager.player_ready
 	player = get_tree().get_first_node_in_group("Player")
-	flag_pole = get_tree().get_first_node_in_group("FlagPole")
 	original_y = global_position.y
 	animation_player.play("idle")
 	if player.global_position.x > global_position.x:
@@ -53,8 +51,8 @@ func _ready() -> void:
 func get_next_state(state: State) -> int:
 	if hit or charged or stomped:
 		return State.DYING if state != State.DYING else state_machine.KEEP_CURRENT
-	
-	if flag_pole.global_position.x - global_position.x <= BYE_RANGE:
+	print_debug(global_position.x, '-', bye_point.global_position.x)
+	if global_position.x >= bye_point.global_position.x  :
 		return State.BYE if state != State.BYE else state_machine.KEEP_CURRENT
 	
 	var distance := global_position.x - player.global_position.x
@@ -168,8 +166,9 @@ func _on_throw_timer_timeout() -> void:
 
 
 func _on_respawn_timer_timeout() -> void:
-	# 玩家离终点很远时才复活了
-	if flag_pole.global_position.x - player.global_position.x > NOT_SPAWN_RANGE:
+	# 没到ByePoint时才复活
+	var spawn_x := player.global_position.x + SPAWN_DISTANCE
+	if spawn_x < bye_point.global_position.x:
 		# 恢复碰撞
 		hurtbox.set_deferred("monitoring", true)
 		# 恢复朝向
@@ -177,7 +176,7 @@ func _on_respawn_timer_timeout() -> void:
 		# 恢复位置
 		z_index = 0
 		global_position.y = original_y
-		global_position.x = player.global_position.x + Variables.TILE_SIZE.x * 16 # 出生在一个屏幕以外
+		global_position.x = spawn_x
 		# 恢复状态
 		animation_player.play("idle")
 		state_machine.current_state = State.APPROACH

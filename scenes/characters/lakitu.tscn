@@ -101,5 +101,8 @@ process_mode = 1
 wait_time = 8.0
 one_shot = true
 
+[node name="ByePoint" type="Marker2D" parent="." index="8"]
+top_level = true
+
 [connection signal="timeout" from="ThrowTimer" to="." method="_on_throw_timer_timeout"]
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]

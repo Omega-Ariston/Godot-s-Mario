@@ -239,7 +239,12 @@ position = Vector2(2624, 216)
 [node name="Lakitu" parent="Enemies" instance=ExtResource("11_0sqry")]
 position = Vector2(432, 80)
 
+[node name="ByePoint" parent="Enemies/Lakitu" index="8"]
+position = Vector2(3368, 224)
+
 [node name="Player" parent="." instance=ExtResource("7_noudm")]
 position = Vector2(56, 216)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
+
+[editable path="Enemies/Lakitu"]

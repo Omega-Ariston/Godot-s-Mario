@@ -155,6 +155,9 @@ position = Vector2(464, 216)
 [node name="Lakitu" parent="Enemies" instance=ExtResource("14_ofgc4")]
 position = Vector2(624, 96)
 
+[node name="ByePoint" parent="Enemies/Lakitu" index="8"]
+position = Vector2(1592, 224)
+
 [node name="Beetle" parent="Enemies" instance=ExtResource("14_cvnhl")]
 position = Vector2(376, 160)
 
@@ -168,3 +171,5 @@ position = Vector2(336, 216)
 
 [node name="Spring" parent="." instance=ExtResource("17_sk8wf")]
 position = Vector2(424, 224)
+
+[editable path="Enemies/Lakitu"]
