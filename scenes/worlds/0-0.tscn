@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://bfb0vxdydy2et"]
+[gd_scene load_steps=18 format=4 uid="uid://bfb0vxdydy2et"]
 
 [ext_resource type="Script" path="res://scripts/World.gd" id="1_tpqgv"]
 [ext_resource type="TileSet" uid="uid://cf516p3bd2t1v" path="res://tiles/world.tres" id="2_3vma1"]
@@ -16,10 +16,10 @@
 [ext_resource type="PackedScene" uid="uid://bm5n06o4v0mm6" path="res://scenes/items/platform_vertical.tscn" id="14_bjemg"]
 [ext_resource type="PackedScene" uid="uid://bm8y4aylq5pn3" path="res://scenes/characters/beetle.tscn" id="14_cvnhl"]
 [ext_resource type="PackedScene" uid="uid://hwvatwkj6km6" path="res://scenes/characters/lakitu.tscn" id="14_ofgc4"]
+[ext_resource type="PackedScene" uid="uid://duiqbx87ur1n" path="res://scenes/items/spring.tscn" id="17_sk8wf"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_tpqgv")
-world_type = 1
 level_time = 100
 level_name = "0-0"
 
@@ -165,3 +165,6 @@ position = Vector2(1912, 224)
 position = Vector2(336, 216)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
+
+[node name="Spring" parent="." instance=ExtResource("17_sk8wf")]
+position = Vector2(424, 224)

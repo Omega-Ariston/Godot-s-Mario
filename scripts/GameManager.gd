@@ -261,3 +261,6 @@ func _on_score_timer_timeout() -> void:
 	else:
 		score_timer.stop()
 		score_counted.emit()
+
+func is_stomp(player: Player, body: Node2D) -> bool:
+	return (player.state_machine.current_state in [Player.State.FALL, Player.State.JUMP] or player.velocity.y > 0) and player.global_position.y < body.global_position.y
