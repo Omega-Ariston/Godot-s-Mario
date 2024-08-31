@@ -421,4 +421,20 @@ process_mode = 3
 wait_time = 0.5
 one_shot = true
 
+[node name="FloorChecker" type="Node2D" parent="."]
+
+[node name="RayCast2D" type="RayCast2D" parent="FloorChecker"]
+position = Vector2(5, 0)
+target_position = Vector2(0, 3)
+hit_from_inside = true
+
+[node name="RayCast2D2" type="RayCast2D" parent="FloorChecker"]
+target_position = Vector2(0, 3)
+hit_from_inside = true
+
+[node name="RayCast2D3" type="RayCast2D" parent="FloorChecker"]
+position = Vector2(-5, 0)
+target_position = Vector2(0, 3)
+hit_from_inside = true
+
 [connection signal="timeout" from="DyingTimer" to="." method="_on_dying_timer_timeout"]

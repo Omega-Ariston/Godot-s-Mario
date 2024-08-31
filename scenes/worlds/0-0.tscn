@@ -144,6 +144,7 @@ position = Vector2(216, 224)
 
 [node name="Goomba2" parent="Enemies" instance=ExtResource("7_hsuf8")]
 position = Vector2(392, 160)
+direction = 1
 
 [node name="Turtle" parent="Enemies" instance=ExtResource("11_j5ckl")]
 position = Vector2(184, 190)
@@ -170,6 +171,6 @@ position = Vector2(336, 216)
 [node name="Camera2D" type="Camera2D" parent="Player"]
 
 [node name="Spring" parent="." instance=ExtResource("17_sk8wf")]
-position = Vector2(424, 224)
+position = Vector2(408, 224)
 
 [editable path="Enemies/Lakitu"]

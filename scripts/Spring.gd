@@ -19,6 +19,9 @@ var player: Player
 @onready var state_machine: StateMachine = $StateMachine
 @onready var spring_area: CollisionShape2D = $Area2D/SpringArea
 
+func _ready() -> void:
+	GameManager.player_ready.connect(_on_player_ready)
+
 func _input(event: InputEvent) -> void:
 	if state_machine.current_state == State.COMPRESS:
 		if event.is_action_pressed("jump"):
@@ -60,6 +63,10 @@ func transition_state(_from: State, to: State) -> void:
 			jump_requested = false
 			animation_player.play("release", -1, 2.0, false)
 
-func _on_area_2d_body_entered(body: Player) -> void:
-	player = body
+func _on_area_2d_body_entered(_body: Player) -> void:
 	is_stomped = true
+
+func _on_player_ready() -> void:
+	player = get_tree().get_first_node_in_group("Player")
+	# 不让玩家的地面检测看到弹簧，以免玩家在上面跳跃
+	player.register_unjumpable_node(self)

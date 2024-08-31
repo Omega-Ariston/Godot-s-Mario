@@ -137,10 +137,11 @@ var constant_speed_y: float
 @onready var invincible_timer: Timer = $InvincibleTimer
 @onready var dying_timer: Timer = $DyingTimer
 @onready var fireball_launcher: ItemLauncher = $Graphics/FireballLauncher
+@onready var floor_checker: Node2D = $FloorChecker
 
 func _unhandled_input(event: InputEvent) -> void:
 	if controllable:
-		if event.is_action_pressed("jump") and is_on_floor(): #防止在空中保存跳跃指令
+		if event.is_action_pressed("jump") and on_jumpable_floor(): #防止在空中保存跳跃指令
 			jump_requested = true
 		if event.is_action_released("jump"):
 			if velocity.y < JUMP_VELOCITY / 2:
@@ -160,12 +161,12 @@ func _ready() -> void:
 	initialize_mode()
 
 func tick_physics(state: State, delta: float) -> void:
-	if is_on_floor():
+	if on_jumpable_floor():
 		# 开始和结束加速都要在地面上判断
 		if controllable and Input.is_action_pressed("action"):
 				dash_requested = true
 		else:
-			if is_on_floor():
+			if on_jumpable_floor():
 				dash_requested = false
 	
 	if is_invincible:
@@ -622,3 +623,14 @@ func set_star_colors(index: int) -> void:
 
 func _on_dying_timer_timeout() -> void:
 	velocity.y = JUMP_VELOCITY
+
+func on_jumpable_floor() -> bool:
+	for ray_cast: RayCast2D in floor_checker.get_children():
+		if ray_cast.is_colliding():
+			return true
+	return false
+
+func register_unjumpable_node(node: CollisionObject2D) -> void:
+	print_debug("registering:", node.name)
+	for ray_cast: RayCast2D in floor_checker.get_children():
+		ray_cast.add_exception(node)

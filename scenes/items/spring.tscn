@@ -229,7 +229,7 @@ size = Vector2(16, 31)
 size = Vector2(16, 2)
 
 [node name="Spring" type="StaticBody2D"]
-collision_mask = 55
+collision_mask = 0
 script = ExtResource("1_sevv5")
 
 [node name="Graphics" type="Node2D" parent="."]
