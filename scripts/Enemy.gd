@@ -78,7 +78,6 @@ func die(pause := true) -> void:
 	# 给一个小弹跳
 	velocity.y = DEAD_BOUNCE.y
 
-
 func _on_visible_on_screen_notifier_2d_screen_entered() -> void:
 	set_process_mode(Node.PROCESS_MODE_INHERIT)
 

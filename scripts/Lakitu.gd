@@ -76,8 +76,9 @@ func get_next_state(state: State) -> int:
 				return State.BRAKE
 		State.BRAKE:
 			if player.velocity.x > player.WALK_SPEED / 2:
-				return State.DASH
-			if is_zero_approx(velocity.x):
+				if global_position.x < player.global_position.x + Variables.TILE_SIZE.x * 5:
+					return State.DASH
+			elif is_zero_approx(velocity.x):
 				if distance < 0:
 					return State.WONDER_RIGHT
 				else:
@@ -125,13 +126,7 @@ func move(speed: float, dir: int, delta: float, gravity : float = 0) -> void:
 	if state_machine.current_state == State.DASH:
 		global_position.x = min(global_position.x, player.global_position.x + Variables.TILE_SIZE.x * 5)
 
-func transition_state(from: State, to: State) -> void:
-	print_debug(
-		"State: [%s] %s => %s" % [
-		Engine.get_physics_frames(),
-		State.keys()[from] if from != -1 else "<START>",
-		State.keys()[to]
-	])
+func transition_state(_from: State, to: State) -> void:
 	match to:
 		State.BYE:
 			velocity.x = 0

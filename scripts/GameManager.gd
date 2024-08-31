@@ -1,6 +1,6 @@
 extends Node
 
-const CHANGE_SCENE_DURATION := 0.5
+const CHANGE_SCENE_DURATION := 0.4
 const VINE_RISE_COUNT := 4
 const TRANSITION_SCENE_PATH := "res://scenes/worlds/transition.tscn"
 const LIFE_COUNT := 3
@@ -197,13 +197,11 @@ func uncontrol_player(player: Player) -> void:
 	player.state_machine.enabled = false
 	player.velocity = Vector2.ZERO
 	player.collision_shape_2d.set_deferred("disabled", true)
-	player.set_process_input(false)
 	player.controllable = false
 
 func control_player(player: Player) -> void:
 	player.state_machine.enabled = true
 	player.collision_shape_2d.set_deferred("disabled", false)
-	player.set_process_input(true)
 	player.controllable = true
 
 func _animate_pipe(player: Player, spawn_point: SpawnPoint) -> void:

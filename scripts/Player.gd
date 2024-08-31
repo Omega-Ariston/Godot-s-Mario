@@ -139,20 +139,21 @@ var constant_speed_y: float
 @onready var fireball_launcher: ItemLauncher = $Graphics/FireballLauncher
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("jump") and is_on_floor(): #防止在空中保存跳跃指令
-		jump_requested = true
-	if event.is_action_released("jump"):
-		if velocity.y < JUMP_VELOCITY / 2:
-			velocity.y = JUMP_VELOCITY / 2 # 最小跳跃高度
-		jump_requested = false
-	if event.is_action_pressed("action") and curr_mode == Mode.FIRE:
-		launch_requested = true
-	if event.is_action_released("action"):
-		launch_requested = false
-	if event.is_action_pressed("move_down"):
-		crouch_requested = true
-	if event.is_action_released("move_down"):
-		crouch_requested = false
+	if controllable:
+		if event.is_action_pressed("jump") and is_on_floor(): #防止在空中保存跳跃指令
+			jump_requested = true
+		if event.is_action_released("jump"):
+			if velocity.y < JUMP_VELOCITY / 2:
+				velocity.y = JUMP_VELOCITY / 2 # 最小跳跃高度
+			jump_requested = false
+		if event.is_action_pressed("action") and curr_mode == Mode.FIRE:
+			launch_requested = true
+		if event.is_action_released("action"):
+			launch_requested = false
+		if event.is_action_pressed("move_down"):
+			crouch_requested = true
+		if event.is_action_released("move_down"):
+			crouch_requested = false
 
 func _ready() -> void:
 	curr_mode = GameManager.player_current_mode
@@ -161,7 +162,7 @@ func _ready() -> void:
 func tick_physics(state: State, delta: float) -> void:
 	if is_on_floor():
 		# 开始和结束加速都要在地面上判断
-		if Input.is_action_pressed("action"):
+		if controllable and Input.is_action_pressed("action"):
 				dash_requested = true
 		else:
 			if is_on_floor():
@@ -310,12 +311,12 @@ func get_next_state(state: State) -> int:
 
 
 func transition_state(from: State, to: State) -> void:
-	#print_debug(
-		#"State: [%s] %s => %s" % [
-		#Engine.get_physics_frames(),
-		#State.keys()[from] if from != -1 else "<START>",
-		#State.keys()[to]
-	#])
+	print_debug(
+		"State: [%s] %s => %s" % [
+		Engine.get_physics_frames(),
+		State.keys()[from] if from != -1 else "<START>",
+		State.keys()[to]
+	])
 	
 	match from:
 		State.WALK:
@@ -426,7 +427,6 @@ func transition_state(from: State, to: State) -> void:
 			velocity = Vector2.ZERO
 			GameManager.game_timer.stop() # 停止计时
 			collision_shape_2d.set_deferred("disabled", true)
-			set_process_input(false)
 			controllable = false
 			curr_mode = Mode.SMALL
 			animation_player.play("dead")

@@ -47,7 +47,7 @@ theme_override_font_sizes/normal_font_size = 8
 scroll_active = false
 
 [node name="Climable" type="Area2D" parent="."]
-collision_mask = 3
+collision_mask = 2
 script = ExtResource("4_dvfl8")
 
 [node name="ClimbArea" type="CollisionShape2D" parent="Climable"]
