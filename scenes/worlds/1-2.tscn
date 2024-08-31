@@ -55,7 +55,7 @@ spawn_point_name = "SpawnPoint"
 new_level = "4-1"
 spawn_point_name = "SpawnPoint"
 
-[node name="SpawnPoints" type="Node2D" parent="."]
+[node name="SpawnPoints" type="Node" parent="."]
 
 [node name="SpawnPoint" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(48, 72)
@@ -80,9 +80,9 @@ script = ExtResource("7_0m6wr")
 new_level = "sub-B"
 spawn_point_name = "SpawnPoint"
 
-[node name="Bumpables" type="Node2D" parent="."]
+[node name="Bumpables" type="Node" parent="."]
 
-[node name="Bricks" type="Node2D" parent="Bumpables"]
+[node name="Bricks" type="Node" parent="Bumpables"]
 
 [node name="Brick" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
 position = Vector2(8, 216)
@@ -1458,7 +1458,7 @@ position = Vector2(2968, 56)
 [node name="Brick171" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
 position = Vector2(2984, 56)
 
-[node name="CoinBricks" type="Node2D" parent="Bumpables"]
+[node name="CoinBricks" type="Node" parent="Bumpables"]
 
 [node name="CoinBrick" parent="Bumpables/CoinBricks" instance=ExtResource("6_x8kr3")]
 position = Vector2(168, 168)
@@ -1480,7 +1480,7 @@ spawn_item = 1
 position = Vector2(232, 168)
 spawn_item = 1
 
-[node name="Platforms" type="Node2D" parent="."]
+[node name="Platforms" type="Node" parent="."]
 
 [node name="PlatformVertical" parent="Platforms" instance=ExtResource("6_rb4ai")]
 position = Vector2(2260, 228)
@@ -1496,7 +1496,7 @@ position = Vector2(2500, 92)
 [node name="PlatformVertical4" parent="Platforms" instance=ExtResource("6_rb4ai")]
 position = Vector2(2500, 220)
 
-[node name="Coins" type="Node2D" parent="."]
+[node name="Coins" type="Node" parent="."]
 
 [node name="Coin" parent="Coins" instance=ExtResource("7_ol6jv")]
 position = Vector2(648, 152)
@@ -1549,9 +1549,9 @@ position = Vector2(984, 153)
 [node name="Coin11" parent="Coins" instance=ExtResource("7_ol6jv")]
 position = Vector2(1096, 152)
 
-[node name="Enemies" type="Node2D" parent="."]
+[node name="Enemies" type="Node" parent="."]
 
-[node name="Goombas" type="Node2D" parent="Enemies"]
+[node name="Goombas" type="Node" parent="Enemies"]
 
 [node name="Goomba" parent="Enemies/Goombas" instance=ExtResource("8_1sghj")]
 position = Vector2(280, 208)
@@ -1595,7 +1595,7 @@ position = Vector2(2168, 176)
 [node name="Goomba14" parent="Enemies/Goombas" instance=ExtResource("8_1sghj")]
 position = Vector2(2191, 160)
 
-[node name="Turtles" type="Node2D" parent="Enemies"]
+[node name="Turtles" type="Node" parent="Enemies"]
 
 [node name="Turtle" parent="Enemies/Turtles" instance=ExtResource("9_acair")]
 position = Vector2(712, 224)
@@ -1610,7 +1610,7 @@ position = Vector2(952, 224)
 position = Vector2(2344, 223)
 iq = 1
 
-[node name="Piranhas" type="Node2D" parent="Enemies"]
+[node name="Piranhas" type="Node" parent="Enemies"]
 
 [node name="Piranha" parent="Enemies/Piranhas" instance=ExtResource("11_xvpat")]
 position = Vector2(1664, 200)

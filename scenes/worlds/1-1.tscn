@@ -35,7 +35,7 @@ tile_set = ExtResource("2_p5xmh")
 position = Vector2(3176, 224)
 door_distance = null
 
-[node name="SpawnPoints" type="Node2D" parent="."]
+[node name="SpawnPoints" type="Node" parent="."]
 
 [node name="SpawnPoint" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(40, 224)
@@ -72,9 +72,9 @@ use_parent_material = true
 tile_map_data = PackedByteArray("AAAAAA0AAAAIAAgAAAABAA0AAAAIAAkAAAACAA0AAAAJAAkAAAACAAwAAAAIAAkAAAABAAwAAAAIAAgAAAADAAwAAAAKAAgAAAAEAA0AAAAKAAgAAAADAA0AAAAKAAkAAAACAAsAAAAJAAgAAAALAA0AAAALAAkAAAAMAA0AAAAMAAkAAAANAA0AAAAMAAkAAAAOAA0AAAAMAAkAAAAPAA0AAAANAAkAAAAQAA0AAAAIAAgAAAARAA0AAAAIAAkAAAASAA0AAAAKAAgAAAARAAwAAAAJAAgAAAAXAA0AAAALAAkAAAAYAA0AAAAMAAkAAAAZAA0AAAANAAkAAAAIAAQAAAAAABQAAAAIAAUAAAAAABUAAAAJAAQAAAABABQAAAAJAAUAAAABABUAAAAKAAQAAAACABQAAAAKAAUAAAACABUAAAATAAMAAAAAABQAAAATAAQAAAAAABUAAAAUAAMAAAABABQAAAAUAAQAAAABABUAAAAVAAMAAAACABQAAAAVAAQAAAACABUAAAAbAAQAAAAAABQAAAAbAAUAAAAAABUAAAAcAAQAAAABABQAAAAcAAUAAAABABUAAAAdAAQAAAABABQAAAAdAAUAAAABABUAAAAfAAQAAAACABQAAAAfAAUAAAACABUAAAAeAAQAAAABABQAAAAeAAUAAAABABUAAAAkAAMAAAAAABQAAAAkAAQAAAAAABUAAAAlAAMAAAABABQAAAAlAAQAAAABABUAAAAmAAMAAAABABQAAAAmAAQAAAABABUAAAAnAAMAAAACABQAAAAnAAQAAAACABUAAAApAA0AAAALAAkAAAAqAA0AAAAMAAkAAAArAA0AAAAMAAkAAAAsAA0AAAANAAkAAAA=")
 tile_set = ExtResource("3_ssu1u")
 
-[node name="Bumpables" type="Node2D" parent="."]
+[node name="Bumpables" type="Node" parent="."]
 
-[node name="CoinBricks" type="Node2D" parent="Bumpables"]
+[node name="CoinBricks" type="Node" parent="Bumpables"]
 
 [node name="CoinBrick" parent="Bumpables/CoinBricks" instance=ExtResource("5_euhqi")]
 position = Vector2(264, 168)
@@ -133,7 +133,7 @@ spawn_item = 1
 position = Vector2(2728, 168)
 spawn_item = 1
 
-[node name="Bricks" type="Node2D" parent="Bumpables"]
+[node name="Bricks" type="Node" parent="Bumpables"]
 
 [node name="Brick" parent="Bumpables/Bricks" instance=ExtResource("6_3gh1o")]
 position = Vector2(328, 168)
@@ -227,9 +227,9 @@ position = Vector2(2744, 168)
 position = Vector2(1632, 168)
 spawn_item = 4
 
-[node name="Enemies" type="Node2D" parent="."]
+[node name="Enemies" type="Node" parent="."]
 
-[node name="Goombas" type="Node2D" parent="Enemies"]
+[node name="Goombas" type="Node" parent="Enemies"]
 
 [node name="Goomba" parent="Enemies/Goombas" instance=ExtResource("8_u6ctx")]
 position = Vector2(360, 224)
@@ -279,7 +279,7 @@ position = Vector2(2792, 224)
 [node name="Goomba16" parent="Enemies/Goombas" instance=ExtResource("8_u6ctx")]
 position = Vector2(2816, 224)
 
-[node name="Turtles" type="Node2D" parent="Enemies"]
+[node name="Turtles" type="Node" parent="Enemies"]
 
 [node name="Turtle" parent="Enemies/Turtles" instance=ExtResource("9_372ao")]
 position = Vector2(1720, 224)

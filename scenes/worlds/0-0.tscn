@@ -42,10 +42,10 @@ use_parent_material = true
 tile_map_data = PackedByteArray("AAAAAA0AAAAIAAgAAAABAA0AAAAIAAkAAAACAA0AAAAJAAkAAAACAAwAAAAIAAkAAAABAAwAAAAIAAgAAAADAAwAAAAKAAgAAAAEAA0AAAAKAAgAAAADAA0AAAAKAAkAAAACAAsAAAAJAAgAAAALAA0AAAALAAkAAAAMAA0AAAAMAAkAAAANAA0AAAAMAAkAAAAOAA0AAAAMAAkAAAAPAA0AAAANAAkAAAAQAA0AAAAIAAgAAAARAA0AAAAIAAkAAAASAA0AAAAKAAgAAAARAAwAAAAJAAgAAAAXAA0AAAALAAkAAAAYAA0AAAAMAAkAAAAZAA0AAAANAAkAAAAIAAQAAAAAABQAAAAIAAUAAAAAABUAAAAJAAQAAAABABQAAAAJAAUAAAABABUAAAAKAAQAAAACABQAAAAKAAUAAAACABUAAAATAAMAAAAAABQAAAATAAQAAAAAABUAAAAUAAMAAAABABQAAAAUAAQAAAABABUAAAAVAAMAAAACABQAAAAVAAQAAAACABUAAAAbAAQAAAAAABQAAAAbAAUAAAAAABUAAAAcAAQAAAABABQAAAAcAAUAAAABABUAAAAdAAQAAAABABQAAAAdAAUAAAABABUAAAAfAAQAAAACABQAAAAfAAUAAAACABUAAAAeAAQAAAABABQAAAAeAAUAAAABABUAAAAkAAMAAAAAABQAAAAkAAQAAAAAABUAAAAlAAMAAAABABQAAAAlAAQAAAABABUAAAAmAAMAAAABABQAAAAmAAQAAAABABUAAAAnAAMAAAACABQAAAAnAAQAAAACABUAAAApAA0AAAALAAkAAAAqAA0AAAAMAAkAAAArAA0AAAAMAAkAAAAsAA0AAAANAAkAAAA=")
 tile_set = ExtResource("3_8f2e5")
 
-[node name="SpawnPoints" type="Node2D" parent="."]
+[node name="SpawnPoints" type="Node" parent="."]
 
 [node name="SpawnPoint" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(288, 224)
+position = Vector2(8, 224)
 script = ExtResource("10_sfy30")
 
 [node name="A" type="Marker2D" parent="SpawnPoints"]
@@ -78,7 +78,7 @@ position = Vector2(328, 152)
 position = Vector2(528, 224)
 direction = 1
 
-[node name="Bricks" type="Node2D" parent="."]
+[node name="Bricks" type="Node" parent="."]
 
 [node name="CoinBrick" parent="Bricks" instance=ExtResource("5_cpr27")]
 position = Vector2(840, 184)
@@ -137,7 +137,7 @@ spawn_item = 4
 [node name="Brick8" parent="Bricks" instance=ExtResource("6_3qu74")]
 position = Vector2(216, 168)
 
-[node name="Enemies" type="Node2D" parent="."]
+[node name="Enemies" type="Node" parent="."]
 
 [node name="Goomba" parent="Enemies" instance=ExtResource("7_hsuf8")]
 position = Vector2(216, 224)
@@ -157,7 +157,7 @@ position = Vector2(464, 216)
 position = Vector2(624, 96)
 
 [node name="ByePoint" parent="Enemies/Lakitu" index="8"]
-position = Vector2(1592, 224)
+position = Vector2(1320, 224)
 
 [node name="Beetle" parent="Enemies" instance=ExtResource("14_cvnhl")]
 position = Vector2(376, 160)

@@ -31,7 +31,7 @@ script = ExtResource("5_y02iy")
 spawn_point_name = "SubB"
 direction = 1
 
-[node name="Bricks" type="Node2D" parent="."]
+[node name="Bricks" type="Node" parent="."]
 
 [node name="Brick" parent="Bricks" instance=ExtResource("6_j12rm")]
 position = Vector2(8, 56)
@@ -310,7 +310,7 @@ position = Vector2(8, 200)
 [node name="Brick12" parent="Bricks" instance=ExtResource("6_j12rm")]
 position = Vector2(8, 216)
 
-[node name="Coins" type="Node2D" parent="."]
+[node name="Coins" type="Node" parent="."]
 
 [node name="Coin" parent="Coins" instance=ExtResource("7_8lmgq")]
 position = Vector2(72, 152)

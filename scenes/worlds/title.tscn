@@ -73,9 +73,9 @@ theme_override_font_sizes/normal_font_size = 8
 text = "top- 000000"
 scroll_active = false
 
-[node name="Bumpables" type="Node2D" parent="."]
+[node name="Bumpables" type="Node" parent="."]
 
-[node name="CoinBricks" type="Node2D" parent="Bumpables"]
+[node name="CoinBricks" type="Node" parent="Bumpables"]
 
 [node name="CoinBrick" parent="Bumpables/CoinBricks" instance=ExtResource("5_w66ig")]
 position = Vector2(264, 168)
@@ -106,7 +106,7 @@ spawn_item = 2
 position = Vector2(1512, 104)
 spawn_item = 1
 
-[node name="Bricks" type="Node2D" parent="Bumpables"]
+[node name="Bricks" type="Node" parent="Bumpables"]
 
 [node name="Brick" parent="Bumpables/Bricks" instance=ExtResource("6_sv0ct")]
 position = Vector2(328, 168)
@@ -160,9 +160,9 @@ position = Vector2(1496, 104)
 position = Vector2(1512, 168)
 spawn_item = 1
 
-[node name="Enemies" type="Node2D" parent="."]
+[node name="Enemies" type="Node" parent="."]
 
-[node name="Goombas" type="Node2D" parent="Enemies"]
+[node name="Goombas" type="Node" parent="Enemies"]
 
 [node name="Goomba" parent="Enemies/Goombas" instance=ExtResource("7_0ggro")]
 position = Vector2(360, 224)
@@ -182,7 +182,7 @@ position = Vector2(1288, 96)
 [node name="Goomba6" parent="Enemies/Goombas" instance=ExtResource("7_0ggro")]
 position = Vector2(1320, 96)
 
-[node name="Turtles" type="Node2D" parent="Enemies"]
+[node name="Turtles" type="Node" parent="Enemies"]
 
 [node name="Player" parent="." instance=ExtResource("8_q2x5m")]
 position = Vector2(48, 224)

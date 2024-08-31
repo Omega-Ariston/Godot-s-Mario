@@ -34,7 +34,7 @@ tile_set = ExtResource("4_bsajg")
 [node name="FlagPole" parent="." instance=ExtResource("5_7wfsk")]
 position = Vector2(360, 224)
 
-[node name="SpawnPoints" type="Node2D" parent="."]
+[node name="SpawnPoints" type="Node" parent="."]
 
 [node name="SpawnPoint" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(64, 192)

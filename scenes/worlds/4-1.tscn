@@ -36,7 +36,7 @@ tile_set = ExtResource("4_36sv8")
 position = Vector2(3608, 224)
 door_distance = null
 
-[node name="SpawnPoints" type="Node2D" parent="."]
+[node name="SpawnPoints" type="Node" parent="."]
 
 [node name="SpawnPoint" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(56, 224)
@@ -69,9 +69,9 @@ use_parent_material = true
 tile_map_data = PackedByteArray("AAAAAA0AAAAIAAgAAAABAA0AAAAIAAkAAAACAA0AAAAJAAkAAAACAAwAAAAIAAkAAAABAAwAAAAIAAgAAAADAAwAAAAKAAgAAAAEAA0AAAAKAAgAAAADAA0AAAAKAAkAAAACAAsAAAAJAAgAAAALAA0AAAALAAkAAAAMAA0AAAAMAAkAAAANAA0AAAAMAAkAAAAOAA0AAAAMAAkAAAAPAA0AAAANAAkAAAAQAA0AAAAIAAgAAAARAA0AAAAIAAkAAAASAA0AAAAKAAgAAAARAAwAAAAJAAgAAAAXAA0AAAALAAkAAAAYAA0AAAAMAAkAAAAZAA0AAAANAAkAAAAIAAQAAAAAABQAAAAIAAUAAAAAABUAAAAJAAQAAAABABQAAAAJAAUAAAABABUAAAAKAAQAAAACABQAAAAKAAUAAAACABUAAAATAAMAAAAAABQAAAATAAQAAAAAABUAAAAUAAMAAAABABQAAAAUAAQAAAABABUAAAAVAAMAAAACABQAAAAVAAQAAAACABUAAAAbAAQAAAAAABQAAAAbAAUAAAAAABUAAAAcAAQAAAABABQAAAAcAAUAAAABABUAAAAdAAQAAAABABQAAAAdAAUAAAABABUAAAAfAAQAAAACABQAAAAfAAUAAAACABUAAAAeAAQAAAABABQAAAAeAAUAAAABABUAAAAkAAMAAAAAABQAAAAkAAQAAAAAABUAAAAlAAMAAAABABQAAAAlAAQAAAABABUAAAAmAAMAAAABABQAAAAmAAQAAAABABUAAAAnAAMAAAACABQAAAAnAAQAAAACABUAAAApAA0AAAALAAkAAAAqAA0AAAAMAAkAAAArAA0AAAAMAAkAAAAsAA0AAAANAAkAAAA=")
 tile_set = ExtResource("6_akj7o")
 
-[node name="Bumpables" type="Node2D" parent="."]
+[node name="Bumpables" type="Node" parent="."]
 
-[node name="CoinBricks" type="Node2D" parent="Bumpables"]
+[node name="CoinBricks" type="Node" parent="Bumpables"]
 
 [node name="CoinBrick" parent="Bumpables/CoinBricks" instance=ExtResource("7_7umxy")]
 position = Vector2(408, 104)
@@ -158,7 +158,7 @@ position = Vector2(1480, 104)
 spawn_item = 3
 is_hidden = true
 
-[node name="Bricks" type="Node2D" parent="Bumpables"]
+[node name="Bricks" type="Node" parent="Bumpables"]
 
 [node name="Brick" parent="Bumpables/Bricks" instance=ExtResource("8_1wep1")]
 position = Vector2(2392, 168)
@@ -170,7 +170,7 @@ position = Vector2(2408, 168)
 position = Vector2(3528, 168)
 spawn_item = 1
 
-[node name="Coins" type="Node2D" parent="."]
+[node name="Coins" type="Node" parent="."]
 
 [node name="Coin" parent="Coins" instance=ExtResource("9_358dk")]
 position = Vector2(664, 176)
@@ -220,9 +220,9 @@ position = Vector2(2216, 120)
 [node name="Coin7" parent="Coins" instance=ExtResource("9_358dk")]
 position = Vector2(1704, 120)
 
-[node name="Enemies" type="Node2D" parent="."]
+[node name="Enemies" type="Node" parent="."]
 
-[node name="Piranhas" type="Node2D" parent="Enemies"]
+[node name="Piranhas" type="Node" parent="Enemies"]
 
 [node name="Piranha" parent="Enemies/Piranhas" instance=ExtResource("10_kancw")]
 position = Vector2(352, 200)
