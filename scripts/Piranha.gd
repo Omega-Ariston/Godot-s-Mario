@@ -31,7 +31,7 @@ const SPEED := DISTANCE / DURATION
 @onready var timer: Timer = $Timer
 @onready var sprite_2d: Sprite2D = $Graphics/Sprite2D
 
-var is_player_nearby := false
+var is_player_nearby := true
 var can_up := true
 var can_down := false
 var origin_pos_y : float
