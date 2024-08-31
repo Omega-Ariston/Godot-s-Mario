@@ -173,7 +173,7 @@ position = Vector2(592, 192)
 position = Vector2(672, 160)
 
 [node name="FlagPole" parent="." instance=ExtResource("7_dd00r")]
-position = Vector2(1912, 224)
+position = Vector2(912, 224)
 
 [node name="Player" parent="." instance=ExtResource("8_585gd")]
 position = Vector2(280, 224)

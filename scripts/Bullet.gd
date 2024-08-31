@@ -59,3 +59,9 @@ func die(_pause := false) -> void:
 	hurtbox.set_deferred("monitoring", false)
 	# 来到屏幕前面
 	z_index = DEAD_Z_INDEX
+
+func pole_kill() -> void:
+	# 拉旗杆时所有炮弹消失
+	SoundManager.play_sfx("Kill")
+	ScoreManager.add_score(SCORE, self)
+	queue_free()

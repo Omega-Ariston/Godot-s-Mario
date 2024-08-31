@@ -35,6 +35,8 @@ func _physics_process(_delta: float) -> void:
 
 func _on_climable_body_entered(body: Node2D) -> void:
 	player = body
+	# 摧毁所有炮弹
+	get_tree().call_group("Bullet", "pole_kill")
 	SoundManager.pause_bgm()
 	GameManager.game_timer.stop()
 	SoundManager.play_sfx("FlagPole")
