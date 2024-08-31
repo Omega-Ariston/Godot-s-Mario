@@ -12,11 +12,11 @@ func _on_body_entered(body: Node2D) -> void:
 			owner.on_charged(body)
 		elif GameManager.is_stomp(body, owner):
 			# 如果来自上方就自己被踩
-			owner.on_stomped(body)
+			owner.on_stomped()
 		elif (owner is Turtle and owner.state_machine.current_state in Turtle.SHOOTABLE_STATE) \
 				or (owner is Beetle and owner.state_machine.current_state in Beetle.SHOOTABLE_STATE):
 			# 壳被玩家撞跑
-			owner.on_stomped(body)
+			owner.on_stomped()
 		else:
 			# 伤害玩家
 			body.hurt(owner)

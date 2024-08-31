@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://bfb0vxdydy2et"]
+[gd_scene load_steps=19 format=4 uid="uid://bfb0vxdydy2et"]
 
 [ext_resource type="Script" path="res://scripts/World.gd" id="1_tpqgv"]
 [ext_resource type="TileSet" uid="uid://cf516p3bd2t1v" path="res://tiles/world.tres" id="2_3vma1"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://bm5n06o4v0mm6" path="res://scenes/items/platform_vertical.tscn" id="14_bjemg"]
 [ext_resource type="PackedScene" uid="uid://bm8y4aylq5pn3" path="res://scenes/characters/beetle.tscn" id="14_cvnhl"]
 [ext_resource type="PackedScene" uid="uid://hwvatwkj6km6" path="res://scenes/characters/lakitu.tscn" id="14_ofgc4"]
+[ext_resource type="PackedScene" uid="uid://t2spsgs033gv" path="res://scenes/characters/cannon.tscn" id="15_0fq1y"]
 [ext_resource type="PackedScene" uid="uid://duiqbx87ur1n" path="res://scenes/items/spring.tscn" id="17_sk8wf"]
 
 [node name="World" type="Node2D"]
@@ -45,7 +46,7 @@ tile_set = ExtResource("3_8f2e5")
 [node name="SpawnPoints" type="Node" parent="."]
 
 [node name="SpawnPoint" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(8, 224)
+position = Vector2(344, 224)
 script = ExtResource("10_sfy30")
 
 [node name="A" type="Marker2D" parent="SpawnPoints"]
@@ -86,7 +87,7 @@ spawn_item = 5
 is_hidden = true
 
 [node name="CoinBrick2" parent="Bricks" instance=ExtResource("5_cpr27")]
-position = Vector2(344, 168)
+position = Vector2(360, 168)
 spawn_item = 2
 
 [node name="CoinBrick3" parent="Bricks" instance=ExtResource("5_cpr27")]
@@ -94,7 +95,7 @@ position = Vector2(264, 168)
 spawn_item = 1
 
 [node name="CoinBrick4" parent="Bricks" instance=ExtResource("5_cpr27")]
-position = Vector2(376, 168)
+position = Vector2(392, 168)
 spawn_item = 3
 
 [node name="CoinBrick5" parent="Bricks" instance=ExtResource("5_cpr27")]
@@ -110,13 +111,13 @@ position = Vector2(88, 168)
 spawn_item = 4
 
 [node name="Brick" parent="Bricks" instance=ExtResource("6_3qu74")]
-position = Vector2(360, 168)
+position = Vector2(376, 168)
 
 [node name="Brick2" parent="Bricks" instance=ExtResource("6_3qu74")]
-position = Vector2(328, 168)
+position = Vector2(344, 168)
 
 [node name="Brick3" parent="Bricks" instance=ExtResource("6_3qu74")]
-position = Vector2(392, 168)
+position = Vector2(408, 168)
 
 [node name="Brick4" parent="Bricks" instance=ExtResource("6_3qu74")]
 position = Vector2(184, 216)
@@ -162,11 +163,20 @@ position = Vector2(1320, 224)
 [node name="Beetle" parent="Enemies" instance=ExtResource("14_cvnhl")]
 position = Vector2(376, 160)
 
+[node name="Cannon" parent="Enemies" instance=ExtResource("15_0fq1y")]
+position = Vector2(680, 224)
+
+[node name="Cannon2" parent="Enemies" instance=ExtResource("15_0fq1y")]
+position = Vector2(592, 192)
+
+[node name="Cannon3" parent="Enemies" instance=ExtResource("15_0fq1y")]
+position = Vector2(672, 160)
+
 [node name="FlagPole" parent="." instance=ExtResource("7_dd00r")]
 position = Vector2(1912, 224)
 
 [node name="Player" parent="." instance=ExtResource("8_585gd")]
-position = Vector2(336, 216)
+position = Vector2(280, 224)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 

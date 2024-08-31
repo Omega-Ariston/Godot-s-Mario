@@ -30,8 +30,7 @@ const COLOR_CYAN := [
 
 @onready var sprite_2d: Sprite2D = $Graphics/Sprite2D
 
-func _ready() -> void:
-	await GameManager.world_ready
+func _on_world_ready() -> void:
 	var sprite_material = sprite_2d.material as ShaderMaterial
 	sprite_material.set_shader_parameter("origin_colors", COLOR_ORIGIN.duplicate())
 	if GameManager.current_world_type == GameManager.WorldType.UNDER:

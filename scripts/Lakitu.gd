@@ -30,8 +30,6 @@ const DASH_ACCELERATION := DASH_SPEED / 0.4
 const WONDER_RANGE := Variables.TILE_SIZE.x * 3.5
 const SPAWN_DISTANCE := Variables.TILE_SIZE.x * 16 # 复活在一个屏幕以外
 
-var player: Player
-
 var original_y : float
 var can_throw := false
 
@@ -40,10 +38,12 @@ var can_throw := false
 @onready var bye_point: Marker2D = $ByePoint
 
 func _ready() -> void:
-	await GameManager.player_ready
-	player = get_tree().get_first_node_in_group("Player")
+	super()
 	original_y = global_position.y
 	animation_player.play("idle")
+
+func _on_player_ready() -> void:
+	super()
 	if player.global_position.x > global_position.x:
 		# 角色重生或从管道里出来时
 		global_position.x = player.global_position.x + Variables.TILE_SIZE.x * 16
@@ -51,7 +51,6 @@ func _ready() -> void:
 func get_next_state(state: State) -> int:
 	if hit or charged or stomped:
 		return State.DYING if state != State.DYING else state_machine.KEEP_CURRENT
-	print_debug(global_position.x, '-', bye_point.global_position.x)
 	if global_position.x >= bye_point.global_position.x  :
 		return State.BYE if state != State.BYE else state_machine.KEEP_CURRENT
 	

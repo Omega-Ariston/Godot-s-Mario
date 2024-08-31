@@ -95,6 +95,7 @@ height = 16.0
 
 [node name="Beetle" instance=ExtResource("1_l1rmu")]
 script = ExtResource("2_jngh0")
+direction = null
 
 [node name="Graphics" parent="." index="0"]
 position = Vector2(0, -8)

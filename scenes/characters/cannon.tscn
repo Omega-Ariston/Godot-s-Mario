@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://t2spsgs033gv"]
+
+[ext_resource type="PackedScene" uid="uid://7mm1fthd05j6" path="res://scenes/characters/enemy.tscn" id="1_ynxo8"]
+[ext_resource type="Texture2D" uid="uid://c7gt8s3r65s32" path="res://assets/graphics/map.png" id="2_gk2kr"]
+[ext_resource type="Script" path="res://scripts/Cannon.gd" id="2_x5esi"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nkabf"]
+size = Vector2(16, 16)
+
+[node name="Cannon" instance=ExtResource("1_ynxo8")]
+z_index = 2
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("2_x5esi")
+
+[node name="Graphics" parent="." index="0"]
+position = Vector2(0, -8)
+
+[node name="Sprite2D" parent="Graphics" index="0"]
+texture = ExtResource("2_gk2kr")
+region_enabled = true
+region_rect = Rect2(144, 0, 16, 16)
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_nkabf")
+
+[node name="VisibleOnScreenNotifier2D" parent="." index="4"]
+position = Vector2(-4.76837e-07, -8)
+scale = Vector2(0.8, 0.8)
+
+[node name="Hurtbox" parent="." index="5"]
+monitoring = false
+monitorable = false
+
+[node name="FireTimer" type="Timer" parent="." index="6"]
+one_shot = true
+
+[connection signal="timeout" from="FireTimer" to="." method="_on_fire_timer_timeout"]

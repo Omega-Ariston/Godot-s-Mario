@@ -31,16 +31,17 @@ const SPEED := DISTANCE / DURATION
 @onready var timer: Timer = $Timer
 @onready var sprite_2d: Sprite2D = $Graphics/Sprite2D
 
-var player: Player
 var is_player_nearby := false
 var can_up := true
 var can_down := false
 var origin_pos_y : float
 
 func _ready() -> void:
+	super()
 	origin_pos_y = position.y
-	await GameManager.player_ready
-	
+	animation_player.play("idle", -1, 0.8, false)
+
+func _on_world_ready() -> void:
 	var sprite_material = sprite_2d.material as ShaderMaterial
 	sprite_material.set_shader_parameter("origin_colors", COLOR_ORIGIN.duplicate())
 	if GameManager.current_world_type == GameManager.WorldType.UNDER:
@@ -48,9 +49,6 @@ func _ready() -> void:
 		sprite_material.set_shader_parameter("new_colors", COLOR_CYAN.duplicate())
 	else:
 		sprite_material.set_shader_parameter("shader_enabled", false)
-		
-	player = get_tree().get_first_node_in_group("Player")
-	animation_player.play("idle", -1, 0.8, false)
 
 func get_next_state(state: State) -> int:
 		
@@ -72,6 +70,10 @@ func get_next_state(state: State) -> int:
 
 
 func tick_physics(state: State, delta: float) -> void:
+	if player:
+		# 更新玩家位置
+		is_player_nearby = abs(player.global_position.x - global_position.x) < PLAYER_RANGE
+		
 	match state:
 		State.GOING_UP:
 			move(SPEED, -1, delta)
@@ -94,12 +96,7 @@ func transition_state(_from: State, to: State) -> void:
 		State.GOING_DOWN:
 			can_down = false
 			
-func _physics_process(_delta: float) -> void:
-	if player:
-		# 如果玩家在附近，就停止切换状态
-		is_player_nearby = abs(player.global_position.x - global_position.x) < PLAYER_RANGE
-
-func on_stomped(_player: Player) -> void:
+func on_stomped() -> void:
 	# 伤害玩家
 	player.hurt(self)
 	

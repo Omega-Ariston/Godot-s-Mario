@@ -60,10 +60,9 @@ const COLOR_CYAN := [
 @onready var floor_checker: RayCast2D = $Graphics/FloorChecker
 @onready var sprite_2d: Sprite2D = $Graphics/Sprite2D
 
-
-func _ready() -> void:
-	await state_machine.initial_state_set
-	await GameManager.world_ready
+func _on_world_ready() -> void:
+	if not state_machine.current_state == 0:
+		await state_machine.initial_state_set
 	var sprite_material = sprite_2d.material as ShaderMaterial
 	sprite_material.set_shader_parameter("origin_colors", COLOR_ORIGIN.duplicate())
 	if type == Type.FLY:
@@ -171,7 +170,7 @@ func transition_state(from: State, to: State) -> void:
 			die(false)
 
 # 被踩
-func on_stomped(player: Player) -> void:
+func on_stomped() -> void:
 	stomped = true
 	if state_machine.current_state != State.FLY:
 		direction = Direction.LEFT if player.global_position.x > global_position.x else Direction.RIGHT

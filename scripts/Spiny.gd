@@ -17,9 +17,6 @@ const SCORE := {
 
 @onready var sprite_2d: Sprite2D = $Graphics/Sprite2D
 
-var player: Player
-
-
 func _ready() -> void:
 	player = get_tree().get_first_node_in_group("Player")
 
@@ -67,7 +64,7 @@ func transition_state(_from: State, to: State) -> void:
 			die(false)
 
 # 被踩
-func on_stomped(_player: Player) -> void:
+func on_stomped() -> void:
 	# 伤害玩家
 	player.hurt(self)
 

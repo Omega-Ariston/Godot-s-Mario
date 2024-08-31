@@ -42,9 +42,7 @@ const COLOR_GREY := [
 @onready var recover_timer: Timer = $RecoverTimer
 @onready var sprite_2d: Sprite2D = $Graphics/Sprite2D
 
-
-func _ready() -> void:
-	await GameManager.world_ready
+func _on_world_ready() -> void:
 	var sprite_material = sprite_2d.material as ShaderMaterial
 	sprite_material.set_shader_parameter("origin_colors", COLOR_ORIGIN.duplicate())
 	if GameManager.current_world_type == GameManager.WorldType.UNDER:
@@ -134,7 +132,7 @@ func transition_state(from: State, to: State) -> void:
 			die(false)
 
 # 被踩
-func on_stomped(player: Player) -> void:
+func on_stomped() -> void:
 	stomped = true
 	direction = Direction.LEFT if player.global_position.x > global_position.x else Direction.RIGHT
 	if state_machine.current_state in SHOOTABLE_STATE:

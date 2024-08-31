@@ -23,6 +23,7 @@ const DEAD_BOUNCE := Vector2(50, -250)
 const DEAD_Z_INDEX := 5
 const PLAYER_STOMPED_BOUNCE := -200.0
 
+var player: Player
 var default_gravity := GameManager.default_gravity as float
 
 var stomped := false # 被踩
@@ -32,13 +33,17 @@ var bumped := false # 被下方的砖块顶到
 
 var attack_direction := Direction.RIGHT # 受到攻击时攻击的指向
 
+func _ready() -> void:
+	GameManager.world_ready.connect(_on_world_ready)
+	GameManager.player_ready.connect(_on_player_ready)
+
 func move(speed_var: float, direction_var: int, delta: float, gravity: float = default_gravity) -> void:
 	velocity.x = speed_var * direction_var
 	velocity.y += gravity * delta
 	move_and_slide()
 	
 # 被踩
-func on_stomped(player: Player) -> void:
+func on_stomped() -> void:
 	stomped = true
 	SoundManager.play_sfx("Stomp")
 	# 给玩家施加一个向上小跳的力
@@ -83,3 +88,10 @@ func _on_visible_on_screen_notifier_2d_screen_entered() -> void:
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	queue_free()
+
+func _on_player_ready() -> void:
+	player = get_tree().get_first_node_in_group("Player")
+
+func _on_world_ready() -> void:
+	# 由子类实现
+	pass

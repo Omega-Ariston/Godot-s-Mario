@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://cf8jqv1ysfb88"]
+
+[ext_resource type="PackedScene" uid="uid://7mm1fthd05j6" path="res://scenes/characters/enemy.tscn" id="1_fb1pc"]
+[ext_resource type="Script" path="res://scripts/Bullet.gd" id="2_3qo6m"]
+[ext_resource type="Texture2D" uid="uid://eh5egx0rrwpa" path="res://assets/graphics/enemies.png" id="2_m4y6m"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d1p2y"]
+size = Vector2(16, 14)
+
+[node name="Bullet" groups=["Bullet"] instance=ExtResource("1_fb1pc")]
+z_index = -1
+collision_layer = 64
+collision_mask = 2
+script = ExtResource("2_3qo6m")
+
+[node name="Graphics" parent="." index="0"]
+position = Vector2(-1, -7)
+
+[node name="Sprite2D" parent="Graphics" index="0"]
+texture = ExtResource("2_m4y6m")
+region_enabled = true
+region_rect = Rect2(576, 16, 16, 16)
+
+[node name="VisibleOnScreenNotifier2D" parent="." index="4"]
+position = Vector2(-1, -7)
+scale = Vector2(0.8, 0.7)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
+position = Vector2(-1, -7)
+shape = SubResource("RectangleShape2D_d1p2y")
