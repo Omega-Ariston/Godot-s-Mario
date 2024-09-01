@@ -123,6 +123,7 @@ start={
 2d_physics/layer_5="Item"
 2d_physics/layer_6="Fireball"
 2d_physics/layer_7="Bullet"
+2d_physics/layer_8="Boundary"
 
 [rendering]
 

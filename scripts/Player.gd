@@ -450,7 +450,6 @@ func move(gravity: float, delta: float) -> void:
 	velocity.y += gravity * delta
 	
 	move_and_slide()
-	global_position.x = max(global_position.x, GameManager.max_left_x + Variables.TILE_SIZE.x / 2)
 	
 	
 func stand(gravity: float, delta: float) -> void:
@@ -459,8 +458,6 @@ func stand(gravity: float, delta: float) -> void:
 	velocity.y += gravity * delta
 	
 	move_and_slide()
-	global_position.x = max(global_position.x, GameManager.max_left_x + 8)
-		
 
 func climb(delta:float) -> void:
 	var movement := Input.get_axis("move_up", "move_down") if controllable else input_y

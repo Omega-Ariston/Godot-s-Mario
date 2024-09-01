@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/Climable.gd" id="3_ch3rt"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3y2rc"]
+resource_local_to_scene = true
 shader = ExtResource("2_q3pmt")
 shader_parameter/shader_enabled = false
 shader_parameter/origin_colors = null

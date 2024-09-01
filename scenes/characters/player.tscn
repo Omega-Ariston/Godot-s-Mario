@@ -367,6 +367,7 @@ _data = {
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 disable_mode = 1
 collision_layer = 2
+collision_mask = 129
 script = ExtResource("1_sboe1")
 
 [node name="Graphics" type="Node2D" parent="."]

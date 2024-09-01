@@ -2,12 +2,11 @@ extends Node2D
 
 @onready var spawn_point: SpawnPoint = $SpawnPoint
 @onready var player: Player = $Player
-@onready var foreground: TileMapLayer = $Foreground
+@onready var foreground: TileMapLayer = $TileMap/Foreground
 
 
 func _ready() -> void:
 	GameManager.uncontrol_player(player)
-	GameManager.max_left_x = 0
 	await GameManager.screen_ready
 	var bgm_player := SoundManager.into_the_under()
 	player.state_machine.current_state = Player.State.WALK

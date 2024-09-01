@@ -61,7 +61,7 @@ func get_next_state(state: State) -> int:
 			if distance < WONDER_RANGE:
 				return State.WONDER_LEFT
 		State.WONDER_LEFT:
-			if (distance < 0 and abs(distance) >= WONDER_RANGE) or is_equal_approx(global_position.x, GameManager.max_left_x):
+			if (distance < 0 and abs(distance) >= WONDER_RANGE) or is_on_wall():
 				return State.WONDER_RIGHT
 		State.WONDER_RIGHT:
 			if player.velocity.x >= player.WALK_SPEED / 2:
@@ -118,8 +118,6 @@ func move(speed: float, dir: int, delta: float, gravity : float = 0) -> void:
 	velocity.x = move_toward(velocity.x, dir * speed, acceleration * delta)
 	velocity.y += gravity * delta
 	move_and_slide()
-	if not state_machine.current_state in [State.BYE, State.DYING]:
-		global_position.x = max(global_position.x, GameManager.max_left_x)
 	if state_machine.current_state == State.DASH:
 		global_position.x = min(global_position.x, player.global_position.x + Variables.TILE_SIZE.x * 5)
 
@@ -127,6 +125,7 @@ func transition_state(_from: State, to: State) -> void:
 	match to:
 		State.BYE:
 			velocity.x = 0
+			collision_shape_2d.disabled = true
 			animation_player.pause()
 			throw_timer.stop()
 		State.DYING:

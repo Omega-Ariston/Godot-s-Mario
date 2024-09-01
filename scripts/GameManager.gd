@@ -4,8 +4,7 @@ const CHANGE_SCENE_DURATION := 0.4
 const VINE_RISE_COUNT := 4
 const TRANSITION_SCENE_PATH := "res://scenes/worlds/transition.tscn"
 const LIFE_COUNT := 3
-const INITIAL_CAMERA_OFFSET := Variables.TILE_SIZE.x * 3
-const INITIAL_CAMERA_OFFSET_SUB := Variables.TILE_SIZE.x * 4
+const INITIAL_CAMERA_OFFSET := Variables.TILE_SIZE.x * 4
 
 enum WorldType {
 	GROUND,
@@ -15,7 +14,6 @@ enum WorldType {
 }
 
 var default_gravity := ProjectSettings.get("physics/2d/default_gravity") as float
-var max_left_x: float
 
 var current_level: String:
 	set(v):
@@ -180,7 +178,6 @@ func change_scene(level: String, params: Dictionary = {}) -> void:
 		player.blink_animator.play("star", -1, 4.0, false)
 	# 播放出场动画
 	if spawn_point.direction != SpawnPoint.Spawn_Direction.NONE:
-		max_left_x = max(0, spawn_point.global_position.x - GameManager.INITIAL_CAMERA_OFFSET_SUB)
 		player.is_spawning = true
 		if spawn_point.type == SpawnPoint.Type.VINE:
 			await _animate_vine(player, spawn_point)

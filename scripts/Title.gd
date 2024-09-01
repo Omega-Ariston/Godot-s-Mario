@@ -1,6 +1,7 @@
 extends Node2D
 
-@onready var tile_map: TileMapLayer = $TileMap
+@onready var foreground: TileMapLayer = $TileMap/Foreground
+
 @onready var camera_2d: Camera2D = $Player/Camera2D
 @onready var player: Player = $Player
 
@@ -15,7 +16,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		GameManager.transition_scene("1-1")
 
 func setup_camera() -> void:
-	var used := tile_map.get_used_rect()
+	var used := foreground.get_used_rect()
 	var tile_size := Variables.TILE_SIZE
 	
 	camera_2d.limit_top = floori(0.5 * tile_size.y) # 最上面一个方块只显示一半
