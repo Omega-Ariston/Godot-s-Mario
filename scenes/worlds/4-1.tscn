@@ -56,7 +56,6 @@ tile_set = ExtResource("4_36sv8")
 
 [node name="FlagPole" parent="." instance=ExtResource("5_fppah")]
 position = Vector2(3608, 224)
-door_distance = null
 
 [node name="Boundaries" type="Node" parent="."]
 

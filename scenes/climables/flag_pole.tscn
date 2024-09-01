@@ -21,7 +21,6 @@ sources/1 = SubResource("TileSetAtlasSource_7o6wk")
 size = Vector2(2, 152)
 
 [node name="FlagPole" type="Node2D" groups=["FlagPole"]]
-z_index = -1
 position = Vector2(8, 0)
 script = ExtResource("1_h62ks")
 
