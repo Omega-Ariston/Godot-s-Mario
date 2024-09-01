@@ -1,7 +1,6 @@
-[gd_scene load_steps=19 format=4 uid="uid://dkussfwr6n638"]
+[gd_scene load_steps=18 format=4 uid="uid://dkussfwr6n638"]
 
 [ext_resource type="Script" path="res://scripts/World.gd" id="1_b03qh"]
-[ext_resource type="Texture2D" uid="uid://iykmsuykigl7" path="res://assets/maps/4-2.png" id="2_7wolf"]
 [ext_resource type="TileSet" uid="uid://bru6c57447abq" path="res://tiles/background.tres" id="3_x5kul"]
 [ext_resource type="TileSet" uid="uid://cf516p3bd2t1v" path="res://tiles/world.tres" id="4_sjxcc"]
 [ext_resource type="PackedScene" uid="uid://m2agj2g2u6vw" path="res://scenes/worlds/warp_zone.tscn" id="5_w20k2"]
@@ -28,10 +27,6 @@ script = ExtResource("1_b03qh")
 world_type = 1
 level_time = 400
 level_name = "4-2"
-
-[node name="4-2" type="Sprite2D" parent="."]
-position = Vector2(1792, 616)
-texture = ExtResource("2_7wolf")
 
 [node name="TileMap" type="Node2D" parent="."]
 
@@ -230,15 +225,6 @@ position = Vector2(3048, 72)
 
 [node name="Brick196" parent="Bumpables/Bricks" instance=ExtResource("7_18fmm")]
 position = Vector2(3048, 56)
-
-[node name="Brick205" parent="Bumpables/Bricks" instance=ExtResource("7_18fmm")]
-position = Vector2(2824, 104)
-
-[node name="Brick206" parent="Bumpables/Bricks" instance=ExtResource("7_18fmm")]
-position = Vector2(2824, 88)
-
-[node name="Brick207" parent="Bumpables/Bricks" instance=ExtResource("7_18fmm")]
-position = Vector2(2824, 72)
 
 [node name="Brick217" parent="Bumpables/Bricks" instance=ExtResource("7_18fmm")]
 position = Vector2(2808, 104)
@@ -1270,29 +1256,29 @@ position = Vector2(1928, 56)
 position = Vector2(1944, 56)
 
 [node name="Brick131" parent="Bumpables/Bricks" instance=ExtResource("7_18fmm")]
-position = Vector2(1912, 96)
+position = Vector2(1912, 104)
 
 [node name="Brick132" parent="Bumpables/Bricks" instance=ExtResource("7_18fmm")]
-position = Vector2(1928, 96)
+position = Vector2(1928, 104)
 spawn_item = 2
 
 [node name="Brick133" parent="Bumpables/Bricks" instance=ExtResource("7_18fmm")]
-position = Vector2(1944, 96)
+position = Vector2(1944, 104)
 
 [node name="Brick130" parent="Bumpables/Bricks" instance=ExtResource("7_18fmm")]
 position = Vector2(1960, 56)
 
 [node name="Brick134" parent="Bumpables/Bricks" instance=ExtResource("7_18fmm")]
-position = Vector2(1912, 152)
+position = Vector2(1912, 168)
 
 [node name="Brick135" parent="Bumpables/Bricks" instance=ExtResource("7_18fmm")]
-position = Vector2(1928, 152)
+position = Vector2(1928, 168)
 
 [node name="Brick153" parent="Bumpables/Bricks" instance=ExtResource("7_18fmm")]
-position = Vector2(1944, 152)
+position = Vector2(1944, 168)
 
 [node name="Brick154" parent="Bumpables/Bricks" instance=ExtResource("7_18fmm")]
-position = Vector2(1960, 152)
+position = Vector2(1960, 168)
 
 [node name="Brick136" parent="Bumpables/Bricks" instance=ExtResource("7_18fmm")]
 position = Vector2(2056, 56)
@@ -2616,7 +2602,7 @@ is_hidden = true
 [node name="Platforms" type="Node2D" parent="."]
 
 [node name="PlatformVertical" parent="Platforms" instance=ExtResource("8_i1oel")]
-position = Vector2(1860, 152)
+position = Vector2(1860, 168)
 direction = 1
 
 [node name="PlatformVertical2" parent="Platforms" instance=ExtResource("8_i1oel")]
@@ -2624,21 +2610,21 @@ position = Vector2(1860, 56)
 direction = 1
 
 [node name="PlatformVertical6" parent="Platforms" instance=ExtResource("8_i1oel")]
-position = Vector2(2004, 176)
+position = Vector2(2004, 200)
 
 [node name="PlatformVertical7" parent="Platforms" instance=ExtResource("8_i1oel")]
-position = Vector2(2004, 80)
+position = Vector2(2004, 88)
 
 [node name="PlatformVertical5" parent="Platforms" instance=ExtResource("8_i1oel")]
-position = Vector2(964, 144)
+position = Vector2(964, 142)
 direction = 1
 
 [node name="PlatformVertical3" parent="Platforms" instance=ExtResource("8_i1oel")]
-position = Vector2(2516, 80)
+position = Vector2(2516, 84)
 direction = 1
 
 [node name="PlatformVertical4" parent="Platforms" instance=ExtResource("8_i1oel")]
-position = Vector2(2516, 208)
+position = Vector2(2516, 196)
 direction = 1
 
 [node name="Coins" type="Node2D" parent="."]

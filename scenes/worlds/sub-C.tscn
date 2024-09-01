@@ -118,41 +118,38 @@ position = Vector2(8, 72)
 [node name="Brick11" parent="Bricks" instance=ExtResource("7_3hq80")]
 position = Vector2(8, 56)
 
-[node name="Brick12" parent="Bricks" instance=ExtResource("7_3hq80")]
-position = Vector2(8, 40)
-
 [node name="Brick19" parent="Bricks" instance=ExtResource("7_3hq80")]
-position = Vector2(232, 40)
+position = Vector2(232, 56)
 
 [node name="Brick20" parent="Bricks" instance=ExtResource("7_3hq80")]
-position = Vector2(216, 40)
+position = Vector2(216, 56)
 
 [node name="Brick21" parent="Bricks" instance=ExtResource("7_3hq80")]
-position = Vector2(200, 40)
+position = Vector2(200, 56)
 
 [node name="Brick22" parent="Bricks" instance=ExtResource("7_3hq80")]
-position = Vector2(184, 40)
+position = Vector2(184, 56)
 
 [node name="Brick23" parent="Bricks" instance=ExtResource("7_3hq80")]
-position = Vector2(168, 40)
+position = Vector2(168, 56)
 
 [node name="Brick24" parent="Bricks" instance=ExtResource("7_3hq80")]
-position = Vector2(152, 40)
+position = Vector2(152, 56)
 
 [node name="Brick25" parent="Bricks" instance=ExtResource("7_3hq80")]
-position = Vector2(136, 40)
+position = Vector2(136, 56)
 
 [node name="Brick26" parent="Bricks" instance=ExtResource("7_3hq80")]
-position = Vector2(120, 40)
+position = Vector2(120, 56)
 
 [node name="Brick27" parent="Bricks" instance=ExtResource("7_3hq80")]
-position = Vector2(104, 40)
+position = Vector2(104, 56)
 
 [node name="Brick28" parent="Bricks" instance=ExtResource("7_3hq80")]
-position = Vector2(88, 40)
+position = Vector2(88, 56)
 
 [node name="Brick29" parent="Bricks" instance=ExtResource("7_3hq80")]
-position = Vector2(72, 40)
+position = Vector2(72, 56)
 
 [node name="Brick31" parent="Bricks" instance=ExtResource("7_3hq80")]
 position = Vector2(152, 168)
@@ -173,7 +170,7 @@ position = Vector2(88, 168)
 position = Vector2(72, 168)
 
 [node name="Brick30" parent="Bricks" instance=ExtResource("7_3hq80")]
-position = Vector2(56, 40)
+position = Vector2(56, 56)
 
 [node name="Coins" type="Node2D" parent="."]
 

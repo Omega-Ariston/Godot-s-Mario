@@ -1,7 +1,6 @@
-[gd_scene load_steps=18 format=4 uid="uid://bpklk5c8l7csv"]
+[gd_scene load_steps=17 format=4 uid="uid://bpklk5c8l7csv"]
 
 [ext_resource type="Script" path="res://scripts/World.gd" id="1_2o7f6"]
-[ext_resource type="Texture2D" uid="uid://b1bsw6g0md4yt" path="res://assets/maps/1-2.png" id="2_y7uwb"]
 [ext_resource type="TileSet" uid="uid://bru6c57447abq" path="res://tiles/background.tres" id="3_wyd0w"]
 [ext_resource type="TileSet" uid="uid://cf516p3bd2t1v" path="res://tiles/world.tres" id="4_luixm"]
 [ext_resource type="PackedScene" uid="uid://c30i335tpkrd8" path="res://scenes/bricks/brick.tscn" id="5_gmyou"]
@@ -27,10 +26,6 @@ script = ExtResource("1_2o7f6")
 world_type = 1
 level_time = 400
 level_name = "1-2"
-
-[node name="1-2" type="Sprite2D" parent="."]
-position = Vector2(1536, 616)
-texture = ExtResource("2_y7uwb")
 
 [node name="TileMap" type="Node2D" parent="."]
 
@@ -502,23 +497,23 @@ position = Vector2(2616, 200)
 position = Vector2(2616, 184)
 
 [node name="Brick312" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(2366, 153)
+position = Vector2(2360, 152)
 
 [node name="Brick313" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(2350, 153)
+position = Vector2(2344, 152)
 
 [node name="Brick314" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(2334, 153)
+position = Vector2(2328, 152)
 
 [node name="Brick315" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(2414, 153)
+position = Vector2(2408, 152)
 spawn_item = 2
 
 [node name="Brick316" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(2398, 153)
+position = Vector2(2392, 152)
 
 [node name="Brick317" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(2382, 153)
+position = Vector2(2376, 152)
 
 [node name="Brick318" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
 position = Vector2(1384, 152)

@@ -1,7 +1,6 @@
-[gd_scene load_steps=16 format=4 uid="uid://l2wawbtd51mb"]
+[gd_scene load_steps=15 format=4 uid="uid://l2wawbtd51mb"]
 
 [ext_resource type="Script" path="res://scripts/World1-1.gd" id="1_d7qaa"]
-[ext_resource type="Texture2D" uid="uid://bhyrlxul817wb" path="res://assets/maps/1-1.png" id="2_jpthc"]
 [ext_resource type="TileSet" uid="uid://cf516p3bd2t1v" path="res://tiles/world.tres" id="2_p5xmh"]
 [ext_resource type="PackedScene" uid="uid://b4igl1ywray2k" path="res://scenes/items/white_flag.tscn" id="3_fd781"]
 [ext_resource type="TileSet" uid="uid://bru6c57447abq" path="res://tiles/background.tres" id="3_ssu1u"]
@@ -24,10 +23,6 @@ size = Vector2(8, 224)
 script = ExtResource("1_d7qaa")
 level_time = 400
 level_name = "1-1"
-
-[node name="1-1" type="Sprite2D" parent="."]
-position = Vector2(1792, 496)
-texture = ExtResource("2_jpthc")
 
 [node name="WhiteFlag" parent="." instance=ExtResource("3_fd781")]
 position = Vector2(3272, 160)
@@ -215,7 +210,7 @@ position = Vector2(1512, 168)
 spawn_item = 1
 
 [node name="Brick18" parent="Bumpables/Bricks" instance=ExtResource("6_3gh1o")]
-position = Vector2(1616, 168)
+position = Vector2(1608, 168)
 
 [node name="Brick20" parent="Bumpables/Bricks" instance=ExtResource("6_3gh1o")]
 position = Vector2(1896, 168)
@@ -251,7 +246,7 @@ position = Vector2(2696, 168)
 position = Vector2(2744, 168)
 
 [node name="Brick19" parent="Bumpables/Bricks" instance=ExtResource("6_3gh1o")]
-position = Vector2(1632, 168)
+position = Vector2(1624, 168)
 spawn_item = 4
 
 [node name="Enemies" type="Node2D" parent="."]
