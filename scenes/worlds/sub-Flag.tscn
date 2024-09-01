@@ -12,7 +12,6 @@
 [node name="SubFlag" type="Node2D"]
 script = ExtResource("1_d6cau")
 level_time = 400
-level_name = "1-2"
 
 [node name="WhiteFlag" parent="." instance=ExtResource("2_byuv7")]
 position = Vector2(456, 160)

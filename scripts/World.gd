@@ -14,7 +14,11 @@ extends Node2D
 var viewport_size: Vector2
 
 func _ready() -> void:
-	if GameManager.current_level != level_name:
+	GameManager.screen_ready.connect(_on_screen_ready)
+	# 旗帜关不会设置level_name
+	if not level_name:
+		GameManager.current_spawn_point = spawn_point.name
+	elif GameManager.current_level != level_name:
 		GameManager.current_level = level_name
 		GameManager.current_spawn_point = spawn_point.name
 	GameManager.max_left_x = max(0, spawn_points.find_child(GameManager.current_spawn_point).global_position.x - GameManager.INITIAL_CAMERA_OFFSET)
@@ -22,10 +26,6 @@ func _ready() -> void:
 	GameManager.current_world_type = world_type
 	setup_camera()
 	GameManager.world_ready.emit()
-	await GameManager.screen_ready
-	SoundManager.play_world_bgm()
-	GameManager.control_player(player)
-	GameManager.game_timer.start()
 
 func _process(_delta: float) -> void:
 	var center_position := camera_2d.get_screen_center_position()
@@ -38,8 +38,13 @@ func setup_camera() -> void:
 	var used := foreground.get_used_rect()
 	var tile_size := Variables.TILE_SIZE
 	
-	
 	camera_2d.limit_top = floori(0.5 * tile_size.y) # 最上面一个方块只显示一半
 	camera_2d.limit_right = floori(used.end.x * tile_size.x)
 	camera_2d.limit_bottom = ceili((used.end.y - 0.5) * tile_size.y) # 最下面一个方块只显示一半
 	camera_2d.limit_left = 0
+
+func _on_screen_ready() -> void:
+	SoundManager.play_world_bgm()
+	GameManager.control_player(player)
+	GameManager.game_timer.start()
+	
