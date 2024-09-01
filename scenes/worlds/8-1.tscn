@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://cieqy7phlpc34"]
+[gd_scene load_steps=18 format=4 uid="uid://cieqy7phlpc34"]
 
 [ext_resource type="Script" path="res://scripts/World.gd" id="1_t2w8o"]
 [ext_resource type="PackedScene" uid="uid://b4igl1ywray2k" path="res://scenes/items/white_flag.tscn" id="2_wbn42"]
@@ -6,7 +6,6 @@
 [ext_resource type="TileSet" uid="uid://cf516p3bd2t1v" path="res://tiles/world.tres" id="4_2nf05"]
 [ext_resource type="PackedScene" uid="uid://23x77sf5ec41" path="res://scenes/climables/flag_pole.tscn" id="5_mpim1"]
 [ext_resource type="Script" path="res://scripts/SpawnPoint.gd" id="6_mgwkl"]
-[ext_resource type="Texture2D" uid="uid://bhf0485lvwn6g" path="res://assets/maps/8-1.png" id="7_j4sng"]
 [ext_resource type="Script" path="res://scripts/EnterPoint.gd" id="8_xgw1c"]
 [ext_resource type="PackedScene" uid="uid://cjahx4qiw0rlv" path="res://scenes/items/coin.tscn" id="9_4akyy"]
 [ext_resource type="PackedScene" uid="uid://by0stfwg5c7pm" path="res://scenes/bricks/coin_brick.tscn" id="9_pakhf"]
@@ -403,8 +402,3 @@ position = Vector2(5480, 224)
 position = Vector2(56, 224)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
-
-[node name="8-1" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(3200, 256)
-texture = ExtResource("7_j4sng")

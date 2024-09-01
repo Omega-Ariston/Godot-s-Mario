@@ -7,10 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://ta2kus8p0r8f" path="res://scenes/characters/player.tscn" id="4_mwja0"]
 
 [node name="IntoTheUnder" type="Node2D"]
-position = Vector2(744, 208)
 script = ExtResource("1_1m0tn")
 
-[node name="TileMap" type="Node" parent="."]
+[node name="TileMap" type="Node2D" parent="."]
 
 [node name="Sky" type="TileMapLayer" parent="TileMap"]
 z_index = -1
