@@ -46,7 +46,9 @@ func _on_player_ready() -> void:
 	super()
 	if player.global_position.x > global_position.x:
 		# 角色重生或从管道里出来时
-		global_position.x = player.global_position.x + Variables.TILE_SIZE.x * 16
+		var spawn_x = player.global_position.x + Variables.TILE_SIZE.x * 16
+		if spawn_x < bye_point.global_position.x:
+			global_position.x = spawn_x
 
 func get_next_state(state: State) -> int:
 	if hit or charged or stomped:
