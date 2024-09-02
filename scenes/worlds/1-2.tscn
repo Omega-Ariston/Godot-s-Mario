@@ -1557,16 +1557,16 @@ position = Vector2(1416, 104)
 position = Vector2(1432, 104)
 
 [node name="Coin7" parent="Coins" instance=ExtResource("7_ol6jv")]
-position = Vector2(936, 153)
+position = Vector2(936, 152)
 
 [node name="Coin8" parent="Coins" instance=ExtResource("7_ol6jv")]
-position = Vector2(952, 153)
+position = Vector2(952, 152)
 
 [node name="Coin9" parent="Coins" instance=ExtResource("7_ol6jv")]
-position = Vector2(968, 153)
+position = Vector2(968, 152)
 
 [node name="Coin10" parent="Coins" instance=ExtResource("7_ol6jv")]
-position = Vector2(984, 153)
+position = Vector2(984, 152)
 
 [node name="Coin11" parent="Coins" instance=ExtResource("7_ol6jv")]
 position = Vector2(1096, 152)
