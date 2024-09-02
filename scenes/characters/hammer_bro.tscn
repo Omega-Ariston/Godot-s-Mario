@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://csilqycta5we5"]
+
+[ext_resource type="PackedScene" uid="uid://7mm1fthd05j6" path="res://scenes/characters/enemy.tscn" id="1_uf2uq"]
+[ext_resource type="Script" path="res://scripts/HammerBro.gd" id="2_cgdwo"]
+[ext_resource type="Texture2D" uid="uid://eh5egx0rrwpa" path="res://assets/graphics/enemies.png" id="3_5okib"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8aixr"]
+radius = 7.0
+height = 18.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ro0m1"]
+radius = 8.0
+height = 24.0
+
+[node name="HammerBro" instance=ExtResource("1_uf2uq")]
+script = ExtResource("2_cgdwo")
+
+[node name="Graphics" parent="." index="0"]
+position = Vector2(0, -12)
+
+[node name="Sprite2D" parent="Graphics" index="0"]
+texture = ExtResource("3_5okib")
+region_enabled = true
+region_rect = Rect2(352, 8, 16, 24)
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(0, -9)
+shape = SubResource("CapsuleShape2D_8aixr")
+
+[node name="VisibleOnScreenNotifier2D" parent="." index="4"]
+position = Vector2(0, -12)
+scale = Vector2(0.8, 1.2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
+position = Vector2(0, -12)
+shape = SubResource("CapsuleShape2D_ro0m1")
