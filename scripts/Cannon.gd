@@ -11,6 +11,7 @@ const MAX_BULLET_NUM := 4
 
 var can_fire := true
 var is_player_nearby := false
+var rng = RandomNumberGenerator.new()
 
 @onready var sprite_2d: Sprite2D = $Graphics/Sprite2D
 @onready var fire_timer: Timer = $FireTimer
@@ -19,7 +20,10 @@ func get_next_state(state: State) -> int:
 	
 	match state:
 		State.IDLE:
-			var should_fire = can_fire and not is_player_nearby and get_tree().get_node_count_in_group("Bullet") <= MAX_BULLET_NUM
+			var should_fire = can_fire \
+				and not is_player_nearby \
+				and rng.randf_range(0, 1) > 0.66 \
+				and get_tree().get_node_count_in_group("Bullet") < MAX_BULLET_NUM
 			if should_fire:
 				return State.FIRE
 		State.FIRE:
@@ -42,7 +46,7 @@ func transition_state(_from: State, to: State) -> void:
 			bullet_instance.global_position = global_position
 			owner.add_child(bullet_instance)
 			can_fire = false
-			fire_timer.start()
+			fire_timer.start(rng.randf_range(0.5, 3.0))
 		
 func _on_fire_timer_timeout() -> void:
 	can_fire = true

@@ -8,7 +8,7 @@
 size = Vector2(16, 16)
 
 [node name="Cannon" instance=ExtResource("1_ynxo8")]
-z_index = 2
+z_index = 3
 collision_layer = 1
 collision_mask = 0
 script = ExtResource("2_x5esi")
