@@ -65,3 +65,7 @@ func on_bumped(player: Player, broken: bool = false) -> void:
 			await bumpable.do_bump()
 			if spawn_item != Bumpable.SpawnItem.EMPTY:
 				bumpable.do_spawn(self, spawn_item, player)
+
+
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	queue_free()

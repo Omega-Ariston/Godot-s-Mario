@@ -169,3 +169,7 @@ shape = SubResource("RectangleShape2D_4uehg")
 [node name="Bumpable" parent="." instance=ExtResource("3_1s83g")]
 
 [node name="Chargeable" parent="." instance=ExtResource("4_44ixi")]
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
