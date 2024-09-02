@@ -469,6 +469,8 @@ func hurt(enemy: Node2D) -> void:
 	print_debug("HURT BY:", enemy.name)
 	if not is_invincible:
 		is_hurt = true
+		# 清除所有空中的火球
+		get_tree().call_group("Fireballs", "queue_free")
 
 func dead() -> void:
 	GameManager.transition_scene(GameManager.current_level)
