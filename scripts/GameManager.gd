@@ -49,7 +49,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			player.can_onfire = true
 
 func restore_status() -> void:
-	current_level = ""
+	current_level = "1-1"
 	current_spawn_point = ""
 	player_current_mode = Player.Mode.SMALL
 	life = LIFE_COUNT
