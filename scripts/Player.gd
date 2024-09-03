@@ -312,12 +312,12 @@ func get_next_state(state: State) -> int:
 
 
 func transition_state(from: State, to: State) -> void:
-	print_debug(
-		"State: [%s] %s => %s" % [
-		Engine.get_physics_frames(),
-		State.keys()[from] if from != -1 else "<START>",
-		State.keys()[to]
-	])
+	#print_debug(
+		#"State: [%s] %s => %s" % [
+		#Engine.get_physics_frames(),
+		#State.keys()[from] if from != -1 else "<START>",
+		#State.keys()[to]
+	#])
 	
 	match from:
 		State.WALK:
@@ -501,7 +501,6 @@ func _unclimb() -> void:
 		global_position.x -= direction * Variables.TILE_SIZE.x / 2 # 给一点初速度，避免直接掉到藤下面
 
 func _eat(item: Node) -> void:
-	print_debug("Eatting: %s" % item.name)
 	if item is Mushroom:
 		if item.mushroom_type == Bumpable.SpawnItem.UPGRADE:
 			if curr_mode == Mode.SMALL:

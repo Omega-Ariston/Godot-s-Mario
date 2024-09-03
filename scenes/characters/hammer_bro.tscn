@@ -1,8 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://csilqycta5we5"]
+[gd_scene load_steps=8 format=3 uid="uid://csilqycta5we5"]
 
 [ext_resource type="PackedScene" uid="uid://7mm1fthd05j6" path="res://scenes/characters/enemy.tscn" id="1_uf2uq"]
 [ext_resource type="Script" path="res://scripts/HammerBro.gd" id="2_cgdwo"]
+[ext_resource type="Shader" path="res://shaders/change_color.gdshader" id="3_2p3e4"]
 [ext_resource type="Texture2D" uid="uid://eh5egx0rrwpa" path="res://assets/graphics/enemies.png" id="3_5okib"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lfm80"]
+shader = ExtResource("3_2p3e4")
+shader_parameter/shader_enabled = false
+shader_parameter/origin_colors = null
+shader_parameter/new_colors = null
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8aixr"]
 radius = 7.0
@@ -13,12 +20,14 @@ radius = 8.0
 height = 24.0
 
 [node name="HammerBro" instance=ExtResource("1_uf2uq")]
+collision_mask = 1
 script = ExtResource("2_cgdwo")
 
 [node name="Graphics" parent="." index="0"]
 position = Vector2(0, -12)
 
 [node name="Sprite2D" parent="Graphics" index="0"]
+material = SubResource("ShaderMaterial_lfm80")
 texture = ExtResource("3_5okib")
 region_enabled = true
 region_rect = Rect2(352, 8, 16, 24)
@@ -34,3 +43,15 @@ scale = Vector2(0.8, 1.2)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
 position = Vector2(0, -12)
 shape = SubResource("CapsuleShape2D_ro0m1")
+
+[node name="JumpTimer" type="Timer" parent="." index="6"]
+one_shot = true
+autostart = true
+
+[node name="ChaseTimer" type="Timer" parent="." index="7"]
+wait_time = 20.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="JumpTimer" to="." method="_on_jump_timer_timeout"]
+[connection signal="timeout" from="ChaseTimer" to="." method="_on_chase_timer_timeout"]
