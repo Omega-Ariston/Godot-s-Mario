@@ -35,20 +35,41 @@ region_rect = Rect2(352, 8, 16, 24)
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2(0, -9)
 shape = SubResource("CapsuleShape2D_8aixr")
+disabled = true
 
 [node name="VisibleOnScreenNotifier2D" parent="." index="4"]
 position = Vector2(0, -12)
 scale = Vector2(0.8, 1.2)
 
+[node name="FloorChecker" type="Node2D" parent="." index="5"]
+
+[node name="RayCast2D" type="RayCast2D" parent="FloorChecker" index="0"]
+position = Vector2(-7, 0)
+target_position = Vector2(0, 4)
+hit_from_inside = true
+
+[node name="RayCast2D2" type="RayCast2D" parent="FloorChecker" index="1"]
+target_position = Vector2(0, 4)
+hit_from_inside = true
+
+[node name="RayCast2D3" type="RayCast2D" parent="FloorChecker" index="2"]
+position = Vector2(7, 0)
+target_position = Vector2(0, 4)
+hit_from_inside = true
+
+[node name="WallChecker" type="RayCast2D" parent="." index="6"]
+position = Vector2(-8, -12)
+target_position = Vector2(-8, 0)
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
 position = Vector2(0, -12)
 shape = SubResource("CapsuleShape2D_ro0m1")
 
-[node name="JumpTimer" type="Timer" parent="." index="6"]
+[node name="JumpTimer" type="Timer" parent="." index="8"]
 one_shot = true
 autostart = true
 
-[node name="ChaseTimer" type="Timer" parent="." index="7"]
+[node name="ChaseTimer" type="Timer" parent="." index="9"]
 wait_time = 20.0
 one_shot = true
 autostart = true

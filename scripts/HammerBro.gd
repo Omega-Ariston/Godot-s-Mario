@@ -23,6 +23,9 @@ const MIN_JUMP_INTERVAL := 1.0
 const MAX_JUMP_INTERVAL := 2.0
 const JUMP_UP_VELOCITY := -280
 const JUMP_DOWN_VELOCITY := -100
+const LEVEL_TWO_BOUND := 7 # 双层砖块中上层的下界，单位为瓦片高度
+const LEVEL_ONE_BOUND := 11 # 双层砖块中下层的下界，单位为瓦片高度
+const CHARACTER_HEIGHT := 1.5 # 角色高度，单位为瓦片高度
 
 # 原始颜色，顺序为壳、肉、壳边缘
 const COLOR_ORIGIN := [
@@ -46,6 +49,8 @@ var move_direction := Direction.LEFT
 
 @onready var sprite_2d: Sprite2D = $Graphics/Sprite2D
 @onready var jump_timer: Timer = $JumpTimer
+@onready var floor_checker: Node2D = $FloorChecker
+@onready var wall_checker: RayCast2D = $WallChecker
 
 func _ready() -> void:
 	super()
@@ -67,6 +72,8 @@ func get_next_state(state: State) -> int:
 	
 	match state:
 		State.WONDER:
+			if not on_floor_raycast():
+				return State.LANDING
 			if is_chasing and direction == Direction.LEFT:
 				return State.CHASING
 			if can_jump:
@@ -85,6 +92,9 @@ func get_next_state(state: State) -> int:
 			if velocity.y >= 0:
 				return State.LANDING
 		State.JUMP_DOWN_ONE:
+			if on_floor_raycast() and current_tile_unit_y() > LEVEL_ONE_BOUND:
+				# 从追击返回到巡航模式并站在管道上时会进入这个状态，需要防止它往管道下面跳
+				return State.JUMP_UP
 			if current_level() == level_before_jump - 1:
 				return State.LANDING
 		State.JUMP_DOWN_TWO:
@@ -94,9 +104,11 @@ func get_next_state(state: State) -> int:
 			if is_on_floor():
 				return State.WONDER
 		State.CHASING:
+			if not on_floor_raycast():
+				return State.LANDING
 			if direction == Direction.RIGHT:
 				return State.WONDER
-			if is_on_wall():
+			if wall_checker.is_colliding():
 				return State.JUMP_UP
 				
 	return state_machine.KEEP_CURRENT
@@ -116,10 +128,13 @@ func tick_physics(state: State, delta: float) -> void:
 	elif global_position.x >= origin_x + WONDER_RANGE:
 		move_direction = Direction.LEFT
 	
-	if state == State.DEAD:
-		move(DEAD_BOUNCE.x, attack_direction, delta)
-	else:
-		move(SPEED, move_direction, delta, default_gravity / 2)
+	match state:
+		State.WONDER, State.CHASING:
+			move(SPEED, move_direction, delta, 0)
+		State.DEAD:
+			move(DEAD_BOUNCE.x, attack_direction, delta)
+		_:
+			move(SPEED, move_direction, delta, default_gravity / 2)
 
 
 func transition_state(from: State, to: State) -> void:
@@ -133,13 +148,12 @@ func transition_state(from: State, to: State) -> void:
 	])
 	
 	match to:
-		State.JUMP_UP:
-			# 禁用碰撞以穿过砖块
+		State.WONDER:
+			# 禁用碰撞
 			collision_shape_2d.disabled = true
+		State.JUMP_UP:
 			velocity.y = JUMP_UP_VELOCITY
 		State.JUMP_DOWN_ONE, State.JUMP_DOWN_TWO:
-			# 禁用碰撞以穿过砖块
-			collision_shape_2d.disabled = true
 			velocity.y = JUMP_DOWN_VELOCITY
 		State.LANDING:
 			# 恢复碰撞以站立
@@ -157,19 +171,27 @@ func transition_state(from: State, to: State) -> void:
 
 func current_level() -> int:
 	# 当前所在的层数（锤子兄弟可以在最多三层的场景中生成），地面为0，中间为1，顶上为2
-	if global_position.y < Variables.TILE_SIZE.y * 8.5:
+	if current_tile_unit_y() < LEVEL_TWO_BOUND + CHARACTER_HEIGHT:
 		return 2
-	elif global_position.y < Variables.TILE_SIZE.y * 12.5:
+	elif current_tile_unit_y() < LEVEL_ONE_BOUND + CHARACTER_HEIGHT:
 		return 1
 	else:
 		return 0
 
+func current_tile_unit_y() -> int:
+	return ceili(global_position.y / Variables.TILE_SIZE.y)
+
 func _on_chase_timer_timeout() -> void:
 	is_chasing = true
-	jump_timer.stop()
 
 func _on_jump_timer_timeout() -> void:
-	# 2/3的机率跳
-	if rng.randf_range(0, 1) > 0.33:
+	# 非追击状态下2/3的机率跳
+	if state_machine.current_state != State.CHASING and rng.randf_range(0, 1) > 0.33:
 		can_jump = true
 	jump_timer.start(rng.randf_range(MIN_JUMP_INTERVAL, MAX_JUMP_INTERVAL))
+
+func on_floor_raycast() -> bool:
+	for ray_cast: RayCast2D in floor_checker.get_children():
+		if ray_cast.is_colliding():
+			return true
+	return false
