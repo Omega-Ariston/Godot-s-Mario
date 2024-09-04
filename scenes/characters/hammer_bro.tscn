@@ -32,6 +32,10 @@ texture = ExtResource("3_5okib")
 region_enabled = true
 region_rect = Rect2(352, 8, 16, 24)
 
+[node name="WallChecker" type="RayCast2D" parent="Graphics" index="1"]
+position = Vector2(-8, 0)
+target_position = Vector2(-8, 0)
+
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2(0, -9)
 shape = SubResource("CapsuleShape2D_8aixr")
@@ -57,19 +61,15 @@ position = Vector2(7, 0)
 target_position = Vector2(0, 4)
 hit_from_inside = true
 
-[node name="WallChecker" type="RayCast2D" parent="." index="6"]
-position = Vector2(-8, -12)
-target_position = Vector2(-8, 0)
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
 position = Vector2(0, -12)
 shape = SubResource("CapsuleShape2D_ro0m1")
 
-[node name="JumpTimer" type="Timer" parent="." index="8"]
+[node name="JumpTimer" type="Timer" parent="." index="7"]
 one_shot = true
 autostart = true
 
-[node name="ChaseTimer" type="Timer" parent="." index="9"]
+[node name="ChaseTimer" type="Timer" parent="." index="8"]
 wait_time = 20.0
 one_shot = true
 autostart = true

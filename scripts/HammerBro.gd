@@ -3,7 +3,8 @@ extends Enemy
 
 enum State {
 	WONDER,
-	JUMP_UP,
+	JUMP_UP_ONE,
+	JUMP_UP_TWO,
 	JUMP_DOWN_ONE, # 向下跳一层
 	JUMP_DOWN_TWO, # 向下跳两层
 	LANDING,
@@ -50,7 +51,7 @@ var move_direction := Direction.LEFT
 @onready var sprite_2d: Sprite2D = $Graphics/Sprite2D
 @onready var jump_timer: Timer = $JumpTimer
 @onready var floor_checker: Node2D = $FloorChecker
-@onready var wall_checker: RayCast2D = $WallChecker
+@onready var wall_checker: RayCast2D = $Graphics/WallChecker
 
 func _ready() -> void:
 	super()
@@ -85,16 +86,16 @@ func get_next_state(state: State) -> int:
 					2:
 						return State.JUMP_DOWN_ONE if first_jump_type else State.JUMP_DOWN_TWO
 					1:
-						return State.JUMP_UP if first_jump_type else State.JUMP_DOWN_ONE
+						return State.JUMP_UP_ONE if first_jump_type else State.JUMP_DOWN_ONE
 					0:
-						return State.JUMP_UP
-		State.JUMP_UP:
+						return State.JUMP_UP_ONE if first_jump_type else State.JUMP_UP_TWO
+		State.JUMP_UP_ONE, State.JUMP_UP_TWO:
 			if velocity.y >= 0:
 				return State.LANDING
 		State.JUMP_DOWN_ONE:
 			if on_floor_raycast() and current_tile_unit_y() > LEVEL_ONE_BOUND:
 				# 从追击返回到巡航模式并站在管道上时会进入这个状态，需要防止它往管道下面跳
-				return State.JUMP_UP
+				return State.JUMP_UP_ONE
 			if current_level() == level_before_jump - 1:
 				return State.LANDING
 		State.JUMP_DOWN_TWO:
@@ -102,6 +103,8 @@ func get_next_state(state: State) -> int:
 				return State.LANDING
 		State.LANDING:
 			if is_on_floor():
+				if state_machine.get_last_safe_state() == State.JUMP_UP_TWO:
+					return State.JUMP_UP_ONE
 				return State.WONDER
 		State.CHASING:
 			if not on_floor_raycast():
@@ -109,7 +112,7 @@ func get_next_state(state: State) -> int:
 			if direction == Direction.RIGHT:
 				return State.WONDER
 			if wall_checker.is_colliding():
-				return State.JUMP_UP
+				return State.JUMP_UP_ONE
 				
 	return state_machine.KEEP_CURRENT
 
@@ -151,7 +154,12 @@ func transition_state(from: State, to: State) -> void:
 		State.WONDER:
 			# 禁用碰撞
 			collision_shape_2d.disabled = true
-		State.JUMP_UP:
+		State.JUMP_UP_ONE:
+			if from == State.LANDING:
+				# 说明是二段跳的第二段，需要禁用碰撞
+				collision_shape_2d.disabled = true
+			velocity.y = JUMP_UP_VELOCITY
+		State.JUMP_UP_TWO:
 			velocity.y = JUMP_UP_VELOCITY
 		State.JUMP_DOWN_ONE, State.JUMP_DOWN_TWO:
 			velocity.y = JUMP_DOWN_VELOCITY

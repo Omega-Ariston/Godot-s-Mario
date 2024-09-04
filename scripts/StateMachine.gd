@@ -38,7 +38,7 @@ func _physics_process(delta: float) -> void:
 		owner.tick_physics(current_state, delta)
 		state_time += delta
 
-func get_last_safe_state(isSafe: Callable) -> int:
+func get_last_safe_state(isSafe: Callable = func (_state : int): return true) -> int:
 	var last_safe_state = 0
 	for i in range(past_states.size() - 1, -1, -1):
 		if isSafe.bind(past_states[i]).call() == true:
