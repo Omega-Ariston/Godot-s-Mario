@@ -20,13 +20,16 @@ const SCORE := {
 	"bumped": 1000,
 }
 const WONDER_RANGE := Variables.TILE_SIZE.x / 2
-const MIN_JUMP_INTERVAL := 1.0
-const MAX_JUMP_INTERVAL := 2.0
+const MIN_JUMP_INTERVAL := 2.0
+const MAX_JUMP_INTERVAL := 3.0
 const JUMP_UP_VELOCITY := -280
 const JUMP_DOWN_VELOCITY := -100
 const LEVEL_TWO_BOUND := 7 # 双层砖块中上层的下界，单位为瓦片高度
 const LEVEL_ONE_BOUND := 11 # 双层砖块中下层的下界，单位为瓦片高度
 const CHARACTER_HEIGHT := 1.5 # 角色高度，单位为瓦片高度
+const HAMMER_COUNT_RANGE := [1, 4] # 单次一口气扔出的锤子数范围
+const HAMMER_INTERVAL_SINGLE := 0.3
+const HAMMER_INTERVAL_GROUP := 1.0
 
 # 原始颜色，顺序为壳、肉、壳边缘
 const COLOR_ORIGIN := [
@@ -47,15 +50,18 @@ var can_jump := false
 var is_chasing := false
 var level_before_jump : int
 var move_direction := Direction.LEFT
+var hammer_to_throw := 0
 
 @onready var sprite_2d: Sprite2D = $Graphics/Sprite2D
 @onready var jump_timer: Timer = $JumpTimer
 @onready var floor_checker: Node2D = $FloorChecker
 @onready var wall_checker: RayCast2D = $Graphics/WallChecker
+@onready var hammer_launcher: HammerLauncher = $Graphics/HammerLauncher
 
 func _ready() -> void:
 	super()
 	origin_x = global_position.x
+	throw_hammer()
 
 func _on_world_ready() -> void:
 	var sprite_material = sprite_2d.material as ShaderMaterial
@@ -65,6 +71,17 @@ func _on_world_ready() -> void:
 		sprite_material.set_shader_parameter("new_colors", COLOR_CYAN.duplicate())
 	else:
 		sprite_material.set_shader_parameter("shader_enabled", false)
+		
+
+func throw_hammer() -> void:
+	while true:
+		while hammer_to_throw > 0:	
+			await hammer_launcher.launch()
+			hammer_to_throw -= 1
+			await get_tree().create_timer(HAMMER_INTERVAL_SINGLE).timeout
+		# 休息一会儿生成新一批锤子
+		await get_tree().create_timer(HAMMER_INTERVAL_GROUP).timeout
+		hammer_to_throw = rng.randi_range(HAMMER_COUNT_RANGE[0], HAMMER_COUNT_RANGE[1])
 
 func get_next_state(state: State) -> int:
 	
@@ -121,6 +138,7 @@ func tick_physics(state: State, delta: float) -> void:
 	var direction_old := direction
 	# 始终面朝玩家
 	direction = Direction.LEFT if player.global_position.x < global_position.x else Direction.RIGHT
+	
 	if is_chasing and direction_old == Direction.LEFT and direction == Direction.RIGHT:
 		# 追逐状态下玩家从左边到右边时更新原地位置
 		origin_x = global_position.x

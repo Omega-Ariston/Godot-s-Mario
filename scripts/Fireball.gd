@@ -12,9 +12,6 @@ var has_grouded := false
 var hit_enemy := false
 var blasted := false
 
-func _init() -> void:
-	add_to_group("Fireballs")
-
 func _ready() -> void:
 	animation_player.play("fire")
 	# 随机出一个火球形态

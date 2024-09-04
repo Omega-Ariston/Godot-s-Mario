@@ -1,0 +1,94 @@
+[gd_scene load_steps=8 format=3 uid="uid://d0eoepenp8ajc"]
+
+[ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/graphics/items-objects.png" id="1_07t84"]
+[ext_resource type="Script" path="res://scripts/Hammer.gd" id="1_xnt2o"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cfn45"]
+size = Vector2(6.5, 5.5)
+
+[sub_resource type="Animation" id="Animation_b04ph"]
+resource_name = "idle"
+length = 0.1
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_jok84"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_gim56"]
+resource_name = "spin"
+length = 0.4
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 2, 3, 1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qn6b1"]
+_data = {
+"RESET": SubResource("Animation_jok84"),
+"idle": SubResource("Animation_b04ph"),
+"spin": SubResource("Animation_gim56")
+}
+
+[node name="Hammer" type="RigidBody2D"]
+collision_layer = 0
+collision_mask = 2
+freeze = true
+script = ExtResource("1_xnt2o")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+texture = ExtResource("1_07t84")
+hframes = 2
+vframes = 2
+region_enabled = true
+region_rect = Rect2(64, 192, 32, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_cfn45")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_qn6b1")
+}
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, -8)
+scale = Vector2(0.8, 0.8)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

@@ -207,7 +207,7 @@ _data = {
 "fire": SubResource("Animation_aa8t3")
 }
 
-[node name="Fireball" type="CharacterBody2D"]
+[node name="Fireball" type="CharacterBody2D" groups=["Fireballs"]]
 collision_layer = 32
 script = ExtResource("1_ke4pu")
 
@@ -221,7 +221,7 @@ region_rect = Rect2(96, 144, 16, 16)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_4ss3t")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." groups=["fireball"]]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_1nyd5")
 }

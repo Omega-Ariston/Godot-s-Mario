@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dfg5kaxqbfu1d" path="res://assets/graphics/mario.png" id="2_pqtkg"]
 [ext_resource type="Shader" path="res://shaders/change_color.gdshader" id="2_ssa0e"]
 [ext_resource type="Script" path="res://scripts/StateMachine.gd" id="4_vytt3"]
-[ext_resource type="Script" path="res://scripts/ItemLauncher.gd" id="5_su61k"]
+[ext_resource type="Script" path="res://scripts/FireballLauncher.gd" id="5_su61k"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vwxc3"]
 shader = ExtResource("2_ssa0e")

@@ -42,6 +42,10 @@ folder_colors={
 "res://scenes/characters/": "blue"
 }
 
+[global_group]
+
+Fireballs=""
+
 [gui]
 
 theme/custom_font="res://assets/font/super-mario-bros-nes.ttf"

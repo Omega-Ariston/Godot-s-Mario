@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://csilqycta5we5"]
+[gd_scene load_steps=9 format=3 uid="uid://csilqycta5we5"]
 
 [ext_resource type="PackedScene" uid="uid://7mm1fthd05j6" path="res://scenes/characters/enemy.tscn" id="1_uf2uq"]
 [ext_resource type="Script" path="res://scripts/HammerBro.gd" id="2_cgdwo"]
 [ext_resource type="Shader" path="res://shaders/change_color.gdshader" id="3_2p3e4"]
 [ext_resource type="Texture2D" uid="uid://eh5egx0rrwpa" path="res://assets/graphics/enemies.png" id="3_5okib"]
+[ext_resource type="Script" path="res://scripts/HammerLauncher.gd" id="5_t2i3t"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lfm80"]
 shader = ExtResource("3_2p3e4")
@@ -30,9 +31,13 @@ position = Vector2(0, -12)
 material = SubResource("ShaderMaterial_lfm80")
 texture = ExtResource("3_5okib")
 region_enabled = true
-region_rect = Rect2(352, 8, 16, 24)
+region_rect = Rect2(320, 8, 16, 24)
 
-[node name="WallChecker" type="RayCast2D" parent="Graphics" index="1"]
+[node name="HammerLauncher" type="Marker2D" parent="Graphics" index="1"]
+position = Vector2(2, -9)
+script = ExtResource("5_t2i3t")
+
+[node name="WallChecker" type="RayCast2D" parent="Graphics" index="2"]
 position = Vector2(-8, 0)
 target_position = Vector2(-8, 0)
 

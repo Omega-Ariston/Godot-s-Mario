@@ -136,7 +136,7 @@ var constant_speed_y: float
 @onready var star_timer: Timer = $StarTimer
 @onready var invincible_timer: Timer = $InvincibleTimer
 @onready var dying_timer: Timer = $DyingTimer
-@onready var fireball_launcher: ItemLauncher = $Graphics/FireballLauncher
+@onready var fireball_launcher: FireballLauncher = $Graphics/FireballLauncher
 @onready var floor_checker: Node2D = $FloorChecker
 
 func _unhandled_input(event: InputEvent) -> void:
