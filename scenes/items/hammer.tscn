@@ -64,10 +64,9 @@ _data = {
 "spin": SubResource("Animation_gim56")
 }
 
-[node name="Hammer" type="RigidBody2D"]
+[node name="Hammer" type="CharacterBody2D"]
 collision_layer = 0
 collision_mask = 2
-freeze = true
 script = ExtResource("1_xnt2o")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

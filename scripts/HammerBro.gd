@@ -74,10 +74,11 @@ func _on_world_ready() -> void:
 		
 
 func throw_hammer() -> void:
-	while true:
+	while state_machine.current_state != State.DEAD:
 		while hammer_to_throw > 0:	
-			await hammer_launcher.launch()
-			hammer_to_throw -= 1
+			if not get_tree().paused:
+				await hammer_launcher.launch()
+				hammer_to_throw -= 1
 			await get_tree().create_timer(HAMMER_INTERVAL_SINGLE).timeout
 		# 休息一会儿生成新一批锤子
 		await get_tree().create_timer(HAMMER_INTERVAL_GROUP).timeout
