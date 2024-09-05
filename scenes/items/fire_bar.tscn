@@ -1,0 +1,118 @@
+[gd_scene load_steps=11 format=3 uid="uid://2d1j7ncptai3"]
+
+[ext_resource type="Script" path="res://scripts/FireBar.gd" id="1_ks5ui"]
+[ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/graphics/items-objects.png" id="2_e5uhm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o8yxn"]
+atlas = ExtResource("2_e5uhm")
+region = Rect2(96, 144, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gm2lq"]
+atlas = ExtResource("2_e5uhm")
+region = Rect2(104, 144, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5f43a"]
+atlas = ExtResource("2_e5uhm")
+region = Rect2(96, 152, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sokax"]
+atlas = ExtResource("2_e5uhm")
+region = Rect2(104, 152, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kqhfo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o8yxn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gm2lq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5f43a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sokax")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="Animation" id="Animation_6x2i3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Graphics:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_5vhnx"]
+resource_name = "spin"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Graphics:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.785398, 1.5708, 2.35619, 3.14159, 3.92699, 4.71239, 5.49779, 6.28319]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8wtsm"]
+_data = {
+"RESET": SubResource("Animation_6x2i3"),
+"spin": SubResource("Animation_5vhnx")
+}
+
+[node name="FireBar" type="Node2D"]
+script = ExtResource("1_ks5ui")
+
+[node name="Graphics" type="Node2D" parent="."]
+
+[node name="FireBall" type="AnimatedSprite2D" parent="Graphics"]
+sprite_frames = SubResource("SpriteFrames_kqhfo")
+autoplay = "default"
+
+[node name="FireBall2" type="AnimatedSprite2D" parent="Graphics"]
+position = Vector2(8, 0)
+sprite_frames = SubResource("SpriteFrames_kqhfo")
+autoplay = "default"
+
+[node name="FireBall3" type="AnimatedSprite2D" parent="Graphics"]
+position = Vector2(16, 0)
+sprite_frames = SubResource("SpriteFrames_kqhfo")
+autoplay = "default"
+
+[node name="FireBall4" type="AnimatedSprite2D" parent="Graphics"]
+position = Vector2(24, 0)
+sprite_frames = SubResource("SpriteFrames_kqhfo")
+autoplay = "default"
+
+[node name="FireBall5" type="AnimatedSprite2D" parent="Graphics"]
+position = Vector2(32, 0)
+sprite_frames = SubResource("SpriteFrames_kqhfo")
+autoplay = "default"
+
+[node name="FireBall6" type="AnimatedSprite2D" parent="Graphics"]
+position = Vector2(40, 0)
+sprite_frames = SubResource("SpriteFrames_kqhfo")
+autoplay = "default"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_8wtsm")
+}

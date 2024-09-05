@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://bfb0vxdydy2et"]
+[gd_scene load_steps=19 format=4 uid="uid://bfb0vxdydy2et"]
 
 [ext_resource type="Script" path="res://scripts/World.gd" id="1_tpqgv"]
 [ext_resource type="TileSet" uid="uid://cf516p3bd2t1v" path="res://tiles/world.tres" id="2_3vma1"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://scripts/EnterPoint.gd" id="9_vnvtr"]
 [ext_resource type="Script" path="res://scripts/SpawnPoint.gd" id="10_sfy30"]
 [ext_resource type="PackedScene" uid="uid://csilqycta5we5" path="res://scenes/characters/hammer_bro.tscn" id="12_pfkyu"]
+[ext_resource type="PackedScene" uid="uid://2d1j7ncptai3" path="res://scenes/items/fire_bar.tscn" id="13_ey22w"]
 [ext_resource type="PackedScene" uid="uid://bkoa5bviyhuyp" path="res://scenes/characters/piranha.tscn" id="13_xdkfm"]
 [ext_resource type="PackedScene" uid="uid://bm5n06o4v0mm6" path="res://scenes/items/platform_vertical.tscn" id="14_bjemg"]
 [ext_resource type="PackedScene" uid="uid://hwvatwkj6km6" path="res://scenes/characters/lakitu.tscn" id="14_ofgc4"]
@@ -185,6 +186,9 @@ position = Vector2(376, 224)
 
 [node name="HammerBro2" parent="Enemies" instance=ExtResource("12_pfkyu")]
 position = Vector2(360, 160)
+
+[node name="FireBar" parent="Enemies" instance=ExtResource("13_ey22w")]
+position = Vector2(160, 184)
 
 [node name="FlagPole" parent="." instance=ExtResource("7_dd00r")]
 position = Vector2(912, 224)
