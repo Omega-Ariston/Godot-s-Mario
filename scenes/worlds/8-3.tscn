@@ -27,6 +27,24 @@ level_name = "8-3"
 [node name="WhiteFlag" parent="." instance=ExtResource("2_siod8")]
 position = Vector2(3592, 64)
 
+[node name="Firework1" parent="WhiteFlag" index="1"]
+position = Vector2(-50, 16)
+
+[node name="Firework2" parent="WhiteFlag" index="2"]
+position = Vector2(-82, 64)
+
+[node name="Firework3" parent="WhiteFlag" index="3"]
+position = Vector2(14, 32)
+
+[node name="Firework4" parent="WhiteFlag" index="4"]
+position = Vector2(14, 80)
+
+[node name="Firework5" parent="WhiteFlag" index="5"]
+position = Vector2(-42, 32)
+
+[node name="Firework6" parent="WhiteFlag" index="6"]
+position = Vector2(-82, 64)
+
 [node name="TileMap" type="Node2D" parent="."]
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="TileMap"]
@@ -253,3 +271,5 @@ position = Vector2(1384, 208)
 position = Vector2(56, 224)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
+
+[editable path="WhiteFlag"]
