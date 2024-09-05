@@ -1,7 +1,7 @@
 class_name FireBar
 extends Node2D
 
-const SPEED := 0.25
+const SPEED := 1.06
 
 @export var direction: Direction
 

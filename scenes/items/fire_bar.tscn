@@ -36,7 +36,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
-"speed": 10.0
+"speed": 15.0
 }]
 
 [sub_resource type="Animation" id="Animation_6x2i3"]
@@ -56,7 +56,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_5vhnx"]
 resource_name = "spin"
-length = 0.8
+length = 3.6
 loop_mode = 1
 step = 0.1
 tracks/0/type = "value"
@@ -66,10 +66,10 @@ tracks/0/path = NodePath("Graphics:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [0.0, 0.785398, 1.5708, 2.35619, 3.14159, 3.92699, 4.71239, 5.49779, 6.28319]
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3, 3.1, 3.2, 3.3, 3.4, 3.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0.0, 0.174533, 0.349066, 0.523599, 0.698132, 0.872665, 1.0472, 1.22173, 1.39626, 1.5708, 1.74533, 1.91986, 2.0944, 2.26893, 2.44346, 2.61799, 2.79253, 2.96706, 3.14159, 3.31613, 3.49066, 3.66519, 3.83972, 4.01426, 4.18879, 4.36332, 4.53786, 4.71239, 4.88692, 5.06145, 5.23599, 5.41052, 5.58505, 5.75959, 5.93412, 6.10865]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8wtsm"]
@@ -84,30 +84,36 @@ script = ExtResource("1_ks5ui")
 [node name="Graphics" type="Node2D" parent="."]
 
 [node name="FireBall" type="AnimatedSprite2D" parent="Graphics"]
+process_mode = 3
 sprite_frames = SubResource("SpriteFrames_kqhfo")
 autoplay = "default"
 
 [node name="FireBall2" type="AnimatedSprite2D" parent="Graphics"]
+process_mode = 3
 position = Vector2(8, 0)
 sprite_frames = SubResource("SpriteFrames_kqhfo")
 autoplay = "default"
 
 [node name="FireBall3" type="AnimatedSprite2D" parent="Graphics"]
+process_mode = 3
 position = Vector2(16, 0)
 sprite_frames = SubResource("SpriteFrames_kqhfo")
 autoplay = "default"
 
 [node name="FireBall4" type="AnimatedSprite2D" parent="Graphics"]
+process_mode = 3
 position = Vector2(24, 0)
 sprite_frames = SubResource("SpriteFrames_kqhfo")
 autoplay = "default"
 
 [node name="FireBall5" type="AnimatedSprite2D" parent="Graphics"]
+process_mode = 3
 position = Vector2(32, 0)
 sprite_frames = SubResource("SpriteFrames_kqhfo")
 autoplay = "default"
 
 [node name="FireBall6" type="AnimatedSprite2D" parent="Graphics"]
+process_mode = 3
 position = Vector2(40, 0)
 sprite_frames = SubResource("SpriteFrames_kqhfo")
 autoplay = "default"
