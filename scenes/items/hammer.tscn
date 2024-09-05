@@ -6,11 +6,8 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cfn45"]
 size = Vector2(6.5, 5.5)
 
-[sub_resource type="Animation" id="Animation_b04ph"]
-resource_name = "idle"
-length = 0.1
-loop_mode = 1
-step = 0.1
+[sub_resource type="Animation" id="Animation_jok84"]
+length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -24,8 +21,11 @@ tracks/0/keys = {
 "values": [0]
 }
 
-[sub_resource type="Animation" id="Animation_jok84"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_b04ph"]
+resource_name = "idle"
+length = 0.1
+loop_mode = 1
+step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
