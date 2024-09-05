@@ -61,6 +61,8 @@ var hammer_to_throw := 0
 func _ready() -> void:
 	super()
 	origin_x = global_position.x
+	animation_player.speed_scale = 0.5
+	animation_player.play("wonder")
 	throw_hammer()
 
 func _on_world_ready() -> void:
@@ -77,7 +79,9 @@ func throw_hammer() -> void:
 	while state_machine.current_state != State.DEAD:
 		while hammer_to_throw > 0:	
 			if not get_tree().paused:
+				animation_player.play("lift")
 				await hammer_launcher.launch()
+				animation_player.play("wonder")
 				hammer_to_throw -= 1
 			await get_tree().create_timer(HAMMER_INTERVAL_SINGLE).timeout
 		# 休息一会儿生成新一批锤子

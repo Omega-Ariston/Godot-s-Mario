@@ -25,7 +25,7 @@ func _physics_process(delta: float) -> void:
 		velocity.x = direction * SPEED
 		velocity.y += GameManager.default_gravity * delta
 		move_and_slide()
-	elif launcher:
+	elif is_instance_valid(launcher):
 		global_position = launcher.global_position
 
 func launch() -> void:
