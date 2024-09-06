@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://bfb0vxdydy2et"]
+[gd_scene load_steps=20 format=4 uid="uid://bfb0vxdydy2et"]
 
 [ext_resource type="Script" path="res://scripts/World.gd" id="1_tpqgv"]
 [ext_resource type="TileSet" uid="uid://cf516p3bd2t1v" path="res://tiles/world.tres" id="2_3vma1"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://2d1j7ncptai3" path="res://scenes/items/fire_bar.tscn" id="13_ey22w"]
 [ext_resource type="PackedScene" uid="uid://bkoa5bviyhuyp" path="res://scenes/characters/piranha.tscn" id="13_xdkfm"]
 [ext_resource type="PackedScene" uid="uid://bm5n06o4v0mm6" path="res://scenes/items/platform_vertical.tscn" id="14_bjemg"]
+[ext_resource type="PackedScene" uid="uid://b3sa7c80qbgij" path="res://scenes/characters/turtle.tscn" id="14_ds5l3"]
 [ext_resource type="PackedScene" uid="uid://hwvatwkj6km6" path="res://scenes/characters/lakitu.tscn" id="14_ofgc4"]
 [ext_resource type="PackedScene" uid="uid://t2spsgs033gv" path="res://scenes/characters/cannon.tscn" id="15_0fq1y"]
 [ext_resource type="PackedScene" uid="uid://duiqbx87ur1n" path="res://scenes/items/spring.tscn" id="17_sk8wf"]
@@ -25,6 +26,7 @@ size = Vector2(8, 224)
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_tpqgv")
+world_type = 2
 level_time = 500
 level_name = "0-0"
 
@@ -125,6 +127,18 @@ spawn_item = 3
 position = Vector2(160, 184)
 spawn_item = 1
 
+[node name="CoinBrick8" parent="Bricks" instance=ExtResource("5_cpr27")]
+position = Vector2(176, 184)
+spawn_item = 1
+
+[node name="CoinBrick9" parent="Bricks" instance=ExtResource("5_cpr27")]
+position = Vector2(192, 184)
+spawn_item = 1
+
+[node name="CoinBrick10" parent="Bricks" instance=ExtResource("5_cpr27")]
+position = Vector2(208, 184)
+spawn_item = 1
+
 [node name="CoinBrick6" parent="Bricks" instance=ExtResource("5_cpr27")]
 position = Vector2(56, 168)
 spawn_item = 4
@@ -189,6 +203,9 @@ position = Vector2(360, 160)
 
 [node name="FireBar" parent="Enemies" instance=ExtResource("13_ey22w")]
 position = Vector2(160, 184)
+
+[node name="Turtle" parent="Enemies" instance=ExtResource("14_ds5l3")]
+position = Vector2(208, 176)
 
 [node name="FlagPole" parent="." instance=ExtResource("7_dd00r")]
 position = Vector2(912, 224)

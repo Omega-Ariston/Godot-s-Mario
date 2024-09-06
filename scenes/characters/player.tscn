@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=4 uid="uid://ta2kus8p0r8f"]
+[gd_scene load_steps=26 format=4 uid="uid://ta2kus8p0r8f"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_sboe1"]
 [ext_resource type="Texture2D" uid="uid://dfg5kaxqbfu1d" path="res://assets/graphics/mario.png" id="2_pqtkg"]
@@ -253,6 +253,42 @@ tracks/0/keys = {
 "values": [15]
 }
 
+[sub_resource type="Animation" id="Animation_l3d2i"]
+resource_name = "swim_down"
+length = 0.1
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Graphics/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [10]
+}
+
+[sub_resource type="Animation" id="Animation_3ihr7"]
+resource_name = "swim_up"
+length = 0.4
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Graphics/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [10, 11, 12, 9]
+}
+
 [sub_resource type="Animation" id="Animation_on3sy"]
 resource_name = "turn"
 length = 0.5
@@ -287,6 +323,23 @@ tracks/0/keys = {
 "values": [2, 1, 0]
 }
 
+[sub_resource type="Animation" id="Animation_328m2"]
+resource_name = "launch_swim"
+length = 0.1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Graphics/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [10]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_khvg5"]
 _data = {
 "RESET": SubResource("Animation_724l8"),
@@ -298,6 +351,9 @@ _data = {
 "idle": SubResource("Animation_s42u0"),
 "jump": SubResource("Animation_x1hcg"),
 "launch": SubResource("Animation_sbctn"),
+"launch_swim": SubResource("Animation_328m2"),
+"swim_down": SubResource("Animation_l3d2i"),
+"swim_up": SubResource("Animation_3ihr7"),
 "turn": SubResource("Animation_on3sy"),
 "walk": SubResource("Animation_lqfqk")
 }

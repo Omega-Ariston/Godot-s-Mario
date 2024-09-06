@@ -2,6 +2,7 @@ class_name Player
 extends CharacterBody2D
 
 const WALK_SPEED := 80.0
+const WALK_SPEED_WATER := 40.0
 const DASH_SPEED := WALK_SPEED * 2
 const CLIMB_SPEED := 40.0
 const WALK_ACCELERATION := WALK_SPEED / 0.4
@@ -9,6 +10,7 @@ const DASH_ACCELERATION := WALK_ACCELERATION * 2
 const CLIMB_ACCELERATION := CLIMB_SPEED / 0.2
 const AIR_ACCELERATION := WALK_SPEED / 0.2
 const JUMP_VELOCITY := -350.0
+const SWIM_VELOCITY := -200.0
 const MIN_ANIMATION_SPEED := 0.8
 const MIN_TURN_SPEED := WALK_SPEED / 1.5
 const FIREBALL_LIMIT := 2
@@ -22,6 +24,7 @@ enum State {
 	CROUCH_JUMP,
 	LAUNCH,
 	JUMP,
+	SWIM,
 	FALL,
 	CLIMB,
 	ENLARGE,
@@ -45,6 +48,7 @@ enum Direction {
 const GROUND_STATES := [
 	State.IDLE, State.WALK, State.TURN, State.CROUCH
 ]
+
 
 const CROUCH_STATES := [
 	State.CROUCH, State.CROUCH_JUMP
@@ -110,6 +114,7 @@ var can_climb := false
 var climbing_object # 可能是藤蔓或旗杆
 var crouch_requested := false
 var jump_requested := false
+var swim_requested := false
 var launch_requested := false
 var dash_requested := false
 var direction_before_turn := Direction.RIGHT
@@ -119,6 +124,7 @@ var is_hurt := false # 是否处于受伤状态
 var last_animation : String
 var controllable := true
 var is_spawning := false
+var is_under_water := false
 
 # 用于模拟玩家移动
 var input_x := 0.0
@@ -141,12 +147,16 @@ var constant_speed_y: float
 
 func _unhandled_input(event: InputEvent) -> void:
 	if controllable:
-		if event.is_action_pressed("jump") and on_jumpable_floor(): #防止在空中保存跳跃指令
-			jump_requested = true
+		if event.is_action_pressed("jump"):
+			if is_under_water:
+				swim_requested = true
+			elif on_jumpable_floor(): #防止在空中保存跳跃指令
+				jump_requested = true
 		if event.is_action_released("jump"):
-			if velocity.y < JUMP_VELOCITY / 2:
-				velocity.y = JUMP_VELOCITY / 2 # 最小跳跃高度
-			jump_requested = false
+			if not is_under_water:
+				if velocity.y < JUMP_VELOCITY / 2:
+					velocity.y = JUMP_VELOCITY / 2 # 最小跳跃高度
+				jump_requested = false
 		if event.is_action_pressed("action") and curr_mode == Mode.FIRE:
 			launch_requested = true
 		if event.is_action_released("action"):
@@ -157,11 +167,12 @@ func _unhandled_input(event: InputEvent) -> void:
 			crouch_requested = false
 
 func _ready() -> void:
+	GameManager.world_ready.connect(_on_world_ready)
 	curr_mode = GameManager.player_current_mode
 	initialize_mode()
 
 func tick_physics(state: State, delta: float) -> void:
-	if on_jumpable_floor():
+	if not is_under_water and on_jumpable_floor():
 		# 开始和结束加速都要在地面上判断
 		if controllable and Input.is_action_pressed("action"):
 				dash_requested = true
@@ -200,11 +211,13 @@ func tick_physics(state: State, delta: float) -> void:
 			stand(GameManager.default_gravity, delta)
 		State.JUMP, State.CROUCH_JUMP:
 			move(0.0 if is_first_tick else GameManager.default_gravity, delta)
+		State.SWIM:
+			move(0.0 if is_first_tick else GameManager.default_gravity / 2, delta)
 		State.DEAD:
 			if dying_timer.time_left == 0:
 				move(0.0 if is_first_tick else GameManager.default_gravity, delta)
 		State.FALL:
-			move(GameManager.default_gravity, delta)
+			move(GameManager.default_gravity / 2 if is_under_water else GameManager.default_gravity, delta)
 		State.CLIMB:
 			if (controllable and Input.is_action_just_pressed("move_right")) \
 					or (not controllable and input_x > 0):
@@ -223,7 +236,7 @@ func tick_physics(state: State, delta: float) -> void:
 				animation_player.speed_scale = min(abs(velocity.y / CLIMB_SPEED), 2.0)
 				climb(delta)
 		State.LAUNCH:
-			move(GameManager.default_gravity, delta)
+			move(GameManager.default_gravity / 2 if is_under_water else GameManager.default_gravity, delta)
 		State.HURT:
 			# 闪烁角色
 			_blink_character()
@@ -260,6 +273,10 @@ func get_next_state(state: State) -> int:
 	var should_jump := can_jump and jump_requested
 	if should_jump:
 		return State.CROUCH_JUMP if state == State.CROUCH else State.JUMP
+	
+	var can_swim := is_under_water and swim_requested
+	if can_swim:
+		return State.SWIM
 		
 	if state in GROUND_STATES and not is_on_floor():
 		return State.FALL
@@ -290,6 +307,9 @@ func get_next_state(state: State) -> int:
 		State.JUMP, State.CROUCH_JUMP:
 			if velocity.y >= 0:
 				return State.FALL
+		State.SWIM:
+			if velocity.y >= 0 or is_on_ceiling():
+				return State.FALL
 		State.FALL:
 			if is_on_floor():
 				return State.IDLE if is_still else State.WALK
@@ -312,12 +332,12 @@ func get_next_state(state: State) -> int:
 
 
 func transition_state(from: State, to: State) -> void:
-	#print_debug(
-		#"State: [%s] %s => %s" % [
-		#Engine.get_physics_frames(),
-		#State.keys()[from] if from != -1 else "<START>",
-		#State.keys()[to]
-	#])
+	print_debug(
+		"State: [%s] %s => %s" % [
+		Engine.get_physics_frames(),
+		State.keys()[from] if from != -1 else "<START>",
+		State.keys()[to]
+	])
 	
 	match from:
 		State.WALK:
@@ -385,8 +405,16 @@ func transition_state(from: State, to: State) -> void:
 			if from not in UNSAFE_STATES: # 变身结束后不用跳
 				velocity.y = JUMP_VELOCITY
 			jump_requested = false
+		State.SWIM:
+			animation_player.play("swim_up", -1, 2.0, false)
+			SoundManager.play_sfx("Stomp")
+			if from not in UNSAFE_STATES:
+				velocity.y = SWIM_VELOCITY
+			swim_requested = false
 		State.FALL:
-			if from in [State.IDLE, State.TURN, State.CLIMB]:
+			if is_under_water:
+				animation_player.play("swim_down")
+			elif from in [State.IDLE, State.TURN, State.CLIMB]:
 				animation_player.play("walk")
 			elif from == State.LAUNCH:
 				animation_player.play(last_animation)
@@ -401,7 +429,10 @@ func transition_state(from: State, to: State) -> void:
 		State.LAUNCH:
 			last_animation = animation_player.current_animation
 			launch_requested = false
-			animation_player.play("launch")
+			if is_under_water:
+				animation_player.play("launch_swim")
+			else:
+				animation_player.play("launch")
 			fireball_launcher.launch()
 		State.ENLARGE:
 			can_enlarge = false
@@ -442,10 +473,10 @@ func transition_state(from: State, to: State) -> void:
 	
 func move(gravity: float, delta: float) -> void:
 	var movement := Input.get_axis("move_left", "move_right") if controllable else input_x
-	if not is_zero_approx(movement) and not is_first_tick and is_on_floor():
+	if not is_zero_approx(movement) and not is_first_tick and (is_under_water or is_on_floor()):
 		direction = Direction.LEFT if movement < 0 else Direction.RIGHT
-	var speed = DASH_SPEED if dash_requested else WALK_SPEED
-	var acceleration := AIR_ACCELERATION if not is_on_floor() else DASH_ACCELERATION if dash_requested else WALK_ACCELERATION
+	var speed = WALK_SPEED_WATER if is_under_water else DASH_SPEED if dash_requested else WALK_SPEED
+	var acceleration := AIR_ACCELERATION if is_under_water or not is_on_floor() else DASH_ACCELERATION if dash_requested else WALK_ACCELERATION
 	velocity.x = constant_speed_x if constant_speed_x != 0 else move_toward(velocity.x, movement * speed, acceleration * delta)
 	velocity.y += gravity * delta
 	
@@ -632,3 +663,6 @@ func register_unjumpable_node(node: CollisionObject2D) -> void:
 	print_debug("registering:", node.name)
 	for ray_cast: RayCast2D in floor_checker.get_children():
 		ray_cast.add_exception(node)
+
+func _on_world_ready() -> void:
+	is_under_water = GameManager.current_world_type == GameManager.WorldType.WATER
