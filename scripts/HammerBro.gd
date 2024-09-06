@@ -164,15 +164,6 @@ func tick_physics(state: State, delta: float) -> void:
 
 
 func transition_state(from: State, to: State) -> void:
-	
-	print_debug(
-		"State: [%s] %s => %s, position: %s" % [
-		Engine.get_physics_frames(),
-		State.keys()[from] if from != -1 else "<START>",
-		State.keys()[to],
-		global_position.y / Variables.TILE_SIZE.y
-	])
-	
 	match to:
 		State.WONDER:
 			# 禁用碰撞
