@@ -40,7 +40,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Rect2(80, 32, 256, 16)]
+"values": [Rect2(96, 32, 272, 16)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -145,7 +145,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [Rect2(80, 0, 256, 32), Rect2(80, 32, 256, 16), Rect2(80, 0, 256, 32), Rect2(80, 32, 256, 16), Rect2(80, 0, 256, 32), Rect2(80, 0, 256, 32), Rect2(80, 32, 256, 16), Rect2(80, 0, 256, 32), Rect2(80, 0, 256, 32), Rect2(80, 32, 256, 16)]
+"values": [Rect2(96, 0, 272, 32), Rect2(96, 32, 272, 16), Rect2(96, 0, 272, 32), Rect2(96, 32, 272, 16), Rect2(96, 0, 272, 32), Rect2(96, 0, 272, 32), Rect2(96, 32, 272, 16), Rect2(96, 0, 272, 32), Rect2(96, 0, 272, 32), Rect2(96, 32, 272, 16)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -174,7 +174,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [Rect2(80, 0, 256, 32), Rect2(80, 32, 256, 16), Rect2(80, 0, 256, 32), Rect2(80, 32, 256, 16), Rect2(80, 0, 256, 32), Rect2(80, 32, 256, 16), Rect2(80, 0, 256, 32), Rect2(80, 32, 256, 16), Rect2(80, 0, 256, 32), Rect2(80, 32, 256, 16), Rect2(80, 0, 256, 32)]
+"values": [Rect2(96, 0, 272, 32), Rect2(96, 32, 272, 16), Rect2(96, 0, 272, 32), Rect2(96, 32, 272, 16), Rect2(96, 0, 272, 32), Rect2(96, 32, 272, 16), Rect2(96, 0, 272, 32), Rect2(96, 32, 272, 16), Rect2(96, 0, 272, 32), Rect2(96, 32, 272, 16), Rect2(96, 0, 272, 32)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -253,10 +253,9 @@ tracks/0/keys = {
 "values": [15]
 }
 
-[sub_resource type="Animation" id="Animation_l3d2i"]
-resource_name = "swim_down"
+[sub_resource type="Animation" id="Animation_328m2"]
+resource_name = "launch_swim"
 length = 0.1
-loop_mode = 1
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -271,9 +270,9 @@ tracks/0/keys = {
 "values": [10]
 }
 
-[sub_resource type="Animation" id="Animation_3ihr7"]
-resource_name = "swim_up"
-length = 0.4
+[sub_resource type="Animation" id="Animation_l3d2i"]
+resource_name = "swim_down"
+length = 0.2
 loop_mode = 1
 step = 0.1
 tracks/0/type = "value"
@@ -283,10 +282,28 @@ tracks/0/path = NodePath("Graphics/Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [10, 11, 12, 9]
+"values": [10, 16]
+}
+
+[sub_resource type="Animation" id="Animation_3ihr7"]
+resource_name = "swim_up"
+length = 0.6
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Graphics/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [12, 11, 13, 9, 10, 16]
 }
 
 [sub_resource type="Animation" id="Animation_on3sy"]
@@ -321,23 +338,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [2, 1, 0]
-}
-
-[sub_resource type="Animation" id="Animation_328m2"]
-resource_name = "launch_swim"
-length = 0.1
-step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Graphics/Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [10]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_khvg5"]
@@ -432,9 +432,9 @@ position = Vector2(0, -8)
 [node name="Sprite2D" type="Sprite2D" parent="Graphics"]
 material = SubResource("ShaderMaterial_vwxc3")
 texture = ExtResource("2_pqtkg")
-hframes = 16
+hframes = 17
 region_enabled = true
-region_rect = Rect2(80, 32, 256, 16)
+region_rect = Rect2(96, 32, 272, 16)
 
 [node name="FireballLauncher" type="Marker2D" parent="Graphics"]
 position = Vector2(8, -4)

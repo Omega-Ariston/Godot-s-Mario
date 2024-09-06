@@ -59,9 +59,9 @@ const UNSAFE_STATES := [
 ]
 
 const RECT_MAP := {
-	Mode.SMALL: Rect2(80, 32, 256, 16),
-	Mode.LARGE: Rect2(80, 0, 256, 32),
-	Mode.FIRE: Rect2(80, 48, 256, 32),
+	Mode.SMALL: Rect2(96, 32, 272, 16),
+	Mode.LARGE: Rect2(96, 0, 272, 32),
+	Mode.FIRE: Rect2(96, 48, 272, 32),
 }
 
 const GRAPHIC_Y_MAP := {
@@ -414,11 +414,12 @@ func transition_state(from: State, to: State) -> void:
 		State.FALL:
 			if is_under_water:
 				animation_player.play("swim_down")
-			elif from in [State.IDLE, State.TURN, State.CLIMB]:
-				animation_player.play("walk")
-			elif from == State.LAUNCH:
-				animation_player.play(last_animation)
-			animation_player.speed_scale = 0 # 下落时暂停播放动画
+			else:
+				if from in [State.IDLE, State.TURN, State.CLIMB]:
+					animation_player.play("walk")
+				elif from == State.LAUNCH:
+					animation_player.play(last_animation)
+				animation_player.speed_scale = 0 # 下落时暂停播放动画
 		State.CLIMB:
 			animation_player.play("climb")
 		State.HURT:
