@@ -88,6 +88,7 @@ func get_next_state(state: State) -> int:
 				return State.SHELL
 		State.FLY:
 			if stomped:
+				direction = Direction.RIGHT if direction == Direction.LEFT else Direction.LEFT
 				return State.WALK
 		State.SHOOT:
 			if stomped:
@@ -122,7 +123,7 @@ func tick_physics(state: State, delta: float) -> void:
 				SoundManager.play_sfx("Bump")
 			move(SHOOT_SPEED, direction, delta)
 		State.SHELL, State.RECOVERING:
-			velocity = Vector2.ZERO
+			move(0, direction, delta)
 		State.DEAD:
 			move(DEAD_BOUNCE.x, attack_direction, delta)
 
@@ -136,14 +137,19 @@ func transition_state(from: State, to: State) -> void:
 		State.WALK:
 			stomped = false
 			velocity = Vector2.ZERO
+			graphics.scale.y = 1
 			animation_player.play("walk")
 		State.FLY:
 			animation_player.play("fly")
 		State.SHELL:
 			stomped = false
+			velocity = Vector2.ZERO
 			recover_timer.start()
 			direction = Direction.RIGHT if direction == Direction.LEFT else Direction.LEFT
 			animation_player.play("shell")
+			# 空中被踩时要倒转龟壳
+			if not is_on_floor():
+				graphics.scale.y = -1
 			ScoreManager.add_score(SCORE["stomped"], self)
 		State.SHOOT:
 			stomped = false
