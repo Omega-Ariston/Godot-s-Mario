@@ -69,6 +69,7 @@ func enter() -> void:
 	match direction:
 		ENTER_DIRECTION.RIGHT:
 			# 播放走路动画
+			player.direction = Player.Direction.RIGHT
 			SoundManager.play_sfx("PipeHurt")
 			player.animation_player.speed_scale = 1
 			tween.tween_property(player, "global_position:x", global_position.x + Variables.TILE_SIZE.x / 2, 0.5)
