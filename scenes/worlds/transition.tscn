@@ -45,7 +45,7 @@ scroll_active = false
 position = Vector2(104, 112)
 texture = ExtResource("1_g775h")
 region_enabled = true
-region_rect = Rect2(176, 32, 16, 16)
+region_rect = Rect2(192, 32, 16, 16)
 
 [node name="TimeUp" type="Node2D" parent="."]
 visible = false
