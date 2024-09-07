@@ -81,3 +81,12 @@ func transition_state(_from: State, to: State) -> void:
 			original_y = global_position.y
 		State.DEAD:
 			die()
+
+# 被踩
+func on_stomped() -> void:
+	# 伤害玩家
+	player.hurt(self)
+
+# 被砖块从下面顶
+func on_bumped(_bumpable: Bumpable) -> void:
+	pass
