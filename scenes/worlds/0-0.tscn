@@ -13,9 +13,9 @@
 [ext_resource type="PackedScene" uid="uid://2d1j7ncptai3" path="res://scenes/items/fire_bar.tscn" id="13_ey22w"]
 [ext_resource type="PackedScene" uid="uid://bkoa5bviyhuyp" path="res://scenes/characters/piranha.tscn" id="13_xdkfm"]
 [ext_resource type="PackedScene" uid="uid://bm5n06o4v0mm6" path="res://scenes/items/platform_vertical.tscn" id="14_bjemg"]
-[ext_resource type="PackedScene" uid="uid://b3sa7c80qbgij" path="res://scenes/characters/turtle.tscn" id="14_ds5l3"]
 [ext_resource type="PackedScene" uid="uid://hwvatwkj6km6" path="res://scenes/characters/lakitu.tscn" id="14_ofgc4"]
 [ext_resource type="PackedScene" uid="uid://t2spsgs033gv" path="res://scenes/characters/cannon.tscn" id="15_0fq1y"]
+[ext_resource type="PackedScene" uid="uid://qmoc12kcw5ai" path="res://scenes/characters/blooper.tscn" id="15_wjcdp"]
 [ext_resource type="PackedScene" uid="uid://duiqbx87ur1n" path="res://scenes/items/spring.tscn" id="17_sk8wf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kli28"]
@@ -204,8 +204,8 @@ position = Vector2(360, 160)
 [node name="FireBar" parent="Enemies" instance=ExtResource("13_ey22w")]
 position = Vector2(160, 184)
 
-[node name="Turtle" parent="Enemies" instance=ExtResource("14_ds5l3")]
-position = Vector2(208, 176)
+[node name="Blooper" parent="Enemies" instance=ExtResource("15_wjcdp")]
+position = Vector2(288, 208)
 
 [node name="FlagPole" parent="." instance=ExtResource("7_dd00r")]
 position = Vector2(912, 224)
