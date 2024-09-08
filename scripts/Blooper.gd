@@ -80,7 +80,8 @@ func transition_state(_from: State, to: State) -> void:
 			animation_player.play("push")
 			original_y = global_position.y
 		State.DEAD:
-			die()
+			animation_player.play("dead")
+			die(false)
 
 # 被踩
 func on_stomped() -> void:
