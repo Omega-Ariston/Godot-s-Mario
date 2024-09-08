@@ -1,8 +1,9 @@
-[gd_scene load_steps=20 format=4 uid="uid://bfb0vxdydy2et"]
+[gd_scene load_steps=21 format=4 uid="uid://bfb0vxdydy2et"]
 
 [ext_resource type="Script" path="res://scripts/World.gd" id="1_tpqgv"]
 [ext_resource type="TileSet" uid="uid://cf516p3bd2t1v" path="res://tiles/world.tres" id="2_3vma1"]
 [ext_resource type="TileSet" uid="uid://bru6c57447abq" path="res://tiles/background.tres" id="3_8f2e5"]
+[ext_resource type="PackedScene" uid="uid://bkptlk61y5222" path="res://scenes/characters/bowser.tscn" id="5_7gjpa"]
 [ext_resource type="PackedScene" uid="uid://by0stfwg5c7pm" path="res://scenes/bricks/coin_brick.tscn" id="5_cpr27"]
 [ext_resource type="PackedScene" uid="uid://c30i335tpkrd8" path="res://scenes/bricks/brick.tscn" id="6_3qu74"]
 [ext_resource type="PackedScene" uid="uid://23x77sf5ec41" path="res://scenes/climables/flag_pole.tscn" id="7_dd00r"]
@@ -26,7 +27,6 @@ size = Vector2(8, 224)
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_tpqgv")
-world_type = 2
 level_time = 500
 level_name = "0-0"
 
@@ -74,7 +74,7 @@ metadata/_edit_lock_ = true
 [node name="SpawnPoints" type="Node" parent="."]
 
 [node name="SpawnPoint" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(112, 224)
+position = Vector2(1552, 224)
 script = ExtResource("10_sfy30")
 
 [node name="A" type="Marker2D" parent="SpawnPoints"]
@@ -176,6 +176,9 @@ spawn_item = 4
 position = Vector2(328, 168)
 
 [node name="Enemies" type="Node2D" parent="."]
+
+[node name="Bowser" parent="Enemies" instance=ExtResource("5_7gjpa")]
+position = Vector2(1680, 224)
 
 [node name="Piranha" parent="Enemies" instance=ExtResource("13_xdkfm")]
 position = Vector2(464, 216)
