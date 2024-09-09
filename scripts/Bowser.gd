@@ -4,7 +4,6 @@ extends Enemy
 enum State {
 	WONDER_LEFT,
 	WONDER_RIGHT,
-	LAUNCH,
 	CHASING,
 	DEAD,
 }
@@ -27,7 +26,6 @@ var rng := RandomNumberGenerator.new()
 var hammer_to_throw := 0
 var life_point := 4 # 需要打四下才死
 var can_change_direction := false
-var can_launch := false
 var throwing := false
 
 @onready var jump_timer: Timer = $JumpTimer
@@ -41,6 +39,7 @@ func _ready() -> void:
 	super()
 	throw_hammer()
 	throwing = true
+	hadouken_timer.start()
 
 func get_next_state(state: State) -> int:
 	
@@ -51,13 +50,8 @@ func get_next_state(state: State) -> int:
 		State.WONDER_LEFT, State.WONDER_RIGHT:
 			if direction == Direction.RIGHT:
 				return State.CHASING
-			if can_launch:
-				return State.LAUNCH
 			if can_change_direction or is_on_wall():
 				return State.WONDER_RIGHT if state == State.WONDER_LEFT else State.WONDER_LEFT
-		State.LAUNCH:
-			if not animation_player.is_playing():
-				return state_machine.get_last_safe_state()
 		State.CHASING:
 			if direction == Direction.LEFT:
 				# 后退一步
@@ -76,9 +70,6 @@ func tick_physics(state: State, delta: float) -> void:
 			move(SPEED, -1, delta, default_gravity / 2)
 		State.WONDER_RIGHT:
 			move(SPEED, +1, delta, default_gravity / 2)
-		State.LAUNCH:
-			var move_direction := -1 if state_machine.get_last_safe_state() == State.WONDER_LEFT else +1
-			move(SPEED, move_direction, delta, default_gravity / 2)
 		State.CHASING:
 			move(SPEED, direction, delta, default_gravity / 2)
 		State.DEAD:
@@ -94,11 +85,7 @@ func transition_state(_from: State, to: State) -> void:
 			can_change_direction = false
 			animation_player.play("wonder")
 			direction_timer.start()
-			hadouken_timer.start()
 			jump_timer.start(rng.randf_range(MIN_JUMP_INTERVAL, MAX_JUMP_INTERVAL))
-		State.LAUNCH:
-			can_launch = false
-			animation_player.play("launch")
 		State.CHASING:
 			direction_timer.stop()
 			jump_timer.stop()
@@ -152,4 +139,7 @@ func _on_jump_timer_timeout() -> void:
 func _on_hadouken_timer_timeout() -> void:
 	# 1/2的概率喷火
 	if rng.randf() >= 0.5:
-		can_launch = true
+		animation_player.play("launch") # 会在喷火结束后重启计时器
+		animation_player.queue("wonder")
+	else:
+		hadouken_timer.start()
