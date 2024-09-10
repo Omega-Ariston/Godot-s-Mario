@@ -31,15 +31,8 @@ var throwing := false
 @onready var jump_timer: Timer = $JumpTimer
 @onready var direction_timer: Timer = $DirectionTimer
 @onready var hadouken_timer: Timer = $HadoukenTimer
-@onready var hammer_timer: Timer = $HammerTimer
 @onready var hadouken_launcher: HadoukenLauncher = $Graphics/HadoukenLauncher
 @onready var hammer_launcher: HammerLauncher = $Graphics/HammerLauncher
-
-func _ready() -> void:
-	super()
-	throw_hammer()
-	throwing = true
-	hadouken_timer.start()
 
 func get_next_state(state: State) -> int:
 	
@@ -82,10 +75,13 @@ func transition_state(_from: State, to: State) -> void:
 		State.WONDER_LEFT, State.WONDER_RIGHT:
 			if not throwing:
 				throw_hammer()
+			if hadouken_timer.is_stopped():
+				hadouken_timer.start()
+			if jump_timer.is_stopped():
+				jump_timer.start(rng.randf_range(MIN_JUMP_INTERVAL, MAX_JUMP_INTERVAL))
 			can_change_direction = false
 			animation_player.play("wonder")
 			direction_timer.start()
-			jump_timer.start(rng.randf_range(MIN_JUMP_INTERVAL, MAX_JUMP_INTERVAL))
 		State.CHASING:
 			direction_timer.stop()
 			jump_timer.stop()

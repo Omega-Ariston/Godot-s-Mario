@@ -160,8 +160,6 @@ one_shot = true
 wait_time = 2.0
 one_shot = true
 
-[node name="HammerTimer" type="Timer" parent="." index="9"]
-
 [connection signal="timeout" from="JumpTimer" to="." method="_on_jump_timer_timeout"]
 [connection signal="timeout" from="DirectionTimer" to="." method="_on_direction_timer_timeout"]
 [connection signal="timeout" from="HadoukenTimer" to="." method="_on_hadouken_timer_timeout"]
