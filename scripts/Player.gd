@@ -34,6 +34,8 @@ const JUMP_VELOCITY_FAST := -5 * 60 # 05000
 const JUMP_VELOCITY_THROTTLE_MID := 1 * 60 # 01000
 const JUMP_VELOCITY_THROTTLE_FAST := 2.3125 * 60 # 02500
 
+const JUMP_AROUND_SPEED := -2.8 * 60 # 自己试出来的
+
 const SWIM_VELOCITY := -1.5 * 60 # 01800
 const MIN_ANIMATION_SPEED := 0.8
 
@@ -61,6 +63,7 @@ var current_gravity : float
 
 var jump_around_direction := 0
 var jumping_around := false
+var has_boosted := false
 
 enum State {
 	ENTRY, # 关卡刚开始时的特殊状态
@@ -131,8 +134,15 @@ const CEIL_CHECKERS_POSITION_Y := {
 	Mode.FIRE: -26,
 }
 
-const VERTICAL_CHECKERS_OFFSET_X := {
-	# 头顶和脚底的两侧射线检测器的x偏移量
+const CEIL_CHECKERS_OFFSET_X := {
+	# 头顶两侧射线检测器的x偏移量
+	Mode.SMALL: 6,
+	Mode.LARGE: 7,
+	Mode.FIRE: 7,
+}
+
+const FLOOR_CHECKERS_OFFSET_X := {
+	# 脚底两侧射线检测器的x偏移量
 	Mode.SMALL: 5,
 	Mode.LARGE: 6,
 	Mode.FIRE: 6,
@@ -289,7 +299,7 @@ func tick_physics(state: State, delta: float) -> void:
 	# 处理上升过程中的砖块平滑作用
 	jump_around_direction = get_jump_around_direction()
 	var speed_x := NAN
-	if state in [State.JUMP, State.CROUCH_JUMP, State.SWIM] :
+	if not has_boosted and state in [State.JUMP, State.CROUCH_JUMP, State.SWIM]:
 		if jump_around_direction != 0:
 			jumping_around = true
 			set_collision_mask_value(1, false) # 临时不跟砖块碰撞
@@ -298,6 +308,9 @@ func tick_physics(state: State, delta: float) -> void:
 			set_collision_mask_value(1, true) # 恢复砖块碰撞
 			jumping_around = false
 			speed_x = 0 # 贴墙继续上升
+			if abs(initial_horizontal_speed) >= MAX_WALK_SPEED if not is_under_water else MAX_WALK_SPEED_WATER:
+				velocity.y = min(velocity.y, JUMP_AROUND_SPEED) # 给予一个额外的垂直速度
+				has_boosted = true # 一次滞空只能获得一次这样的加速
 	
 	match state:
 		State.IDLE:
@@ -474,8 +487,10 @@ func transition_state(from: State, to: State) -> void:
 			animation_player.speed_scale = 1 # 恢复动画播放速度
 		State.JUMP, State.CROUCH_JUMP:
 			jump_requested = false
+			has_boosted = false
 		State.SWIM:
 			swim_requested = false
+			has_boosted = false
 		State.FALL:
 			animation_player.speed_scale = 1 # 恢复动画播放速度
 			initialize_mode() # 恢复碰撞体积，针对CROUCH_JUMP的情况
@@ -648,10 +663,10 @@ func initialize_mode() -> void:
 	# 初始化角色外观以及碰撞体积和图形偏移
 	sprite_2d.region_rect = RECT_MAP.get(curr_mode)
 	graphics.position.y = GRAPHIC_Y_MAP.get(curr_mode)
-	floor_checker_left.position.x = -VERTICAL_CHECKERS_OFFSET_X.get(curr_mode)
-	floor_checker_right.position.x = VERTICAL_CHECKERS_OFFSET_X.get(curr_mode)
-	ceil_checker_left.position.x = -VERTICAL_CHECKERS_OFFSET_X.get(curr_mode)
-	ceil_checker_right.position.x = VERTICAL_CHECKERS_OFFSET_X.get(curr_mode)
+	floor_checker_left.position.x = -FLOOR_CHECKERS_OFFSET_X.get(curr_mode)
+	floor_checker_right.position.x = FLOOR_CHECKERS_OFFSET_X.get(curr_mode)
+	ceil_checker_left.position.x = -CEIL_CHECKERS_OFFSET_X.get(curr_mode)
+	ceil_checker_right.position.x = CEIL_CHECKERS_OFFSET_X.get(curr_mode)
 	ceil_checkers.position.y = CEIL_CHECKERS_POSITION_Y.get(curr_mode)
 	var collision_attr := COLLISION_ATTR_MAP.get(curr_mode) as Vector3
 	var shape := collision_shape_2d.shape as RectangleShape2D
