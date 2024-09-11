@@ -98,7 +98,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hsy37"]
-size = Vector2(16, 16)
+size = Vector2(12, 6.25)
 
 [node name="Piranha" instance=ExtResource("1_n4ryh")]
 script = ExtResource("2_xxc8d")
@@ -121,7 +121,7 @@ position = Vector2(4.17233e-07, -11)
 scale = Vector2(0.8, 1.1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
-position = Vector2(0, -8)
+position = Vector2(0, -6)
 shape = SubResource("RectangleShape2D_hsy37")
 
 [node name="Timer" type="Timer" parent="." index="6"]
