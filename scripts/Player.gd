@@ -108,48 +108,6 @@ const UNSAFE_STATES := [
 	State.ENLARGE, State.ONFIRE, State.HURT, State.LAUNCH
 ]
 
-const RECT_MAP := {
-	Mode.SMALL: Rect2(96, 32, 272, 16),
-	Mode.LARGE: Rect2(96, 0, 272, 32),
-	Mode.FIRE: Rect2(96, 48, 272, 32),
-}
-
-const GRAPHIC_Y_MAP := {
-	Mode.SMALL: -8,
-	Mode.LARGE: -16,
-	Mode.FIRE: -16,
-}
-
-const COLLISION_ATTR_MAP := {
-	# 碰撞箱的y偏移量，宽度与高度
-	Mode.SMALL: Vector3(-7, 10, 13),
-	Mode.LARGE: Vector3(-13, 12, 26.75),
-	Mode.FIRE: Vector3(-13, 12, 26.75),
-}
-
-const CEIL_CHECKERS_POSITION_Y := {
-	# 头顶射线检测器的y偏移量
-	Mode.SMALL: -14,
-	Mode.LARGE: -26,
-	Mode.FIRE: -26,
-}
-
-const CEIL_CHECKERS_OFFSET_X := {
-	# 头顶两侧射线检测器的x偏移量
-	Mode.SMALL: 6,
-	Mode.LARGE: 7,
-	Mode.FIRE: 7,
-}
-
-const FLOOR_CHECKERS_OFFSET_X := {
-	# 脚底两侧射线检测器的x偏移量
-	Mode.SMALL: 5,
-	Mode.LARGE: 6,
-	Mode.FIRE: 6,
-}
-
-const COLLISION_ATTR_CROUCH := Vector3(-7, 12, 13)
-
 @export var curr_mode := Mode.SMALL as Mode:
 	set(v):
 		if curr_mode != v:
@@ -196,6 +154,7 @@ var constant_speed_y: float
 @onready var sprite_2d: Sprite2D = $Graphics/Sprite2D
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var initialize_animator: AnimationPlayer = $InitializeAnimator
 @onready var blink_animator: AnimationPlayer = $BlinkAnimator
 @onready var state_machine: StateMachine = $StateMachine
 @onready var on_fire_timer: Timer = $OnFireTimer
@@ -539,11 +498,10 @@ func transition_state(from: State, to: State) -> void:
 				direction_before_turn = direction
 		State.CROUCH:
 			current_target_speed = 0.0
+			current_acceleration = RELEASE_DECELERATION
 			animation_player.play("crouch")
 			# 修改碰撞体积
-			collision_shape_2d.position.y = COLLISION_ATTR_CROUCH.x
-			collision_shape_2d.shape.size.x = COLLISION_ATTR_CROUCH.y
-			collision_shape_2d.shape.size.y = COLLISION_ATTR_CROUCH.z
+			initialize_animator.play("crouch")
 		State.JUMP, State.CROUCH_JUMP:
 			direction_before_jump = direction
 			initial_horizontal_speed = abs(velocity.x)
@@ -663,18 +621,13 @@ func dead() -> void:
 
 func initialize_mode() -> void:
 	# 初始化角色外观以及碰撞体积和图形偏移
-	sprite_2d.region_rect = RECT_MAP.get(curr_mode)
-	graphics.position.y = GRAPHIC_Y_MAP.get(curr_mode)
-	floor_checker_left.position.x = -FLOOR_CHECKERS_OFFSET_X.get(curr_mode)
-	floor_checker_right.position.x = FLOOR_CHECKERS_OFFSET_X.get(curr_mode)
-	ceil_checker_left.position.x = -CEIL_CHECKERS_OFFSET_X.get(curr_mode)
-	ceil_checker_right.position.x = CEIL_CHECKERS_OFFSET_X.get(curr_mode)
-	ceil_checkers.position.y = CEIL_CHECKERS_POSITION_Y.get(curr_mode)
-	var collision_attr := COLLISION_ATTR_MAP.get(curr_mode) as Vector3
-	var shape := collision_shape_2d.shape as RectangleShape2D
-	collision_shape_2d.position.y = collision_attr.x
-	shape.size.x = collision_attr.y
-	shape.size.y = collision_attr.z
+	match curr_mode:
+		Mode.SMALL:
+			initialize_animator.play("small")
+		Mode.LARGE:
+			initialize_animator.play("large")
+		Mode.FIRE:
+			initialize_animator.play("fire")
 
 func _is_safe_state(state: State) -> bool:
 	return state not in UNSAFE_STATES
