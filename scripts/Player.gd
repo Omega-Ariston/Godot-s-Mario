@@ -254,6 +254,8 @@ func tick_physics(state: State, delta: float) -> void:
 				dash_buffer_timer.start()
 			elif on_jumpable_floor() and dash_buffer_timer.is_stopped():
 				dash_requested = false
+		else:
+			dash_requested = false
 	
 	if is_invincible:
 		if invincible_timer.time_left == 0:
