@@ -192,6 +192,7 @@ var constant_speed_y: float
 @onready var star_timer: Timer = $StarTimer
 @onready var invincible_timer: Timer = $InvincibleTimer
 @onready var dying_timer: Timer = $DyingTimer
+@onready var dash_buffer_timer: Timer = $DashBufferTimer
 @onready var fireball_launcher: FireballLauncher = $Graphics/FireballLauncher
 @onready var floor_checkers: Node2D = $FloorCheckers
 @onready var floor_checker_left: RayCast2D = $FloorCheckers/FloorCheckerLeft
@@ -235,10 +236,13 @@ func tick_physics(state: State, delta: float) -> void:
 	
 	if not is_under_water and on_jumpable_floor():
 		# 开始和结束加速都要在地面上判断
-		if controllable and Input.is_action_pressed("action"):
+		if controllable:
+			if Input.is_action_pressed("action"):
 				dash_requested = true
-		else:
-			if on_jumpable_floor():
+			elif Input.is_action_just_released("action"):
+				# 松开加速键后有10帧的缓冲时间，这样角色在奔跑的时候也可以开火而不影响速度
+				dash_buffer_timer.start()
+			elif on_jumpable_floor() and dash_buffer_timer.is_stopped():
 				dash_requested = false
 	
 	if is_invincible:

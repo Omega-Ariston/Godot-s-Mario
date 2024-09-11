@@ -477,6 +477,10 @@ process_mode = 3
 wait_time = 0.5
 one_shot = true
 
+[node name="DashBufferTimer" type="Timer" parent="."]
+wait_time = 0.167
+one_shot = true
+
 [node name="FloorCheckers" type="Node2D" parent="."]
 
 [node name="FloorCheckerLeft" type="RayCast2D" parent="FloorCheckers"]
