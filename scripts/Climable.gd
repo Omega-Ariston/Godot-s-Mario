@@ -20,5 +20,5 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 func attach_player(player: Player) -> void:
 	# 把玩家固定到攀爬点
 	player.global_position.x = climb_area.global_position.x - \
-			player.direction * player.collision_shape_2d.shape.radius
+			player.direction * (player.collision_shape_2d.shape.size.x / 2)
 	player.velocity = Vector2.ZERO

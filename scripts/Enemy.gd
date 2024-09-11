@@ -21,7 +21,8 @@ enum Direction {
 
 const DEAD_BOUNCE := Vector2(50, -250)
 const DEAD_Z_INDEX := 5
-const PLAYER_STOMPED_BOUNCE := -200.0
+const PLAYER_STOMPED_BOUNCE_HIGH := -4 * 60 # 04xxx
+const PLAYER_STOMPED_BOUNCE_LOW := -3 * 60 # 03xxx
 
 var player: Player
 var default_gravity := GameManager.default_gravity as float
@@ -46,8 +47,14 @@ func move(speed_var: float, direction_var: int, delta: float, gravity: float = d
 func on_stomped() -> void:
 	stomped = true
 	SoundManager.play_sfx("Stomp")
-	# 给玩家施加一个向上小跳的力
-	player.velocity.y = PLAYER_STOMPED_BOUNCE
+	# 给玩家施加一个向上小跳的力，但只改变整数部分
+	var bounce_height : float
+	if self is Goomba or self is Beetle or self is Turtle:
+		bounce_height = PLAYER_STOMPED_BOUNCE_HIGH
+	else:
+		bounce_height = PLAYER_STOMPED_BOUNCE_LOW
+		
+	player.velocity.y = bounce_height + player.velocity.y - int(player.velocity.y)
 	# 取消对玩家的碰撞检测
 	hurtbox.set_deferred("monitoring", false)
 	set_collision_mask_value(2, false)

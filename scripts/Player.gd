@@ -1,20 +1,54 @@
 class_name Player
 extends CharacterBody2D
 
-const WALK_SPEED := 80.0
-const WALK_SPEED_WATER := 40.0
-const DASH_SPEED := WALK_SPEED * 2
-const CLIMB_SPEED := 40.0
-const WALK_ACCELERATION := WALK_SPEED / 0.4
-const DASH_ACCELERATION := WALK_ACCELERATION * 2
-const CLIMB_ACCELERATION := CLIMB_SPEED / 0.2
-const AIR_ACCELERATION := WALK_SPEED / 0.2
-const JUMP_VELOCITY := -350.0
-const SWIM_VELOCITY := -200.0
+const WALK_SPEED := 1.5625 * 60 # 01900
+const WALK_SPEED_WATER := 1.0625 * 60 # 01100
+const DASH_SPEED := 2.5625 * 60 # 02900
+const AIR_SPEED_SLOW := WALK_SPEED # 01900
+const AIR_SPEED_FAST := DASH_SPEED # 02900
+
+const CLIMB_UP_SPEED := -0.875 * 60 # 00E00
+const CLIMB_DOWN_SPEED := 2 * 60 # 02000
+
+const WALK_ACCELERATION := 0.037109375 * 60 * 60 # 00098
+const DASH_ACCELERATION := 0.0556640625 * 60 * 60 # 000E4
+
+const AIR_ACCELERATION_SLOW := WALK_ACCELERATION # 00098
+const AIR_ACCELERATION_FAST := DASH_ACCELERATION # 000E4
+
+const RELEASE_DECELERATION := 0.05078125 * 60 * 60 # 000D0
+const SKIDDING_DECELERATION := 0.1015625 * 60 * 60 # 001A0
+
+const AIR_SPEED_THROTTLE_AIR := WALK_SPEED # 01900
+const AIR_SPEED_THROTTLE_GROUND := 1.8125 * 60 # 01D00
+
+const AIR_DECELERATION_SLOW := WALK_ACCELERATION # 00098
+const AIR_DECELERATION_MID := RELEASE_DECELERATION # 000D0
+const AIR_DECELERATION_FAST := DASH_ACCELERATION # 000E4
+
+const JUMP_VELOCITY_SLOW := -4 * 60 # 04000
+const JUMP_VELOCITY_FAST := -5 * 60 # 05000
+const JUMP_VELOCITY_THROTTLE_MID := 1 * 60 # 01000
+const JUMP_VELOCITY_THROTTLE_FAST := 2.3125 * 60 # 02500
+
+const SWIM_VELOCITY := -1.5 * 60 # 01800
 const MIN_ANIMATION_SPEED := 0.8
-const MIN_TURN_SPEED := WALK_SPEED / 1.5
+
 const FIREBALL_LIMIT := 2
-const CLIFF_LIMIT := Variables.TILE_SIZE.y * 18
+const CLIFF_LIMIT := Variables.TILE_SIZE.y * 18 # 世界底部
+
+const GRAVITY_JUMP_SLOW := 0.125 * 60 * 60 # 00200
+const GRAVITY_JUMP_MID := 0.11328125 * 60 * 60 # 001E0
+const GRAVITY_JUMP_FAST := 0.15625 * 60 * 60 # 00280
+const GRAVITY_SWIM := 0.046875 * 60 * 60 # 000D0
+const GRAVITY_SWIM_FALL := 0.0390625 * 60 * 60# 000A0
+
+const GRAVITY_FALL_SLOW := 0.4375 * 60 * 60 # 00700
+const GRAVITY_FALL_MID := 0.375 * 60 * 60 # 00600
+const GRAVITY_FALL_FAST := 0.5625 * 60 * 60 # 00900
+
+const VELOCITY_Y_MAX := 4.5 * 60 # 04800
+const VELOCITY_Y_CUT_OFF := 4.0 * 60 # 04000
 
 enum State {
 	IDLE,
@@ -71,23 +105,17 @@ const GRAPHIC_Y_MAP := {
 }
 
 const COLLISION_ATTR_MAP := {
-	# 胶囊的y偏移量，直径与高度
-	Mode.SMALL: Vector3(-7, 4, 14),
-	Mode.LARGE: Vector3(-16, 6, 31),
-	Mode.FIRE: Vector3(-16, 6, 31),
+	# 碰撞箱的y偏移量，宽度与高度
+	Mode.SMALL: Vector3(-7, 10, 13),
+	Mode.LARGE: Vector3(-13, 12, 26.75),
+	Mode.FIRE: Vector3(-13, 12, 26.75),
 }
 
-const COLLISION_ATTR_CROUCH := Vector3(-7, 6, 14)
+const COLLISION_ATTR_CROUCH := Vector3(-7, 12, 13)
 
 @export var curr_mode := Mode.SMALL as Mode:
 	set(v):
 		if curr_mode != v:
-			print_debug(
-				"Mode: [%s] %s => %s" % [
-				Engine.get_physics_frames(),
-				Mode.find_key(curr_mode),
-				Mode.find_key(v)
-			])
 			curr_mode = v
 			GameManager.player_current_mode = curr_mode
 			initialize_mode()
@@ -95,12 +123,6 @@ const COLLISION_ATTR_CROUCH := Vector3(-7, 6, 14)
 @export var direction := Direction.RIGHT:
 	set(v):
 		if direction != v:
-			print_debug(
-				"Direction: [%s] %s => %s" % [
-				Engine.get_physics_frames(),
-				Direction.find_key(direction),
-				Direction.find_key(v)
-			])
 			direction = v
 			if not is_node_ready():
 				await ready
@@ -117,7 +139,7 @@ var jump_requested := false
 var swim_requested := false
 var launch_requested := false
 var dash_requested := false
-var direction_before_turn := Direction.RIGHT
+var direction_before_turn : float
 var is_under_star := false # 是否在无敌星作用下
 var is_invincible := false # 是否处于受伤后无敌状态
 var is_hurt := false # 是否处于受伤状态
@@ -125,6 +147,8 @@ var last_animation : String
 var controllable := true
 var is_spawning := false
 var is_under_water := false
+var velocity_x_before_jump : float
+var direction_before_jump : float
 
 # 用于模拟玩家移动
 var input_x := 0.0
@@ -153,10 +177,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			elif on_jumpable_floor(): #防止在空中保存跳跃指令
 				jump_requested = true
 		if event.is_action_released("jump"):
-			if not is_under_water:
-				if velocity.y < JUMP_VELOCITY / 2:
-					velocity.y = JUMP_VELOCITY / 2 # 最小跳跃高度
-				jump_requested = false
+			jump_requested = false
+			swim_requested = false
 		if event.is_action_pressed("action") and curr_mode == Mode.FIRE:
 			launch_requested = true
 		if event.is_action_released("action"):
@@ -202,22 +224,55 @@ func tick_physics(state: State, delta: float) -> void:
 	
 	match state:
 		State.IDLE:
-			move(GameManager.default_gravity, delta)
-		State.WALK, State.TURN:
+			move(0, delta)
+		State.WALK:
 			# 动画播放速度与走路速度正相关
 			animation_player.speed_scale = max(MIN_ANIMATION_SPEED, abs(velocity.x) / WALK_SPEED * 1.5)
-			move(GameManager.default_gravity, delta)
+			move(0, delta)
+		State.TURN:
+			move(0, delta)
 		State.CROUCH:
-			stand(GameManager.default_gravity, delta)
+			stand(0, delta)
 		State.JUMP, State.CROUCH_JUMP:
-			move(0.0 if is_first_tick else GameManager.default_gravity, delta)
+			var gravity: float
+			if is_first_tick:
+				gravity = 0.0
+			else:
+				if jump_requested:
+					if velocity_x_before_jump < JUMP_VELOCITY_THROTTLE_MID:
+						gravity = GRAVITY_JUMP_SLOW
+					elif velocity_x_before_jump < JUMP_VELOCITY_THROTTLE_FAST:
+						gravity = GRAVITY_JUMP_MID
+					else:
+						gravity = GRAVITY_JUMP_FAST
+				else:
+					if velocity_x_before_jump < JUMP_VELOCITY_THROTTLE_MID:
+						gravity = GRAVITY_FALL_SLOW
+					elif velocity_x_before_jump < JUMP_VELOCITY_THROTTLE_FAST:
+						gravity = GRAVITY_FALL_MID
+					else:
+						gravity = GRAVITY_FALL_FAST
+					
+			move(gravity, delta)
 		State.SWIM:
-			move(0.0 if is_first_tick else GameManager.default_gravity / 2, delta)
+			move(GRAVITY_SWIM if swim_requested else GRAVITY_SWIM_FALL, delta)
 		State.DEAD:
 			if dying_timer.time_left == 0:
-				move(0.0 if is_first_tick else GameManager.default_gravity, delta)
+				move(GRAVITY_FALL_SLOW, delta)
 		State.FALL:
-			move(GameManager.default_gravity / 2 if is_under_water else GameManager.default_gravity, delta)
+			var gravity : float
+			if is_first_tick:
+				gravity = 0.0
+			elif is_under_water:
+				gravity = GRAVITY_SWIM_FALL
+			else:
+				if velocity_x_before_jump < JUMP_VELOCITY_THROTTLE_MID:
+					gravity = GRAVITY_FALL_SLOW
+				elif velocity_x_before_jump < JUMP_VELOCITY_THROTTLE_FAST:
+					gravity = GRAVITY_FALL_MID
+				else:
+					gravity = GRAVITY_FALL_FAST
+			move(gravity, delta)
 		State.CLIMB:
 			if (controllable and Input.is_action_just_pressed("move_right")) \
 					or (not controllable and input_x > 0):
@@ -233,10 +288,10 @@ func tick_physics(state: State, delta: float) -> void:
 					_change_climb_side()
 			else:
 				# 没爬的时候不动
-				animation_player.speed_scale = min(abs(velocity.y / CLIMB_SPEED), 2.0)
+				animation_player.speed_scale = min(abs(velocity.y / CLIMB_UP_SPEED), 2.0)
 				climb(delta)
 		State.LAUNCH:
-			move(GameManager.default_gravity / 2 if is_under_water else GameManager.default_gravity, delta)
+			move(GRAVITY_FALL_SLOW, delta)
 		State.HURT:
 			# 闪烁角色
 			_blink_character()
@@ -294,20 +349,17 @@ func get_next_state(state: State) -> int:
 			if not is_still:
 				return State.WALK
 		State.WALK:
-			if abs(velocity.x) > MIN_TURN_SPEED and velocity.x * direction > 0 and movement * direction < 0:
+			if velocity.x * direction > 0 and movement * direction < 0:
 				return State.TURN
 			if is_still:
 				return State.IDLE
 		State.TURN:
-			if not animation_player.is_playing() or movement * direction_before_turn > 0 or is_zero_approx(velocity.x):
+			if movement * direction_before_turn > 0 or is_zero_approx(velocity.x):
 				return State.IDLE if is_still else State.WALK
 		State.CROUCH:
 			if is_on_floor() and crouch_requested == false:
 				return State.IDLE
-		State.JUMP, State.CROUCH_JUMP:
-			if velocity.y >= 0:
-				return State.FALL
-		State.SWIM:
+		State.JUMP, State.CROUCH_JUMP, State.SWIM:
 			if velocity.y >= 0 or is_on_ceiling():
 				return State.FALL
 		State.FALL:
@@ -342,6 +394,10 @@ func transition_state(from: State, to: State) -> void:
 	match from:
 		State.WALK:
 			animation_player.speed_scale = 1 # 恢复动画播放速度
+		State.JUMP, State.CROUCH_JUMP:
+			jump_requested = false
+		State.SWIM:
+			swim_requested = false
 		State.FALL:
 			animation_player.speed_scale = 1 # 恢复动画播放速度
 			initialize_mode() # 恢复碰撞体积，针对CROUCH_JUMP的情况
@@ -352,10 +408,6 @@ func transition_state(from: State, to: State) -> void:
 			# 恢复时间
 			get_tree().paused = false
 			curr_mode = Mode.LARGE
-		State.TURN:
-			if not animation_player.is_playing():
-				# 只有刹车状态需要重置速度，其余状态维持原有速度
-				velocity.x = 0
 		State.ONFIRE:
 			# 恢复时间
 			get_tree().paused = false
@@ -382,36 +434,29 @@ func transition_state(from: State, to: State) -> void:
 		State.WALK:
 			animation_player.play("walk")
 		State.TURN:
-			# 水平速度越大，转身需要的时间越长，转身速度越慢
-			var turn_speed :float = abs(DASH_SPEED / velocity.x)
-			animation_player.play("turn", -1, turn_speed, false)
+			animation_player.play("turn")
 			if from not in UNSAFE_STATES:
 				direction_before_turn = direction
 		State.CROUCH:
 			animation_player.play("crouch")
 			# 修改碰撞体积
 			collision_shape_2d.position.y = COLLISION_ATTR_CROUCH.x
-			collision_shape_2d.shape.radius = COLLISION_ATTR_CROUCH.y
-			collision_shape_2d.shape.height = COLLISION_ATTR_CROUCH.z
-		State.JUMP:
-			animation_player.play("jump")
+			collision_shape_2d.shape.size.x = COLLISION_ATTR_CROUCH.y
+			collision_shape_2d.shape.size.y = COLLISION_ATTR_CROUCH.z
+		State.JUMP, State.CROUCH_JUMP:
+			direction_before_jump = direction
+			velocity_x_before_jump = abs(velocity.x)
+			animation_player.play("jump" if to == State.JUMP else "crouch")
 			if from not in UNSAFE_STATES: # 变身结束或发完炮后不用跳
-				velocity.y = JUMP_VELOCITY
+				velocity.y = JUMP_VELOCITY_FAST if velocity_x_before_jump > JUMP_VELOCITY_THROTTLE_FAST else JUMP_VELOCITY_SLOW
 				SoundManager.play_sfx("JumpSmall" if curr_mode == Mode.SMALL else "JumpLarge")
-			jump_requested = false
-		State.CROUCH_JUMP:
-			animation_player.play("crouch")
-			SoundManager.play_sfx("JumpSmall" if curr_mode == Mode.SMALL else "JumpLarge")
-			if from not in UNSAFE_STATES: # 变身结束后不用跳
-				velocity.y = JUMP_VELOCITY
-			jump_requested = false
 		State.SWIM:
 			animation_player.play("swim_up", -1, 2.0, false)
 			SoundManager.play_sfx("Stomp")
 			if from not in UNSAFE_STATES:
 				velocity.y = SWIM_VELOCITY
-			swim_requested = false
 		State.FALL:
+			velocity_x_before_jump = abs(velocity.x)
 			if is_under_water:
 				animation_player.play("swim_down")
 			else:
@@ -476,29 +521,74 @@ func move(gravity: float, delta: float) -> void:
 	var movement := Input.get_axis("move_left", "move_right") if controllable else input_x
 	if not is_zero_approx(movement) and not is_first_tick and (is_under_water or is_on_floor()):
 		direction = Direction.LEFT if movement < 0 else Direction.RIGHT
-	var speed = WALK_SPEED_WATER if is_under_water else DASH_SPEED if dash_requested else WALK_SPEED
-	var acceleration := AIR_ACCELERATION if is_under_water or not is_on_floor() else DASH_ACCELERATION if dash_requested else WALK_ACCELERATION
-	velocity.x = constant_speed_x if constant_speed_x != 0 else move_toward(velocity.x, movement * speed, acceleration * delta)
-	velocity.y += gravity * delta
+	var target_speed : float
+	var acceleration : float
+	if state_machine.current_state == State.TURN:
+		target_speed = 0
+		acceleration = SKIDDING_DECELERATION
+	elif is_zero_approx(movement):
+		if is_on_floor():
+			target_speed = 0.0
+			acceleration = RELEASE_DECELERATION
+		else:
+			# 空中松开按键时维持当前速度
+			target_speed = velocity.x
+			acceleration = 0.0
+	elif not is_on_floor():
+		target_speed = AIR_SPEED_FAST if velocity_x_before_jump > AIR_SPEED_THROTTLE_AIR else AIR_SPEED_SLOW
+		if movement * direction_before_jump > 0:
+			# 空中同向移动
+			acceleration = AIR_ACCELERATION_FAST if abs(velocity.x) > AIR_SPEED_THROTTLE_AIR else AIR_ACCELERATION_SLOW
+		else:
+			# 空中反向移动
+			if abs(velocity.x) >= AIR_SPEED_THROTTLE_AIR:
+				acceleration = AIR_DECELERATION_FAST
+			elif velocity_x_before_jump >= AIR_SPEED_THROTTLE_GROUND:
+				acceleration = AIR_DECELERATION_MID
+			else:
+				acceleration = AIR_DECELERATION_SLOW
+	elif is_under_water:
+		target_speed = WALK_SPEED_WATER
+		acceleration = WALK_ACCELERATION
+	elif dash_requested:
+		target_speed = DASH_SPEED
+		acceleration = DASH_ACCELERATION
+	else:
+		target_speed = WALK_SPEED
+		acceleration = WALK_ACCELERATION
+	
+	velocity.x = constant_speed_x if constant_speed_x != 0 else move_toward(velocity.x, movement * target_speed, acceleration * delta)
+	
+	var velocity_y = velocity.y + gravity * delta
+	# 限制最大下落速度
+	if velocity_y > VELOCITY_Y_MAX:
+		velocity_y = VELOCITY_Y_CUT_OFF
+	velocity.y = velocity_y
 	
 	move_and_slide()
 	
 	
 func stand(gravity: float, delta: float) -> void:
-	var acceleration := WALK_ACCELERATION if is_on_floor() else AIR_ACCELERATION
+	var acceleration := SKIDDING_DECELERATION
 	velocity.x = move_toward(velocity.x, 0.0, acceleration * delta)
 	velocity.y += gravity * delta
 	
 	move_and_slide()
 
-func climb(delta:float) -> void:
+func climb(_delta:float) -> void:
 	var movement := Input.get_axis("move_up", "move_down") if controllable else input_y
-	velocity.y = constant_speed_y if constant_speed_y != 0 else move_toward(velocity.y, movement * CLIMB_SPEED, CLIMB_ACCELERATION * delta)
+	var velocity_y : float
+	if constant_speed_y != 0:
+		velocity_y = constant_speed_y
+	elif movement < 0:
+		velocity_y = CLIMB_UP_SPEED
+	elif movement > 0:
+		velocity_y = CLIMB_DOWN_SPEED
+	velocity.y = velocity_y
 	move_and_slide()
 
 
-func hurt(enemy: Node2D) -> void:
-	print_debug("HURT BY:", enemy.name)
+func hurt(_enemy: Node2D) -> void:
 	if not is_invincible:
 		is_hurt = true
 		# 清除所有空中的火球
@@ -512,10 +602,10 @@ func initialize_mode() -> void:
 	sprite_2d.region_rect = RECT_MAP.get(curr_mode)
 	graphics.position.y = GRAPHIC_Y_MAP.get(curr_mode)
 	var collision_attr := COLLISION_ATTR_MAP.get(curr_mode) as Vector3
-	var shape := collision_shape_2d.shape as CapsuleShape2D
+	var shape := collision_shape_2d.shape as RectangleShape2D
 	collision_shape_2d.position.y = collision_attr.x
-	shape.radius = collision_attr.y
-	shape.height = collision_attr.z
+	shape.size.x = collision_attr.y
+	shape.size.y = collision_attr.z
 
 func _is_safe_state(state: State) -> bool:
 	return state not in UNSAFE_STATES
@@ -652,7 +742,7 @@ func set_star_colors(index: int) -> void:
 	sprite_material.set_shader_parameter("new_colors", new_colors.duplicate())
 
 func _on_dying_timer_timeout() -> void:
-	velocity.y = JUMP_VELOCITY
+	velocity.y = JUMP_VELOCITY_FAST
 
 func on_jumpable_floor() -> bool:
 	for ray_cast: RayCast2D in floor_checker.get_children():
@@ -661,7 +751,6 @@ func on_jumpable_floor() -> bool:
 	return false
 
 func register_unjumpable_node(node: CollisionObject2D) -> void:
-	print_debug("registering:", node.name)
 	for ray_cast: RayCast2D in floor_checker.get_children():
 		ray_cast.add_exception(node)
 

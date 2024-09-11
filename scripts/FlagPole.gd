@@ -7,8 +7,6 @@ extends Node2D
 @onready var climable: Climable = $Climable
 @onready var score_label: RichTextLabel = $Score
 
-const DOWN_SPEED := 130.0
-
 var player_slipping := false
 var player: Player
 var player_destination_y: float
@@ -22,7 +20,7 @@ func _physics_process(_delta: float) -> void:
 			if is_equal_approx(player.global_position.y, player_destination_y):
 				player_slipping = false
 			else:
-				player.constant_speed_y = DOWN_SPEED
+				player.constant_speed_y = player.CLIMB_DOWN_SPEED
 		else:
 			# 检查角色是否已经走到了终止点，如果是就把角色杀掉并发出通知
 			if player and player.global_position.x >= global_position.x + Variables.TILE_SIZE.x * door_distance:
@@ -47,7 +45,7 @@ func _on_climable_body_entered(body: Node2D) -> void:
 	# 降落旗子同时上升得分
 	var flag_tween := create_tween()
 	var flag_destination_y = global_position.y - Variables.TILE_SIZE.y * 1.5
-	var flag_duration := abs(flag_destination_y - flag.global_position.y) / DOWN_SPEED as float
+	var flag_duration := abs(flag_destination_y - flag.global_position.y) / player.CLIMB_DOWN_SPEED as float
 	flag_tween.tween_property(flag, "global_position:y", flag_destination_y, flag_duration)
 	flag_tween.finished.connect(_on_flag_down_finished)
 	var score_tween := create_tween()

@@ -186,4 +186,4 @@ func on_stomped() -> void:
 		SoundManager.play_sfx("Stomp")
 	if state_machine.current_state not in SHOOTABLE_STATE:
 		# 给玩家施加一个向上小跳的力
-		player.velocity.y = PLAYER_STOMPED_BOUNCE
+		player.velocity.y = PLAYER_STOMPED_BOUNCE_HIGH

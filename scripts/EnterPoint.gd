@@ -29,8 +29,8 @@ func _physics_process(_delta: float) -> void:
 						and global_position.distance_to(player.global_position) <= 6.0 # 一个相对小的值
 			ENTER_DIRECTION.RIGHT:
 				can_enter = Input.is_action_pressed("move_right")
-				# 距离小于角色碰撞体积的2/3
-				var min_enter_distance := ceilf(player.collision_shape_2d.shape.radius * 4 / 3)
+				# 距离小于角色碰撞体积的3/5
+				var min_enter_distance := ceilf(player.collision_shape_2d.shape.size.x * 3 / 5)
 				should_enter = player.state_machine.current_state == player.State.WALK \
 						and global_position.distance_to(player.global_position) <= min_enter_distance
 			ENTER_DIRECTION.UP:
@@ -82,6 +82,6 @@ func enter() -> void:
 		ENTER_DIRECTION.UP:
 			# 播放动画攀爬动画
 			player.animation_player.speed_scale = 1
-			var duration := abs((player.global_position.y + Variables.TILE_SIZE.y) / player.CLIMB_SPEED) as float
+			var duration := abs((player.global_position.y + Variables.TILE_SIZE.y) / player.CLIMB_UP_SPEED) as float
 			tween.tween_property(player, "global_position:y", -Variables.TILE_SIZE.y, duration)
 			await tween.finished

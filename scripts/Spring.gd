@@ -7,8 +7,8 @@ enum State {
 	RELEASE,
 }
 
-const NORMAL_FORCE := -400.0
-const JUMP_FORCE := -600.0
+const NORMAL_FORCE := -7 * 60 # 07000
+const JUMP_FORCE := -12 * 60 # 0c000
 
 var is_stomped := false
 var jump_requested := false

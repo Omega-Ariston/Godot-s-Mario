@@ -263,15 +263,19 @@ position = Vector2(2624, 216)
 
 [node name="Beetle" parent="Enemies/Beetles" instance=ExtResource("9_3k6be")]
 position = Vector2(1784, 224)
+direction = -1
 
 [node name="Beetle2" parent="Enemies/Beetles" instance=ExtResource("9_3k6be")]
 position = Vector2(1944, 224)
+direction = -1
 
 [node name="Beetle3" parent="Enemies/Beetles" instance=ExtResource("9_3k6be")]
 position = Vector2(1976, 224)
+direction = -1
 
 [node name="Beetle4" parent="Enemies/Beetles" instance=ExtResource("9_3k6be")]
 position = Vector2(3032, 224)
+direction = -1
 
 [node name="Goombas" type="Node2D" parent="Enemies"]
 

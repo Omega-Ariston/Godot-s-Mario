@@ -12,9 +12,8 @@ shader_parameter/shader_enabled = false
 shader_parameter/origin_colors = PackedVector4Array()
 shader_parameter/new_colors = PackedVector4Array()
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1oigu"]
-radius = 4.0
-height = 14.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d6d33"]
+size = Vector2(12, 13)
 
 [sub_resource type="Animation" id="Animation_724l8"]
 length = 0.001
@@ -308,7 +307,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_on3sy"]
 resource_name = "turn"
-length = 0.5
+length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -442,7 +441,7 @@ script = ExtResource("5_su61k")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -7)
-shape = SubResource("CapsuleShape2D_1oigu")
+shape = SubResource("RectangleShape2D_d6d33")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 process_mode = 3
