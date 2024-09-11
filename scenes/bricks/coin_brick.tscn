@@ -144,6 +144,7 @@ _data = {
 size = Vector2(16, 16)
 
 [node name="CoinBrick" type="StaticBody2D"]
+collision_layer = 9
 script = ExtResource("1_yxd1f")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

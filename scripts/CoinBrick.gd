@@ -11,7 +11,6 @@ const COLOR_CYAN := [
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var bumpable: Bumpable = $Bumpable
-@onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 @onready var sprite_2d: Sprite2D = $Sprite2D
 
 
@@ -29,7 +28,7 @@ func _ready() -> void:
 		sprite_material.set_shader_parameter("shader_enabled", false)
 	if is_hidden:
 		# 隐藏砖没有碰撞体积，并且图片透明
-		collision_shape_2d.disabled = true
+		set_collision_layer_value(1, false)
 		sprite_2d.visible = false
 	animation_player.play("unbumped")
 
@@ -41,9 +40,7 @@ func on_bumped(player: Player) -> void:
 				# 判断是否是来自下方的撞击，如果是，则砖显形并恢复碰撞体积
 				bumpable.can_bump = false
 				sprite_2d.visible = true
-				# 重置玩家速度，防止玩家从斜下方蹭着飞上去
-				player.velocity.y = 0
-				collision_shape_2d.set_deferred("disabled", false)
+				set_collision_layer_value(1, true)
 				bumpable.apply_bump_effect()
 			else:
 				return
@@ -71,7 +68,7 @@ func on_charged(player: Player) -> void:
 		if is_hidden:
 			# 砖显形并恢复碰撞体积
 			sprite_2d.visible = true
-			collision_shape_2d.set_deferred("disabled", false)
+			set_collision_layer_value(1, true)
 		animation_player.play("bumped")
 		if spawn_item == Bumpable.SpawnItem.COIN:
 			# 金币直接顶
