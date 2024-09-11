@@ -1,11 +1,12 @@
 class_name Player
 extends CharacterBody2D
 
-const WALK_SPEED := 1.5625 * 60 # 01900
-const WALK_SPEED_WATER := 1.0625 * 60 # 01100
-const DASH_SPEED := 2.5625 * 60 # 02900
-const AIR_SPEED_SLOW := WALK_SPEED # 01900
-const AIR_SPEED_FAST := DASH_SPEED # 02900
+const MAX_WALK_SPEED := 1.5625 * 60 # 01900
+const MAX_WALK_SPEED_WATER := 1.0625 * 60 # 01100
+const MAX_WALK_SPEED_ENTRY := 0.8125 * 60 # 00D00
+const MAX_RUN_SPEED := 2.5625 * 60 # 02900
+const MAX_AIR_SPEED_SLOW := MAX_WALK_SPEED # 01900
+const MAX_AIR_SPEED_FAST := MAX_RUN_SPEED # 02900
 
 const CLIMB_UP_SPEED := -0.875 * 60 # 00E00
 const CLIMB_DOWN_SPEED := 2 * 60 # 02000
@@ -19,7 +20,7 @@ const AIR_ACCELERATION_FAST := DASH_ACCELERATION # 000E4
 const RELEASE_DECELERATION := 0.05078125 * 60 * 60 # 000D0
 const SKIDDING_DECELERATION := 0.1015625 * 60 * 60 # 001A0
 
-const AIR_SPEED_THROTTLE_AIR := WALK_SPEED # 01900
+const AIR_SPEED_THROTTLE_AIR := MAX_WALK_SPEED # 01900
 const AIR_SPEED_THROTTLE_GROUND := 1.8125 * 60 # 01D00
 
 const AIR_DECELERATION_SLOW := WALK_ACCELERATION # 00098
@@ -43,6 +44,8 @@ const GRAVITY_JUMP_FAST := 0.15625 * 60 * 60 # 00280
 const GRAVITY_SWIM := 0.046875 * 60 * 60 # 000D0
 const GRAVITY_SWIM_FALL := 0.0390625 * 60 * 60# 000A0
 
+const GRAVITY_ENTRY := GRAVITY_JUMP_FAST # 00280
+
 const GRAVITY_FALL_SLOW := 0.4375 * 60 * 60 # 00700
 const GRAVITY_FALL_MID := 0.375 * 60 * 60 # 00600
 const GRAVITY_FALL_FAST := 0.5625 * 60 * 60 # 00900
@@ -50,7 +53,12 @@ const GRAVITY_FALL_FAST := 0.5625 * 60 * 60 # 00900
 const VELOCITY_Y_MAX := 4.5 * 60 # 04800
 const VELOCITY_Y_CUT_OFF := 4.0 * 60 # 04000
 
+var current_target_speed : float
+var current_acceleration: float
+var current_gravity : float
+
 enum State {
+	ENTRY, # 关卡刚开始时的特殊状态
 	IDLE,
 	WALK,
 	TURN,
@@ -80,7 +88,7 @@ enum Direction {
 
 
 const GROUND_STATES := [
-	State.IDLE, State.WALK, State.TURN, State.CROUCH
+	State.ENTRY, State.IDLE, State.WALK, State.TURN, State.CROUCH
 ]
 
 
@@ -147,7 +155,7 @@ var last_animation : String
 var controllable := true
 var is_spawning := false
 var is_under_water := false
-var velocity_x_before_jump : float
+var initial_horizontal_speed : float
 var direction_before_jump : float
 
 # 用于模拟玩家移动
@@ -222,57 +230,79 @@ func tick_physics(state: State, delta: float) -> void:
 				# 星星的最后几秒放慢闪烁速度
 				blink_animator.play("star", -1, 1.0, false)
 	
+	var movement := Input.get_axis("move_left", "move_right") if controllable else input_x
+	
+	if state in [State.JUMP, State.CROUCH_JUMP, State.SWIM, State.FALL]:
+		if is_zero_approx(movement):
+			# 空中松开按键时维持当前速度
+			current_target_speed = velocity.x
+			current_acceleration = 0.0
+		else:
+			current_target_speed = MAX_AIR_SPEED_FAST if initial_horizontal_speed > AIR_SPEED_THROTTLE_AIR else MAX_AIR_SPEED_SLOW
+			if movement * direction_before_jump > 0:
+				# 空中同向移动
+				current_acceleration = AIR_ACCELERATION_FAST if abs(velocity.x) > AIR_SPEED_THROTTLE_AIR else AIR_ACCELERATION_SLOW
+			else:
+				# 空中反向移动
+				if abs(velocity.x) >= AIR_SPEED_THROTTLE_AIR:
+					current_acceleration = AIR_DECELERATION_FAST
+				elif initial_horizontal_speed >= AIR_SPEED_THROTTLE_GROUND:
+					current_acceleration = AIR_DECELERATION_MID
+				else:
+					current_acceleration = AIR_DECELERATION_SLOW
+	
 	match state:
 		State.IDLE:
-			move(0, delta)
+			move(delta)
 		State.WALK:
 			# 动画播放速度与走路速度正相关
-			animation_player.speed_scale = max(MIN_ANIMATION_SPEED, abs(velocity.x) / WALK_SPEED * 1.5)
-			move(0, delta)
-		State.TURN:
-			move(0, delta)
-		State.CROUCH:
-			stand(0, delta)
-		State.JUMP, State.CROUCH_JUMP:
-			var gravity: float
-			if is_first_tick:
-				gravity = 0.0
+			animation_player.speed_scale = max(MIN_ANIMATION_SPEED, abs(velocity.x) / MAX_WALK_SPEED * 1.5)
+			if is_zero_approx(movement):
+				current_target_speed = 0.0
+				current_acceleration = RELEASE_DECELERATION
+			elif is_under_water:
+				current_target_speed = MAX_WALK_SPEED_WATER
+				current_acceleration = WALK_ACCELERATION
+			elif dash_requested:
+				current_target_speed = MAX_RUN_SPEED
+				current_acceleration = DASH_ACCELERATION
 			else:
-				if jump_requested:
-					if velocity_x_before_jump < JUMP_VELOCITY_THROTTLE_MID:
-						gravity = GRAVITY_JUMP_SLOW
-					elif velocity_x_before_jump < JUMP_VELOCITY_THROTTLE_FAST:
-						gravity = GRAVITY_JUMP_MID
-					else:
-						gravity = GRAVITY_JUMP_FAST
-				else:
-					if velocity_x_before_jump < JUMP_VELOCITY_THROTTLE_MID:
-						gravity = GRAVITY_FALL_SLOW
-					elif velocity_x_before_jump < JUMP_VELOCITY_THROTTLE_FAST:
-						gravity = GRAVITY_FALL_MID
-					else:
-						gravity = GRAVITY_FALL_FAST
-					
-			move(gravity, delta)
+				current_target_speed = MAX_WALK_SPEED
+				current_acceleration = WALK_ACCELERATION
+			move(delta)
+		State.TURN:
+			move(delta)
+		State.CROUCH:
+			move(delta)
+		State.JUMP, State.CROUCH_JUMP:
+			if is_first_tick:
+				move(delta, 0.0)
+			else:
+				if initial_horizontal_speed < JUMP_VELOCITY_THROTTLE_MID:
+					current_gravity = GRAVITY_JUMP_SLOW
+				elif initial_horizontal_speed < JUMP_VELOCITY_THROTTLE_FAST:
+					current_gravity = GRAVITY_JUMP_MID
+				elif initial_horizontal_speed >= JUMP_VELOCITY_THROTTLE_FAST:
+					current_gravity = GRAVITY_JUMP_FAST
+				move(delta)
 		State.SWIM:
-			move(GRAVITY_SWIM if swim_requested else GRAVITY_SWIM_FALL, delta)
+			if is_first_tick:
+				move(delta, 0.0)
+			else:
+				if swim_requested:
+					current_gravity = GRAVITY_SWIM
+				else:
+					current_gravity = GRAVITY_SWIM_FALL
+				move(delta)
 		State.DEAD:
 			if dying_timer.time_left == 0:
-				move(GRAVITY_FALL_SLOW, delta)
+				current_gravity = GRAVITY_FALL_SLOW
+				move(delta)
 		State.FALL:
-			var gravity : float
 			if is_first_tick:
-				gravity = 0.0
-			elif is_under_water:
-				gravity = GRAVITY_SWIM_FALL
+				move(delta, 0.0)
 			else:
-				if velocity_x_before_jump < JUMP_VELOCITY_THROTTLE_MID:
-					gravity = GRAVITY_FALL_SLOW
-				elif velocity_x_before_jump < JUMP_VELOCITY_THROTTLE_FAST:
-					gravity = GRAVITY_FALL_MID
-				else:
-					gravity = GRAVITY_FALL_FAST
-			move(gravity, delta)
+				move(delta)
 		State.CLIMB:
 			if (controllable and Input.is_action_just_pressed("move_right")) \
 					or (not controllable and input_x > 0):
@@ -291,7 +321,7 @@ func tick_physics(state: State, delta: float) -> void:
 				animation_player.speed_scale = min(abs(velocity.y / CLIMB_UP_SPEED), 2.0)
 				climb(delta)
 		State.LAUNCH:
-			move(GRAVITY_FALL_SLOW, delta)
+			move(delta)
 		State.HURT:
 			# 闪烁角色
 			_blink_character()
@@ -319,12 +349,12 @@ func get_next_state(state: State) -> int:
 	if can_onfire:
 		return State.ONFIRE
 	
-	var can_crouch := state in GROUND_STATES and state not in UNSAFE_STATES and curr_mode != Mode.SMALL
+	var can_crouch := state in GROUND_STATES and curr_mode != Mode.SMALL
 	var should_crouch := can_crouch and crouch_requested and state not in CROUCH_STATES
 	if should_crouch:
 		return State.CROUCH
 	
-	var can_jump := state in GROUND_STATES and state not in UNSAFE_STATES
+	var can_jump := state in GROUND_STATES
 	var should_jump := can_jump and jump_requested
 	if should_jump:
 		return State.CROUCH_JUMP if state == State.CROUCH else State.JUMP
@@ -360,7 +390,7 @@ func get_next_state(state: State) -> int:
 			if is_on_floor() and crouch_requested == false:
 				return State.IDLE
 		State.JUMP, State.CROUCH_JUMP, State.SWIM:
-			if velocity.y >= 0 or is_on_ceiling():
+			if velocity.y >= 0 or is_on_ceiling() or not jump_requested:
 				return State.FALL
 		State.FALL:
 			if is_on_floor():
@@ -429,15 +459,21 @@ func transition_state(from: State, to: State) -> void:
 				initialize_mode() # 恢复碰撞体积
 			
 	match to:
+		State.ENTRY:
+			current_gravity = GRAVITY_ENTRY
 		State.IDLE:
+			current_target_speed = 0.0
 			animation_player.play("idle")
 		State.WALK:
 			animation_player.play("walk")
 		State.TURN:
+			current_target_speed = 0.0
+			current_acceleration = SKIDDING_DECELERATION
 			animation_player.play("turn")
 			if from not in UNSAFE_STATES:
 				direction_before_turn = direction
 		State.CROUCH:
+			current_target_speed = 0.0
 			animation_player.play("crouch")
 			# 修改碰撞体积
 			collision_shape_2d.position.y = COLLISION_ATTR_CROUCH.x
@@ -445,10 +481,10 @@ func transition_state(from: State, to: State) -> void:
 			collision_shape_2d.shape.size.y = COLLISION_ATTR_CROUCH.z
 		State.JUMP, State.CROUCH_JUMP:
 			direction_before_jump = direction
-			velocity_x_before_jump = abs(velocity.x)
+			initial_horizontal_speed = abs(velocity.x)
 			animation_player.play("jump" if to == State.JUMP else "crouch")
 			if from not in UNSAFE_STATES: # 变身结束或发完炮后不用跳
-				velocity.y = JUMP_VELOCITY_FAST if velocity_x_before_jump > JUMP_VELOCITY_THROTTLE_FAST else JUMP_VELOCITY_SLOW
+				velocity.y = JUMP_VELOCITY_FAST if initial_horizontal_speed > JUMP_VELOCITY_THROTTLE_FAST else JUMP_VELOCITY_SLOW
 				SoundManager.play_sfx("JumpSmall" if curr_mode == Mode.SMALL else "JumpLarge")
 		State.SWIM:
 			animation_player.play("swim_up", -1, 2.0, false)
@@ -456,11 +492,17 @@ func transition_state(from: State, to: State) -> void:
 			if from not in UNSAFE_STATES:
 				velocity.y = SWIM_VELOCITY
 		State.FALL:
-			velocity_x_before_jump = abs(velocity.x)
+			if from in [State.JUMP, State.CROUCH_JUMP]:
+				if initial_horizontal_speed < JUMP_VELOCITY_THROTTLE_MID:
+					current_gravity = GRAVITY_FALL_SLOW
+				elif initial_horizontal_speed < JUMP_VELOCITY_THROTTLE_FAST:
+					current_gravity = GRAVITY_FALL_MID
+				elif initial_horizontal_speed >= JUMP_VELOCITY_THROTTLE_FAST:
+					current_gravity = GRAVITY_FALL_FAST
 			if is_under_water:
 				animation_player.play("swim_down")
 			else:
-				if from in [State.IDLE, State.TURN, State.CLIMB]:
+				if from in [State.ENTRY, State.IDLE, State.TURN, State.CLIMB]:
 					animation_player.play("walk")
 				elif from == State.LAUNCH:
 					animation_player.play(last_animation)
@@ -517,47 +559,12 @@ func transition_state(from: State, to: State) -> void:
 	is_first_tick = true
 	
 	
-func move(gravity: float, delta: float) -> void:
+func move(delta: float, gravity: float = current_gravity) -> void:
 	var movement := Input.get_axis("move_left", "move_right") if controllable else input_x
 	if not is_zero_approx(movement) and not is_first_tick and (is_under_water or is_on_floor()):
 		direction = Direction.LEFT if movement < 0 else Direction.RIGHT
-	var target_speed : float
-	var acceleration : float
-	if state_machine.current_state == State.TURN:
-		target_speed = 0
-		acceleration = SKIDDING_DECELERATION
-	elif is_zero_approx(movement):
-		if is_on_floor():
-			target_speed = 0.0
-			acceleration = RELEASE_DECELERATION
-		else:
-			# 空中松开按键时维持当前速度
-			target_speed = velocity.x
-			acceleration = 0.0
-	elif not is_on_floor():
-		target_speed = AIR_SPEED_FAST if velocity_x_before_jump > AIR_SPEED_THROTTLE_AIR else AIR_SPEED_SLOW
-		if movement * direction_before_jump > 0:
-			# 空中同向移动
-			acceleration = AIR_ACCELERATION_FAST if abs(velocity.x) > AIR_SPEED_THROTTLE_AIR else AIR_ACCELERATION_SLOW
-		else:
-			# 空中反向移动
-			if abs(velocity.x) >= AIR_SPEED_THROTTLE_AIR:
-				acceleration = AIR_DECELERATION_FAST
-			elif velocity_x_before_jump >= AIR_SPEED_THROTTLE_GROUND:
-				acceleration = AIR_DECELERATION_MID
-			else:
-				acceleration = AIR_DECELERATION_SLOW
-	elif is_under_water:
-		target_speed = WALK_SPEED_WATER
-		acceleration = WALK_ACCELERATION
-	elif dash_requested:
-		target_speed = DASH_SPEED
-		acceleration = DASH_ACCELERATION
-	else:
-		target_speed = WALK_SPEED
-		acceleration = WALK_ACCELERATION
-	
-	velocity.x = constant_speed_x if constant_speed_x != 0 else move_toward(velocity.x, movement * target_speed, acceleration * delta)
+
+	velocity.x = constant_speed_x if constant_speed_x != 0 else move_toward(velocity.x, movement * current_target_speed, current_acceleration * delta)
 	
 	var velocity_y = velocity.y + gravity * delta
 	# 限制最大下落速度
@@ -567,13 +574,6 @@ func move(gravity: float, delta: float) -> void:
 	
 	move_and_slide()
 	
-	
-func stand(gravity: float, delta: float) -> void:
-	var acceleration := SKIDDING_DECELERATION
-	velocity.x = move_toward(velocity.x, 0.0, acceleration * delta)
-	velocity.y += gravity * delta
-	
-	move_and_slide()
 
 func climb(_delta:float) -> void:
 	var movement := Input.get_axis("move_up", "move_down") if controllable else input_y

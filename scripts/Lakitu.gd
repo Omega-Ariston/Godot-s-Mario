@@ -66,15 +66,15 @@ func get_next_state(state: State) -> int:
 			if (distance < 0 and abs(distance) >= WONDER_RANGE) or is_on_wall():
 				return State.WONDER_RIGHT
 		State.WONDER_RIGHT:
-			if player.velocity.x >= player.WALK_SPEED / 2:
+			if player.velocity.x >= player.MAX_WALK_SPEED / 2:
 				return State.DASH
 			if distance > 0 and abs(distance) >= WONDER_RANGE:
 				return State.WONDER_LEFT
 		State.DASH:
-			if player.velocity.x < player.WALK_SPEED / 2:
+			if player.velocity.x < player.MAX_WALK_SPEED / 2:
 				return State.BRAKE
 		State.BRAKE:
-			if player.velocity.x > player.WALK_SPEED / 2:
+			if player.velocity.x > player.MAX_WALK_SPEED / 2:
 				if global_position.x < player.global_position.x + Variables.TILE_SIZE.x * 5:
 					return State.DASH
 			elif is_zero_approx(velocity.x):

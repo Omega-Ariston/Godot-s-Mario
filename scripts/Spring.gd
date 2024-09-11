@@ -50,17 +50,18 @@ func tick_physics(_state: State, _delta: float) -> void:
 		# 粘住玩家
 		player.velocity.x = 0
 
-func transition_state(_from: State, to: State) -> void:
+func transition_state(from: State, to: State) -> void:
 	match to:
 		State.IDLE:
+			if from == State.RELEASE:
+				# 给玩家一个上跳的力
+				player.velocity.y = JUMP_FORCE if jump_requested else NORMAL_FORCE
+				jump_requested = false
 			is_stomped = false
 			animation_player.play("idle")
 		State.COMPRESS:
 			animation_player.play("compress", -1, 2.0, false)
 		State.RELEASE:
-			# 给玩家一个上跳的力
-			player.velocity.y = JUMP_FORCE if jump_requested else NORMAL_FORCE
-			jump_requested = false
 			animation_player.play("release", -1, 2.0, false)
 
 func _on_area_2d_body_entered(_body: Player) -> void:
