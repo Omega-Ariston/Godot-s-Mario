@@ -72,7 +72,7 @@ metadata/_edit_lock_ = true
 [node name="SpawnPoints" type="Node" parent="."]
 
 [node name="SpawnPoint" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(107.168, 214.534)
+position = Vector2(56, 224)
 script = ExtResource("10_sfy30")
 
 [node name="A" type="Marker2D" parent="SpawnPoints"]
@@ -138,7 +138,7 @@ position = Vector2(208, 184)
 spawn_item = 1
 
 [node name="CoinBrick6" parent="Bricks" instance=ExtResource("5_cpr27")]
-position = Vector2(56, 168)
+position = Vector2(88, 112)
 spawn_item = 4
 
 [node name="CoinBrick7" parent="Bricks" instance=ExtResource("5_cpr27")]

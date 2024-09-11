@@ -440,7 +440,7 @@ position = Vector2(8, -4)
 script = ExtResource("5_su61k")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -7)
+position = Vector2(0, -6)
 shape = SubResource("RectangleShape2D_d6d33")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -477,20 +477,37 @@ process_mode = 3
 wait_time = 0.5
 one_shot = true
 
-[node name="FloorChecker" type="Node2D" parent="."]
+[node name="FloorCheckers" type="Node2D" parent="."]
 
-[node name="RayCast2D" type="RayCast2D" parent="FloorChecker"]
-position = Vector2(5, 0)
+[node name="FloorCheckerLeft" type="RayCast2D" parent="FloorCheckers"]
+position = Vector2(-6, 0)
 target_position = Vector2(0, 3)
 hit_from_inside = true
 
-[node name="RayCast2D2" type="RayCast2D" parent="FloorChecker"]
+[node name="FloorCheckerMid" type="RayCast2D" parent="FloorCheckers"]
 target_position = Vector2(0, 3)
 hit_from_inside = true
 
-[node name="RayCast2D3" type="RayCast2D" parent="FloorChecker"]
-position = Vector2(-5, 0)
+[node name="FloorCheckerRight" type="RayCast2D" parent="FloorCheckers"]
+position = Vector2(6, 0)
 target_position = Vector2(0, 3)
+hit_from_inside = true
+
+[node name="CeilCheckers" type="Node2D" parent="."]
+position = Vector2(0, -14)
+
+[node name="CeilCheckerLeft" type="RayCast2D" parent="CeilCheckers"]
+position = Vector2(-6, 0)
+target_position = Vector2(0, -3)
+hit_from_inside = true
+
+[node name="CeilCheckerMid" type="RayCast2D" parent="CeilCheckers"]
+target_position = Vector2(0, -3)
+hit_from_inside = true
+
+[node name="CeilCheckerRight" type="RayCast2D" parent="CeilCheckers"]
+position = Vector2(6, 0)
+target_position = Vector2(0, -3)
 hit_from_inside = true
 
 [connection signal="timeout" from="DyingTimer" to="." method="_on_dying_timer_timeout"]

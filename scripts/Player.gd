@@ -14,6 +14,8 @@ const CLIMB_DOWN_SPEED := 2 * 60 # 02000
 const WALK_ACCELERATION := 0.037109375 * 60 * 60 # 00098
 const DASH_ACCELERATION := 0.0556640625 * 60 * 60 # 000E4
 
+const MOVE_AROUND_SPEED := 1.0 * 60 # 01000
+
 const AIR_ACCELERATION_SLOW := WALK_ACCELERATION # 00098
 const AIR_ACCELERATION_FAST := DASH_ACCELERATION # 000E4
 
@@ -56,6 +58,9 @@ const VELOCITY_Y_CUT_OFF := 4.0 * 60 # 04000
 var current_target_speed : float
 var current_acceleration: float
 var current_gravity : float
+
+var jump_around_direction := 0
+var jumping_around := false
 
 enum State {
 	ENTRY, # 关卡刚开始时的特殊状态
@@ -119,6 +124,20 @@ const COLLISION_ATTR_MAP := {
 	Mode.FIRE: Vector3(-13, 12, 26.75),
 }
 
+const CEIL_CHECKERS_POSITION_Y := {
+	# 头顶射线检测器的y偏移量
+	Mode.SMALL: -14,
+	Mode.LARGE: -26,
+	Mode.FIRE: -26,
+}
+
+const VERTICAL_CHECKERS_OFFSET_X := {
+	# 头顶和脚底的两侧射线检测器的x偏移量
+	Mode.SMALL: 5,
+	Mode.LARGE: 6,
+	Mode.FIRE: 6,
+}
+
 const COLLISION_ATTR_CROUCH := Vector3(-7, 12, 13)
 
 @export var curr_mode := Mode.SMALL as Mode:
@@ -161,7 +180,6 @@ var direction_before_jump : float
 # 用于模拟玩家移动
 var input_x := 0.0
 var input_y := 0.0
-var constant_speed_x: float
 var constant_speed_y: float
 
 @onready var graphics: Node2D = $Graphics
@@ -175,7 +193,15 @@ var constant_speed_y: float
 @onready var invincible_timer: Timer = $InvincibleTimer
 @onready var dying_timer: Timer = $DyingTimer
 @onready var fireball_launcher: FireballLauncher = $Graphics/FireballLauncher
-@onready var floor_checker: Node2D = $FloorChecker
+@onready var floor_checkers: Node2D = $FloorCheckers
+@onready var floor_checker_left: RayCast2D = $FloorCheckers/FloorCheckerLeft
+@onready var floor_checker_mid: RayCast2D = $FloorCheckers/FloorCheckerMid
+@onready var floor_checker_right: RayCast2D = $FloorCheckers/FloorCheckerRight
+@onready var ceil_checkers: Node2D = $CeilCheckers
+@onready var ceil_checker_left: RayCast2D = $CeilCheckers/CeilCheckerLeft
+@onready var ceil_checker_mid: RayCast2D = $CeilCheckers/CeilCheckerMid
+@onready var ceil_checker_right: RayCast2D = $CeilCheckers/CeilCheckerRight
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	if controllable:
@@ -202,6 +228,11 @@ func _ready() -> void:
 	initialize_mode()
 
 func tick_physics(state: State, delta: float) -> void:
+	
+	var movement := Input.get_axis("move_left", "move_right") if controllable else input_x
+	if not is_zero_approx(movement) and not is_first_tick and (is_under_water or is_on_floor()):
+		direction = Direction.LEFT if movement < 0 else Direction.RIGHT
+	
 	if not is_under_water and on_jumpable_floor():
 		# 开始和结束加速都要在地面上判断
 		if controllable and Input.is_action_pressed("action"):
@@ -229,8 +260,7 @@ func tick_physics(state: State, delta: float) -> void:
 			if state != State.ONFIRE:
 				# 星星的最后几秒放慢闪烁速度
 				blink_animator.play("star", -1, 1.0, false)
-	
-	var movement := Input.get_axis("move_left", "move_right") if controllable else input_x
+				
 	
 	if state in [State.JUMP, State.CROUCH_JUMP, State.SWIM, State.FALL]:
 		if is_zero_approx(movement):
@@ -250,6 +280,20 @@ func tick_physics(state: State, delta: float) -> void:
 					current_acceleration = AIR_DECELERATION_MID
 				else:
 					current_acceleration = AIR_DECELERATION_SLOW
+	
+	
+	# 处理上升过程中的砖块平滑作用
+	jump_around_direction = get_jump_around_direction()
+	var speed_x := NAN
+	if state in [State.JUMP, State.CROUCH_JUMP, State.SWIM] :
+		if jump_around_direction != 0:
+			jumping_around = true
+			set_collision_mask_value(1, false) # 临时不跟砖块碰撞
+			speed_x = jump_around_direction * MOVE_AROUND_SPEED # 滑到外面来
+		elif jumping_around:
+			set_collision_mask_value(1, true) # 恢复砖块碰撞
+			jumping_around = false
+			speed_x = 0 # 贴墙继续上升
 	
 	match state:
 		State.IDLE:
@@ -276,7 +320,7 @@ func tick_physics(state: State, delta: float) -> void:
 			move(delta)
 		State.JUMP, State.CROUCH_JUMP:
 			if is_first_tick:
-				move(delta, 0.0)
+				move(delta, 0.0, speed_x)
 			else:
 				if initial_horizontal_speed < JUMP_VELOCITY_THROTTLE_MID:
 					current_gravity = GRAVITY_JUMP_SLOW
@@ -284,16 +328,16 @@ func tick_physics(state: State, delta: float) -> void:
 					current_gravity = GRAVITY_JUMP_MID
 				elif initial_horizontal_speed >= JUMP_VELOCITY_THROTTLE_FAST:
 					current_gravity = GRAVITY_JUMP_FAST
-				move(delta)
+				move(delta, current_gravity, speed_x)
 		State.SWIM:
 			if is_first_tick:
-				move(delta, 0.0)
+				move(delta, 0.0, speed_x)
 			else:
 				if swim_requested:
 					current_gravity = GRAVITY_SWIM
 				else:
 					current_gravity = GRAVITY_SWIM_FALL
-				move(delta)
+				move(delta, current_gravity, speed_x)
 		State.DEAD:
 			if dying_timer.time_left == 0:
 				current_gravity = GRAVITY_FALL_SLOW
@@ -390,7 +434,7 @@ func get_next_state(state: State) -> int:
 			if is_on_floor() and crouch_requested == false:
 				return State.IDLE
 		State.JUMP, State.CROUCH_JUMP, State.SWIM:
-			if velocity.y >= 0 or is_on_ceiling() or not jump_requested:
+			if not jumping_around and (velocity.y >= 0 or on_full_ceiling() or not jump_requested):
 				return State.FALL
 		State.FALL:
 			if is_on_floor():
@@ -559,14 +603,13 @@ func transition_state(from: State, to: State) -> void:
 	is_first_tick = true
 	
 	
-func move(delta: float, gravity: float = current_gravity) -> void:
+func move(delta: float, gravity: float = current_gravity, speed_x: float = NAN, speed_y: float = NAN) -> void:
 	var movement := Input.get_axis("move_left", "move_right") if controllable else input_x
-	if not is_zero_approx(movement) and not is_first_tick and (is_under_water or is_on_floor()):
-		direction = Direction.LEFT if movement < 0 else Direction.RIGHT
-
-	velocity.x = constant_speed_x if constant_speed_x != 0 else move_toward(velocity.x, movement * current_target_speed, current_acceleration * delta)
+	velocity.x = speed_x if not is_nan(speed_x) \
+			else move_toward(velocity.x, movement * current_target_speed, current_acceleration * delta)
 	
-	var velocity_y = velocity.y + gravity * delta
+	var velocity_y = speed_y if not is_nan(speed_y) \
+			else velocity.y + gravity * delta
 	# 限制最大下落速度
 	if velocity_y > VELOCITY_Y_MAX:
 		velocity_y = VELOCITY_Y_CUT_OFF
@@ -601,6 +644,11 @@ func initialize_mode() -> void:
 	# 初始化角色外观以及碰撞体积和图形偏移
 	sprite_2d.region_rect = RECT_MAP.get(curr_mode)
 	graphics.position.y = GRAPHIC_Y_MAP.get(curr_mode)
+	floor_checker_left.position.x = -VERTICAL_CHECKERS_OFFSET_X.get(curr_mode)
+	floor_checker_right.position.x = VERTICAL_CHECKERS_OFFSET_X.get(curr_mode)
+	ceil_checker_left.position.x = -VERTICAL_CHECKERS_OFFSET_X.get(curr_mode)
+	ceil_checker_right.position.x = VERTICAL_CHECKERS_OFFSET_X.get(curr_mode)
+	ceil_checkers.position.y = CEIL_CHECKERS_POSITION_Y.get(curr_mode)
 	var collision_attr := COLLISION_ATTR_MAP.get(curr_mode) as Vector3
 	var shape := collision_shape_2d.shape as RectangleShape2D
 	collision_shape_2d.position.y = collision_attr.x
@@ -745,13 +793,25 @@ func _on_dying_timer_timeout() -> void:
 	velocity.y = JUMP_VELOCITY_FAST
 
 func on_jumpable_floor() -> bool:
-	for ray_cast: RayCast2D in floor_checker.get_children():
+	for ray_cast: RayCast2D in floor_checkers.get_children():
 		if ray_cast.is_colliding():
 			return true
 	return false
+	
+func on_full_ceiling() -> bool:
+	return ceil_checker_left.is_colliding() and ceil_checker_mid.is_colliding() and ceil_checker_right.is_colliding()
+	
+# 检查是否需要沿着砖块上滑，0表示不用，-1表示沿左侧上滑，+1表示沿右测上滑
+func get_jump_around_direction() -> int:
+	if ceil_checker_left.is_colliding() and not ceil_checker_mid.is_colliding() and not ceil_checker_right.is_colliding():
+		return +1
+	if ceil_checker_right.is_colliding() and not ceil_checker_mid.is_colliding() and not ceil_checker_left.is_colliding():
+		return -1
+	return 0
+
 
 func register_unjumpable_node(node: CollisionObject2D) -> void:
-	for ray_cast: RayCast2D in floor_checker.get_children():
+	for ray_cast: RayCast2D in floor_checkers.get_children():
 		ray_cast.add_exception(node)
 
 func _on_world_ready() -> void:
