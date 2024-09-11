@@ -34,9 +34,3 @@ one_shot = true
 [node name="Bumpable" parent="." instance=ExtResource("3_jt57t")]
 
 [node name="Chargeable" parent="." instance=ExtResource("4_8klxi")]
-
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(4.17233e-07, 4.17233e-07)
-scale = Vector2(0.8, 0.8)
-
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

@@ -797,6 +797,9 @@ func on_jumpable_floor() -> bool:
 		if ray_cast.is_colliding():
 			return true
 	return false
+
+func is_bumping(node: Node2D) -> bool:
+	return ceil_checker_mid.get_collider() == node
 	
 func on_full_ceiling() -> bool:
 	return ceil_checker_left.is_colliding() and ceil_checker_mid.is_colliding() and ceil_checker_right.is_colliding()

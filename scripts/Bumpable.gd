@@ -58,8 +58,7 @@ func do_spawn(node: Node2D, item: SpawnItem, player: Player) -> void:
 
 # 被玩家顶
 func _on_bump_area_body_entered(body: Node2D) -> void:
-	if body is Player:
-		print_debug("[Bumped] %s" % [ owner.name])
+	if body is Player and body.is_bumping(owner):
 		if not (owner is CoinBrick and can_bump): # 还没顶的隐藏砖不要出声
 			SoundManager.play_sfx("Bump")
 		owner.on_bumped(body)
