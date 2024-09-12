@@ -578,28 +578,10 @@ position = Vector2(1016, 168)
 [node name="Brick359" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
 position = Vector2(1000, 168)
 
-[node name="Brick361" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1016, 168)
-
-[node name="Brick362" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1000, 168)
-
 [node name="Brick363" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
 position = Vector2(1016, 136)
 
 [node name="Brick364" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1000, 136)
-
-[node name="Brick365" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1016, 136)
-
-[node name="Brick366" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1000, 136)
-
-[node name="Brick367" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1016, 136)
-
-[node name="Brick368" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
 position = Vector2(1000, 136)
 
 [node name="Brick369" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
@@ -614,18 +596,6 @@ position = Vector2(1016, 104)
 [node name="Brick372" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
 position = Vector2(1000, 104)
 
-[node name="Brick373" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1016, 104)
-
-[node name="Brick374" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1000, 104)
-
-[node name="Brick375" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1016, 104)
-
-[node name="Brick376" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1000, 104)
-
 [node name="Brick377" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
 position = Vector2(1016, 120)
 
@@ -636,18 +606,6 @@ position = Vector2(1000, 120)
 position = Vector2(1016, 72)
 
 [node name="Brick380" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1000, 72)
-
-[node name="Brick381" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1016, 72)
-
-[node name="Brick382" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1000, 72)
-
-[node name="Brick383" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1016, 72)
-
-[node name="Brick384" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
 position = Vector2(1000, 72)
 
 [node name="Brick385" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
@@ -662,18 +620,6 @@ position = Vector2(984, 72)
 [node name="Brick388" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
 position = Vector2(968, 72)
 
-[node name="Brick389" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(984, 72)
-
-[node name="Brick390" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(968, 72)
-
-[node name="Brick391" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(984, 72)
-
-[node name="Brick392" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(968, 72)
-
 [node name="Brick393" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
 position = Vector2(984, 88)
 
@@ -684,18 +630,6 @@ position = Vector2(968, 88)
 position = Vector2(952, 72)
 
 [node name="Brick396" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(936, 72)
-
-[node name="Brick397" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(952, 72)
-
-[node name="Brick398" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(936, 72)
-
-[node name="Brick399" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(952, 72)
-
-[node name="Brick400" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
 position = Vector2(936, 72)
 
 [node name="Brick401" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
@@ -710,18 +644,6 @@ position = Vector2(1080, 72)
 [node name="Brick404" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
 position = Vector2(1064, 72)
 
-[node name="Brick405" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1080, 72)
-
-[node name="Brick406" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1064, 72)
-
-[node name="Brick407" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1080, 72)
-
-[node name="Brick408" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1064, 72)
-
 [node name="Brick409" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
 position = Vector2(1080, 88)
 
@@ -732,18 +654,6 @@ position = Vector2(1064, 88)
 position = Vector2(1112, 72)
 
 [node name="Brick412" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1096, 72)
-
-[node name="Brick413" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1112, 72)
-
-[node name="Brick414" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1096, 72)
-
-[node name="Brick415" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1112, 72)
-
-[node name="Brick416" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
 position = Vector2(1096, 72)
 
 [node name="Brick417" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
@@ -758,21 +668,9 @@ position = Vector2(1176, 104)
 [node name="Brick420" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
 position = Vector2(1160, 104)
 
-[node name="Brick421" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1176, 104)
-
-[node name="Brick422" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1160, 104)
-
-[node name="Brick423" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1176, 104)
-
 [node name="Brick448" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
 position = Vector2(1112, 152)
 spawn_item = 2
-
-[node name="Brick424" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1160, 104)
 
 [node name="Brick425" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
 position = Vector2(1176, 120)
@@ -784,18 +682,6 @@ position = Vector2(1160, 120)
 position = Vector2(1176, 136)
 
 [node name="Brick428" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1160, 136)
-
-[node name="Brick429" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1176, 136)
-
-[node name="Brick430" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1160, 136)
-
-[node name="Brick431" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1176, 136)
-
-[node name="Brick432" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
 position = Vector2(1160, 136)
 
 [node name="Brick433" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
@@ -1149,22 +1035,10 @@ position = Vector2(1080, 56)
 [node name="Brick437" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
 position = Vector2(1080, 120)
 
-[node name="Brick438" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1080, 120)
-
-[node name="Brick439" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1080, 120)
-
 [node name="Brick440" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
 position = Vector2(1080, 136)
 
 [node name="Brick442" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1080, 152)
-
-[node name="Brick443" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
-position = Vector2(1080, 152)
-
-[node name="Brick444" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
 position = Vector2(1080, 152)
 
 [node name="Brick445" parent="Bumpables/Bricks" instance=ExtResource("5_gmyou")]
