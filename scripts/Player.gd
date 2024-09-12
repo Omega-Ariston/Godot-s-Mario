@@ -34,7 +34,7 @@ const JUMP_VELOCITY_FAST := -5 * 60 # 05000
 const JUMP_VELOCITY_THROTTLE_MID := 1 * 60 # 01000
 const JUMP_VELOCITY_THROTTLE_FAST := 2.3125 * 60 # 02500
 
-const JUMP_AROUND_SPEED := -2.8 * 60 # 自己试出来的
+const JUMP_AROUND_BOOST_SPEED := -0.4 * 60 # 自己试出来的
 
 const SWIM_VELOCITY := -1.5 * 60 # 01800
 const MIN_ANIMATION_SPEED := 0.8
@@ -273,7 +273,7 @@ func tick_physics(state: State, delta: float) -> void:
 			jumping_around = false
 			speed_x = speed_x_before_jump_around # 恢复原本水平速度
 			if abs(initial_horizontal_speed) >= MAX_WALK_SPEED if not is_under_water else MAX_WALK_SPEED_WATER:
-				velocity.y = min(velocity.y, JUMP_AROUND_SPEED) # 给予一个额外的垂直速度
+				velocity.y += JUMP_AROUND_BOOST_SPEED # 给予一个额外的垂直速度
 				has_boosted = true # 一次滞空只能获得一次这样的加速
 	
 	match state:
