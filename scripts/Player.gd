@@ -64,6 +64,7 @@ var current_gravity : float
 var jump_around_direction := 0
 var jumping_around := false
 var has_boosted := false
+var speed_x_before_jump_around : float
 
 enum State {
 	ENTRY, # 关卡刚开始时的特殊状态
@@ -262,13 +263,15 @@ func tick_physics(state: State, delta: float) -> void:
 	var speed_x := NAN
 	if not has_boosted and state in [State.JUMP, State.CROUCH_JUMP, State.SWIM]:
 		if jump_around_direction != 0:
+			if not jumping_around:
+				speed_x_before_jump_around = velocity.x # 存储平滑作用前的水平速度以便后续恢复
 			jumping_around = true
 			set_collision_mask_value(1, false) # 临时不跟砖块碰撞
-			speed_x = jump_around_direction * MOVE_AROUND_SPEED # 滑到外面来
+			speed_x = jump_around_direction * MOVE_AROUND_SPEED # 以固定速度滑到外面来
 		elif jumping_around:
 			set_collision_mask_value(1, true) # 恢复砖块碰撞
 			jumping_around = false
-			speed_x = 0 # 贴墙继续上升
+			speed_x = speed_x_before_jump_around # 恢复原本水平速度
 			if abs(initial_horizontal_speed) >= MAX_WALK_SPEED if not is_under_water else MAX_WALK_SPEED_WATER:
 				velocity.y = min(velocity.y, JUMP_AROUND_SPEED) # 给予一个额外的垂直速度
 				has_boosted = true # 一次滞空只能获得一次这样的加速
