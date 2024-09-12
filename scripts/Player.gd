@@ -136,7 +136,9 @@ var last_animation : String
 var controllable := true
 var is_spawning := false
 var is_under_water := false
-var initial_horizontal_speed : float
+var initial_horizontal_speed : float # 起跳或游泳前的水平速度
+var position_y_before_fall : float # 坠落前的y坐标，用于恢复高度
+var horizontal_speed_x_before_fall : float # 坠落前的水平速度
 
 # 存储当前状态下的物理信息
 var current_target_speed : float
@@ -147,8 +149,8 @@ var current_gravity : float
 var jump_around_direction := 0
 var is_jumping_around := false
 var jump_around_assisted := false
-
 var jump_up_assisted := false
+var is_falling_up := false
 
 # 用于模拟玩家移动
 var input_x := 0.0
@@ -245,6 +247,7 @@ func tick_physics(state: State, delta: float) -> void:
 				blink_animator.play("star", -1, 1.0, false)
 				
 	
+	# 处理空中加速度和重力的变化
 	if state in [State.JUMP, State.CROUCH_JUMP, State.SWIM, State.FALL]:
 		if is_zero_approx(movement):
 			# 空中松开按键时维持当前速度
@@ -264,12 +267,11 @@ func tick_physics(state: State, delta: float) -> void:
 				else:
 					current_acceleration = AIR_DECELERATION_SLOW
 	
-	
 	# 处理上升过程中的砖块平滑作用
 	var speed_x := NAN
 	if state in [State.JUMP, State.CROUCH_JUMP, State.SWIM]:
 		# 辅助跳上砖顶
-		if state != State.SWIM and not jump_up_assisted and need_jump_up_assist():
+		if state != State.SWIM and not jump_up_assisted and should_jump_up_assist():
 			velocity.y = JUMP_UP_BOOST_SPEED # 一次性地给予一个额外的垂直速度
 			jump_up_assisted = true
 		# 辅助从砖块两侧滑上去	
@@ -277,7 +279,7 @@ func tick_physics(state: State, delta: float) -> void:
 		if jump_around_direction != 0:
 			if not is_jumping_around:
 				is_jumping_around = true
-				jump_around_assisted = need_jump_around_assist()
+				jump_around_assisted = should_jump_around_assist()
 				set_collision_mask_value(1, false) # 临时移除玩家与砖块的碰撞
 			if jump_around_assisted:
 				# 给予一个朝向砖块外侧的恒定水平速度
@@ -330,10 +332,29 @@ func tick_physics(state: State, delta: float) -> void:
 				current_gravity = GRAVITY_FALL_SLOW
 				move(delta)
 		State.FALL:
+			# 处理防止掉下空隙的辅助逻辑
+			var speed_y := NAN
+			if is_falling_up:
+				if global_position.y < floori(position_y_before_fall):
+					print('help end: ' + str(global_position.y) + ' ' + str(position_y_before_fall))
+					# 完成了辅助，恢复玩家与砖块的碰撞
+					is_falling_up = false
+					set_collision_mask_value(1, true)
+					# 恢复垂直速度
+					speed_y = 0.0
+				else:
+					print('helping')
+					# 给予一个朝向上方的恒定垂直速度
+					speed_y = -MOVE_AROUND_SPEED
+			elif should_fall_up_assist():
+				print('help start')
+				is_falling_up = true
+				set_collision_mask_value(1, false) # 临时移除玩家与砖块的碰撞
+				
 			if is_first_tick:
-				move(delta, 0.0)
+				move(delta, 0.0, NAN, speed_y)
 			else:
-				move(delta)
+				move(delta, 0.0 if is_falling_up else current_gravity, NAN, speed_y)
 		State.CLIMB:
 			if (controllable and Input.is_action_just_pressed("move_right")) \
 					or (not controllable and input_x > 0):
@@ -424,7 +445,7 @@ func get_next_state(state: State) -> int:
 			if not is_jumping_around and (velocity.y >= 0 or on_full_ceiling() or not (swim_requested if state == State.SWIM else jump_requested)):
 				return State.FALL
 		State.FALL:
-			if is_on_floor():
+			if not is_falling_up and is_on_floor():
 				return State.IDLE if is_still else State.WALK
 		State.CLIMB:
 			if can_climb == false:
@@ -466,6 +487,7 @@ func transition_state(from: State, to: State) -> void:
 			is_jumping_around = false
 			jump_up_assisted = false
 		State.FALL:
+			is_falling_up = false
 			animation_player.speed_scale = 1 # 恢复动画播放速度
 			initialize_mode() # 恢复碰撞体积，针对CROUCH_JUMP的情况
 		State.CLIMB:
@@ -550,6 +572,8 @@ func transition_state(from: State, to: State) -> void:
 			if is_under_water:
 				animation_player.play("swim_down")
 			else:
+				position_y_before_fall = global_position.y
+				horizontal_speed_x_before_fall = velocity.x
 				if from in [State.ENTRY, State.IDLE, State.TURN, State.CLIMB]:
 					animation_player.play("walk")
 				elif from == State.LAUNCH:
@@ -802,7 +826,7 @@ func on_full_ceiling() -> bool:
 	
 
 # 当水平跳向砖块并沿着砖壁上滑时是否需要额外助力，只有起跳速度足够并且在上升过程中头部已经越过顶点、但速度还差一点点时才生效
-func need_jump_up_assist() -> bool:
+func should_jump_up_assist() -> bool:
 	if abs(initial_horizontal_speed) < MAX_WALK_SPEED or velocity.y <= JUMP_UP_BOOST_SPEED:
 		return false
 	if initial_horizontal_speed > 0:
@@ -811,8 +835,18 @@ func need_jump_up_assist() -> bool:
 		return not side_checker_top_left.is_colliding() and side_checker_mid_left.is_colliding()
 
 # 是否需要反向推出砖块，原地起跳或迎面从斜下方跳上砖块时生效
-func need_jump_around_assist() -> int:
+func should_jump_around_assist() -> int:
 	return is_zero_approx(initial_horizontal_speed) or initial_horizontal_speed * jump_around_direction < 0
+
+# 是否需要避免从空隙坠下，只有冲刺时生效，原理是向上推动角色一个像素的距离
+func should_fall_up_assist() -> bool:
+	if dash_requested:
+		if direction > 0:
+			return side_checker_bot_right.is_colliding() and not side_checker_mid_right.is_colliding() and not side_checker_top_right.is_colliding()
+		else:
+			return side_checker_bot_left.is_colliding() and not side_checker_mid_left.is_colliding() and not side_checker_top_left.is_colliding()
+	else:
+		return false
 
 # 检查是否需要沿着砖块上滑，0表示不用，-1表示沿左侧上滑，+1表示沿右测上滑
 func get_jump_around_direction() -> int:
