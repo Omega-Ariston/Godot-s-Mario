@@ -211,15 +211,14 @@ func tick_physics(state: State, delta: float) -> void:
 	if not is_zero_approx(movement) and not is_first_tick and (is_under_water or is_on_floor()) and state not in UNSAFE_STATES:
 		direction = Direction.LEFT if movement < 0 else Direction.RIGHT
 	
-	if not is_under_water and on_jumpable_floor():
-		# 开始和结束加速都要在地面上判断
+	if not is_under_water:
 		if controllable:
 			if Input.is_action_pressed("action"):
 				dash_requested = true
 			elif Input.is_action_just_released("action"):
 				# 松开加速键后有10帧的缓冲时间，这样角色在奔跑的时候也可以开火而不影响速度
 				dash_buffer_timer.start()
-			elif on_jumpable_floor() and dash_buffer_timer.is_stopped():
+			elif dash_buffer_timer.is_stopped():
 				dash_requested = false
 		else:
 			dash_requested = false
