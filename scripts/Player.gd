@@ -63,8 +63,8 @@ var current_gravity : float
 
 var jump_around_direction := 0
 var jumping_around := false
+var need_jump_assist := false
 var has_boosted := false
-var speed_x_before_jump_around : float
 
 enum State {
 	ENTRY, # 关卡刚开始时的特殊状态
@@ -244,7 +244,7 @@ func tick_physics(state: State, delta: float) -> void:
 			current_target_speed = velocity.x
 			current_acceleration = 0.0
 		else:
-			current_target_speed = MAX_AIR_SPEED_FAST if initial_horizontal_speed > AIR_SPEED_THROTTLE_AIR else MAX_AIR_SPEED_SLOW
+			current_target_speed = MAX_AIR_SPEED_FAST if abs(initial_horizontal_speed) > AIR_SPEED_THROTTLE_AIR else MAX_AIR_SPEED_SLOW
 			if movement * direction_before_jump > 0:
 				# 空中同向移动
 				current_acceleration = AIR_ACCELERATION_FAST if abs(velocity.x) > AIR_SPEED_THROTTLE_AIR else AIR_ACCELERATION_SLOW
@@ -252,7 +252,7 @@ func tick_physics(state: State, delta: float) -> void:
 				# 空中反向移动
 				if abs(velocity.x) >= AIR_SPEED_THROTTLE_AIR:
 					current_acceleration = AIR_DECELERATION_FAST
-				elif initial_horizontal_speed >= AIR_SPEED_THROTTLE_GROUND:
+				elif abs(initial_horizontal_speed) >= AIR_SPEED_THROTTLE_GROUND:
 					current_acceleration = AIR_DECELERATION_MID
 				else:
 					current_acceleration = AIR_DECELERATION_SLOW
@@ -263,16 +263,22 @@ func tick_physics(state: State, delta: float) -> void:
 	var speed_x := NAN
 	if not has_boosted and state in [State.JUMP, State.CROUCH_JUMP, State.SWIM]:
 		if jump_around_direction != 0:
+			# 准备移出角色
 			if not jumping_around:
-				speed_x_before_jump_around = velocity.x # 存储平滑作用前的水平速度以便后续恢复
+				need_jump_assist = need_jump_around_assist()
 			jumping_around = true
 			set_collision_mask_value(1, false) # 临时不跟砖块碰撞
-			speed_x = jump_around_direction * MOVE_AROUND_SPEED # 以固定速度滑到外面来
+			# 如果滑行方向相反则需要辅助一个固定速度反向滑到外面来
+			if need_jump_assist:
+				speed_x = jump_around_direction * MOVE_AROUND_SPEED
 		elif jumping_around:
+			# 已经移完了角色
 			set_collision_mask_value(1, true) # 恢复砖块碰撞
 			jumping_around = false
-			speed_x = speed_x_before_jump_around # 恢复原本水平速度
-			if abs(initial_horizontal_speed) >= MAX_WALK_SPEED if not is_under_water else MAX_WALK_SPEED_WATER:
+			if need_jump_assist:
+				# 恢复水平速度
+				speed_x = 0.0
+			if need_jump_assist and abs(initial_horizontal_speed) >= MAX_WALK_SPEED if not is_under_water else MAX_WALK_SPEED_WATER:
 				velocity.y += JUMP_AROUND_BOOST_SPEED # 给予一个额外的垂直速度
 				has_boosted = true # 一次滞空只能获得一次这样的加速
 	
@@ -303,11 +309,11 @@ func tick_physics(state: State, delta: float) -> void:
 			if is_first_tick:
 				move(delta, 0.0, speed_x)
 			else:
-				if initial_horizontal_speed < JUMP_VELOCITY_THROTTLE_MID:
+				if abs(initial_horizontal_speed) < JUMP_VELOCITY_THROTTLE_MID:
 					current_gravity = GRAVITY_JUMP_SLOW
-				elif initial_horizontal_speed < JUMP_VELOCITY_THROTTLE_FAST:
+				elif abs(initial_horizontal_speed) < JUMP_VELOCITY_THROTTLE_FAST:
 					current_gravity = GRAVITY_JUMP_MID
-				elif initial_horizontal_speed >= JUMP_VELOCITY_THROTTLE_FAST:
+				elif abs(initial_horizontal_speed) >= JUMP_VELOCITY_THROTTLE_FAST:
 					current_gravity = GRAVITY_JUMP_FAST
 				move(delta, current_gravity, speed_x)
 		State.SWIM:
@@ -507,10 +513,10 @@ func transition_state(from: State, to: State) -> void:
 			initialize_animator.play("crouch")
 		State.JUMP, State.CROUCH_JUMP:
 			direction_before_jump = direction
-			initial_horizontal_speed = abs(velocity.x)
+			initial_horizontal_speed = velocity.x
 			animation_player.play("jump" if to == State.JUMP else "crouch")
 			if from not in UNSAFE_STATES: # 变身结束或发完炮后不用跳
-				velocity.y = JUMP_VELOCITY_FAST if initial_horizontal_speed > JUMP_VELOCITY_THROTTLE_FAST else JUMP_VELOCITY_SLOW
+				velocity.y = JUMP_VELOCITY_FAST if abs(initial_horizontal_speed) > JUMP_VELOCITY_THROTTLE_FAST else JUMP_VELOCITY_SLOW
 				SoundManager.play_sfx("JumpSmall" if curr_mode == Mode.SMALL else "JumpLarge")
 		State.SWIM:
 			animation_player.play("swim_up", -1, 2.0, false)
@@ -519,11 +525,11 @@ func transition_state(from: State, to: State) -> void:
 				velocity.y = SWIM_VELOCITY
 		State.FALL:
 			if from in [State.JUMP, State.CROUCH_JUMP]:
-				if initial_horizontal_speed < JUMP_VELOCITY_THROTTLE_MID:
+				if abs(initial_horizontal_speed) < JUMP_VELOCITY_THROTTLE_MID:
 					current_gravity = GRAVITY_FALL_SLOW
-				elif initial_horizontal_speed < JUMP_VELOCITY_THROTTLE_FAST:
+				elif abs(initial_horizontal_speed) < JUMP_VELOCITY_THROTTLE_FAST:
 					current_gravity = GRAVITY_FALL_MID
-				elif initial_horizontal_speed >= JUMP_VELOCITY_THROTTLE_FAST:
+				elif abs(initial_horizontal_speed) >= JUMP_VELOCITY_THROTTLE_FAST:
 					current_gravity = GRAVITY_FALL_FAST
 			if is_under_water:
 				animation_player.play("swim_down")
@@ -789,6 +795,9 @@ func get_jump_around_direction() -> int:
 		return -1
 	return 0
 
+# 当水平沿着砖块上滑时是否需要额外助力，当起跳时水平速度方向与滑出方向时不需要
+func need_jump_around_assist() -> bool:
+	return not (not is_zero_approx(initial_horizontal_speed) and initial_horizontal_speed * jump_around_direction >= 0)
 
 func register_unjumpable_node(node: CollisionObject2D) -> void:
 	for ray_cast: RayCast2D in floor_checkers.get_children():
