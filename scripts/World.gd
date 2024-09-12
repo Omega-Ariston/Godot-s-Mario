@@ -28,7 +28,7 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	left_wall.global_position.x = camera_2d.get_screen_center_position().x - (get_viewport_rect().size.x / 2)
-	camera_2d.limit_left = floori(left_wall.global_position.x)
+	camera_2d.limit_left = ceili(left_wall.global_position.x)
 
 func setup_camera() -> void:
 	var tile_size := Variables.TILE_SIZE
