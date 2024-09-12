@@ -127,7 +127,8 @@ var jump_requested := false
 var swim_requested := false
 var launch_requested := false
 var dash_requested := false
-var direction_before_turn : float
+var dash_buffer_frames : int
+var direction_before_turn : int
 var is_under_star := false # 是否在无敌星作用下
 var is_invincible := false # 是否处于受伤后无敌状态
 var is_hurt := false # 是否处于受伤状态
@@ -165,7 +166,6 @@ var constant_speed_y: float
 @onready var star_timer: Timer = $StarTimer
 @onready var invincible_timer: Timer = $InvincibleTimer
 @onready var dying_timer: Timer = $DyingTimer
-@onready var dash_buffer_timer: Timer = $DashBufferTimer
 @onready var fireball_launcher: FireballLauncher = $Graphics/FireballLauncher
 @onready var floor_checker_left: RayCast2D = $BotCheckers/FloorCheckerLeft
 @onready var floor_checker_mid: RayCast2D = $BotCheckers/FloorCheckerMid
@@ -215,11 +215,12 @@ func tick_physics(state: State, delta: float) -> void:
 		if controllable:
 			if Input.is_action_pressed("action"):
 				dash_requested = true
-			elif Input.is_action_just_released("action"):
-				# 松开加速键后有10帧的缓冲时间，这样角色在奔跑的时候也可以开火而不影响速度
-				dash_buffer_timer.start()
-			elif dash_buffer_timer.is_stopped():
-				dash_requested = false
+				dash_buffer_frames = 10
+			else:
+				if dash_buffer_frames > 0:
+					dash_buffer_frames -= 1
+				else:
+					dash_requested = false
 		else:
 			dash_requested = false
 	
@@ -301,6 +302,10 @@ func tick_physics(state: State, delta: float) -> void:
 				current_target_speed = MAX_RUN_SPEED
 				current_acceleration = DASH_ACCELERATION
 			else:
+				if current_target_speed == MAX_RUN_SPEED:
+					# 奔跑中取消加速时速度立刻恢复到普通走路速度
+					if abs(velocity.x) > MAX_WALK_SPEED:
+						velocity.x = MAX_WALK_SPEED if velocity.x > 0 else -MAX_WALK_SPEED
 				current_target_speed = MAX_WALK_SPEED
 				current_acceleration = WALK_ACCELERATION
 			# 动画播放速度与走路速度正相关
