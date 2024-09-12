@@ -470,7 +470,7 @@ tracks/8/keys = {
 
 [sub_resource type="Animation" id="Animation_ulpjt"]
 resource_name = "crouch"
-loop_mode = 1
+length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -510,6 +510,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_4h6xy"]
 resource_name = "fire"
+length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -621,6 +622,7 @@ tracks/8/keys = {
 
 [sub_resource type="Animation" id="Animation_aktw4"]
 resource_name = "large"
+length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -732,6 +734,7 @@ tracks/8/keys = {
 
 [sub_resource type="Animation" id="Animation_b4dal"]
 resource_name = "small"
+length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true

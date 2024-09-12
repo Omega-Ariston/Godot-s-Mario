@@ -200,7 +200,7 @@ func _ready() -> void:
 func tick_physics(state: State, delta: float) -> void:
 	
 	var movement := Input.get_axis("move_left", "move_right") if controllable else input_x
-	if not is_zero_approx(movement) and not is_first_tick and (is_under_water or is_on_floor()):
+	if not is_zero_approx(movement) and not is_first_tick and (is_under_water or is_on_floor()) and state not in UNSAFE_STATES:
 		direction = Direction.LEFT if movement < 0 else Direction.RIGHT
 	
 	if not is_under_water and on_jumpable_floor():
