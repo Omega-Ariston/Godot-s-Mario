@@ -208,7 +208,6 @@ func _ready() -> void:
 	initialize_mode()
 
 func tick_physics(state: State, delta: float) -> void:
-	
 	var movement := Input.get_axis("move_left", "move_right") if controllable else input_x
 	if not is_zero_approx(movement) and not is_first_tick and (is_under_water or is_on_floor()) and state not in UNSAFE_STATES:
 		direction = Direction.LEFT if movement < 0 else Direction.RIGHT
@@ -335,26 +334,27 @@ func tick_physics(state: State, delta: float) -> void:
 			# 处理防止掉下空隙的辅助逻辑
 			var speed_y := NAN
 			if is_falling_up:
-				if global_position.y < floori(position_y_before_fall):
-					print('help end: ' + str(global_position.y) + ' ' + str(position_y_before_fall))
+				if global_position.y <= position_y_before_fall:
+					print(str(Engine.get_physics_frames()) + ' help end: ' + str(global_position.y) + ' ' + str(position_y_before_fall))
 					# 完成了辅助，恢复玩家与砖块的碰撞
 					is_falling_up = false
 					set_collision_mask_value(1, true)
 					# 恢复垂直速度
 					speed_y = 0.0
-				else:
-					print('helping')
-					# 给予一个朝向上方的恒定垂直速度
-					speed_y = -MOVE_AROUND_SPEED
 			elif should_fall_up_assist():
-				print('help start')
+				print(str(Engine.get_physics_frames()) + ' help start')
 				is_falling_up = true
 				set_collision_mask_value(1, false) # 临时移除玩家与砖块的碰撞
 				
-			if is_first_tick:
+			if is_falling_up:
+				print(str(Engine.get_physics_frames()) + ' helping')
+				# 给予一个朝向上方的恒定垂直速度
+				speed_y = -MOVE_AROUND_SPEED	
+			
+			if is_first_tick or is_falling_up:
 				move(delta, 0.0, NAN, speed_y)
 			else:
-				move(delta, 0.0 if is_falling_up else current_gravity, NAN, speed_y)
+				move(delta, current_gravity, NAN, speed_y)
 		State.CLIMB:
 			if (controllable and Input.is_action_just_pressed("move_right")) \
 					or (not controllable and input_x > 0):
@@ -379,6 +379,9 @@ func tick_physics(state: State, delta: float) -> void:
 			_blink_character()
 			
 	is_first_tick = false
+
+func set_gravity(gravity: float) -> void:
+	current_gravity = gravity
 
 
 func get_next_state(state: State) -> int:
@@ -572,7 +575,7 @@ func transition_state(from: State, to: State) -> void:
 			if is_under_water:
 				animation_player.play("swim_down")
 			else:
-				position_y_before_fall = global_position.y
+				position_y_before_fall = roundi(global_position.y / Variables.TILE_SIZE.y) * Variables.TILE_SIZE.y
 				horizontal_speed_x_before_fall = velocity.x
 				if from in [State.ENTRY, State.IDLE, State.TURN, State.CLIMB]:
 					animation_player.play("walk")
@@ -823,7 +826,6 @@ func is_bumping(node: Node2D) -> bool:
 	
 func on_full_ceiling() -> bool:
 	return ceil_checker_left.is_colliding() and ceil_checker_mid.is_colliding() and ceil_checker_right.is_colliding()
-	
 
 # 当水平跳向砖块并沿着砖壁上滑时是否需要额外助力，只有起跳速度足够并且在上升过程中头部已经越过顶点、但速度还差一点点时才生效
 func should_jump_up_assist() -> bool:
@@ -838,10 +840,10 @@ func should_jump_up_assist() -> bool:
 func should_jump_around_assist() -> int:
 	return is_zero_approx(initial_horizontal_speed) or initial_horizontal_speed * jump_around_direction < 0
 
-# 是否需要避免从空隙坠下，只有冲刺时生效，原理是向上推动角色一个像素的距离
+# 是否需要避免从空隙坠下，在冲下悬崖的第一帧判定是否生效
 func should_fall_up_assist() -> bool:
-	if dash_requested:
-		if direction > 0:
+	if state_machine.get_last_safe_state(_is_safe_state) == State.WALK and is_first_tick and (dash_requested or abs(horizontal_speed_x_before_fall) > MAX_WALK_SPEED):
+		if horizontal_speed_x_before_fall > 0:
 			return side_checker_bot_right.is_colliding() and not side_checker_mid_right.is_colliding() and not side_checker_top_right.is_colliding()
 		else:
 			return side_checker_bot_left.is_colliding() and not side_checker_mid_left.is_colliding() and not side_checker_top_left.is_colliding()

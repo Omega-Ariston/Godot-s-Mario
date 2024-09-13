@@ -129,11 +129,11 @@ position = Vector2(72, 168)
 spawn_item = 1
 
 [node name="CoinBrick9" parent="Bricks" instance=ExtResource("5_cpr27")]
-position = Vector2(104, 168)
+position = Vector2(88, 168)
 spawn_item = 1
 
 [node name="CoinBrick10" parent="Bricks" instance=ExtResource("5_cpr27")]
-position = Vector2(136, 168)
+position = Vector2(120, 168)
 spawn_item = 1
 
 [node name="CoinBrick6" parent="Bricks" instance=ExtResource("5_cpr27")]
@@ -141,7 +141,7 @@ position = Vector2(24, 168)
 spawn_item = 4
 
 [node name="CoinBrick7" parent="Bricks" instance=ExtResource("5_cpr27")]
-position = Vector2(168, 168)
+position = Vector2(152, 168)
 spawn_item = 4
 
 [node name="Brick" parent="Bricks" instance=ExtResource("6_3qu74")]

@@ -501,7 +501,7 @@ tracks/11/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(6, -1)]
+"values": [Vector2(6, 1)]
 }
 tracks/12/type = "value"
 tracks/12/imported = false
@@ -513,7 +513,7 @@ tracks/12/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(-6, -1)]
+"values": [Vector2(-6, 1)]
 }
 tracks/13/type = "value"
 tracks/13/imported = false
@@ -549,7 +549,7 @@ tracks/15/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0, -13)]
+"values": [Vector2(0, -7)]
 }
 
 [sub_resource type="Animation" id="Animation_ulpjt"]
@@ -749,7 +749,7 @@ tracks/11/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(-6, -1)]
+"values": [Vector2(-6, 1)]
 }
 tracks/12/type = "value"
 tracks/12/imported = false
@@ -761,7 +761,7 @@ tracks/12/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(6, -1)]
+"values": [Vector2(6, 1)]
 }
 tracks/13/type = "value"
 tracks/13/imported = false
@@ -945,7 +945,7 @@ tracks/11/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(6, -1)]
+"values": [Vector2(6, 1)]
 }
 tracks/12/type = "value"
 tracks/12/imported = false
@@ -957,7 +957,7 @@ tracks/12/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(-6, -1)]
+"values": [Vector2(-6, 1)]
 }
 tracks/13/type = "value"
 tracks/13/imported = false
@@ -1117,7 +1117,7 @@ tracks/9/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(5, -1)]
+"values": [Vector2(5, 1)]
 }
 tracks/10/type = "value"
 tracks/10/imported = false
@@ -1129,7 +1129,7 @@ tracks/10/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(-5, -1)]
+"values": [Vector2(-5, 1)]
 }
 tracks/11/type = "value"
 tracks/11/imported = false
@@ -1141,7 +1141,7 @@ tracks/11/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(5, 0)]
+"values": [Vector2(5, 1)]
 }
 tracks/12/type = "value"
 tracks/12/imported = false
@@ -1153,7 +1153,7 @@ tracks/12/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(-5, 0)]
+"values": [Vector2(-5, 1)]
 }
 tracks/13/type = "value"
 tracks/13/imported = false
@@ -1332,12 +1332,12 @@ position = Vector2(0, -14)
 
 [node name="CeilCheckerLeft" type="RayCast2D" parent="TopCheckers"]
 position = Vector2(-6, 0)
-target_position = Vector2(0, -3)
+target_position = Vector2(0, -4)
 hit_from_inside = true
 
 [node name="SideCheckerTopLeft" type="RayCast2D" parent="TopCheckers"]
 position = Vector2(-6, 0)
-target_position = Vector2(-3, 0)
+target_position = Vector2(-8, 0)
 hit_from_inside = true
 
 [node name="CeilCheckerMid" type="RayCast2D" parent="TopCheckers"]
@@ -1347,25 +1347,25 @@ hit_from_inside = true
 
 [node name="CeilCheckerRight" type="RayCast2D" parent="TopCheckers"]
 position = Vector2(6, 0)
-target_position = Vector2(0, -3)
+target_position = Vector2(0, -4)
 hit_from_inside = true
 
 [node name="SideCheckerTopRight" type="RayCast2D" parent="TopCheckers"]
 position = Vector2(6, 0)
-target_position = Vector2(3, 0)
+target_position = Vector2(8, 0)
 hit_from_inside = true
 
 [node name="SideCheckers" type="Node2D" parent="."]
-position = Vector2(0, -13)
+position = Vector2(0, -7)
 
 [node name="SideCheckerMidLeft" type="RayCast2D" parent="SideCheckers"]
 position = Vector2(-5, 0)
-target_position = Vector2(-3, 0)
+target_position = Vector2(-24, 0)
 hit_from_inside = true
 
 [node name="SideCheckerMidRight" type="RayCast2D" parent="SideCheckers"]
 position = Vector2(5, 0)
-target_position = Vector2(3, 0)
+target_position = Vector2(24, 0)
 hit_from_inside = true
 
 [node name="BotCheckers" type="Node2D" parent="."]
@@ -1376,8 +1376,8 @@ target_position = Vector2(0, 3)
 hit_from_inside = true
 
 [node name="SideCheckerBotLeft" type="RayCast2D" parent="BotCheckers"]
-position = Vector2(-6, -1)
-target_position = Vector2(-3, 0)
+position = Vector2(-6, 1)
+target_position = Vector2(-24, 0)
 hit_from_inside = true
 
 [node name="FloorCheckerMid" type="RayCast2D" parent="BotCheckers"]
@@ -1390,8 +1390,7 @@ target_position = Vector2(0, 3)
 hit_from_inside = true
 
 [node name="SideCheckerBotRight" type="RayCast2D" parent="BotCheckers"]
-position = Vector2(6, -1)
-target_position = Vector2(3, 0)
-hit_from_inside = true
+position = Vector2(6, 1)
+target_position = Vector2(24, 0)
 
 [connection signal="timeout" from="DyingTimer" to="." method="_on_dying_timer_timeout"]
