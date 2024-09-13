@@ -271,12 +271,14 @@ func tick_physics(state: State, delta: float) -> void:
 	if state in [State.JUMP, State.CROUCH_JUMP, State.SWIM]:
 		# 辅助跳上砖顶
 		if state != State.SWIM and not jump_up_assisted and should_jump_up_assist():
+			print_debug(Engine.get_physics_frames(), ' JUMP UP ASSISTED')
 			velocity.y = JUMP_UP_BOOST_SPEED # 一次性地给予一个额外的垂直速度
 			jump_up_assisted = true
 		# 辅助从砖块两侧滑上去	
 		jump_around_direction = get_jump_around_direction()
 		if jump_around_direction != 0:
 			if not is_jumping_around:
+				print_debug(Engine.get_physics_frames(), ' JUMP AROUND ASSIST START')
 				is_jumping_around = true
 				jump_around_assisted = should_jump_around_assist()
 				set_collision_mask_value(1, false) # 临时移除玩家与砖块的碰撞
@@ -285,6 +287,7 @@ func tick_physics(state: State, delta: float) -> void:
 				speed_x = MOVE_AROUND_SPEED * get_jump_around_direction()
 		elif is_jumping_around:
 			# 完成了辅助，恢复玩家与砖块的碰撞
+			print_debug(Engine.get_physics_frames(), ' JUMP AROUND ASSIST END')
 			is_jumping_around = false
 			set_collision_mask_value(1, true)
 			# 如果使用了jump_around_assist，则恢复水平速度
@@ -311,7 +314,7 @@ func tick_physics(state: State, delta: float) -> void:
 				current_acceleration = WALK_ACCELERATION
 			# 动画播放速度与走路速度正相关
 			animation_player.speed_scale = max(MIN_ANIMATION_SPEED, abs(velocity.x) / MAX_WALK_SPEED * 1.5)
-			move(delta)
+			move(delta, 0.0)
 		State.TURN:
 			move(delta)
 		State.CROUCH:
@@ -335,19 +338,19 @@ func tick_physics(state: State, delta: float) -> void:
 			var speed_y := NAN
 			if is_falling_up:
 				if global_position.y <= position_y_before_fall:
-					print(str(Engine.get_physics_frames()) + ' help end: ' + str(global_position.y) + ' ' + str(position_y_before_fall))
 					# 完成了辅助，恢复玩家与砖块的碰撞
+					print_debug(Engine.get_physics_frames(), ' FALL UP ASSIST END')
 					is_falling_up = false
 					set_collision_mask_value(1, true)
 					# 恢复垂直速度
 					speed_y = 0.0
 			elif should_fall_up_assist():
-				print(str(Engine.get_physics_frames()) + ' help start')
+				# 开始辅助
+				print_debug(Engine.get_physics_frames(), ' FALL UP ASSIST START')
 				is_falling_up = true
 				set_collision_mask_value(1, false) # 临时移除玩家与砖块的碰撞
 				
 			if is_falling_up:
-				print(str(Engine.get_physics_frames()) + ' helping')
 				# 给予一个朝向上方的恒定垂直速度
 				speed_y = -MOVE_AROUND_SPEED	
 			
