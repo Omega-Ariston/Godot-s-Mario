@@ -151,7 +151,6 @@ radius = 8.0
 height = 24.0
 
 [node name="HammerBro" instance=ExtResource("1_uf2uq")]
-collision_mask = 1
 script = ExtResource("2_cgdwo")
 
 [node name="Graphics" parent="." index="0"]

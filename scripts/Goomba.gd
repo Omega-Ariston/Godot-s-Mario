@@ -51,7 +51,7 @@ func get_next_state(state: State) -> int:
 
 func tick_physics(state: State, delta: float) -> void:
 	if is_on_wall():
-		direction = Direction.LEFT if direction == Direction.RIGHT else Direction.RIGHT
+		turn()
 	
 	match state:
 		State.WALK:
@@ -77,3 +77,6 @@ func transition_state(_from: State, to: State) -> void:
 			elif bumped:
 				ScoreManager.add_score(SCORE["bumped"], self)
 			die()
+
+func turn() -> void:
+	direction = Direction.LEFT if direction == Direction.RIGHT else Direction.RIGHT

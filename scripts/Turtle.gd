@@ -108,7 +108,7 @@ func get_next_state(state: State) -> int:
 
 func tick_physics(state: State, delta: float) -> void:
 	if is_on_wall() or (is_on_floor() and floor_checker.enabled and not floor_checker.is_colliding()):
-		direction = Direction.LEFT if direction == Direction.RIGHT else Direction.RIGHT
+		turn(true)
 	
 	match state:
 		State.WALK:
@@ -154,8 +154,6 @@ func transition_state(from: State, to: State) -> void:
 		State.SHOOT:
 			stomped = false
 			floor_checker.enabled = false
-			# 不再碰到敌人反弹
-			set_collision_mask_value(3, false)
 			animation_player.play("shell")
 			match from:
 				State.SHELL:
@@ -187,3 +185,7 @@ func on_stomped() -> void:
 	if state_machine.current_state not in SHOOTABLE_STATE:
 		# 给玩家施加一个向上小跳的力
 		player.velocity.y = PLAYER_STOMPED_BOUNCE_HIGH
+
+func turn(on_wall := false) -> void:
+	if on_wall or (not on_wall and not state_machine.current_state == State.SHOOT):
+		direction = Direction.LEFT if direction == Direction.RIGHT else Direction.RIGHT

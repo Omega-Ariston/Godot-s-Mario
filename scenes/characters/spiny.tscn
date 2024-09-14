@@ -72,6 +72,7 @@ height = 16.0
 
 [node name="Spiny" groups=["Spiny"] instance=ExtResource("1_0xb8u")]
 script = ExtResource("2_vw3nk")
+direction = -1
 
 [node name="Graphics" parent="." index="0"]
 position = Vector2(0, -8)

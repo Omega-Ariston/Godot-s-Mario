@@ -105,7 +105,6 @@ size = Vector2(16, 24)
 size = Vector2(8, 8)
 
 [node name="Bowser" instance=ExtResource("1_amkpe")]
-collision_mask = 1
 script = ExtResource("2_i7mof")
 
 [node name="Graphics" parent="." index="0"]

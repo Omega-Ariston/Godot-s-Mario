@@ -80,7 +80,7 @@ func get_next_state(state: State) -> int:
 
 func tick_physics(state: State, delta: float) -> void:
 	if is_on_wall():
-		direction = Direction.LEFT if direction == Direction.RIGHT else Direction.RIGHT
+		turn(true)
 	
 	match state:
 		State.WALK:
@@ -113,8 +113,6 @@ func transition_state(from: State, to: State) -> void:
 			ScoreManager.add_score(SCORE["stomped"], self)
 		State.SHOOT:
 			stomped = false
-			# 不再碰到敌人反弹
-			set_collision_mask_value(3, false)
 			animation_player.play("shell")
 			match from:
 				State.SHELL:
@@ -146,3 +144,7 @@ func on_stomped() -> void:
 # 被火球打
 func on_hit(_body: CharacterBody2D) -> void:
 	pass
+
+func turn(on_wall := false) -> void:
+	if on_wall or (not on_wall and not state_machine.current_state == State.SHOOT):
+		direction = Direction.LEFT if direction == Direction.RIGHT else Direction.RIGHT

@@ -34,7 +34,7 @@ func get_next_state(state: State) -> int:
 
 func tick_physics(state: State, delta: float) -> void:
 	if is_on_wall():
-		direction = Direction.LEFT if direction == Direction.RIGHT else Direction.RIGHT
+		turn()
 	
 	match state:
 		State.SPAWN:
@@ -72,3 +72,6 @@ func on_stomped() -> void:
 func on_bumped(bumpable: Bumpable) -> void:
 	direction = Direction.LEFT if bumpable.global_position.x > global_position.x else Direction.RIGHT
 	velocity.y = BOUNCE_SPEED
+
+func turn() -> void:
+	direction = Direction.LEFT if direction == Direction.RIGHT else Direction.RIGHT

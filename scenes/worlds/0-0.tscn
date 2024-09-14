@@ -184,18 +184,25 @@ position = Vector2(328, 168)
 
 [node name="Bowser" parent="Enemies" instance=ExtResource("5_7gjpa")]
 position = Vector2(1680, 224)
+direction = -1
 
 [node name="Piranha" parent="Enemies" instance=ExtResource("13_xdkfm")]
 position = Vector2(464, 216)
+collision_mask = 5
+direction = -1
 
 [node name="HammerBro" parent="Enemies" instance=ExtResource("12_pfkyu")]
 position = Vector2(376, 224)
+direction = -1
 
 [node name="HammerBro2" parent="Enemies" instance=ExtResource("12_pfkyu")]
 position = Vector2(360, 160)
+direction = -1
 
 [node name="Blooper" parent="Enemies" instance=ExtResource("15_wjcdp")]
 position = Vector2(288, 208)
+collision_mask = 5
+direction = -1
 
 [node name="FlagPole" parent="." instance=ExtResource("7_dd00r")]
 position = Vector2(904, 224)

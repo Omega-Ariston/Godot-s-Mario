@@ -4,8 +4,9 @@ extends Area2D
 
 # 被碰了
 func _on_body_entered(body: Node2D) -> void:
-	print_debug("%s hit %s" % [body.name, owner.name])
-	if body is Player:
+	if body == owner:
+		return
+	elif body is Player:
 		# 优先处理无敌星，然后才是被踩
 		if body.is_under_star:
 			# 碰到无敌星了
@@ -20,9 +21,11 @@ func _on_body_entered(body: Node2D) -> void:
 		else:
 			# 伤害玩家
 			body.hurt(owner)
-	if body is Fireball:
+	elif body is Fireball:
 		owner.on_hit(body)
 		body.on_hit_enemy(owner)
-	if (body is Turtle and body.state_machine.current_state == Turtle.State.SHOOT) \
+	elif (body is Turtle and body.state_machine.current_state == Turtle.State.SHOOT) \
 			or (body is Beetle and body.state_machine.current_state == Beetle.State.SHOOT):
 		owner.on_charged(body)
+	elif body is Enemy and owner.has_method("turn"):
+		owner.turn()

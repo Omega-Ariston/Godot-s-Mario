@@ -25,3 +25,6 @@ func _ready() -> void:
 			animation_player.play_backwards("spin")
 		
 	animation_player.seek(current_frame, true)
+
+func _on_area_2d_body_entered(body: Player) -> void:
+	body.hurt(self)

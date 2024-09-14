@@ -20,3 +20,7 @@ func _physics_process(_delta: float) -> void:
 	else:
 		velocity.y = SPEED.y if target_y > global_position.y else -SPEED.y
 	move_and_slide()
+
+
+func _on_area_2d_body_entered(body: Player) -> void:
+	body.hurt(self)

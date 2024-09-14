@@ -77,7 +77,6 @@ z_index = -1
 z_as_relative = false
 position = Vector2(1, 0)
 collision_layer = 16
-collision_mask = 3
 script = ExtResource("1_jknvf")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
