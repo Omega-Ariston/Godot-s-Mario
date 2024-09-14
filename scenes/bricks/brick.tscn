@@ -16,6 +16,7 @@ shader_parameter/new_colors = null
 size = Vector2(16, 16)
 
 [node name="Brick" type="StaticBody2D"]
+z_as_relative = false
 collision_layer = 9
 script = ExtResource("1_650d6")
 

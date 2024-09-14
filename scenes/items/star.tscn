@@ -74,6 +74,7 @@ _data = {
 
 [node name="Star" type="CharacterBody2D"]
 z_index = -1
+z_as_relative = false
 position = Vector2(1, 0)
 collision_layer = 16
 collision_mask = 3

@@ -20,7 +20,7 @@ enum Direction {
 @onready var hurtbox: Hurtbox = $Hurtbox
 
 const DEAD_BOUNCE := Vector2(50, -250)
-const DEAD_Z_INDEX := 5
+const DEAD_Z_INDEX := 4
 const PLAYER_STOMPED_BOUNCE_HIGH := -4 * 60 # 04xxx
 const PLAYER_STOMPED_BOUNCE_LOW := -3 * 60 # 03xxx
 

@@ -46,7 +46,6 @@ func on_bumped(player: Player) -> void:
 				return
 		else:
 			# 到前面来
-			z_index = 5
 			bumpable.can_bump = false
 			bumpable.apply_bump_effect()
 		animation_player.play("bumped")

@@ -25,7 +25,8 @@ resource_local_to_scene = true
 size = Vector2(2, 12)
 
 [node name="Vine" type="Node2D"]
-z_index = -1
+z_index = -2
+z_as_relative = false
 script = ExtResource("1_k7lep")
 
 [node name="TileMap" type="TileMapLayer" parent="."]

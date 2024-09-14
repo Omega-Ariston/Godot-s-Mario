@@ -71,6 +71,7 @@ size = Vector2(16, 16)
 
 [node name="Flower" type="Node2D"]
 z_index = -1
+z_as_relative = false
 script = ExtResource("1_mcwkb")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

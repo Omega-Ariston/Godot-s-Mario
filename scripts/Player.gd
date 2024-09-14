@@ -632,7 +632,7 @@ func transition_state(from: State, to: State) -> void:
 			SoundManager.play_sfx("MarioDie")
 			GameManager.life -= 1
 			# 到前面来
-			z_index = 5
+			z_index = 4
 			dying_timer.start()
 	is_first_tick = true
 	

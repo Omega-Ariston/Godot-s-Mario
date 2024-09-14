@@ -4,6 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/graphics/items-objects.png" id="1_rtcsf"]
 
 [node name="WhiteFlag" type="Node2D" groups=["WhiteFlag"]]
+z_index = -1
+z_as_relative = false
 script = ExtResource("1_4oygs")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

@@ -79,6 +79,8 @@ _data = {
 }
 
 [node name="FireBar" type="Node2D"]
+z_index = 2
+z_as_relative = false
 script = ExtResource("1_ks5ui")
 
 [node name="Graphics" type="Node2D" parent="."]

@@ -6,6 +6,8 @@
 script = ExtResource("1_agams")
 
 [node name="Text" type="RichTextLabel" parent="."]
+z_index = 4
+z_as_relative = false
 offset_left = -6.0
 offset_top = -3.0
 offset_right = 38.0

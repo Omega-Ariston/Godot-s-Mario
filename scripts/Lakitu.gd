@@ -174,7 +174,7 @@ func _on_respawn_timer_timeout() -> void:
 		# 恢复朝向
 		graphics.scale.y = 1
 		# 恢复位置
-		z_index = 0
+		z_index = 2
 		global_position.y = original_y
 		global_position.x = spawn_x
 		# 恢复状态

@@ -9,6 +9,7 @@
 script = ExtResource("1_ku1qa")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
+z_as_relative = false
 position = Vector2(-8, 0)
 tile_map_data = PackedByteArray("AAD7/wgAAAAAAAgAAAD7/wkAAAAAAAkAAAD8/wgAAAABAAgAAAD8/wkAAAABAAkAAAD//wgAAAAAAAgAAAD//wkAAAAAAAkAAAAAAAgAAAABAAgAAAAAAAkAAAABAAkAAAADAAgAAAAAAAgAAAADAAkAAAAAAAkAAAAEAAgAAAABAAgAAAAEAAkAAAABAAkAAAD7/woAAAAAAAkAAAD8/woAAAABAAkAAAD//woAAAAAAAkAAAAAAAoAAAABAAkAAAADAAoAAAAAAAkAAAAEAAoAAAABAAkAAAA=")
 tile_set = ExtResource("3_bl75a")
@@ -17,6 +18,7 @@ tile_set = ExtResource("3_bl75a")
 visible = false
 
 [node name="Welcome" type="RichTextLabel" parent="Text"]
+z_as_relative = false
 offset_left = -88.0
 offset_top = 64.0
 offset_right = 80.0
@@ -26,6 +28,7 @@ text = "welcome to warp zone!"
 scroll_active = false
 
 [node name="LevelA" type="RichTextLabel" parent="Text"]
+z_as_relative = false
 offset_left = -80.0
 offset_top = 104.0
 offset_right = -72.0
@@ -35,6 +38,7 @@ text = "4"
 scroll_active = false
 
 [node name="LevelB" type="RichTextLabel" parent="Text"]
+z_as_relative = false
 offset_left = -16.0
 offset_top = 104.0
 offset_right = -8.0
@@ -45,6 +49,7 @@ text = "3
 scroll_active = false
 
 [node name="LevelC" type="RichTextLabel" parent="Text"]
+z_as_relative = false
 offset_left = 48.0
 offset_top = 104.0
 offset_right = 56.0

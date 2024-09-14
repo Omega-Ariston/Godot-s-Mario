@@ -51,7 +51,8 @@ shader_parameter/origin_colors = null
 shader_parameter/new_colors = null
 
 [node name="BrokenBrick" type="Node2D"]
-z_index = 5
+z_index = 4
+z_as_relative = false
 script = ExtResource("1_hp52f")
 
 [node name="RigidBody2D" type="RigidBody2D" parent="."]

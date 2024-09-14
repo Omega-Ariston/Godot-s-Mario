@@ -7,6 +7,7 @@
 size = Vector2(48, 8)
 
 [node name="PlatformVertical" type="StaticBody2D"]
+z_as_relative = false
 collision_mask = 0
 script = ExtResource("1_1s5nx")
 

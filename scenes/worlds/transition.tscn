@@ -15,6 +15,7 @@ color = Color(0, 0, 0, 1)
 visible = false
 
 [node name="Level" type="RichTextLabel" parent="LevelStart"]
+z_as_relative = false
 offset_left = 88.0
 offset_top = 80.0
 offset_right = 168.0
@@ -24,6 +25,7 @@ text = "WORLD 1-1"
 scroll_active = false
 
 [node name="Multiply" type="RichTextLabel" parent="LevelStart"]
+z_as_relative = false
 offset_left = 120.0
 offset_top = 111.0
 offset_right = 128.0
@@ -33,6 +35,7 @@ text = "x"
 scroll_active = false
 
 [node name="Life" type="RichTextLabel" parent="LevelStart"]
+z_as_relative = false
 offset_left = 128.0
 offset_top = 110.0
 offset_right = 152.0
@@ -42,6 +45,7 @@ text = "  3"
 scroll_active = false
 
 [node name="Sprite2D" type="Sprite2D" parent="LevelStart"]
+z_as_relative = false
 position = Vector2(104, 112)
 texture = ExtResource("1_g775h")
 region_enabled = true
@@ -51,6 +55,7 @@ region_rect = Rect2(192, 32, 16, 16)
 visible = false
 
 [node name="TimeUp" type="RichTextLabel" parent="TimeUp"]
+z_as_relative = false
 offset_left = 88.0
 offset_top = 120.0
 offset_right = 159.0
@@ -64,6 +69,7 @@ scroll_active = false
 visible = false
 
 [node name="GameOver" type="RichTextLabel" parent="GameOver"]
+z_as_relative = false
 offset_left = 80.0
 offset_top = 120.0
 offset_right = 168.0

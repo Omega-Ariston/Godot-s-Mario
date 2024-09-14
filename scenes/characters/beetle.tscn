@@ -94,6 +94,8 @@ radius = 8.0
 height = 16.0
 
 [node name="Beetle" instance=ExtResource("1_l1rmu")]
+z_index = 2
+z_as_relative = false
 script = ExtResource("2_jngh0")
 direction = null
 

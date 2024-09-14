@@ -229,6 +229,7 @@ size = Vector2(16, 31)
 size = Vector2(16, 2)
 
 [node name="Spring" type="StaticBody2D"]
+z_as_relative = false
 collision_mask = 0
 script = ExtResource("1_sevv5")
 

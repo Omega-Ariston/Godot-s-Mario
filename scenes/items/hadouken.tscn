@@ -46,6 +46,8 @@ _data = {
 }
 
 [node name="Hadouken" type="CharacterBody2D"]
+z_index = 1
+z_as_relative = false
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("1_hvrs5")

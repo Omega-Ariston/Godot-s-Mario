@@ -6,6 +6,8 @@
 
 [node name="Enemy" type="CharacterBody2D"]
 process_mode = 4
+z_index = 2
+z_as_relative = false
 collision_layer = 4
 collision_mask = 5
 script = ExtResource("1_0cop4")

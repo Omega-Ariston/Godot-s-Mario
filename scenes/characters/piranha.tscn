@@ -101,6 +101,7 @@ _data = {
 size = Vector2(12, 6.25)
 
 [node name="Piranha" instance=ExtResource("1_n4ryh")]
+z_index = -1
 script = ExtResource("2_xxc8d")
 
 [node name="Sprite2D" parent="Graphics" index="0"]

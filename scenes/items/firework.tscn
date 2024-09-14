@@ -103,7 +103,8 @@ _data = {
 }
 
 [node name="Firework" type="Node2D"]
-z_index = 5
+z_index = 1
+z_as_relative = false
 script = ExtResource("1_w4osw")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
