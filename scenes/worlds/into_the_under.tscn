@@ -31,6 +31,9 @@ tile_set = ExtResource("3_chh8b")
 [node name="SpawnPoint" type="Marker2D" parent="."]
 script = ExtResource("4_7reng")
 
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(144, 208)
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(128, 112)
 
