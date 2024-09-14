@@ -265,19 +265,15 @@ position = Vector2(2624, 216)
 
 [node name="Beetle" parent="Enemies/Beetles" instance=ExtResource("9_3k6be")]
 position = Vector2(1784, 224)
-direction = -1
 
 [node name="Beetle2" parent="Enemies/Beetles" instance=ExtResource("9_3k6be")]
 position = Vector2(1944, 224)
-direction = -1
 
 [node name="Beetle3" parent="Enemies/Beetles" instance=ExtResource("9_3k6be")]
 position = Vector2(1976, 224)
-direction = -1
 
 [node name="Beetle4" parent="Enemies/Beetles" instance=ExtResource("9_3k6be")]
 position = Vector2(3032, 224)
-direction = -1
 
 [node name="Goombas" type="Node2D" parent="Enemies"]
 
@@ -378,7 +374,7 @@ position = Vector2(360, 128)
 position = Vector2(344, 76)
 
 [node name="ByePoint" parent="Enemies/Lakitu" index="8"]
-position = Vector2(536, 64)
+position = Vector2(776, 64)
 
 [node name="Spring" parent="." instance=ExtResource("19_47ku5")]
 position = Vector2(712, 224)
