@@ -1,7 +1,7 @@
 class_name CoinBumped
 extends CharacterBody2D
 
-const BOUNCE_VELOCITY := -300.0
+const BOUNCE_VELOCITY := -240.0
 const SCORE := 200
 
 @onready var timer: Timer = $Timer
@@ -14,7 +14,7 @@ func _ready() -> void:
 	timer.start()
 	
 func _physics_process(delta: float) -> void:
-	velocity.y += GameManager.default_gravity  * delta
+	velocity.y += Variables.DEFAULT_GRAVITY  * delta
 	move_and_slide()
 
 func _on_timer_timeout() -> void:

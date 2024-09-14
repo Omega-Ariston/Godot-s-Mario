@@ -9,7 +9,8 @@ enum State {
 
 const SPEED := 30.0
 const BOUNCE_SPEED := -200
-const SPAWN_BOUNCE := -200
+const SPAWN_BOUNCE := -240
+
 const SCORE := {
 	"hit": 200,
 	"charged": 200,

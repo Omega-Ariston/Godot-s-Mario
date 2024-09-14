@@ -208,7 +208,7 @@ _data = {
 }
 
 [node name="Fireball" type="CharacterBody2D" groups=["Fireballs"]]
-z_index = 1
+z_index = 3
 z_as_relative = false
 collision_layer = 32
 script = ExtResource("1_ke4pu")

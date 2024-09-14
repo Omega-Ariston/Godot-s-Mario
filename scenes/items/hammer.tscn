@@ -65,7 +65,7 @@ _data = {
 size = Vector2(6, 6)
 
 [node name="Hammer" type="CharacterBody2D"]
-z_index = 1
+z_index = 2
 z_as_relative = false
 collision_layer = 0
 collision_mask = 2

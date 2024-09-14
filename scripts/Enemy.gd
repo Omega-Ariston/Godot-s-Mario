@@ -19,13 +19,14 @@ enum Direction {
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 @onready var hurtbox: Hurtbox = $Hurtbox
 
-const DEAD_BOUNCE := Vector2(50, -250)
+const DEAD_BOUNCE := Vector2(50, -150)
 const DEAD_Z_INDEX := 4
 const PLAYER_STOMPED_BOUNCE_HIGH := -4 * 60 # 04xxx
 const PLAYER_STOMPED_BOUNCE_LOW := -3 * 60 # 03xxx
+const MAX_FALL_SPEED := 240.0 # 04000
 
 var player: Player
-var default_gravity := GameManager.default_gravity as float
+var default_gravity := Variables.DEFAULT_GRAVITY as float
 
 var stomped := false # 被踩
 var hit := false # 被火焰打中
@@ -40,7 +41,8 @@ func _ready() -> void:
 
 func move(speed_var: float, direction_var: int, delta: float, gravity: float = default_gravity) -> void:
 	velocity.x = speed_var * direction_var
-	velocity.y += gravity * delta
+	var velocity_y = velocity.y + gravity * delta
+	velocity.y = min(velocity_y, MAX_FALL_SPEED)
 	move_and_slide()
 	
 # 被踩

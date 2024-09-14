@@ -11,7 +11,7 @@ enum State {
 
 const SHOOTABLE_STATE := [State.SHELL, State.RECOVERING]
 const SPEED := 30.0
-const SHOOT_SPEED := 150.0
+const SHOOT_SPEED := 175.0
 const SCORE := {
 	"stomped" : 100,
 	"charged": 200,
@@ -88,7 +88,7 @@ func tick_physics(state: State, delta: float) -> void:
 		State.SHOOT:
 			if is_on_wall():
 				SoundManager.play_sfx("Bump")
-			move(SHOOT_SPEED, direction, delta)
+			move(SHOOT_SPEED, direction, delta, default_gravity * 2)
 		State.SHELL, State.RECOVERING:
 			velocity = Vector2.ZERO
 		State.DEAD:

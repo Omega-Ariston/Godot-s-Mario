@@ -16,7 +16,7 @@ const SCORE := {
 
 const MIN_JUMP_INTERVAL := 1.5
 const MAX_JUMP_INTERVAL := 2.5
-const JUMP_VELOCITY := -200
+const JUMP_VELOCITY := -240
 
 const HAMMER_COUNT_RANGE := [3, 8] # 单次一口气扔出的锤子数范围
 const HAMMER_INTERVAL_SINGLE_RANGE := [0.1, 0.2]
@@ -60,11 +60,11 @@ func tick_physics(state: State, delta: float) -> void:
 	
 	match state:
 		State.WONDER_LEFT:
-			move(SPEED, -1, delta, default_gravity / 2)
+			move(SPEED, -1, delta, default_gravity)
 		State.WONDER_RIGHT:
-			move(SPEED, +1, delta, default_gravity / 2)
+			move(SPEED, +1, delta, default_gravity)
 		State.CHASING:
-			move(SPEED, direction, delta, default_gravity / 2)
+			move(SPEED, direction, delta, default_gravity)
 		State.DEAD:
 			move(DEAD_BOUNCE.x, attack_direction, delta)
 

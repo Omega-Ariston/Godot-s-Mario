@@ -13,8 +13,6 @@ enum WorldType {
 	CASTLE
 }
 
-var default_gravity := ProjectSettings.get("physics/2d/default_gravity") as float
-
 var current_level: String:
 	set(v):
 		StatusBar.level = v

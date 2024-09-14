@@ -330,8 +330,7 @@ func tick_physics(state: State, delta: float) -> void:
 			else:
 				move(delta, current_gravity, speed_x)
 		State.DEAD:
-			if dying_timer.time_left == 0:
-				current_gravity = GRAVITY_FALL_SLOW
+			if dying_timer.is_stopped():
 				move(delta)
 		State.FALL:
 			# 处理防止掉下空隙的辅助逻辑
@@ -617,6 +616,7 @@ func transition_state(from: State, to: State) -> void:
 			on_fire_timer.start()
 		State.DEAD:
 			is_hurt = false
+			current_gravity = GRAVITY_ENTRY
 			if global_position.y > CLIFF_LIMIT:
 				sprite_2d.visible = false # 摔死的时候不让死亡动画被看见
 			else:
@@ -819,7 +819,7 @@ func set_star_colors(index: int) -> void:
 	sprite_material.set_shader_parameter("new_colors", new_colors.duplicate())
 
 func _on_dying_timer_timeout() -> void:
-	velocity.y = JUMP_VELOCITY_FAST
+	velocity.y = JUMP_VELOCITY_SLOW
 
 func on_jumpable_floor() -> bool:
 	return floor_checker_left.is_colliding() or floor_checker_mid.is_colliding() or floor_checker_right.is_colliding()

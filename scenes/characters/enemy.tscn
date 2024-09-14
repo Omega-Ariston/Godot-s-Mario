@@ -10,7 +10,6 @@ z_index = 2
 z_as_relative = false
 collision_layer = 4
 script = ExtResource("1_0cop4")
-direction = null
 
 [node name="Graphics" type="Node2D" parent="."]
 

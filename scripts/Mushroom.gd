@@ -11,6 +11,7 @@ const MOVE_DELAY := 0.1
 const SPEED := 60.0
 const BOUNCE_SPEED := -200
 const SCORE := 1000
+const MAX_FALL_SPEED := 240.0 # 04000
 
 # 顺序为蘑菇伞、蘑菇斑点、蘑菇柄
 const COLOR_ORIGIN := [
@@ -57,11 +58,12 @@ func _physics_process(delta: float) -> void:
 		# 撞到墙就反向跑
 		direction = -direction
 	if not spawning:
-		move(GameManager.default_gravity, delta)
+		move(Variables.DEFAULT_GRAVITY, delta)
 
 func move(gravity: float, delta: float) -> void:
 	velocity.x = SPEED * direction
-	velocity.y += gravity * delta
+	var velocity_y = velocity.y + gravity * delta
+	velocity.y = min(velocity_y, MAX_FALL_SPEED)
 	move_and_slide()
 
 func on_bumped(bumpable: Bumpable) -> void:

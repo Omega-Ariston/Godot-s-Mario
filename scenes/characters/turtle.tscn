@@ -275,7 +275,6 @@ height = 16.0
 script = ExtResource("2_8x3o1")
 iq = 0
 type = 0
-direction = -1
 
 [node name="Graphics" parent="." index="0"]
 position = Vector2(0, -12)

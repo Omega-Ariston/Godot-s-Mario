@@ -1,8 +1,8 @@
 class_name Fireball
 extends CharacterBody2D
 
-const HORIZONTAL_SPEED := 300
-const JUMP_VELOCITY := -250.0
+const HORIZONTAL_SPEED := 250
+const JUMP_VELOCITY := -190.0
 const LAUNCH_FALL_SPEED := 200
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -31,7 +31,7 @@ func _physics_process(delta: float) -> void:
 			has_grouded = true
 			# 碰到地就跳
 			velocity.y = JUMP_VELOCITY
-		move(GameManager.default_gravity * 2, delta)
+		move(Variables.DEFAULT_GRAVITY * 2, delta)
 			
 func move(gravity: float, delta: float) -> void:
 	velocity.x = HORIZONTAL_SPEED * direction

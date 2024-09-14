@@ -118,7 +118,8 @@ func tick_physics(state: State, delta: float) -> void:
 func move(speed: float, dir: int, delta: float, gravity : float = 0) -> void:
 	var acceleration := DASH_ACCELERATION if state_machine.current_state in [State.DASH, State.BRAKE] else ACCELERATION
 	velocity.x = move_toward(velocity.x, dir * speed, acceleration * delta)
-	velocity.y += gravity * delta
+	var velocity_y := velocity.y + gravity * delta
+	velocity.y = min(velocity_y, MAX_FALL_SPEED)
 	move_and_slide()
 	if state_machine.current_state == State.DASH:
 		global_position.x = min(global_position.x, player.global_position.x + Variables.TILE_SIZE.x * 5)

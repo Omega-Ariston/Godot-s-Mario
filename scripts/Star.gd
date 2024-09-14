@@ -3,8 +3,9 @@ extends CharacterBody2D
 
 const SPAWN_DURATION := 1.0
 const SPEED := 60.0
-const JUMP_VELOCITY := -230.0
+const JUMP_VELOCITY := -240.0
 const SCORE := 1000
+const MAX_FALL_SPEED := 240.0 # 04000
 
 const RECT_ORIGIN := Rect2(0, 48, 64, 16)
 const RECT_CYAN := Rect2(144, 48, 64, 16)
@@ -38,9 +39,10 @@ func _physics_process(delta: float) -> void:
 		if is_on_floor():
 			# 碰到地就跳
 			velocity.y = JUMP_VELOCITY
-		move(GameManager.default_gravity / 2, delta)
+		move(Variables.DEFAULT_GRAVITY, delta)
 
 func move(gravity: float, delta: float) -> void:
 	velocity.x = SPEED * direction
-	velocity.y += gravity * delta
+	var velocity_y = velocity.y + gravity * delta
+	velocity.y = min(velocity_y, MAX_FALL_SPEED)
 	move_and_slide()

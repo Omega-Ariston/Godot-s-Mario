@@ -23,7 +23,7 @@ const WONDER_RANGE := Variables.TILE_SIZE.x / 2
 const MIN_JUMP_INTERVAL := 2.0
 const MAX_JUMP_INTERVAL := 3.0
 const JUMP_UP_VELOCITY := -280
-const JUMP_DOWN_VELOCITY := -100
+const JUMP_DOWN_VELOCITY := -200
 const LEVEL_TWO_BOUND := 7 # 双层砖块中上层的下界，单位为瓦片高度
 const LEVEL_ONE_BOUND := 11 # 双层砖块中下层的下界，单位为瓦片高度
 const CHARACTER_HEIGHT := 1.5 # 角色高度，单位为瓦片高度
@@ -160,7 +160,7 @@ func tick_physics(state: State, delta: float) -> void:
 		State.DEAD:
 			move(DEAD_BOUNCE.x, attack_direction, delta)
 		_:
-			move(SPEED, move_direction, delta, default_gravity / 2)
+			move(SPEED, move_direction, delta, default_gravity)
 
 
 func transition_state(from: State, to: State) -> void:
