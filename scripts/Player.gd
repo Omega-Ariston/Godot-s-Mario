@@ -98,7 +98,7 @@ const CROUCH_STATES := [
 ]
 
 const UNSAFE_STATES := [
-	State.ENLARGE, State.ONFIRE, State.HURT, State.LAUNCH
+	State.ENLARGE, State.ONFIRE, State.HURT, State.LAUNCH, State.CLIMB
 ]
 
 @export var curr_mode := Mode.SMALL as Mode:
@@ -111,9 +111,9 @@ const UNSAFE_STATES := [
 @export var direction := Direction.RIGHT:
 	set(v):
 		if direction != v:
-			direction = v
 			if not is_node_ready():
 				await ready
+			direction = v
 			# 翻转图像
 			graphics.scale.x = direction
 
