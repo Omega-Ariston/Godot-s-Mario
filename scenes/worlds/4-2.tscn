@@ -20,7 +20,7 @@
 size = Vector2(8, 224)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_aw1lo"]
-size = Vector2(8, 224)
+size = Vector2(8, 288)
 
 [node name="4-2" type="Node2D"]
 script = ExtResource("1_b03qh")
@@ -58,7 +58,7 @@ collision_layer = 128
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/RightWall"]
-position = Vector2(4, 112)
+position = Vector2(4, 80)
 shape = SubResource("RectangleShape2D_aw1lo")
 
 [node name="WarpZone" parent="." instance=ExtResource("5_w20k2")]
@@ -2333,19 +2333,15 @@ position = Vector2(2896, 136)
 
 [node name="Beetle" parent="Enemies/Beetles" instance=ExtResource("14_y2k76")]
 position = Vector2(1336, 224)
-direction = -1
 
 [node name="Beetle2" parent="Enemies/Beetles" instance=ExtResource("14_y2k76")]
 position = Vector2(1416, 224)
-direction = -1
 
 [node name="Beetle3" parent="Enemies/Beetles" instance=ExtResource("14_y2k76")]
 position = Vector2(2472, 176)
-direction = -1
 
 [node name="Beetle4" parent="Enemies/Beetles" instance=ExtResource("14_y2k76")]
 position = Vector2(2872, 224)
-direction = -1
 
 [node name="Player" parent="." instance=ExtResource("15_q4btp")]
 position = Vector2(48, 64)

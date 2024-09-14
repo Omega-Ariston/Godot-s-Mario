@@ -12,7 +12,7 @@
 size = Vector2(8, 224)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_icqrj"]
-size = Vector2(8, 224)
+size = Vector2(8, 288)
 
 [node name="SubWarp" type="Node2D"]
 script = ExtResource("1_2emr4")
@@ -83,7 +83,7 @@ collision_layer = 128
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/RightWall"]
-position = Vector2(4, 112)
+position = Vector2(4, 80)
 shape = SubResource("RectangleShape2D_icqrj")
 
 [node name="SpawnPoints" type="Node" parent="."]

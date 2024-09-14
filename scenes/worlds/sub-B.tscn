@@ -10,10 +10,10 @@
 [ext_resource type="PackedScene" uid="uid://ta2kus8p0r8f" path="res://scenes/characters/player.tscn" id="8_ldc1n"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2a2ev"]
-size = Vector2(8, 224)
+size = Vector2(8, 288)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rufkf"]
-size = Vector2(8, 224)
+size = Vector2(8, 288)
 
 [node name="SubB" type="Node2D"]
 script = ExtResource("1_foajf")
@@ -51,7 +51,7 @@ collision_layer = 128
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/LeftWall"]
-position = Vector2(-4, 112)
+position = Vector2(-4, 80)
 shape = SubResource("RectangleShape2D_2a2ev")
 
 [node name="RightWall" type="StaticBody2D" parent="Boundaries"]
@@ -60,7 +60,7 @@ collision_layer = 128
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/RightWall"]
-position = Vector2(4, 112)
+position = Vector2(4, 80)
 shape = SubResource("RectangleShape2D_rufkf")
 
 [node name="Bricks" type="Node2D" parent="."]

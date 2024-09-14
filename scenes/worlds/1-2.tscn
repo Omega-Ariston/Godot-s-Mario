@@ -19,7 +19,7 @@
 size = Vector2(8, 224)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_43n5l"]
-size = Vector2(8, 224)
+size = Vector2(8, 288)
 
 [node name="1-2" type="Node2D"]
 script = ExtResource("1_2o7f6")
@@ -46,9 +46,6 @@ position = Vector2(2936, 48)
 level_a = 4
 level_b = 3
 level_c = 2
-
-[node name="TileMapLayer" parent="WarpZone" index="0"]
-z_as_relative = false
 
 [node name="EnterPoint" parent="WarpZone/EnterPoints" index="0"]
 new_level = "4-1"
@@ -78,7 +75,7 @@ collision_layer = 128
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/RightWall"]
-position = Vector2(4, 112)
+position = Vector2(4, 80)
 shape = SubResource("RectangleShape2D_43n5l")
 
 [node name="SpawnPoints" type="Node" parent="."]
