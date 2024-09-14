@@ -337,22 +337,22 @@ func tick_physics(state: State, delta: float) -> void:
 			# 处理防止掉下空隙的辅助逻辑
 			var speed_y := NAN
 			if is_falling_up:
+				# 正在辅助
 				if global_position.y <= position_y_before_fall:
-					# 完成了辅助，恢复玩家与砖块的碰撞
+					# 完成辅助，恢复玩家与砖块的碰撞
 					print_debug(Engine.get_physics_frames(), ' FALL UP ASSIST END')
 					is_falling_up = false
 					set_collision_mask_value(1, true)
 					# 恢复垂直速度
 					speed_y = 0.0
+				else:
+					# 给予一个朝向上方的恒定垂直速度
+					speed_y = -MOVE_AROUND_SPEED	
 			elif should_fall_up_assist():
 				# 开始辅助
 				print_debug(Engine.get_physics_frames(), ' FALL UP ASSIST START')
 				is_falling_up = true
 				set_collision_mask_value(1, false) # 临时移除玩家与砖块的碰撞
-				
-			if is_falling_up:
-				# 给予一个朝向上方的恒定垂直速度
-				speed_y = -MOVE_AROUND_SPEED	
 			
 			if is_first_tick or is_falling_up:
 				move(delta, 0.0, NAN, speed_y)

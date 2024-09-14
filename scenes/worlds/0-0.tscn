@@ -144,6 +144,10 @@ spawn_item = 4
 position = Vector2(152, 168)
 spawn_item = 4
 
+[node name="CoinBrick11" parent="Bricks" instance=ExtResource("5_cpr27")]
+position = Vector2(200, 168)
+spawn_item = 4
+
 [node name="Brick" parent="Bricks" instance=ExtResource("6_3qu74")]
 position = Vector2(360, 112)
 
