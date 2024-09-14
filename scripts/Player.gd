@@ -226,7 +226,7 @@ func tick_physics(state: State, delta: float) -> void:
 			dash_requested = false
 	
 	if is_invincible:
-		if invincible_timer.time_left == 0:
+		if invincible_timer.is_stopped():
 			is_invincible = false
 			graphics.modulate.a = 1
 		else:
@@ -666,7 +666,7 @@ func climb(_delta:float) -> void:
 
 
 func hurt(_enemy: Node2D) -> void:
-	if not is_invincible:
+	if not is_under_star and not is_invincible:
 		is_hurt = true
 		# 清除所有空中的火球
 		get_tree().call_group("Fireballs", "queue_free")
