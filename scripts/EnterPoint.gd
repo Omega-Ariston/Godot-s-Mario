@@ -44,9 +44,9 @@ func _physics_process(_delta: float) -> void:
 			# 切换场景
 			var params := { "player_mode": player.curr_mode }
 			params["spawn_point"] = spawn_point_name
-			# 三种情况：
+			# 四种情况：
 			if not new_level:
-				# 子->主
+				# 子->主 或 关卡内切换（迷宫关）
 				params["time"] = StatusBar.time
 				GameManager.change_scene(StatusBar.level, params)
 			elif new_level.begins_with('sub'):
