@@ -38,20 +38,20 @@ func do_spawn(node: Node2D, item: SpawnItem, player: Player) -> void:
 	
 	match item:
 		SpawnItem.COIN:
-			item_instance = load("res://scenes/items/coin_bumped.tscn").instantiate() as CoinBumped
+			item_instance = preload("res://scenes/items/coin_bumped.tscn").instantiate() as CoinBumped
 		SpawnItem.LIFE:
-			item_instance = load("res://scenes/items/mushroom.tscn").instantiate() as Mushroom
+			item_instance = preload("res://scenes/items/mushroom.tscn").instantiate() as Mushroom
 			item_instance.mushroom_type = SpawnItem.LIFE
 		SpawnItem.UPGRADE:
 			if player.curr_mode == Player.Mode.LARGE or player.curr_mode == Player.Mode.FIRE:
-				item_instance = load("res://scenes/items/flower.tscn").instantiate() as Flower
+				item_instance = preload("res://scenes/items/flower.tscn").instantiate() as Flower
 			else:
-				item_instance = load("res://scenes/items/mushroom.tscn").instantiate() as Mushroom
+				item_instance = preload("res://scenes/items/mushroom.tscn").instantiate() as Mushroom
 				item_instance.mushroom_type = SpawnItem.UPGRADE
 		SpawnItem.STAR:
-			item_instance = load("res://scenes/items/star.tscn").instantiate() as Star
+			item_instance = preload("res://scenes/items/star.tscn").instantiate() as Star
 		SpawnItem.VINE:
-			item_instance = load("res://scenes/climables/vine.tscn").instantiate() as Vine
+			item_instance = preload("res://scenes/climables/vine.tscn").instantiate() as Vine
 	node.call_deferred("add_child", item_instance)
 
 # 被玩家顶

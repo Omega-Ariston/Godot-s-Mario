@@ -1,7 +1,7 @@
 class_name CoinBumped
 extends CharacterBody2D
 
-const BOUNCE_VELOCITY := -240.0
+const BOUNCE_VELOCITY := -300.0
 const SCORE := 200
 
 @onready var timer: Timer = $Timer

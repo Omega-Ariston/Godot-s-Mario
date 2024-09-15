@@ -24,7 +24,7 @@ func _ready() -> void:
 		sprite_material.set_shader_parameter("shader_enabled", false)
 
 func on_bumped(_body=null) -> void:
-	var item_instance = load("res://scenes/items/coin_bumped.tscn").instantiate() as CoinBumped
+	var item_instance = preload("res://scenes/items/coin_bumped.tscn").instantiate() as CoinBumped
 	item_instance.global_position = global_position
 	get_tree().root.call_deferred("add_child", item_instance)
 	on_eaten(false)

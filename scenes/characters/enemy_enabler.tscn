@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://dux2x6ddu5h4t"]
+
+[ext_resource type="Script" path="res://scripts/EnemyEnabler.gd" id="1_etrnf"]
+
+[node name="EnemyEnabler" type="VisibleOnScreenNotifier2D"]
+position = Vector2(-5.72205e-06, -32)
+scale = Vector2(6.4, 3.2)
+script = ExtResource("1_etrnf")
+
+[connection signal="screen_entered" from="." to="." method="_on_screen_entered"]
+[connection signal="screen_exited" from="." to="." method="_on_screen_exited"]

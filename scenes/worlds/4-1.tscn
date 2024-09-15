@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://blghq5i5psual"]
+[gd_scene load_steps=18 format=4 uid="uid://blghq5i5psual"]
 
 [ext_resource type="Script" path="res://scripts/World.gd" id="1_7mmtm"]
 [ext_resource type="PackedScene" uid="uid://b4igl1ywray2k" path="res://scenes/items/white_flag.tscn" id="3_p1kge"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://cjahx4qiw0rlv" path="res://scenes/items/coin.tscn" id="9_358dk"]
 [ext_resource type="PackedScene" uid="uid://bkoa5bviyhuyp" path="res://scenes/characters/piranha.tscn" id="10_kancw"]
 [ext_resource type="PackedScene" uid="uid://hwvatwkj6km6" path="res://scenes/characters/lakitu.tscn" id="11_0sqry"]
+[ext_resource type="PackedScene" uid="uid://dux2x6ddu5h4t" path="res://scenes/characters/enemy_enabler.tscn" id="12_tmgo4"]
 [ext_resource type="PackedScene" uid="uid://bmj4wwc8y1hpb" path="res://scenes/characters/spiny.tscn" id="13_f0atm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wgtb4"]
@@ -249,34 +250,57 @@ position = Vector2(1704, 120)
 
 [node name="Enemies" type="Node2D" parent="."]
 
-[node name="Piranhas" type="Node2D" parent="Enemies"]
-
-[node name="Piranha" parent="Enemies/Piranhas" instance=ExtResource("10_kancw")]
+[node name="Node2D" type="Node2D" parent="Enemies"]
 position = Vector2(352, 200)
 
-[node name="Piranha2" parent="Enemies/Piranhas" instance=ExtResource("10_kancw")]
+[node name="Piranha" parent="Enemies/Node2D" instance=ExtResource("10_kancw")]
+
+[node name="EnemyEnabler" parent="Enemies/Node2D" instance=ExtResource("12_tmgo4")]
+
+[node name="Node2D2" type="Node2D" parent="Enemies"]
 position = Vector2(1872, 184)
 
-[node name="Piranha3" parent="Enemies/Piranhas" instance=ExtResource("10_kancw")]
+[node name="Piranha2" parent="Enemies/Node2D2" instance=ExtResource("10_kancw")]
+
+[node name="EnemyEnabler" parent="Enemies/Node2D2" instance=ExtResource("12_tmgo4")]
+
+[node name="Node2D3" type="Node2D" parent="Enemies"]
 position = Vector2(2128, 184)
 
-[node name="Piranha4" parent="Enemies/Piranhas" instance=ExtResource("10_kancw")]
+[node name="Piranha3" parent="Enemies/Node2D3" instance=ExtResource("10_kancw")]
+
+[node name="EnemyEnabler" parent="Enemies/Node2D3" instance=ExtResource("12_tmgo4")]
+
+[node name="Node2D4" type="Node2D" parent="Enemies"]
 position = Vector2(2624, 216)
 
-[node name="Lakitu" parent="Enemies" instance=ExtResource("11_0sqry")]
+[node name="Piranha4" parent="Enemies/Node2D4" instance=ExtResource("10_kancw")]
+
+[node name="EnemyEnabler" parent="Enemies/Node2D4" instance=ExtResource("12_tmgo4")]
+
+[node name="Node2D5" type="Node2D" parent="Enemies"]
 position = Vector2(432, 80)
 
-[node name="ByePoint" parent="Enemies/Lakitu" index="8"]
+[node name="Lakitu" parent="Enemies/Node2D5" instance=ExtResource("11_0sqry")]
+
+[node name="OffScreenEraser" parent="Enemies/Node2D5/Lakitu" index="4"]
+position = Vector2(48, -16)
+
+[node name="ByePoint" parent="Enemies/Node2D5/Lakitu" index="8"]
 position = Vector2(3368, 224)
 
-[node name="Spinies" type="Node2D" parent="Enemies"]
+[node name="EnemyEnabler" parent="Enemies/Node2D5" instance=ExtResource("12_tmgo4")]
 
-[node name="Spiny" parent="Enemies/Spinies" instance=ExtResource("13_f0atm")]
+[node name="Node2D6" type="Node2D" parent="Enemies"]
 position = Vector2(448, 80)
+
+[node name="Spiny" parent="Enemies/Node2D6" instance=ExtResource("13_f0atm")]
+
+[node name="EnemyEnabler" parent="Enemies/Node2D6" instance=ExtResource("12_tmgo4")]
 
 [node name="Player" parent="." instance=ExtResource("7_noudm")]
 position = Vector2(56, 216)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 
-[editable path="Enemies/Lakitu"]
+[editable path="Enemies/Node2D5/Lakitu"]

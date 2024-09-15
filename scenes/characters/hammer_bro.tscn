@@ -12,9 +12,8 @@ shader_parameter/shader_enabled = false
 shader_parameter/origin_colors = null
 shader_parameter/new_colors = null
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8aixr"]
-radius = 7.0
-height = 18.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ooof"]
+size = Vector2(14, 19)
 
 [sub_resource type="Animation" id="Animation_mupsp"]
 length = 0.001
@@ -146,9 +145,8 @@ _data = {
 "wonder": SubResource("Animation_tyhaa")
 }
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ro0m1"]
-radius = 8.0
-height = 24.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e5pxf"]
+size = Vector2(16, 24)
 
 [node name="HammerBro" instance=ExtResource("1_uf2uq")]
 script = ExtResource("2_cgdwo")
@@ -171,18 +169,14 @@ position = Vector2(-8, 0)
 target_position = Vector2(-8, 0)
 
 [node name="CollisionShape2D" parent="." index="1"]
-position = Vector2(0, -9)
-shape = SubResource("CapsuleShape2D_8aixr")
+position = Vector2(0, -9.5)
+shape = SubResource("RectangleShape2D_5ooof")
 disabled = true
 
 [node name="AnimationPlayer" parent="." index="2"]
 libraries = {
 "": SubResource("AnimationLibrary_dgevr")
 }
-
-[node name="VisibleOnScreenNotifier2D" parent="." index="4"]
-position = Vector2(0, -12)
-scale = Vector2(0.8, 1.2)
 
 [node name="FloorChecker" type="Node2D" parent="." index="5"]
 
@@ -202,7 +196,7 @@ hit_from_inside = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
 position = Vector2(0, -12)
-shape = SubResource("CapsuleShape2D_ro0m1")
+shape = SubResource("RectangleShape2D_e5pxf")
 
 [node name="JumpTimer" type="Timer" parent="." index="7"]
 one_shot = true

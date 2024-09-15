@@ -22,9 +22,10 @@ script = ExtResource("1_0cop4")
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("1_muhse")
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+[node name="OffScreenEraser" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(3.8147e-06, -16)
+scale = Vector2(6.4, 1.6)
 
 [node name="Hurtbox" parent="." instance=ExtResource("3_8wb8l")]
 
-[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="screen_exited" from="OffScreenEraser" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

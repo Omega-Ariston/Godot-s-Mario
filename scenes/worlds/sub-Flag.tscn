@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://ddmj34vqr3asn"]
+[gd_scene load_steps=12 format=4 uid="uid://ddmj34vqr3asn"]
 
 [ext_resource type="Script" path="res://scripts/World.gd" id="1_d6cau"]
 [ext_resource type="PackedScene" uid="uid://b4igl1ywray2k" path="res://scenes/items/white_flag.tscn" id="2_byuv7"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/SpawnPoint.gd" id="6_8yf7s"]
 [ext_resource type="PackedScene" uid="uid://bkoa5bviyhuyp" path="res://scenes/characters/piranha.tscn" id="7_1qiar"]
 [ext_resource type="PackedScene" uid="uid://ta2kus8p0r8f" path="res://scenes/characters/player.tscn" id="8_c5b3r"]
+[ext_resource type="PackedScene" uid="uid://dux2x6ddu5h4t" path="res://scenes/characters/enemy_enabler.tscn" id="8_onlom"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t4yw5"]
 size = Vector2(8, 224)
@@ -70,8 +71,12 @@ script = ExtResource("6_8yf7s")
 direction = 1
 type = 1
 
-[node name="Piranha" parent="." instance=ExtResource("7_1qiar")]
+[node name="Node2D" type="Node2D" parent="."]
 position = Vector2(64, 216)
+
+[node name="Piranha" parent="Node2D" instance=ExtResource("7_1qiar")]
+
+[node name="EnemyEnabler" parent="Node2D" instance=ExtResource("8_onlom")]
 
 [node name="Player" parent="." instance=ExtResource("8_c5b3r")]
 position = Vector2(64, 192)

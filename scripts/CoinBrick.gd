@@ -9,6 +9,10 @@ const COLOR_CYAN := [
 	Vector4(0.0, 0.47, 0.54, 1.0)
 ]
 
+const COLOR_GREY := [
+	Vector4(0.38, 0.38, 0.38, 1.0)
+]
+
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var bumpable: Bumpable = $Bumpable
 @onready var sprite_2d: Sprite2D = $Sprite2D
@@ -24,6 +28,9 @@ func _ready() -> void:
 	if GameManager.current_world_type == GameManager.WorldType.UNDER:
 		sprite_material.set_shader_parameter("shader_enabled", true)
 		sprite_material.set_shader_parameter("new_colors", COLOR_CYAN.duplicate())
+	elif GameManager.current_world_type == GameManager.WorldType.CASTLE:
+		sprite_material.set_shader_parameter("shader_enabled", true)
+		sprite_material.set_shader_parameter("new_colors", COLOR_GREY.duplicate())
 	else:
 		sprite_material.set_shader_parameter("shader_enabled", false)
 	if is_hidden:

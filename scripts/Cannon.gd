@@ -44,8 +44,12 @@ func transition_state(_from: State, to: State) -> void:
 			# 发射炮弹
 			var bullet_instance := preload("res://scenes/characters/bullet.tscn").instantiate() as Bullet
 			bullet_instance.direction = Direction.LEFT if player.global_position.x < global_position.x else Direction.RIGHT
-			bullet_instance.global_position = global_position
-			owner.add_child(bullet_instance)
+			var enemy_enabler := preload("res://scenes/characters/enemy_enabler.tscn").instantiate()
+			var node2d := Node2D.new()
+			node2d.global_position = global_position
+			node2d.add_child(bullet_instance)
+			node2d.add_child(enemy_enabler)
+			owner.add_child(node2d)
 			can_fire = false
 			fire_timer.start(rng.randf_range(MIN_WAIT_TIME, MAX_WAIT_TIME))
 		

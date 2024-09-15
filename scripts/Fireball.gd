@@ -4,6 +4,7 @@ extends CharacterBody2D
 const HORIZONTAL_SPEED := 250
 const JUMP_VELOCITY := -190.0
 const LAUNCH_FALL_SPEED := 200
+const GRAVITY := 562.5 # 00280
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
@@ -11,6 +12,7 @@ var direction := 1
 var has_grouded := false
 var hit_enemy := false
 var blasted := false
+
 
 func _ready() -> void:
 	animation_player.play("fire")
@@ -31,7 +33,7 @@ func _physics_process(delta: float) -> void:
 			has_grouded = true
 			# 碰到地就跳
 			velocity.y = JUMP_VELOCITY
-		move(Variables.DEFAULT_GRAVITY * 2, delta)
+		move(GRAVITY * 2, delta)
 			
 func move(gravity: float, delta: float) -> void:
 	velocity.x = HORIZONTAL_SPEED * direction

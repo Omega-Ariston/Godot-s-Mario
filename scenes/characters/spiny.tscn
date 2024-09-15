@@ -4,9 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://eh5egx0rrwpa" path="res://assets/graphics/enemies.png" id="2_5h383"]
 [ext_resource type="Script" path="res://scripts/Spiny.gd" id="2_vw3nk"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tdjhk"]
-radius = 7.0
-height = 14.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g6wj6"]
+size = Vector2(12, 12)
 
 [sub_resource type="Animation" id="Animation_vnmf7"]
 length = 0.001
@@ -66,9 +65,8 @@ _data = {
 "walk": SubResource("Animation_gy7ab")
 }
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ubl13"]
-radius = 8.0
-height = 16.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ma6b2"]
+size = Vector2(12, 12.5)
 
 [node name="Spiny" groups=["Spiny"] instance=ExtResource("1_0xb8u")]
 script = ExtResource("2_vw3nk")
@@ -83,18 +81,17 @@ region_enabled = true
 region_rect = Rect2(464, 80, 64, 16)
 
 [node name="CollisionShape2D" parent="." index="1"]
-position = Vector2(0, -7)
-shape = SubResource("CapsuleShape2D_tdjhk")
+position = Vector2(0, -6)
+shape = SubResource("RectangleShape2D_g6wj6")
 
 [node name="AnimationPlayer" parent="." index="2"]
 libraries = {
 "": SubResource("AnimationLibrary_ampog")
 }
 
-[node name="VisibleOnScreenNotifier2D" parent="." index="4"]
-position = Vector2(4.17233e-07, -8)
-scale = Vector2(0.8, 0.8)
+[node name="Hurtbox" parent="." index="5"]
+position = Vector2(0, -2)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
-position = Vector2(0, -8)
-shape = SubResource("CapsuleShape2D_ubl13")
+position = Vector2(0, -6.25)
+shape = SubResource("RectangleShape2D_ma6b2")

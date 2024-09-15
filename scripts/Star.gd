@@ -39,7 +39,7 @@ func _physics_process(delta: float) -> void:
 		if is_on_floor():
 			# 碰到地就跳
 			velocity.y = JUMP_VELOCITY
-		move(Variables.DEFAULT_GRAVITY, delta)
+		move(Variables.DEFAULT_GRAVITY / 2, delta)
 
 func move(gravity: float, delta: float) -> void:
 	velocity.x = SPEED * direction

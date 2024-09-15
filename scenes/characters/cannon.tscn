@@ -24,10 +24,6 @@ region_rect = Rect2(144, 0, 16, 16)
 position = Vector2(0, -8)
 shape = SubResource("RectangleShape2D_nkabf")
 
-[node name="VisibleOnScreenNotifier2D" parent="." index="4"]
-position = Vector2(-4.76837e-07, -8)
-scale = Vector2(0.8, 0.8)
-
 [node name="Hurtbox" parent="." index="5"]
 monitoring = false
 monitorable = false

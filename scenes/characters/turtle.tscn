@@ -12,10 +12,8 @@ shader_parameter/shader_enabled = false
 shader_parameter/origin_colors = null
 shader_parameter/new_colors = null
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fnwon"]
-resource_local_to_scene = true
-radius = 7.0
-height = 14.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ao7n1"]
+size = Vector2(13, 12)
 
 [sub_resource type="Animation" id="Animation_tnob3"]
 length = 0.001
@@ -267,9 +265,8 @@ _data = {
 "walk": SubResource("Animation_ma0ss")
 }
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8ehfr"]
-radius = 8.0
-height = 16.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8b0ng"]
+size = Vector2(13, 12)
 
 [node name="Turtle" instance=ExtResource("1_askc4")]
 script = ExtResource("2_8x3o1")
@@ -292,8 +289,8 @@ enabled = false
 target_position = Vector2(0, 4)
 
 [node name="CollisionShape2D" parent="." index="1"]
-position = Vector2(0, -7)
-shape = SubResource("CapsuleShape2D_fnwon")
+position = Vector2(-0.5, -6)
+shape = SubResource("RectangleShape2D_ao7n1")
 
 [node name="AnimationPlayer" parent="." index="2"]
 deterministic = true
@@ -301,16 +298,12 @@ libraries = {
 "": SubResource("AnimationLibrary_e822t")
 }
 
-[node name="VisibleOnScreenNotifier2D" parent="." index="4"]
-position = Vector2(4.17233e-07, -11.5)
-scale = Vector2(0.8, 1.15)
-
 [node name="Hurtbox" parent="." index="5"]
 position = Vector2(0, -12)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
-position = Vector2(0, 4)
-shape = SubResource("CapsuleShape2D_8ehfr")
+position = Vector2(-0.5, 6)
+shape = SubResource("RectangleShape2D_8b0ng")
 
 [node name="RecoverTimer" type="Timer" parent="." index="6"]
 wait_time = 5.0

@@ -21,10 +21,6 @@ texture = ExtResource("2_m4y6m")
 region_enabled = true
 region_rect = Rect2(576, 16, 16, 16)
 
-[node name="VisibleOnScreenNotifier2D" parent="." index="4"]
-position = Vector2(-1, -7)
-scale = Vector2(0.8, 0.7)
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
 position = Vector2(-1, -7)
 shape = SubResource("RectangleShape2D_d1p2y")

@@ -28,6 +28,12 @@ const COLOR_CYAN := [
 	Vector4(0.06, 0.19, 0.22, 1.0)
 ]
 
+const COLOR_GREY := [
+	Vector4(0.73, 0.73, 0.73, 1.0),
+	Vector4(0.98, 0.98, 0.98, 1.0),
+	Vector4(0.45, 0.45, 0.45, 1.0)
+]
+
 @onready var sprite_2d: Sprite2D = $Graphics/Sprite2D
 
 func _on_world_ready() -> void:
@@ -36,6 +42,9 @@ func _on_world_ready() -> void:
 	if GameManager.current_world_type == GameManager.WorldType.UNDER:
 		sprite_material.set_shader_parameter("shader_enabled", true)
 		sprite_material.set_shader_parameter("new_colors", COLOR_CYAN.duplicate())
+	elif GameManager.current_world_type == GameManager.WorldType.CASTLE:
+		sprite_material.set_shader_parameter("shader_enabled", true)
+		sprite_material.set_shader_parameter("new_colors", COLOR_GREY.duplicate())
 	else:
 		sprite_material.set_shader_parameter("shader_enabled", false)
 

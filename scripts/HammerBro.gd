@@ -50,7 +50,7 @@ var can_jump := false
 var is_chasing := false
 var level_before_jump : int
 var move_direction := Direction.LEFT
-var hammer_to_throw := 0
+var hammer_to_throw := HAMMER_COUNT_RANGE[1]
 
 @onready var sprite_2d: Sprite2D = $Graphics/Sprite2D
 @onready var jump_timer: Timer = $JumpTimer
@@ -63,16 +63,21 @@ func _ready() -> void:
 	origin_x = global_position.x
 	animation_player.speed_scale = 0.5
 	animation_player.play("wonder")
-	throw_hammer()
+	default_gravity = 562.5 # 00280
 
 func _on_world_ready() -> void:
 	var sprite_material = sprite_2d.material as ShaderMaterial
 	sprite_material.set_shader_parameter("origin_colors", COLOR_ORIGIN.duplicate())
-	if GameManager.current_world_type == GameManager.WorldType.UNDER:
+	if GameManager.current_world_type in [GameManager.WorldType.UNDER, GameManager.WorldType.CASTLE]:
 		sprite_material.set_shader_parameter("shader_enabled", true)
 		sprite_material.set_shader_parameter("new_colors", COLOR_CYAN.duplicate())
 	else:
 		sprite_material.set_shader_parameter("shader_enabled", false)
+
+
+func start() -> void:
+	super()
+	throw_hammer()
 		
 
 func throw_hammer() -> void:
@@ -181,6 +186,7 @@ func transition_state(from: State, to: State) -> void:
 			# 恢复碰撞以站立
 			collision_shape_2d.disabled = false
 		State.DEAD:
+			hammer_to_throw = 0
 			if charged:
 				ScoreManager.add_score(SCORE["charged"], self)
 			elif hit:

@@ -211,10 +211,6 @@ libraries = {
 "": SubResource("AnimationLibrary_h7t2q")
 }
 
-[node name="VisibleOnScreenNotifier2D" parent="." index="4"]
-position = Vector2(0, -12)
-scale = Vector2(0.8, 1.2)
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
 position = Vector2(0, -8)
 shape = SubResource("CapsuleShape2D_inlnm")

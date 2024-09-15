@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://cieqy7phlpc34"]
+[gd_scene load_steps=19 format=4 uid="uid://cieqy7phlpc34"]
 
 [ext_resource type="Script" path="res://scripts/World.gd" id="1_t2w8o"]
 [ext_resource type="PackedScene" uid="uid://b4igl1ywray2k" path="res://scenes/items/white_flag.tscn" id="2_wbn42"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://bkoa5bviyhuyp" path="res://scenes/characters/piranha.tscn" id="10_qwjas"]
 [ext_resource type="PackedScene" uid="uid://3dn4vucj2s00" path="res://scenes/characters/goomba.tscn" id="11_lpsy6"]
 [ext_resource type="PackedScene" uid="uid://b3sa7c80qbgij" path="res://scenes/characters/turtle.tscn" id="12_58vp8"]
+[ext_resource type="PackedScene" uid="uid://dux2x6ddu5h4t" path="res://scenes/characters/enemy_enabler.tscn" id="12_to780"]
 [ext_resource type="PackedScene" uid="uid://ta2kus8p0r8f" path="res://scenes/characters/player.tscn" id="15_u4ahu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tobfu"]
@@ -209,196 +210,324 @@ position = Vector2(5160, 152)
 
 [node name="Enemies" type="Node2D" parent="."]
 
-[node name="Piranhas" type="Node2D" parent="Enemies"]
-
-[node name="Piranha" parent="Enemies/Piranhas" instance=ExtResource("10_qwjas")]
+[node name="Node2D" type="Node2D" parent="Enemies"]
 position = Vector2(576, 184)
 
-[node name="Piranha2" parent="Enemies/Piranhas" instance=ExtResource("10_qwjas")]
+[node name="Piranha" parent="Enemies/Node2D" instance=ExtResource("10_qwjas")]
+
+[node name="EnemyEnabler" parent="Enemies/Node2D" instance=ExtResource("12_to780")]
+
+[node name="Node2D2" type="Node2D" parent="Enemies"]
 position = Vector2(1232, 184)
 
-[node name="Piranha3" parent="Enemies/Piranhas" instance=ExtResource("10_qwjas")]
+[node name="Piranha2" parent="Enemies/Node2D2" instance=ExtResource("10_qwjas")]
+
+[node name="EnemyEnabler" parent="Enemies/Node2D2" instance=ExtResource("12_to780")]
+
+[node name="Node2D3" type="Node2D" parent="Enemies"]
 position = Vector2(1328, 200)
 
-[node name="Piranha4" parent="Enemies/Piranhas" instance=ExtResource("10_qwjas")]
+[node name="Piranha3" parent="Enemies/Node2D3" instance=ExtResource("10_qwjas")]
+
+[node name="EnemyEnabler" parent="Enemies/Node2D3" instance=ExtResource("12_to780")]
+
+[node name="Node2D4" type="Node2D" parent="Enemies"]
 position = Vector2(1520, 184)
 
-[node name="Piranha5" parent="Enemies/Piranhas" instance=ExtResource("10_qwjas")]
+[node name="Piranha4" parent="Enemies/Node2D4" instance=ExtResource("10_qwjas")]
+
+[node name="EnemyEnabler" parent="Enemies/Node2D4" instance=ExtResource("12_to780")]
+
+[node name="Node2D5" type="Node2D" parent="Enemies"]
 position = Vector2(1680, 184)
 
-[node name="Piranha6" parent="Enemies/Piranhas" instance=ExtResource("10_qwjas")]
+[node name="Piranha5" parent="Enemies/Node2D5" instance=ExtResource("10_qwjas")]
+
+[node name="EnemyEnabler" parent="Enemies/Node2D5" instance=ExtResource("12_to780")]
+
+[node name="Node2D6" type="Node2D" parent="Enemies"]
 position = Vector2(2256, 200)
 
-[node name="Piranha7" parent="Enemies/Piranhas" instance=ExtResource("10_qwjas")]
+[node name="Piranha6" parent="Enemies/Node2D6" instance=ExtResource("10_qwjas")]
+
+[node name="EnemyEnabler" parent="Enemies/Node2D6" instance=ExtResource("12_to780")]
+
+[node name="Node2D7" type="Node2D" parent="Enemies"]
 position = Vector2(3824, 200)
 
-[node name="Piranha8" parent="Enemies/Piranhas" instance=ExtResource("10_qwjas")]
+[node name="Piranha7" parent="Enemies/Node2D7" instance=ExtResource("10_qwjas")]
+
+[node name="EnemyEnabler" parent="Enemies/Node2D7" instance=ExtResource("12_to780")]
+
+[node name="Node2D8" type="Node2D" parent="Enemies"]
 position = Vector2(3888, 184)
 
-[node name="Piranha9" parent="Enemies/Piranhas" instance=ExtResource("10_qwjas")]
+[node name="Piranha8" parent="Enemies/Node2D8" instance=ExtResource("10_qwjas")]
+
+[node name="EnemyEnabler" parent="Enemies/Node2D8" instance=ExtResource("12_to780")]
+
+[node name="Node2D9" type="Node2D" parent="Enemies"]
 position = Vector2(5520, 200)
 
-[node name="Piranha10" parent="Enemies/Piranhas" instance=ExtResource("10_qwjas")]
+[node name="Piranha9" parent="Enemies/Node2D9" instance=ExtResource("10_qwjas")]
+
+[node name="EnemyEnabler" parent="Enemies/Node2D9" instance=ExtResource("12_to780")]
+
+[node name="Node2D10" type="Node2D" parent="Enemies"]
 position = Vector2(5696, 216)
 
-[node name="Beetles" type="Node2D" parent="Enemies"]
+[node name="Piranha10" parent="Enemies/Node2D10" instance=ExtResource("10_qwjas")]
 
-[node name="Beetle" parent="Enemies/Beetles" instance=ExtResource("10_4xt0f")]
+[node name="EnemyEnabler" parent="Enemies/Node2D10" instance=ExtResource("12_to780")]
+
+[node name="Node2D11" type="Node2D" parent="Enemies"]
 position = Vector2(296, 224)
 
-[node name="Beetle2" parent="Enemies/Beetles" instance=ExtResource("10_4xt0f")]
+[node name="Beetle" parent="Enemies/Node2D11" instance=ExtResource("10_4xt0f")]
+
+[node name="EnemyEnabler" parent="Enemies/Node2D11" instance=ExtResource("12_to780")]
+
+[node name="Node2D17" type="Node2D" parent="Enemies"]
 position = Vector2(1304, 224)
 
-[node name="Beetle3" parent="Enemies/Beetles" instance=ExtResource("10_4xt0f")]
+[node name="Beetle2" parent="Enemies/Node2D17" instance=ExtResource("10_4xt0f")]
+
+[node name="EnemyEnabler" parent="Enemies/Node2D17" instance=ExtResource("12_to780")]
+
+[node name="Node2D30" type="Node2D" parent="Enemies"]
 position = Vector2(4072, 224)
 
-[node name="Beetle4" parent="Enemies/Beetles" instance=ExtResource("10_4xt0f")]
+[node name="Beetle3" parent="Enemies/Node2D30" instance=ExtResource("10_4xt0f")]
+
+[node name="EnemyEnabler" parent="Enemies/Node2D30" instance=ExtResource("12_to780")]
+
+[node name="Node2D31" type="Node2D" parent="Enemies"]
 position = Vector2(4536, 224)
 
-[node name="Goombas" type="Node2D" parent="Enemies"]
+[node name="Beetle4" parent="Enemies/Node2D31" instance=ExtResource("10_4xt0f")]
 
-[node name="Goomba" parent="Enemies/Goombas" instance=ExtResource("11_lpsy6")]
+[node name="EnemyEnabler" parent="Enemies/Node2D31" instance=ExtResource("12_to780")]
+
+[node name="Node2D12" type="Node2D" parent="Enemies"]
 position = Vector2(376, 224)
 
-[node name="Goomba2" parent="Enemies/Goombas" instance=ExtResource("11_lpsy6")]
-position = Vector2(400, 224)
+[node name="Goomba" parent="Enemies/Node2D12" instance=ExtResource("11_lpsy6")]
 
-[node name="Goomba3" parent="Enemies/Goombas" instance=ExtResource("11_lpsy6")]
-position = Vector2(424, 224)
+[node name="Goomba2" parent="Enemies/Node2D12" instance=ExtResource("11_lpsy6")]
+position = Vector2(24, 0)
 
-[node name="Goomba4" parent="Enemies/Goombas" instance=ExtResource("11_lpsy6")]
+[node name="Goomba3" parent="Enemies/Node2D12" instance=ExtResource("11_lpsy6")]
+position = Vector2(48, 0)
+
+[node name="EnemyEnabler" parent="Enemies/Node2D12" instance=ExtResource("12_to780")]
+
+[node name="Node2D13" type="Node2D" parent="Enemies"]
 position = Vector2(488, 224)
 
-[node name="Goomba5" parent="Enemies/Goombas" instance=ExtResource("11_lpsy6")]
-position = Vector2(512, 224)
+[node name="Goomba4" parent="Enemies/Node2D13" instance=ExtResource("11_lpsy6")]
 
-[node name="Goomba6" parent="Enemies/Goombas" instance=ExtResource("11_lpsy6")]
-position = Vector2(536, 224)
+[node name="Goomba5" parent="Enemies/Node2D13" instance=ExtResource("11_lpsy6")]
+position = Vector2(24, 0)
 
-[node name="Goomba7" parent="Enemies/Goombas" instance=ExtResource("11_lpsy6")]
+[node name="Goomba6" parent="Enemies/Node2D13" instance=ExtResource("11_lpsy6")]
+position = Vector2(48, 0)
+
+[node name="EnemyEnabler" parent="Enemies/Node2D13" instance=ExtResource("12_to780")]
+
+[node name="Node2D16" type="Node2D" parent="Enemies"]
 position = Vector2(1112, 224)
 
-[node name="Goomba8" parent="Enemies/Goombas" instance=ExtResource("11_lpsy6")]
-position = Vector2(1136, 224)
+[node name="Goomba7" parent="Enemies/Node2D16" instance=ExtResource("11_lpsy6")]
 
-[node name="Goomba9" parent="Enemies/Goombas" instance=ExtResource("11_lpsy6")]
-position = Vector2(1160, 224)
+[node name="Goomba8" parent="Enemies/Node2D16" instance=ExtResource("11_lpsy6")]
+position = Vector2(24, 0)
 
-[node name="Goomba10" parent="Enemies/Goombas" instance=ExtResource("11_lpsy6")]
+[node name="Goomba9" parent="Enemies/Node2D16" instance=ExtResource("11_lpsy6")]
+position = Vector2(48, 0)
+
+[node name="EnemyEnabler" parent="Enemies/Node2D16" instance=ExtResource("12_to780")]
+
+[node name="Node2D18" type="Node2D" parent="Enemies"]
 position = Vector2(1736, 224)
 
-[node name="Goomba11" parent="Enemies/Goombas" instance=ExtResource("11_lpsy6")]
-position = Vector2(1760, 224)
+[node name="Goomba10" parent="Enemies/Node2D18" instance=ExtResource("11_lpsy6")]
 
-[node name="Goomba12" parent="Enemies/Goombas" instance=ExtResource("11_lpsy6")]
-position = Vector2(1784, 224)
+[node name="Goomba11" parent="Enemies/Node2D18" instance=ExtResource("11_lpsy6")]
+position = Vector2(24, 0)
 
-[node name="Goomba13" parent="Enemies/Goombas" instance=ExtResource("11_lpsy6")]
+[node name="Goomba12" parent="Enemies/Node2D18" instance=ExtResource("11_lpsy6")]
+position = Vector2(48, 0)
+
+[node name="EnemyEnabler" parent="Enemies/Node2D18" instance=ExtResource("12_to780")]
+
+[node name="Node2D22" type="Node2D" parent="Enemies"]
 position = Vector2(2376, 224)
 
-[node name="Goomba14" parent="Enemies/Goombas" instance=ExtResource("11_lpsy6")]
-position = Vector2(2400, 224)
+[node name="Goomba13" parent="Enemies/Node2D22" instance=ExtResource("11_lpsy6")]
 
-[node name="Goomba15" parent="Enemies/Goombas" instance=ExtResource("11_lpsy6")]
-position = Vector2(2424, 224)
+[node name="Goomba14" parent="Enemies/Node2D22" instance=ExtResource("11_lpsy6")]
+position = Vector2(24, 0)
 
-[node name="Goomba16" parent="Enemies/Goombas" instance=ExtResource("11_lpsy6")]
+[node name="Goomba15" parent="Enemies/Node2D22" instance=ExtResource("11_lpsy6")]
+position = Vector2(48, 0)
+
+[node name="EnemyEnabler" parent="Enemies/Node2D22" instance=ExtResource("12_to780")]
+
+[node name="Node2D26" type="Node2D" parent="Enemies"]
 position = Vector2(3720, 224)
 
-[node name="Goomba17" parent="Enemies/Goombas" instance=ExtResource("11_lpsy6")]
-position = Vector2(3744, 224)
+[node name="Goomba16" parent="Enemies/Node2D26" instance=ExtResource("11_lpsy6")]
 
-[node name="Goomba18" parent="Enemies/Goombas" instance=ExtResource("11_lpsy6")]
-position = Vector2(3768, 224)
+[node name="Goomba17" parent="Enemies/Node2D26" instance=ExtResource("11_lpsy6")]
+position = Vector2(24, 0)
 
-[node name="Goomba19" parent="Enemies/Goombas" instance=ExtResource("11_lpsy6")]
+[node name="Goomba18" parent="Enemies/Node2D26" instance=ExtResource("11_lpsy6")]
+position = Vector2(48, 0)
+
+[node name="EnemyEnabler" parent="Enemies/Node2D26" instance=ExtResource("12_to780")]
+
+[node name="Node2D27" type="Node2D" parent="Enemies"]
 position = Vector2(4120, 224)
 
-[node name="Goomba20" parent="Enemies/Goombas" instance=ExtResource("11_lpsy6")]
-position = Vector2(4144, 224)
+[node name="Goomba19" parent="Enemies/Node2D27" instance=ExtResource("11_lpsy6")]
 
-[node name="Goomba21" parent="Enemies/Goombas" instance=ExtResource("11_lpsy6")]
-position = Vector2(4168, 224)
+[node name="Goomba20" parent="Enemies/Node2D27" instance=ExtResource("11_lpsy6")]
+position = Vector2(24, 0)
 
-[node name="Goomba22" parent="Enemies/Goombas" instance=ExtResource("11_lpsy6")]
+[node name="Goomba21" parent="Enemies/Node2D27" instance=ExtResource("11_lpsy6")]
+position = Vector2(48, 0)
+
+[node name="EnemyEnabler" parent="Enemies/Node2D27" instance=ExtResource("12_to780")]
+
+[node name="Node2D28" type="Node2D" parent="Enemies"]
 position = Vector2(4232, 224)
 
-[node name="Goomba23" parent="Enemies/Goombas" instance=ExtResource("11_lpsy6")]
-position = Vector2(4256, 224)
+[node name="Goomba22" parent="Enemies/Node2D28" instance=ExtResource("11_lpsy6")]
 
-[node name="Goomba24" parent="Enemies/Goombas" instance=ExtResource("11_lpsy6")]
-position = Vector2(4280, 224)
+[node name="Goomba23" parent="Enemies/Node2D28" instance=ExtResource("11_lpsy6")]
+position = Vector2(24, 0)
 
-[node name="Goomba25" parent="Enemies/Goombas" instance=ExtResource("11_lpsy6")]
+[node name="Goomba24" parent="Enemies/Node2D28" instance=ExtResource("11_lpsy6")]
+position = Vector2(48, 0)
+
+[node name="EnemyEnabler" parent="Enemies/Node2D28" instance=ExtResource("12_to780")]
+
+[node name="Node2D29" type="Node2D" parent="Enemies"]
 position = Vector2(4360, 224)
 
-[node name="Goomba26" parent="Enemies/Goombas" instance=ExtResource("11_lpsy6")]
-position = Vector2(4384, 224)
+[node name="Goomba25" parent="Enemies/Node2D29" instance=ExtResource("11_lpsy6")]
 
-[node name="Turtles" type="Node2D" parent="Enemies"]
+[node name="Goomba26" parent="Enemies/Node2D29" instance=ExtResource("11_lpsy6")]
+position = Vector2(24, 0)
 
-[node name="Turtle" parent="Enemies/Turtles" instance=ExtResource("12_58vp8")]
+[node name="EnemyEnabler" parent="Enemies/Node2D29" instance=ExtResource("12_to780")]
+
+[node name="Node2D14" type="Node2D" parent="Enemies"]
 position = Vector2(696, 224)
 
-[node name="Turtle2" parent="Enemies/Turtles" instance=ExtResource("12_58vp8")]
-position = Vector2(720, 224)
+[node name="Turtle" parent="Enemies/Node2D14" instance=ExtResource("12_58vp8")]
 
-[node name="Turtle3" parent="Enemies/Turtles" instance=ExtResource("12_58vp8")]
+[node name="Turtle2" parent="Enemies/Node2D14" instance=ExtResource("12_58vp8")]
+position = Vector2(24, 0)
+
+[node name="EnemyEnabler" parent="Enemies/Node2D14" instance=ExtResource("12_to780")]
+
+[node name="Node2D15" type="Node2D" parent="Enemies"]
 position = Vector2(984, 224)
 
-[node name="Turtle4" parent="Enemies/Turtles" instance=ExtResource("12_58vp8")]
+[node name="Turtle3" parent="Enemies/Node2D15" instance=ExtResource("12_58vp8")]
+
+[node name="EnemyEnabler" parent="Enemies/Node2D15" instance=ExtResource("12_to780")]
+
+[node name="Node2D19" type="Node2D" parent="Enemies"]
 position = Vector2(1912, 224)
 
-[node name="Turtle5" parent="Enemies/Turtles" instance=ExtResource("12_58vp8")]
+[node name="Turtle4" parent="Enemies/Node2D19" instance=ExtResource("12_58vp8")]
+
+[node name="EnemyEnabler" parent="Enemies/Node2D19" instance=ExtResource("12_to780")]
+
+[node name="Node2D20" type="Node2D" parent="Enemies"]
 position = Vector2(1992, 224)
 
-[node name="Turtle6" parent="Enemies/Turtles" instance=ExtResource("12_58vp8")]
-position = Vector2(2016, 224)
+[node name="Turtle5" parent="Enemies/Node2D20" instance=ExtResource("12_58vp8")]
 
-[node name="Turtle7" parent="Enemies/Turtles" instance=ExtResource("12_58vp8")]
-position = Vector2(2040, 224)
+[node name="Turtle6" parent="Enemies/Node2D20" instance=ExtResource("12_58vp8")]
+position = Vector2(24, 0)
 
-[node name="Turtle8" parent="Enemies/Turtles" instance=ExtResource("12_58vp8")]
+[node name="Turtle7" parent="Enemies/Node2D20" instance=ExtResource("12_58vp8")]
+position = Vector2(48, 0)
+
+[node name="EnemyEnabler" parent="Enemies/Node2D20" instance=ExtResource("12_to780")]
+
+[node name="Node2D21" type="Node2D" parent="Enemies"]
 position = Vector2(2088, 224)
 
-[node name="Turtle9" parent="Enemies/Turtles" instance=ExtResource("12_58vp8")]
-position = Vector2(2112, 224)
+[node name="Turtle8" parent="Enemies/Node2D21" instance=ExtResource("12_58vp8")]
 
-[node name="Turtle10" parent="Enemies/Turtles" instance=ExtResource("12_58vp8")]
-position = Vector2(2136, 224)
+[node name="Turtle9" parent="Enemies/Node2D21" instance=ExtResource("12_58vp8")]
+position = Vector2(24, 0)
 
-[node name="Turtle11" parent="Enemies/Turtles" instance=ExtResource("12_58vp8")]
+[node name="Turtle10" parent="Enemies/Node2D21" instance=ExtResource("12_58vp8")]
+position = Vector2(48, 0)
+
+[node name="EnemyEnabler" parent="Enemies/Node2D21" instance=ExtResource("12_to780")]
+
+[node name="Node2D23" type="Node2D" parent="Enemies"]
 position = Vector2(2584, 184)
+
+[node name="Turtle11" parent="Enemies/Node2D23" instance=ExtResource("12_58vp8")]
 type = 1
 
-[node name="Turtle12" parent="Enemies/Turtles" instance=ExtResource("12_58vp8")]
+[node name="EnemyEnabler" parent="Enemies/Node2D23" instance=ExtResource("12_to780")]
+
+[node name="Node2D24" type="Node2D" parent="Enemies"]
 position = Vector2(2760, 183)
+
+[node name="Turtle12" parent="Enemies/Node2D24" instance=ExtResource("12_58vp8")]
 type = 1
 
-[node name="Turtle13" parent="Enemies/Turtles" instance=ExtResource("12_58vp8")]
-position = Vector2(2840, 192)
+[node name="Turtle13" parent="Enemies/Node2D24" instance=ExtResource("12_58vp8")]
+position = Vector2(80, 9)
 type = 1
 
-[node name="Turtle14" parent="Enemies/Turtles" instance=ExtResource("12_58vp8")]
+[node name="EnemyEnabler" parent="Enemies/Node2D24" instance=ExtResource("12_to780")]
+
+[node name="Node2D25" type="Node2D" parent="Enemies"]
 position = Vector2(3320, 224)
 
-[node name="Turtle15" parent="Enemies/Turtles" instance=ExtResource("12_58vp8")]
-position = Vector2(3344, 224)
+[node name="Turtle14" parent="Enemies/Node2D25" instance=ExtResource("12_58vp8")]
 
-[node name="Turtle16" parent="Enemies/Turtles" instance=ExtResource("12_58vp8")]
+[node name="Turtle15" parent="Enemies/Node2D25" instance=ExtResource("12_58vp8")]
+position = Vector2(24, 0)
+
+[node name="EnemyEnabler" parent="Enemies/Node2D25" instance=ExtResource("12_to780")]
+
+[node name="Node2D32" type="Node2D" parent="Enemies"]
 position = Vector2(4888, 224)
 
-[node name="Turtle17" parent="Enemies/Turtles" instance=ExtResource("12_58vp8")]
+[node name="Turtle16" parent="Enemies/Node2D32" instance=ExtResource("12_58vp8")]
+
+[node name="EnemyEnabler" parent="Enemies/Node2D32" instance=ExtResource("12_to780")]
+
+[node name="Node2D33" type="Node2D" parent="Enemies"]
 position = Vector2(5320, 224)
 
-[node name="Turtle18" parent="Enemies/Turtles" instance=ExtResource("12_58vp8")]
+[node name="Turtle17" parent="Enemies/Node2D33" instance=ExtResource("12_58vp8")]
+
+[node name="EnemyEnabler" parent="Enemies/Node2D33" instance=ExtResource("12_to780")]
+
+[node name="Node2D34" type="Node2D" parent="Enemies"]
 position = Vector2(5432, 223)
 
-[node name="Turtle19" parent="Enemies/Turtles" instance=ExtResource("12_58vp8")]
-position = Vector2(5456, 224)
+[node name="Turtle18" parent="Enemies/Node2D34" instance=ExtResource("12_58vp8")]
 
-[node name="Turtle20" parent="Enemies/Turtles" instance=ExtResource("12_58vp8")]
-position = Vector2(5480, 224)
+[node name="Turtle19" parent="Enemies/Node2D34" instance=ExtResource("12_58vp8")]
+position = Vector2(24, 1)
+
+[node name="Turtle20" parent="Enemies/Node2D34" instance=ExtResource("12_58vp8")]
+position = Vector2(48, 1)
+
+[node name="EnemyEnabler" parent="Enemies/Node2D34" instance=ExtResource("12_to780")]
 
 [node name="Player" parent="." instance=ExtResource("15_u4ahu")]
 position = Vector2(56, 224)

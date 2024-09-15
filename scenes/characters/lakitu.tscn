@@ -1,11 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://hwvatwkj6km6"]
+[gd_scene load_steps=9 format=3 uid="uid://hwvatwkj6km6"]
 
 [ext_resource type="PackedScene" uid="uid://7mm1fthd05j6" path="res://scenes/characters/enemy.tscn" id="1_8k5sh"]
 [ext_resource type="Script" path="res://scripts/Lakitu.gd" id="2_xk5e4"]
 [ext_resource type="Texture2D" uid="uid://eh5egx0rrwpa" path="res://assets/graphics/enemies.png" id="3_8a0e6"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_rplbv"]
-size = Vector2(16, 24)
 
 [sub_resource type="Animation" id="Animation_bcv8i"]
 length = 0.001
@@ -71,7 +68,7 @@ height = 24.0
 
 [node name="Lakitu" instance=ExtResource("1_8k5sh")]
 collision_layer = 0
-collision_mask = 128
+collision_mask = 0
 script = ExtResource("2_xk5e4")
 
 [node name="Sprite2D" parent="Graphics" index="0"]
@@ -83,16 +80,15 @@ region_rect = Rect2(432, 8, 32, 24)
 
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2(0, -12)
-shape = SubResource("RectangleShape2D_rplbv")
 
 [node name="AnimationPlayer" parent="." index="2"]
 libraries = {
 "": SubResource("AnimationLibrary_7tplx")
 }
 
-[node name="VisibleOnScreenNotifier2D" parent="." index="4"]
-position = Vector2(-4.76837e-07, -12)
-scale = Vector2(0.8, 1.2)
+[node name="OffScreenEraser" parent="." index="4"]
+position = Vector2(48, -16)
+scale = Vector2(11.2, 1.6)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
 position = Vector2(0, -12)

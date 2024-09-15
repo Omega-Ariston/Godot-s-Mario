@@ -21,7 +21,7 @@ const SCORE := {
 const SPEED := 30.0
 const WONDER_SPEED := 50.0
 const DASH_SPEED := 200.0
-const BYE_SPEED := 100.0
+const BYE_SPEED := 150.0
 const MAX_SPINY_NUM := 4
 
 const ACCELERATION := SPEED / 0.4
@@ -29,6 +29,7 @@ const DASH_ACCELERATION := DASH_SPEED / 0.4
 
 const WONDER_RANGE := Variables.TILE_SIZE.x * 3.5
 const SPAWN_DISTANCE := Variables.TILE_SIZE.x * 16 # 复活在一个屏幕以外
+const MIN_THROW_DISTANCE := Variables.TILE_SIZE.x # 离玩家必须有最小距离才扔，免得扔玩家头上
 
 var original_y : float
 var can_throw := false
@@ -48,7 +49,7 @@ func _on_player_ready() -> void:
 		# 角色重生或从管道里出来时
 		var spawn_x = player.global_position.x + Variables.TILE_SIZE.x * 16
 		if spawn_x < bye_point.global_position.x:
-			global_position.x = spawn_x
+			get_parent().global_position.x = spawn_x
 
 func get_next_state(state: State) -> int:
 	if hit or charged or stomped:
@@ -63,7 +64,7 @@ func get_next_state(state: State) -> int:
 			if distance < WONDER_RANGE:
 				return State.WONDER_LEFT
 		State.WONDER_LEFT:
-			if (distance < 0 and abs(distance) >= WONDER_RANGE) or is_on_wall():
+			if distance < 0 and abs(distance) >= WONDER_RANGE:
 				return State.WONDER_RIGHT
 		State.WONDER_RIGHT:
 			if player.velocity.x >= player.MAX_WALK_SPEED / 2:
@@ -92,12 +93,16 @@ func tick_physics(state: State, delta: float) -> void:
 		# 始终朝向玩家
 		direction = Direction.LEFT if player.global_position.x < global_position.x else Direction.RIGHT
 		# 丢刺怪
-		if can_throw and get_tree().get_node_count_in_group("Spiny") < MAX_SPINY_NUM:
+		if can_throw and get_tree().get_node_count_in_group("Spiny") < MAX_SPINY_NUM and abs(global_position.x - player.global_position.x) >= MIN_THROW_DISTANCE:
 			can_throw = false
-			var spiny_instance := load("res://scenes/characters/spiny.tscn").instantiate() as Spiny
+			var spiny_instance := preload("res://scenes/characters/spiny.tscn").instantiate() as Spiny
+			var enemy_enabler := preload("res://scenes/characters/enemy_enabler.tscn").instantiate()
 			animation_player.play("idle")
-			spiny_instance.global_position = global_position
-			owner.add_child(spiny_instance)
+			var node2d := Node2D.new()
+			node2d.global_position = global_position
+			node2d.add_child(spiny_instance)
+			node2d.add_child(enemy_enabler)
+			owner.add_child(node2d)
 			
 	match state:
 		State.APPROACH:
@@ -116,7 +121,7 @@ func tick_physics(state: State, delta: float) -> void:
 			move(0, -1, delta)
 
 func move(speed: float, dir: int, delta: float, gravity : float = 0) -> void:
-	var acceleration := DASH_ACCELERATION if state_machine.current_state in [State.DASH, State.BRAKE] else ACCELERATION
+	var acceleration := DASH_ACCELERATION if state_machine.current_state in [State.DASH, State.BRAKE, State.BYE] else ACCELERATION
 	velocity.x = move_toward(velocity.x, dir * speed, acceleration * delta)
 	var velocity_y := velocity.y + gravity * delta
 	velocity.y = min(velocity_y, MAX_FALL_SPEED)
@@ -128,7 +133,6 @@ func transition_state(_from: State, to: State) -> void:
 	match to:
 		State.BYE:
 			velocity.x = 0
-			collision_shape_2d.disabled = true
 			animation_player.pause()
 			throw_timer.stop()
 		State.DYING:
@@ -176,8 +180,10 @@ func _on_respawn_timer_timeout() -> void:
 		graphics.scale.y = 1
 		# 恢复位置
 		z_index = 2
-		global_position.y = original_y
-		global_position.x = spawn_x
+		position = Vector2.ZERO
+		var parent := get_parent() as Node2D
+		parent.global_position = Vector2(spawn_x, original_y)
+		parent.add_child(preload("res://scenes/characters/enemy_enabler.tscn").instantiate())
 		# 恢复状态
 		animation_player.play("idle")
 		state_machine.current_state = State.APPROACH

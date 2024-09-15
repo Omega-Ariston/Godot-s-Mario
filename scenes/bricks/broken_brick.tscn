@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/graphics/items-objects.png" id="2_wkgu6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mijlu"]
+resource_local_to_scene = true
 shader = ExtResource("2_lv438")
 shader_parameter/shader_enabled = false
 shader_parameter/origin_colors = null
@@ -33,18 +34,21 @@ animations = [{
 }]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yyd5k"]
+resource_local_to_scene = true
 shader = ExtResource("2_lv438")
 shader_parameter/shader_enabled = false
 shader_parameter/origin_colors = null
 shader_parameter/new_colors = null
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5uoe3"]
+resource_local_to_scene = true
 shader = ExtResource("2_lv438")
 shader_parameter/shader_enabled = false
 shader_parameter/origin_colors = null
 shader_parameter/new_colors = null
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_x6757"]
+resource_local_to_scene = true
 shader = ExtResource("2_lv438")
 shader_parameter/shader_enabled = false
 shader_parameter/origin_colors = null

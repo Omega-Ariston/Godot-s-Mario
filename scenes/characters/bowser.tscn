@@ -133,10 +133,6 @@ libraries = {
 "": SubResource("AnimationLibrary_nkf64")
 }
 
-[node name="VisibleOnScreenNotifier2D" parent="." index="4"]
-position = Vector2(0, -16)
-scale = Vector2(1.6, 1.6)
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
 position = Vector2(-8, -24)
 shape = SubResource("RectangleShape2D_85lmy")

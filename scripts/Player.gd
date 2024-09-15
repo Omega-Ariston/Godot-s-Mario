@@ -147,7 +147,14 @@ var current_gravity : float
 
 # 用于辅助玩家移动
 var jump_around_direction := 0
-var is_jumping_around := false
+var is_jumping_around := false:
+	set(v):
+		if v:
+			set_collision_mask_value(1, false) # 临时移除玩家与砖块的碰撞
+		else:
+			set_collision_mask_value(1, true) # 恢复玩家与砖块的碰撞
+		is_jumping_around = v
+	
 var jump_around_assisted := false
 var jump_up_assisted := false
 var is_falling_up := false
@@ -281,15 +288,12 @@ func tick_physics(state: State, delta: float) -> void:
 				print_debug(Engine.get_physics_frames(), ' JUMP AROUND ASSIST START')
 				is_jumping_around = true
 				jump_around_assisted = should_jump_around_assist()
-				set_collision_mask_value(1, false) # 临时移除玩家与砖块的碰撞
 			if jump_around_assisted:
 				# 给予一个朝向砖块外侧的恒定水平速度
 				speed_x = MOVE_AROUND_SPEED * get_jump_around_direction()
 		elif is_jumping_around:
-			# 完成了辅助，恢复玩家与砖块的碰撞
 			print_debug(Engine.get_physics_frames(), ' JUMP AROUND ASSIST END')
 			is_jumping_around = false
-			set_collision_mask_value(1, true)
 			# 如果使用了jump_around_assist，则恢复水平速度
 			if jump_around_assisted:
 				jump_around_assisted = false
@@ -346,7 +350,7 @@ func tick_physics(state: State, delta: float) -> void:
 					speed_y = 0.0
 				else:
 					# 给予一个朝向上方的恒定垂直速度
-					speed_y = -MOVE_AROUND_SPEED	
+					speed_y = -MOVE_AROUND_SPEED
 			elif should_fall_up_assist():
 				# 开始辅助
 				print_debug(Engine.get_physics_frames(), ' FALL UP ASSIST START')
@@ -604,7 +608,6 @@ func transition_state(from: State, to: State) -> void:
 			# 暂停时间
 			get_tree().paused = true
 			animation_player.play("enlarge")
-			SoundManager.play_sfx("Upgrade")
 		State.ONFIRE:
 			can_onfire = false
 			# 暂停时间
@@ -612,7 +615,6 @@ func transition_state(from: State, to: State) -> void:
 			animation_player.stop()
 			set_shader_enabled(true)
 			blink_animator.play("onfire", -1, 2.0, false)
-			SoundManager.play_sfx("Upgrade")
 			on_fire_timer.start()
 		State.DEAD:
 			is_hurt = false
@@ -705,6 +707,7 @@ func _eat(item: Node) -> void:
 			if curr_mode == Mode.SMALL:
 				can_enlarge = true
 			ScoreManager.add_score(Mushroom.SCORE, item)
+			SoundManager.play_sfx("Upgrade")
 		elif item.mushroom_type == Bumpable.SpawnItem.LIFE:
 			ScoreManager.add_life(item.get_global_transform_with_canvas().origin)
 	elif item is Flower:
@@ -713,6 +716,7 @@ func _eat(item: Node) -> void:
 		elif curr_mode == Mode.LARGE:
 			can_onfire = true
 		ScoreManager.add_score(Flower.SCORE, item)
+		SoundManager.play_sfx("Upgrade")
 	elif item is Star:
 		set_shader_enabled(true)
 		blink_animator.play("star", -1, 4.0, false)
@@ -778,17 +782,17 @@ func set_onfire_colors(index: int) -> void:
 			new_colors = COLORS_FIRE
 		1:
 			match GameManager.current_world_type:
-				GameManager.WorldType.GROUND:
+				GameManager.WorldType.GROUND, GameManager.WorldType.WATER:
 					new_colors = COLORS_GREEN
-				GameManager.WorldType.UNDER:
+				GameManager.WorldType.UNDER, GameManager.WorldType.CASTLE:
 					new_colors = COLORS_BLUE
 		2:
 			new_colors = COLORS_RED
 		3:
 			match GameManager.current_world_type:
-				GameManager.WorldType.GROUND:
+				GameManager.WorldType.GROUND, GameManager.WorldType.WATER:
 					new_colors = COLORS_BLACK
-				GameManager.WorldType.UNDER:
+				GameManager.WorldType.UNDER, GameManager.WorldType.CASTLE:
 					new_colors = COLORS_CYAN
 	var sprite_material = sprite_2d.material as ShaderMaterial
 	sprite_material.set_shader_parameter("origin_colors", origin_colors.duplicate())

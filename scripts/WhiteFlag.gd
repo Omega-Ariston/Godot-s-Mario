@@ -10,7 +10,7 @@ extends Node2D
 
 func play_firework(num: int) -> void:
 	for i in range(num):
-		var firework_instance := load("res://scenes/items/firework.tscn").instantiate() as Node2D
+		var firework_instance := preload("res://scenes/items/firework.tscn").instantiate() as Node2D
 		firework_instance.global_position = self["firework_" + str(i + 1)].global_position
 		get_tree().root.add_child(firework_instance)
 		await firework_instance.vanished

@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=4 uid="uid://m2agj2g2u6vw"]
+[gd_scene load_steps=6 format=4 uid="uid://m2agj2g2u6vw"]
 
 [ext_resource type="Script" path="res://scripts/WarpZone.gd" id="1_ku1qa"]
 [ext_resource type="PackedScene" uid="uid://bkoa5bviyhuyp" path="res://scenes/characters/piranha.tscn" id="2_85nkj"]
 [ext_resource type="TileSet" uid="uid://cf516p3bd2t1v" path="res://tiles/world.tres" id="3_bl75a"]
 [ext_resource type="Script" path="res://scripts/EnterPoint.gd" id="4_kmx3o"]
+[ext_resource type="PackedScene" uid="uid://dux2x6ddu5h4t" path="res://scenes/characters/enemy_enabler.tscn" id="4_pgj4f"]
 
 [node name="WarpZone" type="Node2D"]
 script = ExtResource("1_ku1qa")
@@ -60,14 +61,32 @@ scroll_active = false
 
 [node name="Piranhas" type="Node2D" parent="."]
 
-[node name="Piranha" parent="Piranhas" instance=ExtResource("2_85nkj")]
+[node name="Node2D" type="Node2D" parent="Piranhas"]
 position = Vector2(-72, 152)
 
-[node name="Piranha2" parent="Piranhas" instance=ExtResource("2_85nkj")]
+[node name="Piranha" parent="Piranhas/Node2D" instance=ExtResource("2_85nkj")]
+
+[node name="EnemyEnabler" parent="Piranhas/Node2D" instance=ExtResource("4_pgj4f")]
+position = Vector2(-32, -32)
+scale = Vector2(3.2, 3.2)
+
+[node name="Node2D2" type="Node2D" parent="Piranhas"]
 position = Vector2(-8, 152)
 
-[node name="Piranha3" parent="Piranhas" instance=ExtResource("2_85nkj")]
+[node name="Piranha2" parent="Piranhas/Node2D2" instance=ExtResource("2_85nkj")]
+
+[node name="EnemyEnabler" parent="Piranhas/Node2D2" instance=ExtResource("4_pgj4f")]
+position = Vector2(-32, -32)
+scale = Vector2(3.2, 3.2)
+
+[node name="Node2D3" type="Node2D" parent="Piranhas"]
 position = Vector2(56, 152)
+
+[node name="Piranha3" parent="Piranhas/Node2D3" instance=ExtResource("2_85nkj")]
+
+[node name="EnemyEnabler" parent="Piranhas/Node2D3" instance=ExtResource("4_pgj4f")]
+position = Vector2(-32, -32)
+scale = Vector2(3.2, 3.2)
 
 [node name="EnterPoints" type="Node2D" parent="."]
 

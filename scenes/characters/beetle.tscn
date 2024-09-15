@@ -11,9 +11,8 @@ shader_parameter/shader_enabled = false
 shader_parameter/origin_colors = null
 shader_parameter/new_colors = null
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_111rf"]
-radius = 7.0
-height = 14.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_848g7"]
+size = Vector2(12, 13)
 
 [sub_resource type="Animation" id="Animation_7ubbd"]
 length = 0.001
@@ -89,9 +88,8 @@ _data = {
 "walk": SubResource("Animation_u6mu4")
 }
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jrtyq"]
-radius = 8.0
-height = 16.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v7rkv"]
+size = Vector2(12, 13)
 
 [node name="Beetle" instance=ExtResource("1_l1rmu")]
 script = ExtResource("2_jngh0")
@@ -107,21 +105,21 @@ region_enabled = true
 region_rect = Rect2(528, 16, 48, 16)
 
 [node name="CollisionShape2D" parent="." index="1"]
-position = Vector2(0, -7)
-shape = SubResource("CapsuleShape2D_111rf")
+position = Vector2(0, -6.5)
+shape = SubResource("RectangleShape2D_848g7")
 
 [node name="AnimationPlayer" parent="." index="2"]
 libraries = {
 "": SubResource("AnimationLibrary_2fvpe")
 }
 
-[node name="VisibleOnScreenNotifier2D" parent="." index="4"]
-position = Vector2(4.17233e-07, -8)
-scale = Vector2(0.8, 0.8)
+[node name="OffScreenEraser" parent="." index="4"]
+position = Vector2(-3.8147e-06, -16)
+scale = Vector2(12.8, 1.6)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
-position = Vector2(0, -8)
-shape = SubResource("CapsuleShape2D_jrtyq")
+position = Vector2(0, -6.5)
+shape = SubResource("RectangleShape2D_v7rkv")
 
 [node name="RecoverTimer" type="Timer" parent="." index="6"]
 wait_time = 5.0

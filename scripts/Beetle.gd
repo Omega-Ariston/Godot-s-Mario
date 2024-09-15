@@ -88,7 +88,7 @@ func tick_physics(state: State, delta: float) -> void:
 		State.SHOOT:
 			if is_on_wall():
 				SoundManager.play_sfx("Bump")
-			move(SHOOT_SPEED, direction, delta, default_gravity * 2)
+			move(SHOOT_SPEED, direction, delta, default_gravity)
 		State.SHELL, State.RECOVERING:
 			velocity = Vector2.ZERO
 		State.DEAD:

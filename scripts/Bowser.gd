@@ -27,6 +27,7 @@ var hammer_to_throw := 0
 var life_point := 4 # 需要打四下才死
 var can_change_direction := false
 var throwing := false
+var started := false
 
 @onready var jump_timer: Timer = $JumpTimer
 @onready var direction_timer: Timer = $DirectionTimer
@@ -73,7 +74,7 @@ func transition_state(_from: State, to: State) -> void:
 	
 	match to:
 		State.WONDER_LEFT, State.WONDER_RIGHT:
-			if not throwing:
+			if not throwing and started:
 				throw_hammer()
 			if hadouken_timer.is_stopped():
 				hadouken_timer.start()
@@ -139,3 +140,8 @@ func _on_hadouken_timer_timeout() -> void:
 		animation_player.queue("wonder")
 	else:
 		hadouken_timer.start()
+
+func start() -> void:
+	super()
+	started = true
+	throw_hammer()

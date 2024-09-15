@@ -218,7 +218,7 @@ func _animate_vine(player: Player, spawn_point: SpawnPoint) -> void:
 	player.global_position.y += Variables.TILE_SIZE.y * 2
 	# 角色放到后面去
 	player.z_index = -1
-	var vine_instance = load("res://scenes/climables/vine.tscn").instantiate() as Vine
+	var vine_instance = preload("res://scenes/climables/vine.tscn").instantiate() as Vine
 	vine_instance.rise_count = VINE_RISE_COUNT
 	vine_instance.position.y += Variables.TILE_SIZE.y / 2 # 中心点偏移量
 	spawn_point.add_child(vine_instance)
@@ -266,4 +266,4 @@ func _on_score_timer_timeout() -> void:
 		score_counted.emit()
 
 func is_stomp(player: Player, body: Node2D) -> bool:
-	return (player.state_machine.current_state in [Player.State.FALL, Player.State.JUMP] or player.velocity.y > 0) and player.global_position.y < body.global_position.y
+	return true if player.state_machine.current_state == Player.State.FALL else player.global_position.y < (body.global_position.y - Variables.TILE_SIZE.y / 2)

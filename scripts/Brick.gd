@@ -41,7 +41,7 @@ func on_bumped(player: Player, broken: bool = false) -> void:
 			bumpable.can_bump = false
 			SoundManager.play_sfx("BrokenBrick")
 			ScoreManager.add_score(SCORE, self, false)
-			var instance := load("res://scenes/bricks/broken_brick.tscn").instantiate() as BrokenBrick
+			var instance := preload("res://scenes/bricks/broken_brick.tscn").instantiate() as BrokenBrick
 			instance.global_position = global_position
 			get_tree().root.add_child(instance)
 			queue_free()
