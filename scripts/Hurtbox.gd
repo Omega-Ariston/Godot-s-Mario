@@ -23,7 +23,7 @@ func _on_body_entered(body: Node2D) -> void:
 			body.hurt(owner)
 	elif body is Fireball:
 		owner.on_hit(body)
-		body.on_hit_enemy(owner)
+		body.on_hit_enemy()
 	elif (body is Turtle and body.state_machine.current_state == Turtle.State.SHOOT) \
 			or (body is Beetle and body.state_machine.current_state == Beetle.State.SHOOT):
 		owner.on_charged(body)

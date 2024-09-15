@@ -45,8 +45,7 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 	# 离开屏幕时销毁
 	queue_free()
 
-func on_hit_enemy(enemy: Node2D) -> void:
+func on_hit_enemy() -> void:
 	hit_enemy = true
 	velocity = Vector2.ZERO
-	if enemy is Enemy:
-		animation_player.play("blast", -1, 3.0, false)
+	animation_player.play("blast", -1, 3.0, false)

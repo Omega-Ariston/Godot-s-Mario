@@ -1,14 +1,14 @@
 class_name Hadouken
 extends CharacterBody2D
 
-const SPEED := Vector2(30, 30)
+const SPEED := Vector2(60, 30)
 
 var target_y : float
 
 
 func _ready() -> void:
 	# 生成后对齐到瓦片网络的垂直中心线上
-	target_y= (floori(global_position.y / Variables.TILE_SIZE.y) + 0.5) * Variables.TILE_SIZE.y
+	target_y = ceili(global_position.y / (Variables.TILE_SIZE.y / 2)) * (Variables.TILE_SIZE.y / 2)
 	SoundManager.play_sfx("Hadouken")
 
 func _physics_process(_delta: float) -> void:
@@ -22,5 +22,8 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
 
-func _on_area_2d_body_entered(body: Player) -> void:
-	body.hurt(self)
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body is Player:
+		body.hurt(self)
+	elif body is Fireball:
+		body.on_hit_enemy()
