@@ -69,7 +69,7 @@ position = Vector2(5080, 152)
 [node name="SpawnPoints" type="Node" parent="."]
 
 [node name="SpawnPoint" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(4832, 176)
+position = Vector2(16, 128)
 script = ExtResource("4_p1txo")
 
 [node name="SubWater" type="Marker2D" parent="SpawnPoints"]
@@ -349,7 +349,6 @@ position = Vector2(0, -32)
 position = Vector2(16, 128)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
-position_smoothing_enabled = true
 
 [node name="EndScreen" type="Node2D" parent="."]
 

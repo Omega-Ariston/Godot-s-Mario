@@ -89,6 +89,7 @@ func teleportPlayerAndRespawnEnemies(from: String, to: String) -> Node2D:
 func _on_bridge_switch_triggered() -> void:
 	# 提前设置好相机
 	camera_2d.limit_smoothed = true
+	camera_2d.position_smoothing_enabled = true
 	camera_2d.reset_smoothing()
 	# 停止游戏时间
 	GameManager.game_timer.stop()

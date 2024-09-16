@@ -146,8 +146,7 @@ func _on_jump_timer_timeout() -> void:
 func _on_hadouken_timer_timeout() -> void:
 	# 1/2的概率喷火
 	if rng.randf() >= 0.5:
-		animation_player.play("launch") # 会在喷火结束后重启计时器
-		animation_player.queue("wonder")
+		hadouken()
 	else:
 		hadouken_timer.start()
 
@@ -155,10 +154,15 @@ func start_hadouken() -> void:
 	if state_machine.current_state in [State.WONDER_LEFT, State.WONDER_RIGHT]:
 		hadouken_timer.start()
 
+func hadouken() -> void:
+	animation_player.play("launch") # 会在喷火结束后重启计时器
+	animation_player.queue("wonder")
+
 func start() -> void:
 	super()
 	started = true
 	throw_hammer()
+	hadouken()
 
 func freeze() -> void:
 	state_machine.enabled = false
@@ -173,3 +177,4 @@ func fall() -> void:
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	dead.emit()
 	queue_free()
+	
