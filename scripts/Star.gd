@@ -46,3 +46,7 @@ func move(gravity: float, delta: float) -> void:
 	var velocity_y = velocity.y + gravity * delta
 	velocity.y = min(velocity_y, MAX_FALL_SPEED)
 	move_and_slide()
+
+
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	queue_free()

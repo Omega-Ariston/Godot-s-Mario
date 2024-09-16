@@ -21,3 +21,7 @@ func _ready() -> void:
 	var tween := create_tween()
 	tween.tween_property(self, "position:y", position.y - Variables.TILE_SIZE.y, SPAWN_DURATION)
 	await tween.finished
+
+
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	queue_free()

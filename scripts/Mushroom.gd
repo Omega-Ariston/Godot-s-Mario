@@ -71,3 +71,7 @@ func on_bumped(bumpable: Bumpable) -> void:
 	if not spawning:
 		direction = -1 if bumpable.global_position.x > global_position.x else 1
 		velocity.y = BOUNCE_SPEED
+
+
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	queue_free()

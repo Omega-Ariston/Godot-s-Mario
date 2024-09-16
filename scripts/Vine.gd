@@ -53,3 +53,7 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body is Player and not body.collision_shape_2d.disabled:
 		# 让玩家下去
 		body._unclimb()
+
+
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	queue_free()

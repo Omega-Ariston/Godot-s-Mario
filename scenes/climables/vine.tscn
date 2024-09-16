@@ -44,4 +44,9 @@ script = ExtResource("3_ch3rt")
 position = Vector2(8, 10)
 shape = SubResource("RectangleShape2D_onpk7")
 
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(28, 125)
+scale = Vector2(3.6, 13.1)
+
 [connection signal="body_exited" from="Climable" to="." method="_on_area_2d_body_exited"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

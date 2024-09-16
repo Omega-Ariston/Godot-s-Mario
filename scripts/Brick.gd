@@ -43,7 +43,7 @@ func on_bumped(player: Player, broken: bool = false) -> void:
 			ScoreManager.add_score(SCORE, self, false)
 			var instance := preload("res://scenes/bricks/broken_brick.tscn").instantiate() as BrokenBrick
 			instance.global_position = global_position
-			get_tree().root.add_child(instance)
+			owner.add_child(instance)
 			queue_free()
 		elif spawn_item == Bumpable.SpawnItem.COIN:
 			SoundManager.play_sfx("Coin")

@@ -90,7 +90,6 @@ region_rect = Rect2(0, 48, 64, 16)
 position = Vector2(-1, 0)
 shape = SubResource("CircleShape2D_oa3gk")
 disabled = true
-one_way_collision = true
 
 [node name="Eatable" type="Area2D" parent="."]
 position = Vector2(-8, -8)
@@ -106,3 +105,9 @@ shape = SubResource("RectangleShape2D_2w0i6")
 libraries = {
 "": SubResource("AnimationLibrary_wvcwn")
 }
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(-0.999998, 0)
+scale = Vector2(6.4, 0.8)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
