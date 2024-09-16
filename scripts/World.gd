@@ -20,6 +20,7 @@ func _ready() -> void:
 		GameManager.current_spawn_point = spawn_point.name
 	elif GameManager.current_level != level_name:
 		GameManager.current_level = level_name
+		StatusBar.level = level_name
 		GameManager.current_spawn_point = spawn_point.name
 	StatusBar.time = level_time
 	GameManager.current_world_type = world_type

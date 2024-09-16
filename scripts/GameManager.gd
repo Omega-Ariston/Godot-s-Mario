@@ -13,10 +13,7 @@ enum WorldType {
 	CASTLE
 }
 
-var current_level: String:
-	set(v):
-		StatusBar.level = v
-		current_level = v
+var current_level: String
 var current_spawn_point: String
 var current_world_type : WorldType
 var player_current_mode: Player.Mode
@@ -47,8 +44,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			player.can_onfire = true
 
 func restore_status() -> void:
-	current_level = "1-1"
+	current_level = ""
 	current_spawn_point = ""
+	StatusBar.level = "1-1"
 	player_current_mode = Player.Mode.SMALL
 	life = LIFE_COUNT
 	is_time_up = false
