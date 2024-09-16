@@ -87,7 +87,10 @@ func teleportPlayerAndRespawnEnemies(from: String, to: String) -> Node2D:
 	return new_enemies
 
 func _on_bridge_switch_triggered() -> void:
-	# 停止时间
+	# 提前设置好相机
+	camera_2d.limit_smoothed = true
+	camera_2d.reset_smoothing()
+	# 停止游戏时间
 	GameManager.game_timer.stop()
 	# 冻住主角
 	player.controllable = false
@@ -114,7 +117,7 @@ func _on_bridge_switch_triggered() -> void:
 		# 等待Bowser摔下
 		bowser.fall()
 		await bowser.dead
-	else:
+	elif is_instance_valid(bowser):
 		bowser.queue_free()
 	# 播放通关动画
 	animate_finale()
@@ -123,9 +126,7 @@ func animate_finale() -> void:
 	# 放歌
 	var bgm:= SoundManager.world_cleaer()
 	# 移除摄像机和右边界限制
-	right_wall.global_position.x = 5376
-	camera_2d.position_smoothing_enabled = true
-	camera_2d.reset_smoothing()
+	right_wall.global_position.x = foreground.get_used_rect().end.x * Variables.TILE_SIZE.x
 	camera_2d.limit_right = ceili(right_wall.global_position.x)
 	# 主角往右走
 	player.state_machine.enabled = true
@@ -142,6 +143,7 @@ func teleport_special_turtles() -> void:
 
 func end(bgm: AudioStreamPlayer) -> void:
 	player.input_x = 0
+	await get_tree().create_timer(1).timeout
 	# 出现谢谢
 	thank_you.visible = true
 	# 等bgm放完
