@@ -5,16 +5,37 @@ const SPEED := 80
 const INITIAL_JUMP_SPEED := -230
 const LAUNCH_DELAY := 0.2
 
+# 原始颜色，顺序为锤头、锤柄、连接处
+const COLOR_ORIGIN := [
+	Vector4(0.0, 0.0, 0.0, 1.0),
+	Vector4(1.0, 0.80, 0.77, 1.0),
+	Vector4(0.61, 0.29, 0, 1.0),
+]
+
+const COLOR_GREY := [
+	Vector4(0.41, 0.41, 0.41, 1.0),
+	Vector4(1.0, 1.0, 1.0, 1.0),
+	Vector4(0.67, 0.67, 0.67, 1.0)
+]
+
 var direction := -1
 var has_thrown := false
 var launcher : HammerLauncher
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var area_2d: Area2D = $Area2D
+@onready var sprite_2d: Sprite2D = $Sprite2D
 
 signal thrown
 
 func _ready() -> void:
+	var sprite_material = sprite_2d.material as ShaderMaterial
+	sprite_material.set_shader_parameter("origin_colors", COLOR_ORIGIN.duplicate())
+	if GameManager.current_world_type == GameManager.WorldType.CASTLE:
+		sprite_material.set_shader_parameter("shader_enabled", true)
+		sprite_material.set_shader_parameter("new_colors", COLOR_GREY.duplicate())
+	else:
+		sprite_material.set_shader_parameter("shader_enabled", false)
 	animation_player.play("idle")
 	await get_tree().create_timer(LAUNCH_DELAY).timeout
 	launch()

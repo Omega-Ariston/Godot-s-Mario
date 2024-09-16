@@ -1,7 +1,15 @@
-[gd_scene load_steps=8 format=3 uid="uid://d0eoepenp8ajc"]
+[gd_scene load_steps=10 format=3 uid="uid://d0eoepenp8ajc"]
 
 [ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/graphics/items-objects.png" id="1_07t84"]
+[ext_resource type="Shader" path="res://shaders/change_color.gdshader" id="1_gcpe7"]
 [ext_resource type="Script" path="res://scripts/Hammer.gd" id="1_xnt2o"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dieyy"]
+resource_local_to_scene = true
+shader = ExtResource("1_gcpe7")
+shader_parameter/shader_enabled = false
+shader_parameter/origin_colors = null
+shader_parameter/new_colors = null
 
 [sub_resource type="Animation" id="Animation_jok84"]
 length = 0.001
@@ -72,6 +80,7 @@ collision_mask = 2
 script = ExtResource("1_xnt2o")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_dieyy")
 position = Vector2(0, -8)
 texture = ExtResource("1_07t84")
 hframes = 2
