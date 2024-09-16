@@ -35,6 +35,10 @@ var started := false
 @onready var hadouken_launcher: HadoukenLauncher = $Graphics/HadoukenLauncher
 @onready var hammer_launcher: HammerLauncher = $Graphics/HammerLauncher
 
+func _ready() -> void:
+	super()
+	default_gravity = 562.5 # 00280
+
 func get_next_state(state: State) -> int:
 	
 	if charged or life_point == 0:
@@ -139,6 +143,10 @@ func _on_hadouken_timer_timeout() -> void:
 		animation_player.play("launch") # 会在喷火结束后重启计时器
 		animation_player.queue("wonder")
 	else:
+		hadouken_timer.start()
+
+func start_hadouken() -> void:
+	if state_machine.current_state in [State.WONDER_LEFT, State.WONDER_RIGHT]:
 		hadouken_timer.start()
 
 func start() -> void:
