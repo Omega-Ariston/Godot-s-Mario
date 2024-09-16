@@ -163,6 +163,7 @@ var is_falling_up := false
 var input_x := 0.0
 var input_y := 0.0
 var constant_speed_y: float
+var target_x := 0 as int
 
 @onready var graphics: Node2D = $Graphics
 @onready var sprite_2d: Sprite2D = $Graphics/Sprite2D
@@ -189,6 +190,7 @@ var constant_speed_y: float
 @onready var side_checker_bot_left: RayCast2D = $BotCheckers/SideCheckerBotLeft
 @onready var side_checker_bot_right: RayCast2D = $BotCheckers/SideCheckerBotRight
 
+signal arrived
 
 func _unhandled_input(event: InputEvent) -> void:
 	if controllable:
@@ -215,6 +217,11 @@ func _ready() -> void:
 	initialize_mode()
 
 func tick_physics(state: State, delta: float) -> void:
+	
+	if not controllable and target_x > 0 and global_position.x >= target_x:
+		target_x = 0
+		arrived.emit()
+		
 	var movement := Input.get_axis("move_left", "move_right") if controllable else input_x
 	if not is_zero_approx(movement) and not is_first_tick and (is_under_water or is_on_floor()) and state not in UNSAFE_STATES:
 		direction = Direction.LEFT if movement < 0 else Direction.RIGHT

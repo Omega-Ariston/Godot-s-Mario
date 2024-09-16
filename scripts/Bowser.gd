@@ -23,11 +23,13 @@ const HAMMER_INTERVAL_SINGLE_RANGE := [0.1, 0.2]
 const HAMMER_INTERVAL_GROUP := 1.0
 
 var rng := RandomNumberGenerator.new()
-var hammer_to_throw := 0
-var life_point := 4 # 需要打四下才死
+var hammer_to_throw := 8
+var life_point := 5 # 需要打五下才死
 var can_change_direction := false
 var throwing := false
 var started := false
+
+signal dead
 
 @onready var jump_timer: Timer = $JumpTimer
 @onready var direction_timer: Timer = $DirectionTimer
@@ -71,7 +73,7 @@ func tick_physics(state: State, delta: float) -> void:
 		State.CHASING:
 			move(SPEED, direction, delta, default_gravity)
 		State.DEAD:
-			move(DEAD_BOUNCE.x, attack_direction, delta)
+			move(0, 0, delta, default_gravity / 2 )
 
 
 func transition_state(_from: State, to: State) -> void:
@@ -95,12 +97,16 @@ func transition_state(_from: State, to: State) -> void:
 			direction_timer.stop()
 			jump_timer.stop()
 			hadouken_timer.stop()
-			SoundManager.play_sfx("Kill")
 			if life_point == 0:
+				SoundManager.play_sfx("Kill")
+				SoundManager.play_sfx("BowserFall")
 				ScoreManager.add_score(SCORE["hit"], self)
+				die()
 			elif charged:
+				SoundManager.play_sfx("Kill")
+				SoundManager.play_sfx("BowserFall")
 				ScoreManager.add_score(SCORE["charged"], self)
-			die()
+				die()
 
 # 被火球打
 func on_hit(_body: CharacterBody2D) -> void:
@@ -153,3 +159,17 @@ func start() -> void:
 	super()
 	started = true
 	throw_hammer()
+
+func freeze() -> void:
+	state_machine.enabled = false
+	velocity = Vector2.ZERO
+
+func fall() -> void:
+	SoundManager.play_sfx("BowserFall")
+	animation_player.pause()
+	transition_state(state_machine.current_state, State.DEAD)
+	state_machine.enabled = true
+
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	dead.emit()
+	queue_free()

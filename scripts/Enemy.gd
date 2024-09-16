@@ -23,7 +23,7 @@ const DEAD_BOUNCE := Vector2(50, -150)
 const DEAD_Z_INDEX := 4
 const PLAYER_STOMPED_BOUNCE_HIGH := -4 * 60 # 04xxx
 const PLAYER_STOMPED_BOUNCE_LOW := -3 * 60 # 03xxx
-const MAX_FALL_SPEED := 240.0 # 04000
+const MAX_FALL_SPEED := 120.0 # 02000
 
 var player: Player
 var default_gravity := Variables.DEFAULT_GRAVITY as float

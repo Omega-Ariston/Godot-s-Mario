@@ -4,6 +4,8 @@ extends CharacterBody2D
 const SPEED := 80
 const INITIAL_JUMP_SPEED := -230
 const LAUNCH_DELAY := 0.2
+const GRAVITY := 562.5 # 00280
+const MAX_FALL_SPEED := 240.0 # 04000
 
 # 原始颜色，顺序为锤头、锤柄、连接处
 const COLOR_ORIGIN := [
@@ -45,7 +47,8 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if has_thrown:
 		velocity.x = direction * SPEED
-		velocity.y += Variables.DEFAULT_GRAVITY * delta
+		var velocity_y = velocity.y + GRAVITY * delta
+		velocity.y = min(velocity_y, MAX_FALL_SPEED)
 		move_and_slide()
 	elif is_instance_valid(launcher):
 		global_position = launcher.global_position

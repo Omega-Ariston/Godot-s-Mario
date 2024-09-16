@@ -10,6 +10,7 @@ const underwaterBGM := preload("res://assets/sounds/04. Underwater BGM.mp3")
 const castleBGM := preload("res://assets/sounds/05. Castle BGM.mp3")
 const starBGM := preload("res://assets/sounds/Super_Star_theme.ogg")
 const intoTheUnderBGM := preload("res://assets/sounds/02.5. Go Underground BGM.mp3")
+const worldClearBGM = preload("res://assets/sounds/smb_world_clear.wav")
 
 func play_sfx(sfx_name: String) -> AudioStreamPlayer:
 	var audio_player := sfx.get_node(sfx_name) as AudioStreamPlayer
@@ -44,6 +45,11 @@ func course_clear() -> void:
 func go_star() -> void:
 	bgm_player.stream = starBGM
 	bgm_player.play()
+
+func world_cleaer() -> AudioStreamPlayer:
+	bgm_player.stream = worldClearBGM
+	bgm_player.play()
+	return bgm_player
 
 func pause_bgm() -> void:
 	bgm_player.playing = false

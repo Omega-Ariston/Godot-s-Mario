@@ -72,7 +72,7 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p7bra"]
 size = Vector2(6, 6)
 
-[node name="Hammer" type="CharacterBody2D"]
+[node name="Hammer" type="CharacterBody2D" groups=["Hammers"]]
 z_index = 2
 z_as_relative = false
 collision_layer = 0
