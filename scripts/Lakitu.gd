@@ -21,7 +21,7 @@ const SCORE := {
 const SPEED := 30.0
 const WONDER_SPEED := 50.0
 const DASH_SPEED := 200.0
-const BYE_SPEED := 150.0
+const BYE_SPEED := 100.0
 const MAX_SPINY_NUM := 4
 
 const ACCELERATION := SPEED / 0.4
