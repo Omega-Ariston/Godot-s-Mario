@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://e4yxg5n51hdp"]
+[gd_scene load_steps=18 format=4 uid="uid://e4yxg5n51hdp"]
 
 [ext_resource type="Script" path="res://scripts/World8-4.gd" id="1_1nf3p"]
 [ext_resource type="TileSet" uid="uid://bru6c57447abq" path="res://tiles/background.tres" id="2_h66k2"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://bkoa5bviyhuyp" path="res://scenes/characters/piranha.tscn" id="8_ee5hx"]
 [ext_resource type="PackedScene" uid="uid://dux2x6ddu5h4t" path="res://scenes/characters/enemy_enabler.tscn" id="8_eopj6"]
 [ext_resource type="PackedScene" uid="uid://bm8y4aylq5pn3" path="res://scenes/characters/beetle.tscn" id="9_s5jck"]
+[ext_resource type="Script" path="res://scripts/SpecialPiranha.gd" id="9_uvlnv"]
 [ext_resource type="PackedScene" uid="uid://ta2kus8p0r8f" path="res://scenes/characters/player.tscn" id="10_4j33h"]
 [ext_resource type="PackedScene" uid="uid://csilqycta5we5" path="res://scenes/characters/hammer_bro.tscn" id="10_bl475"]
 [ext_resource type="PackedScene" uid="uid://bkptlk61y5222" path="res://scenes/characters/bowser.tscn" id="11_5h4dl"]
@@ -175,6 +176,7 @@ position = Vector2(832, 216)
 position = Vector2(1312, 168)
 
 [node name="Piranha3" parent="Enemies/A/Node2D7" instance=ExtResource("8_ee5hx")]
+script = ExtResource("9_uvlnv")
 
 [node name="EnemyEnabler" parent="Enemies/A/Node2D7" instance=ExtResource("8_eopj6")]
 

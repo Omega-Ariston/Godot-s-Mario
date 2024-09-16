@@ -31,7 +31,14 @@ const SPEED := DISTANCE / DURATION
 @onready var timer: Timer = $Timer
 @onready var sprite_2d: Sprite2D = $Graphics/Sprite2D
 
-var is_player_nearby := true
+var is_player_nearby := true:
+	set(v):
+		if self is SpecialPiranha and not is_player_nearby and v:
+			# 见光死型
+			queue_free()
+		else:
+			is_player_nearby = v
+			
 var can_up := true
 var can_down := false
 var origin_pos_y : float
