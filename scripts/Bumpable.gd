@@ -52,7 +52,8 @@ func do_spawn(node: Node2D, item: SpawnItem, player: Player) -> void:
 			item_instance = preload("res://scenes/items/star.tscn").instantiate() as Star
 		SpawnItem.VINE:
 			item_instance = preload("res://scenes/climables/vine.tscn").instantiate() as Vine
-	node.call_deferred("add_child", item_instance)
+	item_instance.global_position = node.global_position
+	get_tree().root.call_deferred("add_child", item_instance)
 
 # 被玩家顶
 func _on_bump_area_body_entered(body: Node2D) -> void:
