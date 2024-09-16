@@ -67,7 +67,7 @@ position = Vector2(16, 128)
 script = ExtResource("4_p1txo")
 
 [node name="SubWater" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(4160, 192)
+position = Vector2(4416, 192)
 script = ExtResource("4_p1txo")
 direction = 1
 type = 1
@@ -145,15 +145,6 @@ position = Vector2(3200, 176)
 [node name="E" type="Marker2D" parent="Portals"]
 position = Vector2(4224, 176)
 
-[node name="Bumpables" type="Node2D" parent="."]
-
-[node name="CoinBricks" type="Node2D" parent="Bumpables"]
-
-[node name="CoinBrick" parent="Bumpables/CoinBricks" instance=ExtResource("6_v0lss")]
-position = Vector2(2408, 168)
-spawn_item = 1
-is_hidden = true
-
 [node name="Platforms" type="Node2D" parent="."]
 
 [node name="Enemies" type="Node2D" parent="."]
@@ -189,6 +180,13 @@ position = Vector2(1312, 168)
 
 [node name="B" type="Node2D" parent="Enemies"]
 
+[node name="CoinBricks" type="Node2D" parent="Enemies/B"]
+
+[node name="CoinBrick" parent="Enemies/B/CoinBricks" instance=ExtResource("6_v0lss")]
+position = Vector2(2408, 168)
+spawn_item = 1
+is_hidden = true
+
 [node name="Node2D2" type="Node2D" parent="Enemies/B"]
 position = Vector2(2056, 224)
 
@@ -211,17 +209,17 @@ type = 1
 
 [node name="EnemyEnabler" parent="Enemies/B/Node2D3" instance=ExtResource("8_eopj6")]
 
-[node name="Node2D4" type="Node2D" parent="Enemies/B"]
+[node name="SpecialTurtles" type="Node2D" parent="Enemies/B"]
 position = Vector2(2488, 208)
 
-[node name="Turtle3" parent="Enemies/B/Node2D4" instance=ExtResource("7_nyviy")]
+[node name="Turtle3" parent="Enemies/B/SpecialTurtles" instance=ExtResource("7_nyviy")]
 type = 1
 
-[node name="Turtle4" parent="Enemies/B/Node2D4" instance=ExtResource("7_nyviy")]
+[node name="Turtle4" parent="Enemies/B/SpecialTurtles" instance=ExtResource("7_nyviy")]
 position = Vector2(32, -8)
 type = 1
 
-[node name="EnemyEnabler" parent="Enemies/B/Node2D4" instance=ExtResource("8_eopj6")]
+[node name="EnemyEnabler" parent="Enemies/B/SpecialTurtles" instance=ExtResource("8_eopj6")]
 
 [node name="Node2D8" type="Node2D" parent="Enemies/B"]
 position = Vector2(1856, 216)
@@ -260,27 +258,6 @@ position = Vector2(2448, 136)
 
 [node name="D" type="Node2D" parent="Enemies"]
 
-[node name="Node2D13" type="Node2D" parent="Enemies/D"]
-position = Vector2(3136, 216)
-
-[node name="Piranha9" parent="Enemies/D/Node2D13" instance=ExtResource("8_ee5hx")]
-
-[node name="EnemyEnabler" parent="Enemies/D/Node2D13" instance=ExtResource("8_eopj6")]
-
-[node name="Node2D14" type="Node2D" parent="Enemies/D"]
-position = Vector2(3280, 168)
-
-[node name="Piranha10" parent="Enemies/D/Node2D14" instance=ExtResource("8_ee5hx")]
-
-[node name="EnemyEnabler" parent="Enemies/D/Node2D14" instance=ExtResource("8_eopj6")]
-
-[node name="Node2D18" type="Node2D" parent="Enemies/D"]
-position = Vector2(4304, 168)
-
-[node name="Piranha10" parent="Enemies/D/Node2D18" instance=ExtResource("8_ee5hx")]
-
-[node name="EnemyEnabler" parent="Enemies/D/Node2D18" instance=ExtResource("8_eopj6")]
-
 [node name="Node2D15" type="Node2D" parent="Enemies/D"]
 position = Vector2(3408, 152)
 
@@ -295,19 +272,48 @@ position = Vector2(3664, 168)
 
 [node name="EnemyEnabler" parent="Enemies/D/Node2D16" instance=ExtResource("8_eopj6")]
 
-[node name="Node2D17" type="Node2D" parent="Enemies/D"]
-position = Vector2(4160, 216)
-
-[node name="Piranha13" parent="Enemies/D/Node2D17" instance=ExtResource("8_ee5hx")]
-
-[node name="EnemyEnabler" parent="Enemies/D/Node2D17" instance=ExtResource("8_eopj6")]
-
 [node name="Node2D5" type="Node2D" parent="Enemies"]
 position = Vector2(320, 216)
 
 [node name="Piranha" parent="Enemies/Node2D5" instance=ExtResource("8_ee5hx")]
 
 [node name="EnemyEnabler" parent="Enemies/Node2D5" instance=ExtResource("8_eopj6")]
+
+[node name="SpecialPipes" type="Node2D" parent="Enemies"]
+position = Vector2(3200, 176)
+
+[node name="SpecialPipe1" type="Node2D" parent="Enemies/SpecialPipes"]
+position = Vector2(-64, 40)
+
+[node name="Piranha9" parent="Enemies/SpecialPipes/SpecialPipe1" instance=ExtResource("8_ee5hx")]
+process_mode = 0
+
+[node name="OffScreenEraser" parent="Enemies/SpecialPipes/SpecialPipe1/Piranha9" index="4"]
+visible = false
+
+[node name="EnemyEnabler" parent="Enemies/SpecialPipes/SpecialPipe1" instance=ExtResource("8_eopj6")]
+
+[node name="SpecialPipe2" type="Node2D" parent="Enemies/SpecialPipes"]
+position = Vector2(80, -8)
+
+[node name="Piranha10" parent="Enemies/SpecialPipes/SpecialPipe2" instance=ExtResource("8_ee5hx")]
+process_mode = 0
+
+[node name="OffScreenEraser" parent="Enemies/SpecialPipes/SpecialPipe2/Piranha10" index="4"]
+visible = false
+
+[node name="EnemyEnabler" parent="Enemies/SpecialPipes/SpecialPipe2" instance=ExtResource("8_eopj6")]
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="Enemies/SpecialPipes"]
+position = Vector2(136, -48)
+scale = Vector2(0.9, 1)
+
+[node name="Node2D17" type="Node2D" parent="Enemies"]
+position = Vector2(4416, 216)
+
+[node name="Piranha13" parent="Enemies/Node2D17" instance=ExtResource("8_ee5hx")]
+
+[node name="EnemyEnabler" parent="Enemies/Node2D17" instance=ExtResource("8_eopj6")]
 
 [node name="Node2D18" type="Node2D" parent="Enemies"]
 position = Vector2(4528, 216)
@@ -334,3 +340,8 @@ position = Vector2(4992, 176)
 position = Vector2(16, 128)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
+
+[connection signal="screen_exited" from="Enemies/SpecialPipes/VisibleOnScreenNotifier2D" to="." method="_on_special_pipe_screen_exited"]
+
+[editable path="Enemies/SpecialPipes/SpecialPipe1/Piranha9"]
+[editable path="Enemies/SpecialPipes/SpecialPipe2/Piranha10"]
