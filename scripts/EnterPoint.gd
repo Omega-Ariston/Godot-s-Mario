@@ -32,7 +32,7 @@ func _physics_process(_delta: float) -> void:
 				# 距离小于角色碰撞体积的3/5
 				var min_enter_distance := ceilf(player.collision_shape_2d.shape.size.x * 3 / 5)
 				should_enter = player.state_machine.current_state == player.State.WALK \
-						and global_position.distance_to(player.global_position) <= min_enter_distance
+							and global_position.distance_to(player.global_position) <= min_enter_distance
 			ENTER_DIRECTION.UP:
 				can_enter = true
 				# 玩家位置比进入点高就行，并且x轴在当前进入点的左右两边
@@ -68,19 +68,23 @@ func enter() -> void:
 	var tween = create_tween()
 	match direction:
 		ENTER_DIRECTION.RIGHT:
-			# 播放走路动画
-			player.direction = Player.Direction.RIGHT
-			# 角色放到后面去
-			player.z_index = -1
 			SoundManager.play_sfx("PipeHurt")
+			player.direction = Player.Direction.RIGHT
+			if GameManager.current_world_type == GameManager.WorldType.WATER:
+				# 角色直接消失
+				player.visible = false
+			else:
+				# 角色放到后面去
+				player.z_index = -1
+			# 播放走路动画
 			player.animation_player.speed_scale = 1
 			tween.tween_property(player, "global_position:x", global_position.x + Variables.TILE_SIZE.x / 2, 0.5)
 			await tween.finished
 			await get_tree().create_timer(0.5).timeout
 		ENTER_DIRECTION.DOWN: 
+			SoundManager.play_sfx("PipeHurt")
 			# 角色放到后面去
 			player.z_index = -1
-			SoundManager.play_sfx("PipeHurt")
 			tween.tween_property(player, "global_position:y", global_position.y + Variables.TILE_SIZE.y * 2, 0.8)
 			await tween.finished
 		ENTER_DIRECTION.UP:

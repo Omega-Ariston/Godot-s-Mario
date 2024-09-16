@@ -204,13 +204,21 @@ func _animate_pipe(player: Player, spawn_point: SpawnPoint) -> void:
 	# 如果需要从管道钻出来，则从指定点的反方向3个瓦片的距离出生，并且提前禁用物理碰撞和控制 TODO:这个应该是默认配置
 	player.animation_player.play("idle") # 默认刚出来就是站立姿势
 	player.global_position.y += Variables.TILE_SIZE.y * 3 * spawn_point.direction
-	# 角色放到后面去
-	player.z_index = -1
+	if current_world_type == WorldType.WATER:
+		# 角色消失
+		player.visible = false
+	else:
+		# 角色放到后面去
+		player.z_index = -1
 	var tween := create_tween()
 	tween.tween_property(player, "global_position:y", spawn_point.global_position.y, 1.0)
 	await tween.finished
-	# 角色回到前面来
-	player.z_index = 3
+	if current_world_type == WorldType.WATER:
+		# 角色重新出现
+		player.visible = true
+	else:
+		# 角色回到前面来
+		player.z_index = 3
 
 func _animate_vine(player: Player, spawn_point: SpawnPoint) -> void:
 	SoundManager.play_sfx("Vine")
