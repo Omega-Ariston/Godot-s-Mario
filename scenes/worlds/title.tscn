@@ -62,14 +62,14 @@ position = Vector2(4, 112)
 shape = SubResource("RectangleShape2D_w5v3u")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(128, 78)
+position = Vector2(128, 94)
 texture = ExtResource("4_gfwjb")
 
 [node name="AuthorName" type="RichTextLabel" parent="."]
 offset_left = 104.0
-offset_top = 122.0
+offset_top = 138.0
 offset_right = 216.0
-offset_bottom = 130.0
+offset_bottom = 146.0
 theme_override_colors/default_color = Color(1, 0.784314, 0.721569, 1)
 theme_override_font_sizes/normal_font_size = 8
 text = "@omega-ariston"
@@ -77,27 +77,27 @@ scroll_active = false
 
 [node name="1Player" type="RichTextLabel" parent="."]
 offset_left = 88.0
-offset_top = 152.0
+offset_top = 160.0
 offset_right = 192.0
-offset_bottom = 160.0
+offset_bottom = 168.0
 theme_override_font_sizes/normal_font_size = 8
 text = "1 Player game"
 scroll_active = false
 
 [node name="2Player" type="RichTextLabel" parent="."]
 offset_left = 88.0
-offset_top = 168.0
+offset_top = 176.0
 offset_right = 192.0
-offset_bottom = 176.0
+offset_bottom = 184.0
 theme_override_font_sizes/normal_font_size = 8
 text = "2 Player game"
 scroll_active = false
 
 [node name="TOP" type="RichTextLabel" parent="."]
 offset_left = 88.0
-offset_top = 192.0
+offset_top = 200.0
 offset_right = 192.0
-offset_bottom = 200.0
+offset_bottom = 208.0
 theme_override_font_sizes/normal_font_size = 8
 text = "top- 000000"
 scroll_active = false
