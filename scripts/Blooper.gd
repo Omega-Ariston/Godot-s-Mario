@@ -41,8 +41,8 @@ func get_next_state(state: State) -> int:
 				# 在玩家上方时一直下沉到玩家头上一格，在玩家下方时至少下沉一个高度
 				return State.PUSH
 		State.PUSH:
-			# 推的距离固定
-			if abs(travel_distance_y) >= PUSH_DISTANCE:
+			# 推的距离固定，但不能超过水面
+			if abs(travel_distance_y) >= PUSH_DISTANCE or global_position.y <= Variables.WATER_SURFACE_Y_OFFSET:
 				return State.SINK
 	return state_machine.KEEP_CURRENT
 
