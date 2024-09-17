@@ -1,6 +1,6 @@
 [gd_scene load_steps=19 format=4 uid="uid://dkussfwr6n638"]
 
-[ext_resource type="Script" path="res://scripts/World.gd" id="1_b03qh"]
+[ext_resource type="Script" path="res://scripts/World4-2.gd" id="1_jfblj"]
 [ext_resource type="TileSet" uid="uid://bru6c57447abq" path="res://tiles/background.tres" id="3_x5kul"]
 [ext_resource type="TileSet" uid="uid://cf516p3bd2t1v" path="res://tiles/world.tres" id="4_sjxcc"]
 [ext_resource type="PackedScene" uid="uid://m2agj2g2u6vw" path="res://scenes/worlds/warp_zone.tscn" id="5_w20k2"]
@@ -24,7 +24,7 @@ size = Vector2(8, 224)
 size = Vector2(8, 288)
 
 [node name="4-2" type="Node2D"]
-script = ExtResource("1_b03qh")
+script = ExtResource("1_jfblj")
 world_type = 1
 level_time = 400
 level_name = "4-2"
@@ -97,6 +97,10 @@ process_mode = 4
 
 [node name="SpawnPoint" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(48, 64)
+script = ExtResource("5_y5411")
+
+[node name="SpawnPoint2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1584, 224)
 script = ExtResource("5_y5411")
 
 [node name="SubD" type="Marker2D" parent="SpawnPoints"]
@@ -2293,15 +2297,15 @@ position = Vector2(1240, 224)
 
 [node name="EnemyEnabler" parent="Enemies/Node2D2" instance=ExtResource("12_4e25s")]
 
-[node name="Node2D3" type="Node2D" parent="Enemies"]
+[node name="Removes" type="Node2D" parent="Enemies"]
 position = Vector2(1608, 224)
 
-[node name="Turtle2" parent="Enemies/Node2D3" instance=ExtResource("11_yy0u8")]
+[node name="Turtle2" parent="Enemies/Removes" instance=ExtResource("11_yy0u8")]
 
-[node name="Turtle3" parent="Enemies/Node2D3" instance=ExtResource("11_yy0u8")]
+[node name="Turtle3" parent="Enemies/Removes" instance=ExtResource("11_yy0u8")]
 position = Vector2(24, 0)
 
-[node name="EnemyEnabler" parent="Enemies/Node2D3" instance=ExtResource("12_4e25s")]
+[node name="EnemyEnabler" parent="Enemies/Removes" instance=ExtResource("12_4e25s")]
 
 [node name="Node2D6" type="Node2D" parent="Enemies"]
 position = Vector2(2200, 224)

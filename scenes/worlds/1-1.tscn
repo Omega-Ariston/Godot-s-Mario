@@ -287,19 +287,19 @@ position = Vector2(24, 0)
 
 [node name="EnemyEnabler" parent="Enemies/Goombas/Node2D3" instance=ExtResource("11_sj3m7")]
 
-[node name="Node2D4" type="Node2D" parent="Enemies/Goombas"]
+[node name="Removes" type="Node2D" parent="Enemies/Goombas"]
 position = Vector2(1288, 96)
 
-[node name="Goomba5" parent="Enemies/Goombas/Node2D4" instance=ExtResource("8_u6ctx")]
+[node name="Goomba5" parent="Enemies/Goombas/Removes" instance=ExtResource("8_u6ctx")]
 z_index = 0
 z_as_relative = true
 
-[node name="Goomba6" parent="Enemies/Goombas/Node2D4" instance=ExtResource("8_u6ctx")]
+[node name="Goomba6" parent="Enemies/Goombas/Removes" instance=ExtResource("8_u6ctx")]
 z_index = 0
 z_as_relative = true
 position = Vector2(32, 0)
 
-[node name="EnemyEnabler" parent="Enemies/Goombas/Node2D4" instance=ExtResource("11_sj3m7")]
+[node name="EnemyEnabler" parent="Enemies/Goombas/Removes" instance=ExtResource("11_sj3m7")]
 
 [node name="Node2D5" type="Node2D" parent="Enemies/Goombas"]
 position = Vector2(1560, 224)

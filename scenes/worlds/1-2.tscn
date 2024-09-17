@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=4 uid="uid://bpklk5c8l7csv"]
 
-[ext_resource type="Script" path="res://scripts/World.gd" id="1_2o7f6"]
+[ext_resource type="Script" path="res://scripts/World1-2.gd" id="1_hxecy"]
 [ext_resource type="TileSet" uid="uid://bru6c57447abq" path="res://tiles/background.tres" id="3_wyd0w"]
 [ext_resource type="TileSet" uid="uid://cf516p3bd2t1v" path="res://tiles/world.tres" id="4_luixm"]
 [ext_resource type="PackedScene" uid="uid://c30i335tpkrd8" path="res://scenes/bricks/brick.tscn" id="5_gmyou"]
@@ -23,7 +23,7 @@ size = Vector2(8, 224)
 size = Vector2(8, 288)
 
 [node name="1-2" type="Node2D"]
-script = ExtResource("1_2o7f6")
+script = ExtResource("1_hxecy")
 world_type = 1
 level_time = 400
 level_name = "1-2"
@@ -83,6 +83,10 @@ shape = SubResource("RectangleShape2D_43n5l")
 
 [node name="SpawnPoint" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(48, 72)
+script = ExtResource("11_18yd0")
+
+[node name="SpawnPoint2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1584, 224)
 script = ExtResource("11_18yd0")
 
 [node name="SubB" type="Marker2D" parent="SpawnPoints"]
@@ -1479,18 +1483,18 @@ position = Vector2(71, 64)
 
 [node name="EnemyEnabler" parent="Enemies/Node2D3" instance=ExtResource("12_7h870")]
 
-[node name="Node2D4" type="Node2D" parent="Enemies"]
+[node name="Removes" type="Node2D" parent="Enemies"]
 position = Vector2(1592, 224)
 
-[node name="Goomba9" parent="Enemies/Node2D4" instance=ExtResource("8_1sghj")]
+[node name="Goomba9" parent="Enemies/Removes" instance=ExtResource("8_1sghj")]
 
-[node name="Goomba10" parent="Enemies/Node2D4" instance=ExtResource("8_1sghj")]
+[node name="Goomba10" parent="Enemies/Removes" instance=ExtResource("8_1sghj")]
 position = Vector2(23, 0)
 
-[node name="Goomba11" parent="Enemies/Node2D4" instance=ExtResource("8_1sghj")]
+[node name="Goomba11" parent="Enemies/Removes" instance=ExtResource("8_1sghj")]
 position = Vector2(48, 0)
 
-[node name="EnemyEnabler" parent="Enemies/Node2D4" instance=ExtResource("12_7h870")]
+[node name="EnemyEnabler" parent="Enemies/Removes" instance=ExtResource("12_7h870")]
 
 [node name="Node2D5" type="Node2D" parent="Enemies"]
 position = Vector2(1816, 224)

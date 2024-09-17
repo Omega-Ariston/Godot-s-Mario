@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=4 uid="uid://blghq5i5psual"]
 
-[ext_resource type="Script" path="res://scripts/World.gd" id="1_7mmtm"]
+[ext_resource type="Script" path="res://scripts/World4-1.gd" id="1_obbsl"]
 [ext_resource type="PackedScene" uid="uid://b4igl1ywray2k" path="res://scenes/items/white_flag.tscn" id="3_p1kge"]
 [ext_resource type="TileSet" uid="uid://cf516p3bd2t1v" path="res://tiles/world.tres" id="4_36sv8"]
 [ext_resource type="PackedScene" uid="uid://23x77sf5ec41" path="res://scenes/climables/flag_pole.tscn" id="5_fppah"]
@@ -23,7 +23,7 @@ size = Vector2(8, 224)
 size = Vector2(8, 224)
 
 [node name="4-1" type="Node2D"]
-script = ExtResource("1_7mmtm")
+script = ExtResource("1_obbsl")
 level_time = 400
 level_name = "4-1"
 
@@ -83,6 +83,10 @@ shape = SubResource("RectangleShape2D_sct8j")
 
 [node name="SpawnPoint" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(56, 224)
+script = ExtResource("6_dkuyc")
+
+[node name="SpawnPoint2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1584, 224)
 script = ExtResource("6_dkuyc")
 
 [node name="SubC" type="Marker2D" parent="SpawnPoints"]
@@ -282,9 +286,6 @@ position = Vector2(2624, 216)
 position = Vector2(432, 80)
 
 [node name="Lakitu" parent="Enemies/Node2D5" instance=ExtResource("11_0sqry")]
-
-[node name="OffScreenEraser" parent="Enemies/Node2D5/Lakitu" index="4"]
-position = Vector2(48, -16)
 
 [node name="ByePoint" parent="Enemies/Node2D5/Lakitu" index="8"]
 position = Vector2(3368, 224)
