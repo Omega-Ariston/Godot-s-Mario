@@ -1,7 +1,7 @@
 extends Node
 
 const CHANGE_SCENE_DURATION := 0.4
-const VINE_RISE_COUNT := 4
+const VINE_RISE_COUNT := 6
 const TRANSITION_SCENE_PATH := "res://scenes/worlds/transition.tscn"
 const LIFE_COUNT := 3
 const INITIAL_CAMERA_OFFSET := Variables.TILE_SIZE.x * 4
@@ -238,7 +238,7 @@ func _animate_vine(player: Player, spawn_point: SpawnPoint) -> void:
 	await vine_instance.rise_completed
 	# 等藤蔓长完之后让玩家上来
 	var tween := create_tween()
-	tween.tween_property(player, "global_position:y", spawn_point.global_position.y - (VINE_RISE_COUNT - 1) * Variables.TILE_SIZE.y, (VINE_RISE_COUNT - 1) * 0.5)
+	tween.tween_property(player, "global_position:y", spawn_point.global_position.y - (VINE_RISE_COUNT - 2) * Variables.TILE_SIZE.y, (VINE_RISE_COUNT - 2) * 0.5)
 	await tween.finished
 	# 爬到顶端后停止动作并换边
 	player.animation_player.speed_scale = 0
