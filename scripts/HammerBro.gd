@@ -147,7 +147,8 @@ func get_next_state(state: State) -> int:
 func tick_physics(state: State, delta: float) -> void:
 	var direction_old := direction
 	# 始终面朝玩家
-	direction = Direction.LEFT if player.global_position.x < global_position.x else Direction.RIGHT
+	if state_machine.current_state != State.DEAD:
+		direction = Direction.LEFT if player.global_position.x < global_position.x else Direction.RIGHT
 	
 	if is_chasing and direction_old == Direction.LEFT and direction == Direction.RIGHT:
 		# 追逐状态下玩家从左边到右边时更新原地位置
