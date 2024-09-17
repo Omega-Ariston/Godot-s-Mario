@@ -47,6 +47,7 @@ const GRAVITY_JUMP_MID := 407.8125 # 001E0
 const GRAVITY_JUMP_FAST := 562.5 # 00280
 const GRAVITY_SWIM := 168.75 # 000D0
 const GRAVITY_SWIM_FALL := 140.625 # 000A0
+const GRAVITY_SWIM_SURFACE := 337.5 # 00180
 
 const GRAVITY_ENTRY := GRAVITY_JUMP_FAST # 00280
 
@@ -57,6 +58,7 @@ const GRAVITY_FALL_FAST := 2025.0 # 00900
 const VELOCITY_Y_MAX := 270.0 # 04800
 const VELOCITY_Y_CUT_OFF := 240.0 # 04000
 
+const WATER_SURFACE_Y_OFFSET := floori(Variables.TILE_SIZE.y * 5)
 
 enum State {
 	ENTRY, # 关卡刚开始时的特殊状态
@@ -568,7 +570,7 @@ func transition_state(from: State, to: State) -> void:
 				velocity.y = JUMP_VELOCITY_FAST if abs(initial_horizontal_speed) > JUMP_VELOCITY_THROTTLE_FAST else JUMP_VELOCITY_SLOW
 				SoundManager.play_sfx("JumpSmall" if curr_mode == Mode.SMALL else "JumpLarge")
 		State.SWIM:
-			current_gravity = GRAVITY_SWIM
+			current_gravity = GRAVITY_SWIM if global_position.y > WATER_SURFACE_Y_OFFSET else GRAVITY_SWIM_SURFACE
 			initial_horizontal_speed = velocity.x
 			animation_player.play("swim_up", -1, 2.0, false)
 			SoundManager.play_sfx("Stomp")
@@ -584,7 +586,7 @@ func transition_state(from: State, to: State) -> void:
 				elif abs(initial_horizontal_speed) >= JUMP_VELOCITY_THROTTLE_FAST:
 					current_gravity = GRAVITY_FALL_FAST
 			elif from == State.SWIM:
-				current_gravity = GRAVITY_SWIM_FALL
+				current_gravity = GRAVITY_SWIM_FALL if global_position.y > WATER_SURFACE_Y_OFFSET else GRAVITY_SWIM_SURFACE
 			if is_under_water:
 				animation_player.play("swim_down")
 			else:
