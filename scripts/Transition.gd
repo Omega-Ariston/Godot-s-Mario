@@ -15,13 +15,9 @@ func _ready() -> void:
 		GameManager.is_time_up = false
 		time_up.visible = true
 		await get_tree().create_timer(2).timeout
-		if GameManager.life > 0:
-			GameManager.transition_scene(StatusBar.level, false)
-			return
-		time_up.visible = false
-	if GameManager.life == 0:
+		GameManager.transition_scene(StatusBar.level, false)
+	elif GameManager.life == 0:
 		game_over.visible = true
-		await GameManager.screen_ready
 		await SoundManager.play_sfx("GameOver").finished
 		GameManager.restore_status()
 		GameManager.title_scene()
