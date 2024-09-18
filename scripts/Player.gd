@@ -520,11 +520,11 @@ func transition_state(from: State, to: State) -> void:
 			initialize_mode() # 恢复角色位置
 		State.ENLARGE:
 			# 恢复时间
-			get_tree().paused = false
+			PauseManager.unpause_normal()
 			curr_mode = Mode.LARGE
 		State.ONFIRE:
 			# 恢复时间
-			get_tree().paused = false
+			PauseManager.unpause_normal()
 			curr_mode = Mode.FIRE
 			blink_animator.stop()
 			if is_under_star:
@@ -533,7 +533,7 @@ func transition_state(from: State, to: State) -> void:
 				set_shader_enabled(false)
 		State.HURT:
 			# 恢复时间
-			get_tree().paused = false
+			PauseManager.unpause_normal()
 			curr_mode = Mode.SMALL
 			# 进入无敌时间
 			is_invincible = true
@@ -608,7 +608,7 @@ func transition_state(from: State, to: State) -> void:
 			animation_player.play("climb")
 		State.HURT:
 			is_hurt = false
-			get_tree().paused = true # 静止游戏场景
+			PauseManager.pause_normal()
 			animation_player.play("hurt")
 			SoundManager.play_sfx("PipeHurt")
 		State.LAUNCH:
@@ -622,12 +622,12 @@ func transition_state(from: State, to: State) -> void:
 		State.ENLARGE:
 			can_enlarge = false
 			# 暂停时间
-			get_tree().paused = true
+			PauseManager.pause_normal()
 			animation_player.play("enlarge")
 		State.ONFIRE:
 			can_onfire = false
 			# 暂停时间
-			get_tree().paused = true
+			PauseManager.pause_normal()
 			animation_player.stop()
 			set_shader_enabled(true)
 			blink_animator.play("onfire", -1, 2.0, false)
@@ -639,7 +639,7 @@ func transition_state(from: State, to: State) -> void:
 				sprite_2d.visible = false # 摔死的时候不让死亡动画被看见
 			else:
 				# 非摔死的情况下才会冻结屏幕
-				get_tree().paused = true # 静止游戏场景
+				PauseManager.pause_normal()
 			velocity = Vector2.ZERO
 			GameManager.game_timer.stop() # 停止计时
 			collision_shape_2d.set_deferred("disabled", true)

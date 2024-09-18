@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cmmnp8pu02dqd"]
+
+[ext_resource type="Script" path="res://scripts/PauseManager.gd" id="1_l6b04"]
+
+[node name="PauseManager" type="Node"]
+process_mode = 3
+script = ExtResource("1_l6b04")

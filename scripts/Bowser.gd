@@ -120,7 +120,7 @@ func throw_hammer() -> void:
 	throwing = true
 	while state_machine.current_state not in [State.CHASING, State.DEAD]:
 		while hammer_to_throw > 0:	
-			if not get_tree().paused:
+			if not PauseManager.is_paused:
 				hammer_launcher.launch()
 				hammer_to_throw -= 1
 			# 等待一小会扔下一个锤子

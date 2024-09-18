@@ -109,10 +109,10 @@ func transition_scene(level: String, black=true) -> void:
 	if black:
 		# 黑幕设为不透明
 		scene_changer.color.a = 1.0	
-	# 解除暂停
-	var tree := get_tree()
-	tree.paused = false
+	# 解除死亡造成的暂停
+	PauseManager.unpause_normal()
 	# 设置状态栏
+	var tree := get_tree()
 	StatusBar.level = level
 	var scene_change_timer: SceneTreeTimer
 	if black:
@@ -131,10 +131,10 @@ func transition_scene(level: String, black=true) -> void:
 func change_scene(level: String, params: Dictionary = {}) -> void:
 	# 黑幕设为不透明
 	scene_changer.color.a = 1.0	
-	# 解除暂停
-	var tree := get_tree()
-	tree.paused = false
+	# 解除死亡造成的暂停
+	PauseManager.unpause_normal()
 	# 切换场景
+	var tree := get_tree()
 	var scene_change_timer := tree.create_timer(CHANGE_SCENE_DURATION)
 	# 进入地下的动画走单独的逻辑
 	if into_the_under:

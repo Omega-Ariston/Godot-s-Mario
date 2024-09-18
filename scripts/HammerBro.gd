@@ -83,7 +83,7 @@ func start() -> void:
 func throw_hammer() -> void:
 	while state_machine.current_state != State.DEAD:
 		while hammer_to_throw > 0:	
-			if not get_tree().paused:
+			if not PauseManager.is_paused:
 				animation_player.play("lift")
 				await hammer_launcher.launch()
 				animation_player.play("wonder")

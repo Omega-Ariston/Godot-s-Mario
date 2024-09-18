@@ -18,10 +18,11 @@ config/icon="res://icon.svg"
 [autoload]
 
 GameManager="*res://scenes/autoloads/game_manager.tscn"
-Variables="*res://scripts/Variables.gd"
+PauseManager="*res://scenes/autoloads/pause_manager.tscn"
 SoundManager="*res://scenes/autoloads/sound_manager.tscn"
 StatusBar="*res://scenes/text/status_bar.tscn"
 ScoreManager="*res://scenes/autoloads/score_manager.tscn"
+Variables="*res://scripts/Variables.gd"
 
 [debug]
 
@@ -47,6 +48,7 @@ folder_colors={
 Fireballs=""
 Hammers=""
 Hadoukens=""
+CoinBricks=""
 
 [gui]
 

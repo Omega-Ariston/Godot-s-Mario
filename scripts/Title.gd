@@ -9,9 +9,10 @@ func _ready() -> void:
 	player.controllable = false
 	setup_camera()
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 		# TODO: 续关的逻辑
 	if event.is_action_pressed("start"):
+		get_viewport().set_input_as_handled()
 		StatusBar.initialize()
 		GameManager.transition_scene("1-1")
 
