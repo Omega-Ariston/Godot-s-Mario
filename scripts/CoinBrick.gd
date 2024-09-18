@@ -43,18 +43,11 @@ func _ready() -> void:
 func on_bumped(player: Player) -> void:
 	if bumpable.can_bump:
 		if is_hidden:
-			if player.velocity.y < 0:
-				# 判断是否是来自下方的撞击，如果是，则砖显形并恢复碰撞体积
-				bumpable.can_bump = false
-				sprite_2d.visible = true
-				set_collision_layer_value(1, true)
-				bumpable.apply_bump_effect()
-			else:
-				return
-		else:
-			# 到前面来
-			bumpable.can_bump = false
-			bumpable.apply_bump_effect()
+			# 隐藏砖显形并恢复碰撞体积
+			set_collision_layer_value(1, true)
+			sprite_2d.visible = true
+		bumpable.can_bump = false
+		bumpable.apply_bump_effect()
 		animation_player.play("bumped")
 		if spawn_item == Bumpable.SpawnItem.COIN:
 			# 金币直接顶

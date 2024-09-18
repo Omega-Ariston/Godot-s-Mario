@@ -146,6 +146,7 @@ size = Vector2(16, 16)
 [node name="CoinBrick" type="StaticBody2D"]
 z_as_relative = false
 collision_layer = 9
+collision_mask = 0
 script = ExtResource("1_yxd1f")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

@@ -33,7 +33,6 @@ func do_bump() -> void:
 
 func do_spawn(node: Node2D, item: SpawnItem, player: Player) -> void:
 	# 生成被顶出的物品
-	print_debug("Spawning %s" % SpawnItem.keys()[item])
 	var item_instance: Node2D
 	
 	match item:
@@ -58,8 +57,11 @@ func do_spawn(node: Node2D, item: SpawnItem, player: Player) -> void:
 # 被玩家顶
 func _on_bump_area_body_entered(body: Node2D) -> void:
 	if body is Player and body.is_bumping(owner):
-		if not (owner is CoinBrick and can_bump): # 还没顶的隐藏砖不要出声
-			SoundManager.play_sfx("Bump")
+		if owner is CoinBrick and owner.is_hidden and can_bump:
+			# 隐藏砖不能从上面往下触发
+			if body.velocity.y >= 0:
+				return
+		body.on_bumping(true)
 		owner.on_bumped(body)
 
 # 把顶的效果应用到上方的物体

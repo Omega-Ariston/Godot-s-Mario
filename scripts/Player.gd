@@ -838,6 +838,17 @@ func on_jumpable_floor() -> bool:
 
 func is_bumping(node: Node2D) -> bool:
 	return ceil_checker_mid.get_collider() == node
+
+func on_bumping(is_brick := false) -> void:
+	SoundManager.play_sfx("Bump")
+	var velocity_y = velocity.y - int(velocity.y)
+	if is_brick and curr_mode == Mode.SMALL:
+		print('soft')
+		# 状态为小马里奥时使用软反弹(垂直速度整数部分设置为0)，其它情况全都用硬反弹（垂直速度整数部分设置为1）
+		velocity.y = velocity_y
+	else:
+		print('hard')
+		velocity.y = velocity_y + 1
 	
 func on_full_ceiling() -> bool:
 	return ceil_checker_left.is_colliding() and ceil_checker_mid.is_colliding() and ceil_checker_right.is_colliding()
