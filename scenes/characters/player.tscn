@@ -13,7 +13,7 @@ shader_parameter/origin_colors = PackedVector4Array()
 shader_parameter/new_colors = PackedVector4Array()
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d6d33"]
-size = Vector2(12, 13)
+size = Vector2(12, 12)
 
 [sub_resource type="Animation" id="Animation_724l8"]
 length = 0.001
@@ -393,7 +393,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(12, 13)]
+"values": [Vector2(12, 12)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -1033,7 +1033,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(10, 13)]
+"values": [Vector2(10, 12)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -1045,7 +1045,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0, -7)]
+"values": [Vector2(0, -6)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
