@@ -140,6 +140,7 @@ var is_under_water := false
 var initial_horizontal_speed : float # 起跳或游泳前的水平速度
 var position_y_before_fall : float # 坠落前的y坐标，用于恢复高度
 var horizontal_speed_x_before_fall : float # 坠落前的水平速度
+var bumped := false # 一次跳跃过程中只能顶一个砖块
 
 # 存储当前状态下的物理信息
 var current_target_speed : float
@@ -226,6 +227,11 @@ func tick_physics(state: State, delta: float) -> void:
 	var movement := Input.get_axis("move_left", "move_right") if controllable else input_x
 	if not is_zero_approx(movement) and not is_first_tick and (is_under_water or is_on_floor()) and state not in UNSAFE_STATES:
 		direction = Direction.LEFT if movement < 0 else Direction.RIGHT
+	
+	if not bumped and ceil_checker_mid.is_colliding() and ceil_checker_mid.get_collider() is TileMapLayer:
+		# 撞到砖块之外的瓦片时需要实施硬反弹效果
+		bumped = true
+		on_bumping()
 	
 	if not is_under_water:
 		if controllable:
@@ -498,11 +504,13 @@ func transition_state(from: State, to: State) -> void:
 			jump_around_assisted = false
 			is_jumping_around = false
 			jump_up_assisted = false
+			bumped = false
 		State.SWIM:
 			swim_requested = false
 			jump_around_assisted = false
 			is_jumping_around = false
 			jump_up_assisted = false
+			bumped = false
 		State.FALL:
 			is_falling_up = false
 			animation_player.speed_scale = 1 # 恢复动画播放速度
@@ -837,18 +845,17 @@ func on_jumpable_floor() -> bool:
 	return floor_checker_left.is_colliding() or floor_checker_mid.is_colliding() or floor_checker_right.is_colliding()
 
 func is_bumping(node: Node2D) -> bool:
-	return ceil_checker_mid.get_collider() == node
+	return not bumped and ceil_checker_mid.get_collider() == node
 
 func on_bumping(is_brick := false) -> void:
 	SoundManager.play_sfx("Bump")
+	bumped = true
 	var velocity_y = velocity.y - int(velocity.y)
 	if is_brick and curr_mode == Mode.SMALL:
-		print('soft')
-		# 状态为小马里奥时使用软反弹(垂直速度整数部分设置为0)，其它情况全都用硬反弹（垂直速度整数部分设置为1）
+		# 状态为小马里奥时使用软反弹(垂直速度整数部分设置为0)，其它情况全都用硬反弹（垂直速度整数部分设置为60）
 		velocity.y = velocity_y
 	else:
-		print('hard')
-		velocity.y = velocity_y + 1
+		velocity.y = velocity_y + 60
 	
 func on_full_ceiling() -> bool:
 	return ceil_checker_left.is_colliding() and ceil_checker_mid.is_colliding() and ceil_checker_right.is_colliding()
