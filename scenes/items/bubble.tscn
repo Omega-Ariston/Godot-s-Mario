@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://b0jpgjt8v2b04"]
+
+[ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/graphics/items-objects.png" id="1_cfrk5"]
+[ext_resource type="Script" path="res://scripts/Bubble.gd" id="1_gbyl0"]
+
+[node name="Bubble" type="Node2D"]
+z_index = 3
+z_as_relative = false
+script = ExtResource("1_gbyl0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_cfrk5")
+region_enabled = true
+region_rect = Rect2(96, 176, 16, 16)

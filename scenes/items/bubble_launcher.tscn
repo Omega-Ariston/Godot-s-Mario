@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://cllj0s8gv0ijj"]
+
+[ext_resource type="Script" path="res://scripts/BubbleLauncher.gd" id="1_a25pt"]
+
+[node name="BubbleLauncher" type="Marker2D"]
+script = ExtResource("1_a25pt")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -1,9 +1,10 @@
-[gd_scene load_steps=32 format=4 uid="uid://ta2kus8p0r8f"]
+[gd_scene load_steps=33 format=4 uid="uid://ta2kus8p0r8f"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_sboe1"]
 [ext_resource type="Texture2D" uid="uid://dfg5kaxqbfu1d" path="res://assets/graphics/mario.png" id="2_pqtkg"]
 [ext_resource type="Shader" path="res://shaders/change_color.gdshader" id="2_ssa0e"]
 [ext_resource type="Script" path="res://scripts/StateMachine.gd" id="4_vytt3"]
+[ext_resource type="PackedScene" uid="uid://cllj0s8gv0ijj" path="res://scenes/items/bubble_launcher.tscn" id="5_8n4s3"]
 [ext_resource type="Script" path="res://scripts/FireballLauncher.gd" id="5_su61k"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vwxc3"]
@@ -551,6 +552,18 @@ tracks/15/keys = {
 "update": 0,
 "values": [Vector2(0, -7)]
 }
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("Graphics/BubbleLauncher:position")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(3, -9)]
+}
 
 [sub_resource type="Animation" id="Animation_ulpjt"]
 resource_name = "crouch"
@@ -799,6 +812,18 @@ tracks/15/keys = {
 "update": 0,
 "values": [Vector2(0, -13)]
 }
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("Graphics/BubbleLauncher:position")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(3, -17)]
+}
 
 [sub_resource type="Animation" id="Animation_aktw4"]
 resource_name = "large"
@@ -994,6 +1019,18 @@ tracks/15/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, -13)]
+}
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("Graphics/BubbleLauncher:position")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(3, -17)]
 }
 
 [sub_resource type="Animation" id="Animation_b4dal"]
@@ -1191,6 +1228,18 @@ tracks/15/keys = {
 "update": 0,
 "values": [Vector2(0, -7)]
 }
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("Graphics/BubbleLauncher:position")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(3, -9)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hx7gb"]
 _data = {
@@ -1284,6 +1333,9 @@ region_rect = Rect2(96, 32, 272, 16)
 [node name="FireballLauncher" type="Marker2D" parent="Graphics"]
 position = Vector2(8, -4)
 script = ExtResource("5_su61k")
+
+[node name="BubbleLauncher" parent="Graphics" instance=ExtResource("5_8n4s3")]
+position = Vector2(3, -9)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -6)
