@@ -299,7 +299,7 @@ libraries = {
 }
 
 [node name="Hurtbox" parent="." index="5"]
-position = Vector2(0, -12)
+position = Vector2(1, -15)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
 position = Vector2(-0.5, 6)

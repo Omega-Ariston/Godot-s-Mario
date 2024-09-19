@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://eh5egx0rrwpa" path="res://assets/graphics/enemies.png" id="2_m4y6m"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d1p2y"]
-size = Vector2(16, 14)
+size = Vector2(10.5, 7)
 
 [node name="Bullet" groups=["Bullet"] instance=ExtResource("1_fb1pc")]
 z_index = 1
@@ -21,6 +21,9 @@ texture = ExtResource("2_m4y6m")
 region_enabled = true
 region_rect = Rect2(576, 16, 16, 16)
 
+[node name="Hurtbox" parent="." index="5"]
+position = Vector2(0, 3)
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
-position = Vector2(-1, -7)
+position = Vector2(-1, -9)
 shape = SubResource("RectangleShape2D_d1p2y")

@@ -21,7 +21,7 @@ const SCORE := {
 const SPEED := 30.0
 const WONDER_SPEED := 50.0
 const DASH_SPEED := 200.0
-const BYE_SPEED := 100.0
+const BYE_SPEED := 80.0
 const MAX_SPINY_NUM := 4
 
 const ACCELERATION := SPEED / 0.4
@@ -114,7 +114,7 @@ func tick_physics(state: State, delta: float) -> void:
 		State.DASH:
 			move(DASH_SPEED, +1, delta)
 		State.DYING:
-			move(0, attack_direction, delta, default_gravity)
+			move(0, 0, delta, default_gravity)
 		State.BYE:
 			move(BYE_SPEED, -1, delta)
 		State.BRAKE:

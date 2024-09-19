@@ -146,7 +146,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e5pxf"]
-size = Vector2(16, 24)
+size = Vector2(8, 19)
 
 [node name="HammerBro" instance=ExtResource("1_uf2uq")]
 script = ExtResource("2_cgdwo")
@@ -195,7 +195,7 @@ target_position = Vector2(0, 4)
 hit_from_inside = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
-position = Vector2(0, -12)
+position = Vector2(0, -9.5)
 shape = SubResource("RectangleShape2D_e5pxf")
 
 [node name="JumpTimer" type="Timer" parent="." index="7"]

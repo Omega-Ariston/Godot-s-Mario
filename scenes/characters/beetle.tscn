@@ -117,6 +117,9 @@ libraries = {
 position = Vector2(-3.8147e-06, -16)
 scale = Vector2(12.8, 1.6)
 
+[node name="Hurtbox" parent="." index="5"]
+position = Vector2(0, -3)
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
 position = Vector2(0, -6.5)
 shape = SubResource("RectangleShape2D_v7rkv")

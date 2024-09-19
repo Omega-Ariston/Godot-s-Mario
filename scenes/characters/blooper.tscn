@@ -186,9 +186,8 @@ _data = {
 "sink": SubResource("Animation_wkfbr")
 }
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_inlnm"]
-radius = 8.0
-height = 16.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qdwl7"]
+size = Vector2(10, 6)
 
 [node name="Blooper" instance=ExtResource("1_mplwq")]
 script = ExtResource("2_8dlf2")
@@ -213,4 +212,4 @@ libraries = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
 position = Vector2(0, -8)
-shape = SubResource("CapsuleShape2D_inlnm")
+shape = SubResource("RectangleShape2D_qdwl7")

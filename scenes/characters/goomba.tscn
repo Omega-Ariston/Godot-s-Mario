@@ -155,7 +155,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8uwxi"]
-size = Vector2(14, 14)
+size = Vector2(10, 8)
 
 [node name="Goomba" instance=ExtResource("1_300fq")]
 script = ExtResource("2_joamn")
@@ -179,6 +179,9 @@ libraries = {
 "": SubResource("AnimationLibrary_xb50a")
 }
 
+[node name="Hurtbox" parent="." index="5"]
+position = Vector2(2, 0)
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
-position = Vector2(0, -7)
+position = Vector2(-2, -7)
 shape = SubResource("RectangleShape2D_8uwxi")
