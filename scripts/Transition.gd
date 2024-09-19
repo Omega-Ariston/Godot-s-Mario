@@ -6,8 +6,6 @@ extends Node2D
 @onready var time_up: Node2D = $TimeUp
 @onready var game_over: Node2D = $GameOver
 
-
-
 func _ready() -> void:
 	# 先显示TimeUp，再显示GameOver，最后是普通切关
 	StatusBar.time = -1
@@ -29,3 +27,7 @@ func _ready() -> void:
 		# 等两秒进入正式关
 		await get_tree().create_timer(2).timeout
 		GameManager.change_scene(StatusBar.level)
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("start"):
+		get_viewport().set_input_as_handled()
