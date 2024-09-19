@@ -140,7 +140,6 @@ var is_under_water := false
 var initial_horizontal_speed : float # 起跳或游泳前的水平速度
 var position_y_before_fall : float # 坠落前的y坐标，用于恢复高度
 var horizontal_speed_x_before_fall : float # 坠落前的水平速度
-var bumped := false # 一次跳跃过程中只能顶一个砖块
 
 # 存储当前状态下的物理信息
 var current_target_speed : float
@@ -228,9 +227,8 @@ func tick_physics(state: State, delta: float) -> void:
 	if not is_zero_approx(movement) and not is_first_tick and (is_under_water or is_on_floor()) and state not in UNSAFE_STATES:
 		direction = Direction.LEFT if movement < 0 else Direction.RIGHT
 	
-	if not bumped and ceil_checker_mid.is_colliding() and ceil_checker_mid.get_collider() is TileMapLayer:
+	if ceil_checker_mid.is_colliding() and ceil_checker_mid.get_collider() is TileMapLayer:
 		# 撞到砖块之外的瓦片时需要实施硬反弹效果
-		bumped = true
 		on_bumping()
 	
 	if not is_under_water:
@@ -362,14 +360,14 @@ func tick_physics(state: State, delta: float) -> void:
 					set_collision_mask_value(1, true)
 					# 恢复垂直速度
 					speed_y = 0.0
-				else:
-					# 给予一个朝向上方的恒定垂直速度
-					speed_y = -MOVE_AROUND_SPEED
 			elif should_fall_up_assist():
 				# 开始辅助
 				print_debug(Engine.get_physics_frames(), ' FALL UP ASSIST START')
 				is_falling_up = true
 				set_collision_mask_value(1, false) # 临时移除玩家与砖块的碰撞
+			if is_falling_up:
+				# 给予一个朝向上方的恒定垂直速度
+				speed_y = -MOVE_AROUND_SPEED
 			
 			if is_first_tick or is_falling_up:
 				move(delta, 0.0, NAN, speed_y)
@@ -504,13 +502,11 @@ func transition_state(from: State, to: State) -> void:
 			jump_around_assisted = false
 			is_jumping_around = false
 			jump_up_assisted = false
-			bumped = false
 		State.SWIM:
 			swim_requested = false
 			jump_around_assisted = false
 			is_jumping_around = false
 			jump_up_assisted = false
-			bumped = false
 		State.FALL:
 			is_falling_up = false
 			animation_player.speed_scale = 1 # 恢复动画播放速度
@@ -845,11 +841,10 @@ func on_jumpable_floor() -> bool:
 	return floor_checker_left.is_colliding() or floor_checker_mid.is_colliding() or floor_checker_right.is_colliding()
 
 func is_bumping(node: Node2D) -> bool:
-	return not bumped and ceil_checker_mid.get_collider() == node
+	return ceil_checker_mid.get_collider() == node
 
 func on_bumping(is_brick := false) -> void:
 	SoundManager.play_sfx("Bump")
-	bumped = true
 	var velocity_y = velocity.y - int(velocity.y)
 	if is_brick and curr_mode == Mode.SMALL:
 		# 状态为小马里奥时使用软反弹(垂直速度整数部分设置为0)，其它情况全都用硬反弹（垂直速度整数部分设置为60）
@@ -862,7 +857,7 @@ func on_full_ceiling() -> bool:
 
 # 当水平跳向砖块并沿着砖壁上滑时是否需要额外助力，只有起跳速度足够并且在上升过程中头部已经越过顶点、但速度还差一点点时才生效
 func should_jump_up_assist() -> bool:
-	if abs(initial_horizontal_speed) < MAX_WALK_SPEED or velocity.y <= JUMP_UP_BOOST_SPEED:
+	if abs(initial_horizontal_speed) < MAX_WALK_SPEED or velocity.y <= JUMP_UP_BOOST_SPEED or velocity.y >= JUMP_UP_BOOST_SPEED / 2:
 		return false
 	if initial_horizontal_speed > 0:
 		return not side_checker_top_right.is_colliding() and side_checker_mid_right.is_colliding()
