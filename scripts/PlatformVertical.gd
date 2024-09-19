@@ -3,7 +3,7 @@ extends StaticBody2D
 @export var direction := -1 # -1表示向上，1表示向下
 
 const SPEED := 48
-const UP_BOUND := 0
+const UP_BOUND := Variables.TILE_SIZE.y
 const DOWN_BOUND := Variables.TILE_SIZE.y * 16
 
 func _physics_process(delta: float) -> void:

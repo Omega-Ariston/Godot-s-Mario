@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://e4yxg5n51hdp"]
+[gd_scene load_steps=21 format=4 uid="uid://e4yxg5n51hdp"]
 
 [ext_resource type="Script" path="res://scripts/World8-4.gd" id="1_1nf3p"]
 [ext_resource type="TileSet" uid="uid://bru6c57447abq" path="res://tiles/background.tres" id="2_h66k2"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://3dn4vucj2s00" path="res://scenes/characters/goomba.tscn" id="6_k0b8g"]
 [ext_resource type="PackedScene" uid="uid://by0stfwg5c7pm" path="res://scenes/bricks/coin_brick.tscn" id="6_v0lss"]
 [ext_resource type="PackedScene" uid="uid://b3sa7c80qbgij" path="res://scenes/characters/turtle.tscn" id="7_nyviy"]
+[ext_resource type="PackedScene" uid="uid://4eipksh70lys" path="res://scenes/items/platform_horizontal.tscn" id="7_penbd"]
 [ext_resource type="PackedScene" uid="uid://bkoa5bviyhuyp" path="res://scenes/characters/piranha.tscn" id="8_ee5hx"]
 [ext_resource type="PackedScene" uid="uid://dux2x6ddu5h4t" path="res://scenes/characters/enemy_enabler.tscn" id="8_eopj6"]
 [ext_resource type="PackedScene" uid="uid://bm8y4aylq5pn3" path="res://scenes/characters/beetle.tscn" id="9_s5jck"]
@@ -152,6 +153,17 @@ position = Vector2(3200, 176)
 position = Vector2(4224, 176)
 
 [node name="Platforms" type="Node2D" parent="."]
+
+[node name="PlatformHorizontal" parent="Platforms" instance=ExtResource("7_penbd")]
+position = Vector2(1136, 228)
+
+[node name="LeftEnd" parent="Platforms/PlatformHorizontal" index="2"]
+top_level = true
+position = Vector2(1080, 228)
+
+[node name="RightEnd" parent="Platforms/PlatformHorizontal" index="3"]
+top_level = true
+position = Vector2(1136, 228)
 
 [node name="Enemies" type="Node2D" parent="."]
 
@@ -415,5 +427,6 @@ scroll_active = false
 
 [connection signal="screen_exited" from="Enemies/SpecialPipes/VisibleOnScreenNotifier2D" to="." method="_on_special_pipe_screen_exited"]
 
+[editable path="Platforms/PlatformHorizontal"]
 [editable path="Enemies/SpecialPipes/SpecialPipe1/Piranha9"]
 [editable path="Enemies/SpecialPipes/SpecialPipe2/Piranha10"]

@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://4eipksh70lys"]
+
+[ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/graphics/items-objects.png" id="1_dfhs4"]
+[ext_resource type="Script" path="res://scripts/PlatformHorizontal.gd" id="1_mwtoj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y2mpy"]
+size = Vector2(32, 8)
+
+[node name="PlatformHorizontal" type="AnimatableBody2D"]
+z_as_relative = false
+collision_mask = 0
+script = ExtResource("1_mwtoj")
+
+[node name="Graphics" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Graphics"]
+position = Vector2(-8, 0)
+texture = ExtResource("1_dfhs4")
+region_enabled = true
+region_rect = Rect2(64, 128, 16, 8)
+
+[node name="Sprite2D2" type="Sprite2D" parent="Graphics"]
+position = Vector2(8, 0)
+texture = ExtResource("1_dfhs4")
+region_enabled = true
+region_rect = Rect2(64, 128, 16, 8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_y2mpy")
+
+[node name="LeftEnd" type="Marker2D" parent="."]
+position = Vector2(-32, 0)
+
+[node name="RightEnd" type="Marker2D" parent="."]
+position = Vector2(32, 0)
