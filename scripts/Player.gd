@@ -190,6 +190,7 @@ var target_x := 0 as int
 @onready var side_checker_mid_right: RayCast2D = $SideCheckers/SideCheckerMidRight
 @onready var side_checker_bot_left: RayCast2D = $BotCheckers/SideCheckerBotLeft
 @onready var side_checker_bot_right: RayCast2D = $BotCheckers/SideCheckerBotRight
+@onready var bump_checker: RayCast2D = $TopCheckers/BumpChecker
 
 signal arrived
 
@@ -227,7 +228,7 @@ func tick_physics(state: State, delta: float) -> void:
 	if not is_zero_approx(movement) and not is_first_tick and (is_under_water or is_on_floor()) and state not in UNSAFE_STATES:
 		direction = Direction.LEFT if movement < 0 else Direction.RIGHT
 	
-	if ceil_checker_mid.is_colliding() and ceil_checker_mid.get_collider() is TileMapLayer:
+	if bump_checker.is_colliding() and bump_checker.get_collider() is TileMapLayer:
 		# 撞到砖块之外的瓦片时需要实施硬反弹效果
 		on_bumping()
 	
@@ -841,7 +842,7 @@ func on_jumpable_floor() -> bool:
 	return floor_checker_left.is_colliding() or floor_checker_mid.is_colliding() or floor_checker_right.is_colliding()
 
 func is_bumping(node: Node2D) -> bool:
-	return ceil_checker_mid.get_collider() == node
+	return bump_checker.get_collider() == node
 
 func on_bumping(is_brick := false) -> void:
 	SoundManager.play_sfx("Bump")

@@ -564,6 +564,18 @@ tracks/16/keys = {
 "update": 0,
 "values": [Vector2(3, -9)]
 }
+tracks/17/type = "value"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("TopCheckers/BumpChecker:position")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_ulpjt"]
 resource_name = "crouch"
@@ -578,7 +590,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(12, 13)]
+"values": [Vector2(12, 12)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -590,7 +602,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0, -7)]
+"values": [Vector2(0, -6)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -615,6 +627,18 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, -7)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("TopCheckers/BumpChecker:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_4h6xy"]
@@ -824,6 +848,18 @@ tracks/16/keys = {
 "update": 0,
 "values": [Vector2(3, -17)]
 }
+tracks/17/type = "value"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("TopCheckers/BumpChecker:position")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_aktw4"]
 resource_name = "large"
@@ -1031,6 +1067,18 @@ tracks/16/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(3, -17)]
+}
+tracks/17/type = "value"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("TopCheckers/BumpChecker:position")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_b4dal"]
@@ -1240,6 +1288,18 @@ tracks/16/keys = {
 "update": 0,
 "values": [Vector2(3, -9)]
 }
+tracks/17/type = "value"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("TopCheckers/BumpChecker:position")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 1)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hx7gb"]
 _data = {
@@ -1395,13 +1455,18 @@ target_position = Vector2(0, -4)
 hit_from_inside = true
 
 [node name="CeilCheckerMid" type="RayCast2D" parent="TopCheckers"]
-target_position = Vector2(0, -3)
-collision_mask = 9
+target_position = Vector2(0, -4)
 hit_from_inside = true
 
 [node name="CeilCheckerRight" type="RayCast2D" parent="TopCheckers"]
 position = Vector2(6, 0)
 target_position = Vector2(0, -4)
+hit_from_inside = true
+
+[node name="BumpChecker" type="RayCast2D" parent="TopCheckers"]
+position = Vector2(0, 1)
+target_position = Vector2(0, -1)
+collision_mask = 9
 hit_from_inside = true
 
 [node name="SideCheckers" type="Node2D" parent="."]
