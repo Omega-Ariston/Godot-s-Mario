@@ -55,7 +55,10 @@ func _physics_process(delta: float) -> void:
 
 func launch() -> void:
 	velocity.y = INITIAL_JUMP_SPEED
-	area_2d.monitoring = true
+	if launcher.can_throw:
+		area_2d.monitoring = true
+	else:
+		queue_free()
 	match direction:
 		-1:
 			animation_player.play("spin")

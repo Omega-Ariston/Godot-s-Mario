@@ -98,6 +98,7 @@ func transition_state(_from: State, to: State) -> void:
 			jump_timer.stop()
 			hadouken_timer.stop()
 			hammer_to_throw = 0
+			hammer_launcher.can_throw = false
 			if life_point == 0:
 				SoundManager.play_sfx("Kill")
 				SoundManager.play_sfx("BowserFall")

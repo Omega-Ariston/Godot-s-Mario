@@ -188,6 +188,7 @@ func transition_state(from: State, to: State) -> void:
 			collision_shape_2d.disabled = false
 		State.DEAD:
 			hammer_to_throw = 0
+			hammer_launcher.can_throw = false
 			if charged:
 				ScoreManager.add_score(SCORE["charged"], self)
 			elif hit:
