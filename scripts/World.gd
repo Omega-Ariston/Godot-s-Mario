@@ -33,10 +33,8 @@ func _process(_delta: float) -> void:
 
 
 func setup_camera() -> void:
-	var tile_size := Variables.TILE_SIZE
-	
-	camera_2d.limit_top = floori(1.5 * tile_size.y) # 最上面一个方块只显示一半
-	camera_2d.limit_bottom = ceili(15.5 * tile_size.y) # 最下面一个方块只显示一半
+	camera_2d.limit_top = Variables.TOP_BOUNDARY # 最上面一个方块只显示一半
+	camera_2d.limit_bottom = Variables.BOTTOM_BOUNDARY # 最下面一个方块只显示一半
 	camera_2d.limit_left = 0
 	camera_2d.limit_right = ceili(right_wall.global_position.x)
 

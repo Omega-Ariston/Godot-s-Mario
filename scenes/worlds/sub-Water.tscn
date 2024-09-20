@@ -23,8 +23,6 @@ size = Vector2(128, 8)
 [node name="SubWater" type="Node2D"]
 script = ExtResource("1_ikego")
 world_type = 2
-level_time = null
-level_name = null
 
 [node name="TileMap" type="Node2D" parent="."]
 

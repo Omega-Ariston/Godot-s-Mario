@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://bpupyjpon3itq"]
+
+[ext_resource type="PackedScene" uid="uid://7mm1fthd05j6" path="res://scenes/characters/enemy.tscn" id="1_lwnbr"]
+[ext_resource type="Script" path="res://scripts/Podoboo.gd" id="2_lq70g"]
+[ext_resource type="Texture2D" uid="uid://eh5egx0rrwpa" path="res://assets/graphics/enemies.png" id="3_cmsfp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6spy4"]
+size = Vector2(12, 6)
+
+[node name="Podoboo" instance=ExtResource("1_lwnbr")]
+script = ExtResource("2_lq70g")
+
+[node name="Graphics" parent="." index="0"]
+position = Vector2(0, -8)
+
+[node name="Sprite2D" parent="Graphics" index="0"]
+texture = ExtResource("3_cmsfp")
+region_enabled = true
+region_rect = Rect2(592, 80, 16, 16)
+
+[node name="CollisionShape2D" parent="." index="1"]
+disabled = true
+
+[node name="Hurtbox" parent="." index="5"]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_6spy4")
+
+[node name="Timer" type="Timer" parent="." index="6"]
+wait_time = 1.5
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

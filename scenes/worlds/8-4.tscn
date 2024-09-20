@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://e4yxg5n51hdp"]
+[gd_scene load_steps=23 format=4 uid="uid://e4yxg5n51hdp"]
 
 [ext_resource type="Script" path="res://scripts/World8-4.gd" id="1_1nf3p"]
 [ext_resource type="TileSet" uid="uid://bru6c57447abq" path="res://tiles/background.tres" id="2_h66k2"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://ta2kus8p0r8f" path="res://scenes/characters/player.tscn" id="10_4j33h"]
 [ext_resource type="PackedScene" uid="uid://csilqycta5we5" path="res://scenes/characters/hammer_bro.tscn" id="10_bl475"]
 [ext_resource type="PackedScene" uid="uid://bkptlk61y5222" path="res://scenes/characters/bowser.tscn" id="11_5h4dl"]
+[ext_resource type="PackedScene" uid="uid://bpupyjpon3itq" path="res://scenes/characters/podoboo.tscn" id="17_02h2p"]
 [ext_resource type="Texture2D" uid="uid://dfg5kaxqbfu1d" path="res://assets/graphics/mario.png" id="17_4376y"]
 [ext_resource type="PackedScene" uid="uid://c4nt0ksfcdjva" path="res://scenes/misc/main_camera.tscn" id="19_qkl55"]
 
@@ -357,6 +358,13 @@ disable_mode = 1
 
 [node name="EnemyEnabler" parent="Enemies/Node2D20" instance=ExtResource("8_eopj6")]
 position = Vector2(0, -32)
+
+[node name="Node2D" type="Node2D" parent="Enemies"]
+position = Vector2(4728, 272)
+
+[node name="Podoboo" parent="Enemies/Node2D" instance=ExtResource("17_02h2p")]
+
+[node name="EnemyEnabler" parent="Enemies/Node2D" instance=ExtResource("8_eopj6")]
 
 [node name="Player" parent="." instance=ExtResource("10_4j33h")]
 position = Vector2(16, 128)

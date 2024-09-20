@@ -29,7 +29,6 @@ size = Vector2(8, 224)
 
 [node name="8-2" type="Node2D"]
 script = ExtResource("1_ew5p7")
-world_type = null
 level_time = 400
 level_name = "8-2"
 

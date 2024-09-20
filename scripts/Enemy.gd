@@ -68,7 +68,7 @@ func on_charged(body: CharacterBody2D) -> void:
 	attack_direction = Direction.LEFT if body.global_position.x > global_position.x else Direction.RIGHT
 
 # 被火球打
-func on_hit(body: CharacterBody2D) -> void:
+func on_hit(body: Fireball) -> void:
 	hit = true
 	SoundManager.play_sfx("Kill")
 	attack_direction = Direction.LEFT if body.global_position.x > global_position.x else Direction.RIGHT

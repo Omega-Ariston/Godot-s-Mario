@@ -20,7 +20,7 @@ func setup_camera() -> void:
 	var used := foreground.get_used_rect()
 	var tile_size := Variables.TILE_SIZE
 	
-	camera_2d.limit_top = floori(1.5 * tile_size.y) # 最上面一个方块只显示一半
+	camera_2d.limit_top = Variables.TOP_BOUNDARY # 最上面一个方块只显示一半
 	camera_2d.limit_right = floori(used.end.x * tile_size.x)
-	camera_2d.limit_bottom = ceili((used.end.y - 0.5) * tile_size.y) # 最下面一个方块只显示一半
+	camera_2d.limit_bottom = Variables.BOTTOM_BOUNDARY # 最下面一个方块只显示一半
 	camera_2d.limit_left = 0
