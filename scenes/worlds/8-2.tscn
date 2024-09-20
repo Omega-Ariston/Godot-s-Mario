@@ -323,6 +323,7 @@ position = Vector2(32, -40)
 type = 1
 
 [node name="Spiny" parent="Enemies/Node2D2" instance=ExtResource("13_kkba4")]
+position = Vector2(-16, -16)
 
 [node name="EnemyEnabler" parent="Enemies/Node2D2" instance=ExtResource("11_yg62s")]
 
