@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://bfb0vxdydy2et"]
+[gd_scene load_steps=19 format=4 uid="uid://bfb0vxdydy2et"]
 
 [ext_resource type="Script" path="res://scripts/World.gd" id="1_tpqgv"]
 [ext_resource type="TileSet" uid="uid://cf516p3bd2t1v" path="res://tiles/world.tres" id="2_3vma1"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://bm5n06o4v0mm6" path="res://scenes/items/platform_vertical.tscn" id="14_bjemg"]
 [ext_resource type="PackedScene" uid="uid://b0jpgjt8v2b04" path="res://scenes/items/bubble.tscn" id="15_0mc7c"]
 [ext_resource type="PackedScene" uid="uid://qmoc12kcw5ai" path="res://scenes/characters/blooper.tscn" id="15_wjcdp"]
+[ext_resource type="PackedScene" uid="uid://c4nt0ksfcdjva" path="res://scenes/misc/main_camera.tscn" id="16_ea5du"]
 [ext_resource type="PackedScene" uid="uid://duiqbx87ur1n" path="res://scenes/items/spring.tscn" id="17_sk8wf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kli28"]
@@ -24,7 +25,7 @@ size = Vector2(8, 224)
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_tpqgv")
-world_type = 2
+world_type = null
 level_time = 500
 level_name = "0-0"
 
@@ -204,10 +205,10 @@ position = Vector2(904, 224)
 [node name="Player" parent="." instance=ExtResource("8_585gd")]
 position = Vector2(48, 224)
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
-
 [node name="Spring" parent="." instance=ExtResource("17_sk8wf")]
 position = Vector2(432, 224)
 
 [node name="Bubble" parent="." instance=ExtResource("15_0mc7c")]
 position = Vector2(89.4512, 207.049)
+
+[node name="MainCamera" parent="." instance=ExtResource("16_ea5du")]

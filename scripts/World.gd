@@ -5,7 +5,7 @@ extends Node2D
 @export var level_time: int  # 8-1和8-3只有300秒，其余关是400秒
 @export var level_name: String
 
-@onready var camera_2d: Camera2D = $Player/Camera2D
+@onready var camera_2d: MainCamera = $MainCamera
 @onready var player: Player = $Player
 @onready var spawn_points: Node = $SpawnPoints
 @onready var spawn_point: SpawnPoint = $SpawnPoints/SpawnPoint
@@ -30,6 +30,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	left_wall.global_position.x = camera_2d.get_screen_center_position().x - (get_viewport_rect().size.x / 2)
 	camera_2d.limit_left = ceili(left_wall.global_position.x)
+
 
 func setup_camera() -> void:
 	var tile_size := Variables.TILE_SIZE

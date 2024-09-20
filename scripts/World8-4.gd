@@ -72,9 +72,10 @@ func get_enemies_ready(node: Node2D) -> void:
 				get_enemies_ready(child)
 
 func teleportPlayerAndRespawnEnemies(from: String, to: String) -> Node2D:
-	# 传送主角
+	# 传送主角和相机
 	camera_2d.limit_left = 0
 	player.global_position.x = self[to].global_position.x + (player.global_position.x - self[from].global_position.x)
+	camera_2d.global_position.x = self[to].global_position.x + (camera_2d.global_position.x - self[from].global_position.x)
 	# 传送火球
 	var fire_balls := get_tree().get_nodes_in_group("Fireballs")
 	for fire_ball : Fireball in fire_balls:
@@ -87,10 +88,6 @@ func teleportPlayerAndRespawnEnemies(from: String, to: String) -> Node2D:
 	return new_enemies
 
 func _on_bridge_switch_triggered() -> void:
-	# 提前设置好相机
-	camera_2d.limit_smoothed = true
-	camera_2d.position_smoothing_enabled = true
-	camera_2d.reset_smoothing()
 	# 停止游戏时间
 	GameManager.game_timer.stop()
 	# 冻住主角
@@ -126,10 +123,12 @@ func _on_bridge_switch_triggered() -> void:
 func animate_finale() -> void:
 	# 放歌
 	var bgm:= SoundManager.world_cleaer()
-	# 移除摄像机和右边界限制
+	# 重置相机，并移除摄像机和右边界限制
+	camera_2d.reset_camera_center()
 	right_wall.global_position.x = foreground.get_used_rect().end.x * Variables.TILE_SIZE.x
 	camera_2d.limit_right = ceili(right_wall.global_position.x)
-	# 主角往右走
+	# 主角和相机一起往右走
+	camera_2d.smooth_move_right(Player.MAX_WALK_SPEED)
 	player.state_machine.enabled = true
 	player.target_x = roundi(endpoint.global_position.x)
 	player.input_x = 1

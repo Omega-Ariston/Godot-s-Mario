@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://c2a2vpliqkufx"]
+[gd_scene load_steps=11 format=4 uid="uid://c2a2vpliqkufx"]
 
 [ext_resource type="Script" path="res://scripts/World.gd" id="1_2emr4"]
 [ext_resource type="TileSet" uid="uid://bru6c57447abq" path="res://tiles/background.tres" id="2_bwmbc"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cjahx4qiw0rlv" path="res://scenes/items/coin.tscn" id="5_eg1vl"]
 [ext_resource type="PackedScene" uid="uid://ta2kus8p0r8f" path="res://scenes/characters/player.tscn" id="6_lew0c"]
 [ext_resource type="PackedScene" uid="uid://m2agj2g2u6vw" path="res://scenes/worlds/warp_zone.tscn" id="8_dfy0j"]
+[ext_resource type="PackedScene" uid="uid://c4nt0ksfcdjva" path="res://scenes/misc/main_camera.tscn" id="8_k2ibn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_11pcs"]
 size = Vector2(8, 224)
@@ -16,6 +17,9 @@ size = Vector2(8, 288)
 
 [node name="SubWarp" type="Node2D"]
 script = ExtResource("1_2emr4")
+world_type = null
+level_time = null
+level_name = null
 
 [node name="TileMap" type="Node2D" parent="."]
 
@@ -160,6 +164,6 @@ position = Vector2(584, 168)
 [node name="Player" parent="." instance=ExtResource("6_lew0c")]
 position = Vector2(32, 224)
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="MainCamera" parent="." instance=ExtResource("8_k2ibn")]
 
 [editable path="WarpZone"]

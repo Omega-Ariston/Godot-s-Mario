@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://bpklk5c8l7csv"]
+[gd_scene load_steps=19 format=4 uid="uid://bpklk5c8l7csv"]
 
 [ext_resource type="Script" path="res://scripts/World1-2.gd" id="1_hxecy"]
 [ext_resource type="TileSet" uid="uid://bru6c57447abq" path="res://tiles/background.tres" id="3_wyd0w"]
@@ -15,6 +15,7 @@
 [ext_resource type="Script" path="res://scripts/SpawnPoint.gd" id="11_18yd0"]
 [ext_resource type="PackedScene" uid="uid://bkoa5bviyhuyp" path="res://scenes/characters/piranha.tscn" id="11_xvpat"]
 [ext_resource type="PackedScene" uid="uid://dux2x6ddu5h4t" path="res://scenes/characters/enemy_enabler.tscn" id="12_7h870"]
+[ext_resource type="PackedScene" uid="uid://c4nt0ksfcdjva" path="res://scenes/misc/main_camera.tscn" id="16_lnn6o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vrkht"]
 size = Vector2(8, 224)
@@ -1568,6 +1569,6 @@ position = Vector2(1856, 216)
 [node name="Player" parent="." instance=ExtResource("10_8ahtl")]
 position = Vector2(48, 72)
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="MainCamera" parent="." instance=ExtResource("16_lnn6o")]
 
 [editable path="WarpZone"]

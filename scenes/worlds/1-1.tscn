@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=4 uid="uid://l2wawbtd51mb"]
+[gd_scene load_steps=17 format=4 uid="uid://l2wawbtd51mb"]
 
 [ext_resource type="Script" path="res://scripts/World1-1.gd" id="1_d7qaa"]
 [ext_resource type="TileSet" uid="uid://cf516p3bd2t1v" path="res://tiles/world.tres" id="2_p5xmh"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://3dn4vucj2s00" path="res://scenes/characters/goomba.tscn" id="8_u6ctx"]
 [ext_resource type="PackedScene" uid="uid://b3sa7c80qbgij" path="res://scenes/characters/turtle.tscn" id="9_372ao"]
 [ext_resource type="PackedScene" uid="uid://dux2x6ddu5h4t" path="res://scenes/characters/enemy_enabler.tscn" id="11_sj3m7"]
+[ext_resource type="PackedScene" uid="uid://c4nt0ksfcdjva" path="res://scenes/misc/main_camera.tscn" id="14_cikkx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cvvmo"]
 size = Vector2(8, 224)
@@ -22,6 +23,7 @@ size = Vector2(8, 224)
 
 [node name="1-1" type="Node2D"]
 script = ExtResource("1_d7qaa")
+world_type = null
 level_time = 400
 level_name = "1-1"
 
@@ -381,4 +383,4 @@ z_as_relative = true
 [node name="Player" parent="." instance=ExtResource("4_lihcs")]
 position = Vector2(40, 224)
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="MainCamera" parent="." instance=ExtResource("14_cikkx")]

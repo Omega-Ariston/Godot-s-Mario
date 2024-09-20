@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://dt8ljvpjly58d"]
+[gd_scene load_steps=12 format=4 uid="uid://dt8ljvpjly58d"]
 
 [ext_resource type="Script" path="res://scripts/Title.gd" id="1_p48m2"]
 [ext_resource type="TileSet" uid="uid://cf516p3bd2t1v" path="res://tiles/world.tres" id="2_0sfut"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://c30i335tpkrd8" path="res://scenes/bricks/brick.tscn" id="6_sv0ct"]
 [ext_resource type="PackedScene" uid="uid://3dn4vucj2s00" path="res://scenes/characters/goomba.tscn" id="7_0ggro"]
 [ext_resource type="PackedScene" uid="uid://ta2kus8p0r8f" path="res://scenes/characters/player.tscn" id="8_q2x5m"]
+[ext_resource type="PackedScene" uid="uid://c4nt0ksfcdjva" path="res://scenes/misc/main_camera.tscn" id="9_g0fwk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_176lq"]
 size = Vector2(8, 224)
@@ -216,4 +217,4 @@ position = Vector2(1320, 96)
 [node name="Player" parent="." instance=ExtResource("8_q2x5m")]
 position = Vector2(48, 224)
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="MainCamera" parent="." instance=ExtResource("9_g0fwk")]

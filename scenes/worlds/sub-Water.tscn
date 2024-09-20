@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://bx5kjdo08ow35"]
+[gd_scene load_steps=14 format=4 uid="uid://bx5kjdo08ow35"]
 
 [ext_resource type="Script" path="res://scripts/World.gd" id="1_ikego"]
 [ext_resource type="TileSet" uid="uid://bru6c57447abq" path="res://tiles/background.tres" id="2_r2oao"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://2d1j7ncptai3" path="res://scenes/items/fire_bar.tscn" id="6_weqay"]
 [ext_resource type="PackedScene" uid="uid://qmoc12kcw5ai" path="res://scenes/characters/blooper.tscn" id="7_bh53h"]
 [ext_resource type="PackedScene" uid="uid://dux2x6ddu5h4t" path="res://scenes/characters/enemy_enabler.tscn" id="8_6tjbn"]
+[ext_resource type="PackedScene" uid="uid://c4nt0ksfcdjva" path="res://scenes/misc/main_camera.tscn" id="10_0ham0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_aw06w"]
 size = Vector2(8, 224)
@@ -22,6 +23,8 @@ size = Vector2(128, 8)
 [node name="SubWater" type="Node2D"]
 script = ExtResource("1_ikego")
 world_type = 2
+level_time = null
+level_name = null
 
 [node name="TileMap" type="Node2D" parent="."]
 
@@ -129,4 +132,4 @@ position = Vector2(856, 140)
 [node name="Player" parent="." instance=ExtResource("5_hvlbe")]
 position = Vector2(64, 192)
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="MainCamera" parent="." instance=ExtResource("10_0ham0")]

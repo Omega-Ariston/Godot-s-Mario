@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=4 uid="uid://bg5kr4o87uosc"]
+[gd_scene load_steps=17 format=4 uid="uid://bg5kr4o87uosc"]
 
 [ext_resource type="Script" path="res://scripts/World.gd" id="1_mjd18"]
 [ext_resource type="PackedScene" uid="uid://b4igl1ywray2k" path="res://scenes/items/white_flag.tscn" id="2_siod8"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://bkoa5bviyhuyp" path="res://scenes/characters/piranha.tscn" id="7_q6e5r"]
 [ext_resource type="PackedScene" uid="uid://csilqycta5we5" path="res://scenes/characters/hammer_bro.tscn" id="8_w21od"]
 [ext_resource type="PackedScene" uid="uid://dux2x6ddu5h4t" path="res://scenes/characters/enemy_enabler.tscn" id="9_t72s8"]
+[ext_resource type="PackedScene" uid="uid://c4nt0ksfcdjva" path="res://scenes/misc/main_camera.tscn" id="14_o4epa"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u41yb"]
 size = Vector2(8, 224)
@@ -22,6 +23,7 @@ size = Vector2(8, 224)
 
 [node name="8-3" type="Node2D"]
 script = ExtResource("1_mjd18")
+world_type = null
 level_time = 300
 level_name = "8-3"
 
@@ -327,6 +329,6 @@ position = Vector2(1384, 208)
 [node name="Player" parent="." instance=ExtResource("7_4dhtr")]
 position = Vector2(56, 224)
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="MainCamera" parent="." instance=ExtResource("14_o4epa")]
 
 [editable path="WhiteFlag"]

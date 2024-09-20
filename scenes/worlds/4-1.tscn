@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://blghq5i5psual"]
+[gd_scene load_steps=19 format=4 uid="uid://blghq5i5psual"]
 
 [ext_resource type="Script" path="res://scripts/World4-1.gd" id="1_obbsl"]
 [ext_resource type="PackedScene" uid="uid://b4igl1ywray2k" path="res://scenes/items/white_flag.tscn" id="3_p1kge"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://hwvatwkj6km6" path="res://scenes/characters/lakitu.tscn" id="11_0sqry"]
 [ext_resource type="PackedScene" uid="uid://dux2x6ddu5h4t" path="res://scenes/characters/enemy_enabler.tscn" id="12_tmgo4"]
 [ext_resource type="PackedScene" uid="uid://bmj4wwc8y1hpb" path="res://scenes/characters/spiny.tscn" id="13_f0atm"]
+[ext_resource type="PackedScene" uid="uid://c4nt0ksfcdjva" path="res://scenes/misc/main_camera.tscn" id="16_xvrod"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wgtb4"]
 size = Vector2(8, 224)
@@ -24,6 +25,7 @@ size = Vector2(8, 224)
 
 [node name="4-1" type="Node2D"]
 script = ExtResource("1_obbsl")
+world_type = null
 level_time = 400
 level_name = "4-1"
 
@@ -302,6 +304,6 @@ position = Vector2(448, 80)
 [node name="Player" parent="." instance=ExtResource("7_noudm")]
 position = Vector2(56, 216)
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="MainCamera" parent="." instance=ExtResource("16_xvrod")]
 
 [editable path="Enemies/Node2D5/Lakitu"]
