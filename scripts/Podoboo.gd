@@ -7,12 +7,12 @@ enum State {
 	FALL,
 }
 
-const JUMP_SPEED := -8 * 60
+const JUMP_SPEED := -550
 
 @onready var sprite_2d: Sprite2D = $Graphics/Sprite2D
 @onready var timer: Timer = $Timer
 
-var can_jump := true
+var can_jump := false
 
 func get_next_state(state: State) -> int:
 	match state:
