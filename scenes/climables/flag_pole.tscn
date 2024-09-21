@@ -35,7 +35,7 @@ tile_set = SubResource("TileSet_201kx")
 position = Vector2(-8, -152)
 texture = ExtResource("1_dv8us")
 region_enabled = true
-region_rect = Rect2(128, 16, 16, 16)
+region_rect = Rect2(128, 32, 16, 16)
 
 [node name="Score" type="RichTextLabel" parent="."]
 offset_left = 8.0

@@ -75,24 +75,21 @@ _data = {
 [node name="Star" type="CharacterBody2D"]
 z_index = -1
 z_as_relative = false
-position = Vector2(1, 0)
 collision_layer = 16
 script = ExtResource("1_jknvf")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-1, 0)
 texture = ExtResource("2_f407k")
 hframes = 4
 region_enabled = true
 region_rect = Rect2(0, 48, 64, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1, 0)
 shape = SubResource("CircleShape2D_oa3gk")
 disabled = true
 
 [node name="Eatable" type="Area2D" parent="."]
-position = Vector2(-8, -8)
+position = Vector2(-7, -8)
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_moecc")
@@ -107,7 +104,7 @@ libraries = {
 }
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(-0.999998, 0)
+position = Vector2(-5.96046e-08, 0)
 scale = Vector2(6.4, 0.8)
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

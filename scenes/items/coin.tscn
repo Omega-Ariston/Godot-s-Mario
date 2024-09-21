@@ -10,36 +10,36 @@ shader_parameter/shader_enabled = false
 shader_parameter/origin_colors = null
 shader_parameter/new_colors = null
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_pug5v"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_fy75f"]
 atlas = ExtResource("1_opp6b")
-region = Rect2(0, 80, 16, 16)
+region = Rect2(0, 96, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_gfspr"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_vcn4b"]
 atlas = ExtResource("1_opp6b")
-region = Rect2(16, 80, 16, 16)
+region = Rect2(16, 96, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_nu1c2"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_c5vmw"]
 atlas = ExtResource("1_opp6b")
-region = Rect2(32, 80, 16, 16)
+region = Rect2(32, 96, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_3lq3h"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ho84d"]
 atlas = ExtResource("1_opp6b")
-region = Rect2(48, 80, 16, 16)
+region = Rect2(48, 96, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_wemvc"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_pug5v")
+"texture": SubResource("AtlasTexture_fy75f")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_gfspr")
+"texture": SubResource("AtlasTexture_vcn4b")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_nu1c2")
+"texture": SubResource("AtlasTexture_c5vmw")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_3lq3h")
+"texture": SubResource("AtlasTexture_ho84d")
 }],
 "loop": true,
 "name": &"default",
@@ -58,7 +58,7 @@ script = ExtResource("1_2xrxh")
 material = SubResource("ShaderMaterial_o4bta")
 sprite_frames = SubResource("SpriteFrames_wemvc")
 autoplay = "default"
-frame_progress = 0.22503
+frame_progress = 0.625543
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 16

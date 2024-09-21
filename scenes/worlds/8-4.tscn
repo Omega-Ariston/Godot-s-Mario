@@ -18,7 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://csilqycta5we5" path="res://scenes/characters/hammer_bro.tscn" id="10_bl475"]
 [ext_resource type="PackedScene" uid="uid://bkptlk61y5222" path="res://scenes/characters/bowser.tscn" id="11_5h4dl"]
 [ext_resource type="PackedScene" uid="uid://bpupyjpon3itq" path="res://scenes/characters/podoboo.tscn" id="17_02h2p"]
-[ext_resource type="Texture2D" uid="uid://dfg5kaxqbfu1d" path="res://assets/graphics/mario.png" id="17_4376y"]
+[ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/graphics/items-objects.png" id="19_7xn0u"]
 [ext_resource type="PackedScene" uid="uid://c4nt0ksfcdjva" path="res://scenes/misc/main_camera.tscn" id="19_qkl55"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xhimd"]
@@ -375,10 +375,10 @@ position = Vector2(16, 128)
 position = Vector2(5224, 224)
 
 [node name="Princess" type="Sprite2D" parent="EndScreen"]
-position = Vector2(5276, 212)
-texture = ExtResource("17_4376y")
+position = Vector2(5276, 208)
+texture = ExtResource("19_7xn0u")
 region_enabled = true
-region_rect = Rect2(21, 400, 14, 23)
+region_rect = Rect2(16, 224, 16, 32)
 
 [node name="ThankYou" type="RichTextLabel" parent="EndScreen"]
 visible = false
