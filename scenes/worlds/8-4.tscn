@@ -72,7 +72,7 @@ position = Vector2(5080, 152)
 [node name="SpawnPoints" type="Node" parent="."]
 
 [node name="SpawnPoint" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(16, 128)
+position = Vector2(48, 128)
 script = ExtResource("4_p1txo")
 
 [node name="SubWater" type="Marker2D" parent="SpawnPoints"]
@@ -367,7 +367,7 @@ position = Vector2(4728, 272)
 [node name="EnemyEnabler" parent="Enemies/Node2D" instance=ExtResource("8_eopj6")]
 
 [node name="Player" parent="." instance=ExtResource("10_4j33h")]
-position = Vector2(16, 128)
+position = Vector2(48, 128)
 
 [node name="EndScreen" type="Node2D" parent="."]
 

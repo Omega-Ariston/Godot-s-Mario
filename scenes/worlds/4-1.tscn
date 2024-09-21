@@ -83,7 +83,7 @@ shape = SubResource("RectangleShape2D_sct8j")
 [node name="SpawnPoints" type="Node" parent="."]
 
 [node name="SpawnPoint" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(56, 224)
+position = Vector2(48, 224)
 script = ExtResource("6_dkuyc")
 
 [node name="SpawnPoint2" type="Marker2D" parent="SpawnPoints"]
@@ -301,7 +301,7 @@ position = Vector2(448, 80)
 [node name="EnemyEnabler" parent="Enemies/Node2D6" instance=ExtResource("12_tmgo4")]
 
 [node name="Player" parent="." instance=ExtResource("7_noudm")]
-position = Vector2(56, 216)
+position = Vector2(48, 224)
 
 [node name="MainCamera" parent="." instance=ExtResource("16_xvrod")]
 

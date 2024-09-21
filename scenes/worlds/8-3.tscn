@@ -29,6 +29,9 @@ level_name = "8-3"
 [node name="WhiteFlag" parent="." instance=ExtResource("2_siod8")]
 position = Vector2(3592, 64)
 
+[node name="Sprite2D" parent="WhiteFlag" index="0"]
+visible = false
+
 [node name="Firework1" parent="WhiteFlag" index="1"]
 position = Vector2(-50, 16)
 
@@ -99,7 +102,7 @@ shape = SubResource("RectangleShape2D_p8itp")
 [node name="SpawnPoints" type="Node" parent="."]
 
 [node name="SpawnPoint" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(56, 224)
+position = Vector2(48, 224)
 script = ExtResource("6_s3di6")
 
 [node name="Bumpables" type="Node2D" parent="."]
@@ -326,7 +329,7 @@ position = Vector2(1384, 208)
 [node name="EnemyEnabler" parent="Enemies/Node2D15" instance=ExtResource("9_t72s8")]
 
 [node name="Player" parent="." instance=ExtResource("7_4dhtr")]
-position = Vector2(56, 224)
+position = Vector2(48, 224)
 
 [node name="MainCamera" parent="." instance=ExtResource("14_o4epa")]
 
