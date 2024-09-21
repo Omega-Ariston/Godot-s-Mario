@@ -42,7 +42,7 @@ func get_next_state(state: State) -> int:
 				return State.PUSH
 		State.PUSH:
 			# 推的距离固定，但不能超过水面
-			if abs(travel_distance_y) >= PUSH_DISTANCE or global_position.y <= Variables.WATER_SURFACE_Y_OFFSET:
+			if abs(travel_distance_y) >= PUSH_DISTANCE or global_position.y <= Variables.WATER_SURFACE_Y_OFFSET - Variables.TILE_SIZE.y:
 				return State.SINK
 	return state_machine.KEEP_CURRENT
 
