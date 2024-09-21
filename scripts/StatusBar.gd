@@ -36,7 +36,26 @@ var coin := 0:
 @onready var time_label: RichTextLabel = $Time
 @onready var level_label: RichTextLabel = $Level
 @onready var coin_label: RichTextLabel = $Coin
+@onready var coin_animation: AnimatedSprite2D = $CoinAnimation
+
+func _ready() -> void:
+	GameManager.world_ready.connect(_on_world_ready)
 
 func initialize() -> void:
 	score = 0
 	coin = 0
+
+func transition_screen() -> void:
+	StatusBar.time = -1
+	coin_animation.play("cyan")
+	coin_animation.frame = 0
+	coin_animation.pause()
+	
+func _on_world_ready() -> void:
+	match GameManager.current_world_type:
+		GameManager.WorldType.UNDER:
+			coin_animation.play("cyan")
+		GameManager.WorldType.CASTLE:
+			coin_animation.play("grey")
+		_:
+			coin_animation.play("origin")

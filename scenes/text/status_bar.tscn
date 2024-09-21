@@ -1,6 +1,106 @@
-[gd_scene load_steps=2 format=3 uid="uid://7rtauqpwrkm1"]
+[gd_scene load_steps=13 format=3 uid="uid://7rtauqpwrkm1"]
 
 [ext_resource type="Script" path="res://scripts/StatusBar.gd" id="1_32qva"]
+[ext_resource type="Texture2D" uid="uid://c8wy4ir0fgytw" path="res://assets/graphics/items-objects.png" id="2_1nnli"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m8vkl"]
+atlas = ExtResource("2_1nnli")
+region = Rect2(144, 160, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qhqdw"]
+atlas = ExtResource("2_1nnli")
+region = Rect2(152, 160, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cmmxx"]
+atlas = ExtResource("2_1nnli")
+region = Rect2(160, 160, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pqyq1"]
+atlas = ExtResource("2_1nnli")
+region = Rect2(288, 160, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ls6y"]
+atlas = ExtResource("2_1nnli")
+region = Rect2(296, 160, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_atyen"]
+atlas = ExtResource("2_1nnli")
+region = Rect2(304, 160, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_74ri1"]
+atlas = ExtResource("2_1nnli")
+region = Rect2(0, 160, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bl2ng"]
+atlas = ExtResource("2_1nnli")
+region = Rect2(8, 160, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0jw8c"]
+atlas = ExtResource("2_1nnli")
+region = Rect2(16, 160, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_k8n73"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m8vkl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m8vkl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m8vkl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qhqdw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cmmxx")
+}],
+"loop": true,
+"name": &"cyan",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pqyq1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pqyq1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pqyq1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ls6y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_atyen")
+}],
+"loop": true,
+"name": &"grey",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_74ri1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_74ri1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_74ri1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bl2ng")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0jw8c")
+}],
+"loop": true,
+"name": &"origin",
+"speed": 6.0
+}]
 
 [node name="StatusBar" type="CanvasLayer" groups=["Status"]]
 script = ExtResource("1_32qva")
@@ -42,6 +142,12 @@ bbcode_enabled = true
 text = "[center]WORLD
 1-1[/center]"
 scroll_active = false
+
+[node name="CoinAnimation" type="AnimatedSprite2D" parent="."]
+position = Vector2(92, 20)
+sprite_frames = SubResource("SpriteFrames_k8n73")
+animation = &"origin"
+autoplay = "origin"
 
 [node name="Coin" type="RichTextLabel" parent="."]
 z_as_relative = false

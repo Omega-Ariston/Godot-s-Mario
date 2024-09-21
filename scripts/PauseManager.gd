@@ -38,6 +38,9 @@ func get_white_list() -> Array:
 	var coin_bricks := get_tree().get_nodes_in_group("CoinBricks")
 	for coin_brick: CoinBrick in coin_bricks:
 		white_list.append(coin_brick.animation_player)
+	var statuses := get_tree().get_nodes_in_group("Status")
+	for status in statuses:
+		white_list.append(status)
 	return white_list
 	
 func pause_global() -> void:

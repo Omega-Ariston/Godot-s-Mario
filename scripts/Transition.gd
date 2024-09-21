@@ -7,8 +7,9 @@ extends Node2D
 @onready var game_over: Node2D = $GameOver
 
 func _ready() -> void:
+	# 停止播放状态栏动画
+	StatusBar.transition_screen()
 	# 先显示TimeUp，再显示GameOver，最后是普通切关
-	StatusBar.time = -1
 	if GameManager.is_time_up:
 		GameManager.is_time_up = false
 		time_up.visible = true

@@ -8,6 +8,7 @@ extends Node2D
 
 func _ready() -> void:
 	GameManager.uncontrol_player(player)
+	StatusBar.coin_animation.play("origin")
 	await GameManager.screen_ready
 	var bgm_player := SoundManager.into_the_under()
 	player.state_machine.current_state = Player.State.WALK

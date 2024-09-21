@@ -49,6 +49,7 @@ Fireballs=""
 Hammers=""
 Hadoukens=""
 CoinBricks=""
+Status=""
 
 [gui]
 
