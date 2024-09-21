@@ -375,6 +375,8 @@ position = Vector2(16, 128)
 position = Vector2(5224, 224)
 
 [node name="Princess" type="Sprite2D" parent="EndScreen"]
+z_index = 3
+z_as_relative = false
 position = Vector2(5276, 208)
 texture = ExtResource("19_7xn0u")
 region_enabled = true
