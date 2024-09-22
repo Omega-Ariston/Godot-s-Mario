@@ -55,7 +55,7 @@ func _physics_process(delta: float) -> void:
 
 func launch() -> void:
 	velocity.y = INITIAL_JUMP_SPEED
-	if launcher.can_throw:
+	if is_instance_valid(launcher) and launcher.can_throw:
 		area_2d.monitoring = true
 	else:
 		queue_free()
