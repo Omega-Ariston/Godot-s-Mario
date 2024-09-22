@@ -19,7 +19,7 @@ enum SpawnItem {
 
 var can_bump := true
 
-func do_bump() -> void:
+func do_bump(reset := false) -> void:
 	# 先往上顶一小段距离，然后下落回来
 	var tween := create_tween()
 	var originalY := owner.position.y as float
@@ -29,6 +29,8 @@ func do_bump() -> void:
 	tween.tween_property(owner, "position:y", originalY + 1, BUMP_DURATION)
 	tween.tween_property(owner, "position:y", originalY, BUMP_DURATION)
 	await tween.finished
+	if reset:
+		can_bump = true
 	
 
 func do_spawn(node: Node2D, item: SpawnItem, player: Player) -> void:

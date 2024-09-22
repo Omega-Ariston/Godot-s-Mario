@@ -31,7 +31,7 @@ region_rect = Rect2(16, 0, 16, 16)
 shape = SubResource("RectangleShape2D_uayt3")
 
 [node name="BumpTimer" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 3.5
 one_shot = true
 
 [node name="Bumpable" parent="." instance=ExtResource("3_jt57t")]

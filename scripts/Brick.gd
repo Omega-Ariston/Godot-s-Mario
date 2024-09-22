@@ -36,9 +36,9 @@ func _ready() -> void:
 
 func on_bumped(player: Player, broken: bool = false) -> void:
 	if bumpable.can_bump:
+		bumpable.can_bump = false
 		bumpable.apply_bump_effect()
 		if spawn_item == Bumpable.SpawnItem.EMPTY and (player.curr_mode != player.Mode.SMALL or broken):
-			bumpable.can_bump = false
 			SoundManager.play_sfx("BrokenBrick")
 			ScoreManager.add_score(SCORE, self, false)
 			var instance := preload("res://scenes/bricks/broken_brick.tscn").instantiate() as BrokenBrick
@@ -51,18 +51,17 @@ func on_bumped(player: Player, broken: bool = false) -> void:
 			if not bumped:
 				bumped = true
 				bump_timer.start()
-			elif bump_timer.time_left == 0:
-					sprite_2d.region_rect = RECT_BUMPED
-					bumpable.can_bump = false
-			bumpable.do_bump()
-			bumpable.do_spawn(self, spawn_item, player)
+			if bump_timer.is_stopped():
+				sprite_2d.region_rect = RECT_BUMPED
+			else:
+				bumpable.do_bump(true)
+				bumpable.do_spawn(self, spawn_item, player)
 		else:
 			# 道具要等顶完再生成
 			if spawn_item != Bumpable.SpawnItem.EMPTY:
-				bumpable.can_bump = false
 				SoundManager.play_sfx("Vine" if spawn_item == Bumpable.SpawnItem.VINE else "UpgradeAppear")
 				sprite_2d.region_rect = RECT_BUMPED
-			await bumpable.do_bump()
+			await bumpable.do_bump(true if player.curr_mode == Player.Mode.SMALL else false)
 			if spawn_item != Bumpable.SpawnItem.EMPTY:
 				bumpable.do_spawn(self, spawn_item, player)
 
