@@ -198,17 +198,17 @@ signal arrived
 
 func _unhandled_input(event: InputEvent) -> void:
 	if controllable:
-		if event.is_action_pressed("jump"):
+		if event.is_action_pressed("A"):
 			if is_under_water:
 				swim_requested = true
 			elif on_jumpable_floor(): #防止在空中保存跳跃指令
 				jump_requested = true
-		if event.is_action_released("jump"):
+		if event.is_action_released("A"):
 			jump_requested = false
 			swim_requested = false
-		if event.is_action_pressed("action") and curr_mode == Mode.FIRE:
+		if event.is_action_pressed("B") and curr_mode == Mode.FIRE:
 			launch_requested = true
-		if event.is_action_released("action"):
+		if event.is_action_released("B"):
 			launch_requested = false
 		if event.is_action_pressed("move_down"):
 			crouch_requested = true
@@ -239,7 +239,7 @@ func tick_physics(state: State, delta: float) -> void:
 	
 	if not is_under_water:
 		if controllable:
-			if Input.is_action_pressed("action"):
+			if Input.is_action_pressed("B"):
 				dash_requested = true
 				dash_buffer_frames = 10
 			else:

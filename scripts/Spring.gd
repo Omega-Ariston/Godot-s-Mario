@@ -24,9 +24,9 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if state_machine.current_state == State.COMPRESS:
-		if event.is_action_pressed("jump"):
+		if event.is_action_pressed("A"):
 			jump_requested = true
-	if is_stomped and (event.is_action_pressed("jump") or event.is_action_released("jump")):
+	if is_stomped and (event.is_action_pressed("A") or event.is_action_released("A")):
 		# 覆盖Player的跳跃操作
 		get_viewport().set_input_as_handled()
 		

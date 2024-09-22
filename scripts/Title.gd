@@ -13,11 +13,14 @@ func _ready() -> void:
 	setup_camera()
 
 func _input(event: InputEvent) -> void:
-		# TODO: 续关的逻辑
 	if event.is_action_pressed("start"):
 		get_viewport().set_input_as_handled()
 		StatusBar.initialize()
-		GameManager.transition_scene("1-1")
+		if Input.is_action_pressed("B"):
+			# 续关
+			GameManager.transition_scene(GameManager.current_world + "-1")
+		else:
+			GameManager.transition_scene("1-1")
 
 func setup_camera() -> void:
 	var used := foreground.get_used_rect()

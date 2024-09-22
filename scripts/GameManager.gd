@@ -3,7 +3,7 @@ extends Node
 const CHANGE_SCENE_DURATION := 0.4
 const VINE_RISE_COUNT := 6
 const TRANSITION_SCENE_PATH := "res://scenes/worlds/transition.tscn"
-const LIFE_COUNT := 3
+const LIFE_COUNT := 1
 const INITIAL_CAMERA_OFFSET := Variables.TILE_SIZE.x * 4
 const SAVE_PATH := "user://data.sav"
 
@@ -22,6 +22,7 @@ var player_current_mode: Player.Mode
 var life := LIFE_COUNT
 var is_time_up := false
 var into_the_under := false
+var current_world : String = '1' # 用于续关
 
 @onready var scene_changer: ColorRect = $CanvasLayer/SceneChanger
 @onready var game_timer: Timer = $GameTimer
@@ -47,9 +48,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			player.can_onfire = true
 
 func restore_status() -> void:
+	SoundManager.pause_bgm()
 	current_level = ""
 	current_spawn_point = ""
 	StatusBar.level = "1-1"
+	StatusBar.time = -1
 	player_current_mode = Player.Mode.SMALL
 	life = LIFE_COUNT
 	is_time_up = false
@@ -98,10 +101,13 @@ func get_level_scene_path(level: String) -> String:
 		return "res://scenes/worlds/" + level + ".tscn"
 
 func title_scene() -> void:
+	# 记录当前世界
+	current_world = current_level.split('-')[0]
 	# 更新最高分
 	if StatusBar.score > current_highest_score:
 		current_highest_score = StatusBar.score
 		save_score()
+	GameManager.restore_status()
 	# 黑幕设为不透明
 	scene_changer.color.a = 1.0	
 	# 切换标题场景

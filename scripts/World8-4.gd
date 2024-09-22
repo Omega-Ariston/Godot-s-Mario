@@ -35,12 +35,19 @@ var enemies_b_copy : Node2D
 var enemies_d_copy : Node2D
 var b_enabled := true
 
+var can_return := false
+
 func _ready() -> void:
 	super()
 	bridge_switch.switch_triggered.connect(_on_bridge_switch_triggered)
 	enemies_a_copy = enemies_a.duplicate()
 	enemies_b_copy = enemies_b.duplicate()
 	enemies_d_copy = enemies_d.duplicate()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if can_return and event.is_action_pressed("B"):
+		GameManager.title_scene()
+
 
 func _physics_process(_delta: float) -> void:
 	if b_enabled and detect_portal('b'):
@@ -153,6 +160,7 @@ func end(bgm: AudioStreamPlayer) -> void:
 		await bgm.finished
 	# 开始放结尾曲
 	SoundManager.meet_princess()
+	can_return = true
 	# 依次出现其它文字
 	for line in lines.get_children():
 		line.visible = true
