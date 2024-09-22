@@ -3,7 +3,7 @@ extends Node
 const CHANGE_SCENE_DURATION := 0.4
 const VINE_RISE_COUNT := 6
 const TRANSITION_SCENE_PATH := "res://scenes/worlds/transition.tscn"
-const LIFE_COUNT := 1
+const LIFE_COUNT := 3
 const INITIAL_CAMERA_OFFSET := Variables.TILE_SIZE.x * 4
 const SAVE_PATH := "user://data.sav"
 
@@ -23,6 +23,7 @@ var life := LIFE_COUNT
 var is_time_up := false
 var into_the_under := false
 var current_world : String = '1' # 用于续关
+var rng := RandomNumberGenerator.new()
 
 @onready var scene_changer: ColorRect = $CanvasLayer/SceneChanger
 @onready var game_timer: Timer = $GameTimer
@@ -35,6 +36,7 @@ signal player_ready
 signal player_started
 
 func _ready() -> void:
+	rng.seed = 19951026 # 一个特别的日子 :)
 	load_score()
 
 func _unhandled_input(event: InputEvent) -> void:

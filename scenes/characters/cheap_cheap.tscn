@@ -1,0 +1,77 @@
+[gd_scene load_steps=8 format=3 uid="uid://b6rip0dnmiii"]
+
+[ext_resource type="PackedScene" uid="uid://7mm1fthd05j6" path="res://scenes/characters/enemy.tscn" id="1_3060p"]
+[ext_resource type="Script" path="res://scripts/CheapCheap.gd" id="2_0cauf"]
+[ext_resource type="Texture2D" uid="uid://eh5egx0rrwpa" path="res://assets/graphics/enemies.png" id="3_xqn76"]
+
+[sub_resource type="Animation" id="Animation_lgomn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Graphics/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_6gnk3"]
+resource_name = "idle"
+length = 0.2
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Graphics/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_e2g8b"]
+_data = {
+"RESET": SubResource("Animation_lgomn"),
+"idle": SubResource("Animation_6gnk3")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3p2wb"]
+size = Vector2(10, 6)
+
+[node name="CheapCheap" groups=["CheapCheaps"] instance=ExtResource("1_3060p")]
+script = ExtResource("2_0cauf")
+direction = 1
+
+[node name="Graphics" parent="." index="0"]
+position = Vector2(0, -8)
+
+[node name="Sprite2D" parent="Graphics" index="0"]
+texture = ExtResource("3_xqn76")
+hframes = 2
+region_enabled = true
+region_rect = Rect2(640, 80, 32, 16)
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(0, -8)
+disabled = true
+
+[node name="AnimationPlayer" parent="." index="2"]
+libraries = {
+"": SubResource("AnimationLibrary_e2g8b")
+}
+autoplay = "idle"
+
+[node name="Hurtbox" parent="." index="5"]
+collision_mask = 34
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" index="0"]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_3p2wb")
