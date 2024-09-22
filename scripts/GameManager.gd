@@ -29,6 +29,7 @@ signal screen_ready
 signal score_counted
 signal world_ready
 signal player_ready
+signal player_started
 
 func _ready() -> void:
 	scene_changer.color.a = 0.0
@@ -60,7 +61,9 @@ func end_level_by_flag_pole() -> void:
 	var end_num := StatusBar.time % 10 as int
 	# 计分
 	score_timer.start()
+	var sound := SoundManager.play_sfx("ScoreCount") as AudioStreamPlayer
 	await score_counted
+	sound.stop()
 	# 升旗
 	var white_flag = get_tree().get_first_node_in_group("WhiteFlag") as WhiteFlag
 	await create_tween().tween_property(white_flag, "global_position:y", white_flag.global_position.y - Variables.TILE_SIZE.y * 1.5, 0.5).finished
@@ -167,6 +170,7 @@ func change_scene(level: String, params: Dictionary = {}) -> void:
 	# 恢复屏幕
 	await scene_change_timer.timeout
 	scene_changer.color.a = 0.0
+	screen_ready.emit()
 	# 如果有无敌，播放无敌动画
 	var star_time_left = params.get("star_time_left", 0.0) as float
 	if star_time_left > 0:
@@ -183,7 +187,7 @@ func change_scene(level: String, params: Dictionary = {}) -> void:
 	player.is_spawning = false
 	if player.is_under_star:
 		player.star_timer.start(star_time_left)
-	screen_ready.emit()
+	player_started.emit()
 						
 
 func uncontrol_player(player: Player) -> void:
@@ -198,7 +202,6 @@ func control_player(player: Player) -> void:
 	player.controllable = true
 
 func _animate_pipe(player: Player, spawn_point: SpawnPoint) -> void:
-	SoundManager.play_sfx("PipeHurt")
 	# 如果需要从管道钻出来，则从指定点的反方向3个瓦片的距离出生，并且提前禁用物理碰撞和控制 TODO:这个应该是默认配置
 	player.animation_player.play("idle") # 默认刚出来就是站立姿势
 	player.global_position.y += Variables.TILE_SIZE.y * 3 * spawn_point.direction

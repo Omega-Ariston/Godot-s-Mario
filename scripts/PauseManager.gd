@@ -4,13 +4,14 @@ extends Node
 # 普通暂停会将暂停期间可以移动的物体临时加入白名单
 
 var is_paused := false
+var can_pause := true
 var curr_white_list := []
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("start"):
-		if is_paused:
+		if is_paused and can_pause:
 			unpause_global()
-		else:
+		elif not is_paused and can_pause:
 			pause_global()
 		get_viewport().set_input_as_handled()
 
@@ -44,16 +45,21 @@ func get_white_list() -> Array:
 	return white_list
 	
 func pause_global() -> void:
-	#TODO: 处理背景音乐
+	can_pause = false
 	for node: Node in curr_white_list:
 		node.set_process_mode(Node.PROCESS_MODE_INHERIT)
-	SoundManager.play_sfx("Pause")
+	SoundManager.pause_bgm()
 	is_paused = true
 	get_tree().paused = true
+	await SoundManager.play_sfx("Pause").finished
+	can_pause = true
 	
 func unpause_global() -> void:
+	can_pause = false
 	for node: Node in curr_white_list:
 		node.set_process_mode(Node.PROCESS_MODE_ALWAYS)
-	SoundManager.play_sfx("Pause")
+	SoundManager.unpause_bgm()
 	is_paused = false
 	get_tree().paused = false
+	await SoundManager.play_sfx("Pause").finished
+	can_pause = true

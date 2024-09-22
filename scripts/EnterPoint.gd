@@ -68,7 +68,7 @@ func enter() -> void:
 	var tween = create_tween()
 	match direction:
 		ENTER_DIRECTION.RIGHT:
-			SoundManager.play_sfx("PipeHurt")
+			var sound := SoundManager.play_sfx("PipeHurt")
 			player.direction = Player.Direction.RIGHT
 			if GameManager.current_world_type == GameManager.WorldType.WATER:
 				# 角色直接消失
@@ -79,14 +79,15 @@ func enter() -> void:
 			# 播放走路动画
 			player.animation_player.speed_scale = 1
 			tween.tween_property(player, "global_position:x", global_position.x + Variables.TILE_SIZE.x / 2, 0.5)
-			await tween.finished
-			await get_tree().create_timer(0.5).timeout
+			await sound.finished
+			SoundManager.pause_bgm()
 		ENTER_DIRECTION.DOWN: 
-			SoundManager.play_sfx("PipeHurt")
+			var sound := SoundManager.play_sfx("PipeHurt")
 			# 角色放到后面去
 			player.z_index = -1
 			tween.tween_property(player, "global_position:y", global_position.y + Variables.TILE_SIZE.y * 2, 0.8)
-			await tween.finished
+			await sound.finished
+			SoundManager.pause_bgm()
 		ENTER_DIRECTION.UP:
 			# 播放动画攀爬动画
 			player.animation_player.speed_scale = 1

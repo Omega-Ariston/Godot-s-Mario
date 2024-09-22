@@ -254,16 +254,14 @@ func tick_physics(state: State, delta: float) -> void:
 			_blink_character()
 
 	if is_under_star:
+		if star_timer.time_left <= 1.5 and state != State.ONFIRE:
+			# 星星的最后几秒放慢闪烁速度
+			blink_animator.play("star", -1, 1.0, false)
 		if star_timer.time_left == 0:
 			is_under_star = false
 			if state != State.ONFIRE:
 				blink_animator.stop()
 				set_shader_enabled(false)
-		elif (SoundManager.bgm_player.stream == SoundManager.starBGM and not SoundManager.bgm_player.playing):
-			SoundManager.play_world_bgm()
-			if state != State.ONFIRE:
-				# 星星的最后几秒放慢闪烁速度
-				blink_animator.play("star", -1, 1.0, false)
 				
 	
 	# 处理空中加速度和重力的变化
@@ -643,8 +641,7 @@ func transition_state(from: State, to: State) -> void:
 			controllable = false
 			curr_mode = Mode.SMALL
 			animation_player.play("dead")
-			SoundManager.pause_bgm()
-			SoundManager.play_sfx("MarioDie")
+			SoundManager.mario_die()
 			GameManager.life -= 1
 			# 到前面来
 			z_index = 4

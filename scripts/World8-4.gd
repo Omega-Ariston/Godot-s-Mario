@@ -88,8 +88,9 @@ func teleportPlayerAndRespawnEnemies(from: String, to: String) -> Node2D:
 	return new_enemies
 
 func _on_bridge_switch_triggered() -> void:
-	# 停止游戏时间
+	# 停止游戏时间和状态栏动画
 	GameManager.game_timer.stop()
+	StatusBar.coin_animation.pause()
 	# 冻住主角
 	player.controllable = false
 	player.state_machine.enabled = false
@@ -108,9 +109,10 @@ func _on_bridge_switch_triggered() -> void:
 		# 断桥
 		var x := BRIDGE_COORD_X_RANGE[1]
 		while x >= BRIDGE_COORD_X_RANGE[0]:
-			# 等0.1秒
-			await get_tree().create_timer(0.1).timeout
+			# 等0.05秒
+			await get_tree().create_timer(0.08).timeout
 			foreground.set_cell(Vector2i(x, BRIDGE_COORD_Y))
+			SoundManager.play_sfx("BrokenBrick")
 			x -= 1
 		# 等待Bowser摔下
 		bowser.fall()
@@ -122,7 +124,7 @@ func _on_bridge_switch_triggered() -> void:
 
 func animate_finale() -> void:
 	# 放歌
-	var bgm:= SoundManager.world_cleaer()
+	var bgm:= SoundManager.world_clear()
 	# 重置相机，并移除摄像机和右边界限制
 	camera_2d.reset_camera_center()
 	right_wall.global_position.x = foreground.get_used_rect().end.x * Variables.TILE_SIZE.x
@@ -149,7 +151,9 @@ func end(bgm: AudioStreamPlayer) -> void:
 	# 等bgm放完
 	if bgm.playing:
 		await bgm.finished
+	# 开始放结尾曲
+	SoundManager.meet_princess()
 	# 依次出现其它文字
 	for line in lines.get_children():
-		await get_tree().create_timer(1.5).timeout
 		line.visible = true
+		await get_tree().create_timer(1.5).timeout

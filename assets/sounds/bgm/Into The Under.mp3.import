@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bapi7nu7ub3qn"
+path="res://.godot/imported/Into The Under.mp3-917369147eb8eec2f418dbed53d916fe.mp3str"
+
+[deps]
+
+source_file="res://assets/sounds/bgm/Into The Under.mp3"
+dest_files=["res://.godot/imported/Into The Under.mp3-917369147eb8eec2f418dbed53d916fe.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

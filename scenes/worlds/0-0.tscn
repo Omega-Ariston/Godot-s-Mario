@@ -24,7 +24,8 @@ size = Vector2(8, 224)
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_tpqgv")
-level_time = 500
+world_type = 3
+level_time = 400
 level_name = "0-0"
 
 [node name="Boundaries" type="Node" parent="."]

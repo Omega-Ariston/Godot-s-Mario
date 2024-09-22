@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://2ra5732ekio3"
+path="res://.godot/imported/World Clear.wav-a6816bd4b13c35cafbc3bd72daf640c3.sample"
+
+[deps]
+
+source_file="res://assets/sounds/bgm/World Clear.wav"
+dest_files=["res://.godot/imported/World Clear.wav-a6816bd4b13c35cafbc3bd72daf640c3.sample"]
+
+[params]
+
+force/8_bit=true
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

@@ -12,6 +12,7 @@ var player: Player
 var player_destination_y: float
 var is_ended := false
 
+signal flag_pulled
 
 func _physics_process(_delta: float) -> void:
 	if not is_ended:
@@ -32,12 +33,12 @@ func _physics_process(_delta: float) -> void:
 				
 
 func _on_climable_body_entered(body: Node2D) -> void:
+	flag_pulled.emit()
 	player = body
 	# 摧毁所有炮弹
 	get_tree().call_group("Bullet", "pole_kill")
-	SoundManager.pause_bgm()
 	GameManager.game_timer.stop()
-	SoundManager.play_sfx("FlagPole")
+	SoundManager.touch_flag()
 	# 根据玩家触碰旗杆的位置决定得分
 	var score := _get_flag_score(body.global_position.y)
 	score_label.text = str(score)
@@ -82,6 +83,6 @@ func _on_flag_down_finished() -> void:
 	player._change_climb_side()
 	await get_tree().create_timer(0.5).timeout
 	player._unclimb()
-	SoundManager.course_clear()
+	SoundManager.level_clear()
 	# 往门的方向走
 	player.input_x = 1.0

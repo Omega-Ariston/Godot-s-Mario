@@ -9,3 +9,5 @@ const WATER_SURFACE_Y_OFFSET := floori(TILE_SIZE.y * 5)
 
 const BOTTOM_BOUNDARY := ceili(15.5 * TILE_SIZE.y)
 const TOP_BOUNDARY := floori(1.5 * TILE_SIZE.y)
+
+const WARNING_TIME := 100

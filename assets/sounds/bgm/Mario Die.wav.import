@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://byoshxsp17si8"
+path="res://.godot/imported/Mario Die.wav-2cd331118aa89898bc7284a95616bb35.sample"
+
+[deps]
+
+source_file="res://assets/sounds/bgm/Mario Die.wav"
+dest_files=["res://.godot/imported/Mario Die.wav-2cd331118aa89898bc7284a95616bb35.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0
