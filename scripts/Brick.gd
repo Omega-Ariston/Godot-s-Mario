@@ -61,7 +61,7 @@ func on_bumped(player: Player, broken: bool = false) -> void:
 			if spawn_item != Bumpable.SpawnItem.EMPTY:
 				SoundManager.play_sfx("Vine" if spawn_item == Bumpable.SpawnItem.VINE else "UpgradeAppear")
 				sprite_2d.region_rect = RECT_BUMPED
-			await bumpable.do_bump(true if player.curr_mode == Player.Mode.SMALL else false)
+			await bumpable.do_bump(true if player.curr_mode == Player.Mode.SMALL and spawn_item == Bumpable.SpawnItem.EMPTY else false)
 			if spawn_item != Bumpable.SpawnItem.EMPTY:
 				bumpable.do_spawn(self, spawn_item, player)
 
