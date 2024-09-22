@@ -5,6 +5,7 @@ const VINE_RISE_COUNT := 6
 const TRANSITION_SCENE_PATH := "res://scenes/worlds/transition.tscn"
 const LIFE_COUNT := 3
 const INITIAL_CAMERA_OFFSET := Variables.TILE_SIZE.x * 4
+const SAVE_PATH := "user://data.sav"
 
 enum WorldType {
 	GROUND,
@@ -16,6 +17,7 @@ enum WorldType {
 var current_level: String
 var current_spawn_point: String
 var current_world_type : WorldType
+var current_highest_score : int
 var player_current_mode: Player.Mode
 var life := LIFE_COUNT
 var is_time_up := false
@@ -32,7 +34,7 @@ signal player_ready
 signal player_started
 
 func _ready() -> void:
-	scene_changer.color.a = 0.0
+	load_score()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("esc"):
@@ -96,6 +98,10 @@ func get_level_scene_path(level: String) -> String:
 		return "res://scenes/worlds/" + level + ".tscn"
 
 func title_scene() -> void:
+	# 更新最高分
+	if StatusBar.score > current_highest_score:
+		current_highest_score = StatusBar.score
+		save_score()
 	# 黑幕设为不透明
 	scene_changer.color.a = 1.0	
 	# 切换标题场景
@@ -276,3 +282,16 @@ func _on_score_timer_timeout() -> void:
 
 func is_stomp(player: Player, body: Node2D) -> bool:
 	return true if player.state_machine.current_state == Player.State.FALL else player.global_position.y < (body.global_position.y - Variables.TILE_SIZE.y / 2)
+
+func save_score() -> void:
+	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
+	if not file:
+		return
+	file.store_string(str(StatusBar.score))
+
+func load_score() -> void:
+	var file := FileAccess.open(SAVE_PATH, FileAccess.READ)
+	if not file:
+		return
+	var score := file.get_as_text()
+	current_highest_score = int(score)

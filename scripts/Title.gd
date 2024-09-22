@@ -4,9 +4,11 @@ extends Node2D
 
 @onready var camera_2d: MainCamera = $MainCamera
 @onready var player: Player = $Player
+@onready var top: RichTextLabel = $TOP
 
 func _ready() -> void:
 	StatusBar.coin_animation.play()
+	top.text = 'TOP- ' + ("%06d" % GameManager.current_highest_score)
 	player.controllable = false
 	setup_camera()
 
