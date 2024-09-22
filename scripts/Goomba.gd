@@ -64,7 +64,7 @@ func tick_physics(state: State, delta: float) -> void:
 	
 	match state:
 		State.WALK:
-			move(SPEED, direction, delta)
+			move(SPEED, direction, delta, default_gravity, false)
 		State.STOMPED:
 			velocity.x = 0.0
 		State.DEAD:

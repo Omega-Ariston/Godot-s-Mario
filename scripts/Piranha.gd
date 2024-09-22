@@ -88,7 +88,7 @@ func tick_physics(state: State, delta: float) -> void:
 			move(SPEED, +1, delta)
 
 
-func move(speed : float, dir: int, delta: float, _gravity := 0.0) -> void:
+func move(speed : float, dir: int, delta: float, _gravity := 0.0, _limit_speed := false) -> void:
 	position.y += speed * dir * delta
 	
 

@@ -39,10 +39,13 @@ func _ready() -> void:
 	GameManager.world_ready.connect(_on_world_ready)
 	GameManager.player_ready.connect(_on_player_ready)
 
-func move(speed_var: float, direction_var: int, delta: float, gravity: float = default_gravity) -> void:
+func move(speed_var: float, direction_var: int, delta: float, gravity: float = default_gravity, limit_speed := true) -> void:
 	velocity.x = speed_var * direction_var
 	var velocity_y = velocity.y + gravity * delta
-	velocity.y = min(velocity_y, MAX_FALL_SPEED)
+	if limit_speed:
+		velocity.y = min(velocity_y, MAX_FALL_SPEED)
+	else:
+		velocity.y = velocity_y
 	move_and_slide()
 	
 # 被踩

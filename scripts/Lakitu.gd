@@ -120,7 +120,7 @@ func tick_physics(state: State, delta: float) -> void:
 		State.BRAKE:
 			move(0, -1, delta)
 
-func move(speed: float, dir: int, delta: float, gravity : float = 0) -> void:
+func move(speed: float, dir: int, delta: float, gravity : float = 0, _limit_speed := false) -> void:
 	var acceleration := DASH_ACCELERATION if state_machine.current_state in [State.DASH, State.BRAKE, State.BYE] else ACCELERATION
 	velocity.x = move_toward(velocity.x, dir * speed, acceleration * delta)
 	var velocity_y := velocity.y + gravity * delta
