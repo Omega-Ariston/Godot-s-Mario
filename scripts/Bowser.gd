@@ -22,7 +22,6 @@ const HAMMER_COUNT_RANGE := [3, 8] # 单次一口气扔出的锤子数范围
 const HAMMER_INTERVAL_SINGLE_RANGE := [0.1, 0.2]
 const HAMMER_INTERVAL_GROUP := 1.0
 
-var rng := RandomNumberGenerator.new()
 var hammer_to_throw := 8
 var life_point := 5 # 需要打五下才死
 var can_change_direction := false
@@ -85,7 +84,7 @@ func transition_state(_from: State, to: State) -> void:
 			if hadouken_timer.is_stopped():
 				hadouken_timer.start()
 			if jump_timer.is_stopped():
-				jump_timer.start(rng.randf_range(MIN_JUMP_INTERVAL, MAX_JUMP_INTERVAL))
+				jump_timer.start(GameManager.rng.randf_range(MIN_JUMP_INTERVAL, MAX_JUMP_INTERVAL))
 			can_change_direction = false
 			animation_player.play("wonder")
 			direction_timer.start()
@@ -130,15 +129,15 @@ func throw_hammer() -> void:
 				hammer_launcher.launch()
 				hammer_to_throw -= 1
 			# 等待一小会扔下一个锤子
-			await get_tree().create_timer(rng.randf_range(HAMMER_INTERVAL_SINGLE_RANGE[0], HAMMER_INTERVAL_SINGLE_RANGE[1])).timeout
+			await get_tree().create_timer(GameManager.rng.randf_range(HAMMER_INTERVAL_SINGLE_RANGE[0], HAMMER_INTERVAL_SINGLE_RANGE[1])).timeout
 		# 休息一会儿生成新一批锤子
 		await get_tree().create_timer(HAMMER_INTERVAL_GROUP).timeout
-		hammer_to_throw = rng.randi_range(HAMMER_COUNT_RANGE[0], HAMMER_COUNT_RANGE[1])
+		hammer_to_throw = GameManager.rng.randi_range(HAMMER_COUNT_RANGE[0], HAMMER_COUNT_RANGE[1])
 	throwing = false
 
 func _on_direction_timer_timeout() -> void:
 	# 1/2的概率转换方向
-	if rng.randf() >= 0.5:
+	if GameManager.rng.randf() >= 0.5:
 		can_change_direction = true
 
 
@@ -146,12 +145,12 @@ func _on_jump_timer_timeout() -> void:
 	# 起跳吧！
 	if is_on_floor():
 		velocity.y = JUMP_VELOCITY
-	jump_timer.start(rng.randf_range(MIN_JUMP_INTERVAL, MAX_JUMP_INTERVAL))
+	jump_timer.start(GameManager.rng.randf_range(MIN_JUMP_INTERVAL, MAX_JUMP_INTERVAL))
 
 
 func _on_hadouken_timer_timeout() -> void:
 	# 1/2的概率喷火
-	if rng.randf() >= 0.5:
+	if GameManager.rng.randf() >= 0.5:
 		hadouken()
 	else:
 		hadouken_timer.start()

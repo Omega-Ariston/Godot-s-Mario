@@ -14,8 +14,7 @@ enum Direction {
 }
 
 func _ready() -> void:
-	var rng := RandomNumberGenerator.new()
-	var current_frame := rng.randf_range(0, 0.7)
+	var current_frame := GameManager.rng.randf_range(0, 0.7)
 	animation_player.speed_scale = SPEED
 	
 	match direction:

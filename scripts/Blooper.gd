@@ -22,7 +22,6 @@ const PUSH_DISTANCE := Variables.TILE_SIZE.y * 2
 const THROTTLE_DISTANCE_X := Variables.TILE_SIZE.x * 4 # 决定倾向于靠近玩家还是远离玩家的临时水平距离
 var APPROXIMITY := 0.7 # 倾向程度，即倾向事件发生的概率
 
-var rng := RandomNumberGenerator.new()
 var should_leave := false # 是否应该远离玩家
 var original_y : float # 记录下潜或上推前的原始位置
 
@@ -74,7 +73,7 @@ func transition_state(_from: State, to: State) -> void:
 		State.PUSH:
 			# 离玩家近时更倾向于远离玩家，离玩家远时更倾向于靠近玩家
 			var player_distance_x := abs(global_position.x - player.global_position.x) as float
-			var triggered := rng.randf_range(0, 1) <= APPROXIMITY
+			var triggered := GameManager.rng.randf_range(0, 1) <= APPROXIMITY
 			should_leave = (player_distance_x <= THROTTLE_DISTANCE_X and triggered) \
 				or (player_distance_x > THROTTLE_DISTANCE_X and not triggered)
 			animation_player.play("push")

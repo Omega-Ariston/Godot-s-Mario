@@ -13,7 +13,6 @@ const MAX_WAIT_TIME := 3.0
 
 var can_fire := true
 var is_player_nearby := false
-var rng := RandomNumberGenerator.new()
 
 @onready var sprite_2d: Sprite2D = $Graphics/Sprite2D
 @onready var fire_timer: Timer = $FireTimer
@@ -51,10 +50,10 @@ func transition_state(_from: State, to: State) -> void:
 			node2d.add_child(enemy_enabler)
 			owner.add_child(node2d)
 			can_fire = false
-			fire_timer.start(rng.randf_range(MIN_WAIT_TIME, MAX_WAIT_TIME))
+			fire_timer.start(GameManager.rng.randf_range(MIN_WAIT_TIME, MAX_WAIT_TIME))
 		
 func _on_fire_timer_timeout() -> void:
-	if rng.randf_range(0, 1) > 0.66:
+	if GameManager.rng.randf_range(0, 1) > 0.66:
 		can_fire = true
 	else:
-		fire_timer.start(rng.randf_range(MIN_WAIT_TIME, MAX_WAIT_TIME))
+		fire_timer.start(GameManager.rng.randf_range(MIN_WAIT_TIME, MAX_WAIT_TIME))

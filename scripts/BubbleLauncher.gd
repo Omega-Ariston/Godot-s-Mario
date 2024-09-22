@@ -5,8 +5,6 @@ extends Marker2D
 
 const LAUNCH_RANGE := [0.5, 1.5]
 
-var rng := RandomNumberGenerator.new()
-
 @onready var timer: Timer = $Timer
 
 func _ready() -> void:
@@ -19,8 +17,8 @@ func launch_bubble() -> void:
 
 func _on_world_ready() -> void:
 	if GameManager.current_world_type == GameManager.WorldType.WATER:
-		timer.start(rng.randf_range(LAUNCH_RANGE[0], LAUNCH_RANGE[1]))
+		timer.start(GameManager.rng.randf_range(LAUNCH_RANGE[0], LAUNCH_RANGE[1]))
 
 func _on_timer_timeout() -> void:
 	launch_bubble()
-	timer.start(rng.randf_range(LAUNCH_RANGE[0], LAUNCH_RANGE[1]))
+	timer.start(GameManager.rng.randf_range(LAUNCH_RANGE[0], LAUNCH_RANGE[1]))

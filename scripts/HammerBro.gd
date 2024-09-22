@@ -45,7 +45,6 @@ const COLOR_CYAN := [
 ]
 
 var origin_x : float
-var rng := RandomNumberGenerator.new()
 var can_jump := false
 var is_chasing := false
 var level_before_jump : int
@@ -91,7 +90,7 @@ func throw_hammer() -> void:
 			await get_tree().create_timer(HAMMER_INTERVAL_SINGLE).timeout
 		# 休息一会儿生成新一批锤子
 		await get_tree().create_timer(HAMMER_INTERVAL_GROUP).timeout
-		hammer_to_throw = rng.randi_range(HAMMER_COUNT_RANGE[0], HAMMER_COUNT_RANGE[1])
+		hammer_to_throw = GameManager.rng.randi_range(HAMMER_COUNT_RANGE[0], HAMMER_COUNT_RANGE[1])
 
 func get_next_state(state: State) -> int:
 	
@@ -107,7 +106,7 @@ func get_next_state(state: State) -> int:
 			if can_jump:
 				can_jump = false
 				# 1/2的机率向上向下跳或向下跳一层跳两层
-				var first_jump_type := rng.randf_range(0, 1) > 0.5
+				var first_jump_type := GameManager.rng.randf_range(0, 1) > 0.5
 				level_before_jump = current_level()
 				match level_before_jump:
 					2:
@@ -216,9 +215,9 @@ func _on_chase_timer_timeout() -> void:
 
 func _on_jump_timer_timeout() -> void:
 	# 非追击状态下2/3的机率跳
-	if state_machine.current_state != State.CHASING and rng.randf_range(0, 1) > 0.33:
+	if state_machine.current_state != State.CHASING and GameManager.rng.randf_range(0, 1) > 0.33:
 		can_jump = true
-	jump_timer.start(rng.randf_range(MIN_JUMP_INTERVAL, MAX_JUMP_INTERVAL))
+	jump_timer.start(GameManager.rng.randf_range(MIN_JUMP_INTERVAL, MAX_JUMP_INTERVAL))
 
 func on_floor_raycast() -> bool:
 	for ray_cast: RayCast2D in floor_checker.get_children():
