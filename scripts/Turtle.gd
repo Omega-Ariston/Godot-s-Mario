@@ -80,7 +80,7 @@ func _on_world_ready() -> void:
 		sprite_material.set_shader_parameter("shader_enabled", false)
 
 func get_next_state(state: State) -> int:
-	if hit or charged or bumped:
+	if hit or charged or bumped or shot:
 		return State.DEAD if state != State.DEAD else state_machine.KEEP_CURRENT
 		
 	match state:
@@ -151,7 +151,7 @@ func transition_state(from: State, to: State) -> void:
 			# 空中被踩时要倒转龟壳
 			if not is_on_floor():
 				graphics.scale.y = -1
-			ScoreManager.add_score(SCORE["stomped"], self)
+			player.on_stomping(self)
 		State.SHOOT:
 			stomped = false
 			floor_checker.enabled = false

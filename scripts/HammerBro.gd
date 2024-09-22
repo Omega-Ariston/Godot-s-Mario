@@ -95,7 +95,7 @@ func throw_hammer() -> void:
 
 func get_next_state(state: State) -> int:
 	
-	if charged or hit or bumped or stomped:
+	if charged or hit or bumped or stomped or shot:
 		return State.DEAD if state != State.DEAD else state_machine.KEEP_CURRENT
 	
 	match state:
@@ -196,7 +196,7 @@ func transition_state(from: State, to: State) -> void:
 			elif bumped:
 				ScoreManager.add_score(SCORE["bumped"], self)
 			elif stomped:
-				ScoreManager.add_score(SCORE["stomped"], self)
+				player.on_stomping(self)
 			die()
 
 func current_level() -> int:

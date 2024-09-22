@@ -107,8 +107,12 @@ func on_stomped() -> void:
 	# 伤害玩家
 	player.hurt(self)
 	
-# 被无敌星撞或被龟壳撞
+# 被无敌星撞
 func on_charged(_body: CharacterBody2D) -> void:
+	die()
+	
+# 被龟壳撞
+func on_shot(_body: Enemy) -> void:
 	die()
 
 # 被火球打

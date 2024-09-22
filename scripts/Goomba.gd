@@ -51,7 +51,7 @@ func _on_world_ready() -> void:
 func get_next_state(state: State) -> int:
 	match state:
 		State.WALK:
-			if hit or charged or bumped:
+			if hit or charged or bumped or shot:
 				return State.DEAD
 			if stomped:
 				return State.STOMPED
@@ -76,7 +76,7 @@ func transition_state(_from: State, to: State) -> void:
 		State.WALK:
 			animation_player.play("walk")
 		State.STOMPED:
-			ScoreManager.add_score(SCORE["stomped"], self)
+			player.on_stomping(self)
 			animation_player.play("stomped")
 		State.DEAD:
 			if charged:

@@ -55,7 +55,7 @@ func _on_world_ready() -> void:
 		sprite_material.set_shader_parameter("shader_enabled", false)
 
 func get_next_state(state: State) -> int:
-	if charged or bumped:
+	if charged or bumped or shot:
 		return State.DEAD if state != State.DEAD else state_machine.KEEP_CURRENT
 		
 	match state:
@@ -110,7 +110,7 @@ func transition_state(from: State, to: State) -> void:
 			recover_timer.start()
 			direction = Direction.RIGHT if direction == Direction.LEFT else Direction.LEFT
 			animation_player.play("shell")
-			ScoreManager.add_score(SCORE["stomped"], self)
+			player.on_stomping(self)
 		State.SHOOT:
 			stomped = false
 			animation_player.play("shell")

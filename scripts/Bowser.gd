@@ -43,7 +43,7 @@ func _ready() -> void:
 
 func get_next_state(state: State) -> int:
 	
-	if charged or life_point == 0:
+	if charged or shot or life_point == 0:
 		return State.DEAD if state != State.DEAD else state_machine.KEEP_CURRENT
 	
 	match state:
@@ -108,6 +108,10 @@ func transition_state(_from: State, to: State) -> void:
 				SoundManager.play_sfx("Kill")
 				SoundManager.play_sfx("BowserFall")
 				ScoreManager.add_score(SCORE["charged"], self)
+				die()
+			elif shot:
+				SoundManager.play_sfx("Kill")
+				SoundManager.play_sfx("BowserFall")
 				die()
 
 # 被火球打

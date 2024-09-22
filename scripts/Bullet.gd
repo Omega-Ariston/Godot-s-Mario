@@ -37,8 +37,12 @@ func transition_state(_from: State, to: State) -> void:
 		State.DEAD:
 			die()
 		
-# 被无敌星撞或被龟壳撞
+# 被无敌星撞
 func on_charged(_body: CharacterBody2D) -> void:
+	pass
+	
+# 被龟壳撞
+func on_shot(_enemy: Enemy) -> void:
 	pass
 
 # 被火球打

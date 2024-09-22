@@ -6,5 +6,8 @@
     - BGM：https://downloads.khinsider.com/game-soundtracks/album/happy-mario-20th-super-mario-sound-collection
     - SFX：https://themushroomkingdom.net/media/smb/wav
     - Font：https://thewolfbunny64.itch.io/super-mario-bros-nes
-- 计分规则参考：http://nintendoforever.free.fr/Nes/SuperMarioBros1/SuperMarioBros1_Dossier/SuperMarioBros1_Score.php
-- 物理数据参考：https://web.archive.org/web/20130807122227/http://i276.photobucket.com/albums/kk21/jdaster64/smb_playerphysics.png
+- 计分规则参考：
+    - http://nintendoforever.free.fr/Nes/SuperMarioBros1/SuperMarioBros1_Dossier/SuperMarioBros1_Score.php
+    - https://www.mariowiki.com/Point
+- 物理数据参考：
+    - https://web.archive.org/web/20130807122227/http://i276.photobucket.com/albums/kk21/jdaster64/smb_playerphysics.png

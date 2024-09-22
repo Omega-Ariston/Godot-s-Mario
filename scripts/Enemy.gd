@@ -24,6 +24,9 @@ const DEAD_Z_INDEX := 4
 const PLAYER_STOMPED_BOUNCE_HIGH := -4 * 60 # 04xxx
 const PLAYER_STOMPED_BOUNCE_LOW := -3 * 60 # 03xxx
 const MAX_FALL_SPEED := 120.0 # 02000
+const SHOOT_CHAIN := [500, 800, 1000, 2000, 4000, 5000, 8000]
+
+var curr_shoot_num := 0
 
 var player: Player
 var default_gravity := Variables.DEFAULT_GRAVITY as float
@@ -32,6 +35,7 @@ var stomped := false # 被踩
 var hit := false # 被火焰打中
 var charged := false # 被无敌星撞到
 var bumped := false # 被下方的砖块顶到
+var shot := false # 被壳撞到
 
 var attack_direction := Direction.RIGHT # 受到攻击时攻击的指向
 
@@ -64,11 +68,23 @@ func on_stomped() -> void:
 	hurtbox.set_deferred("monitoring", false)
 	set_collision_mask_value(2, false)
 	
-# 被无敌星撞或被龟壳撞
+# 被无敌星撞
 func on_charged(body: CharacterBody2D) -> void:
 	charged = true
 	SoundManager.play_sfx("Kill")
 	attack_direction = Direction.LEFT if body.global_position.x > global_position.x else Direction.RIGHT
+
+# 被壳撞
+func on_shot(enemy: Enemy) -> void:
+	shot = true
+	SoundManager.play_sfx("Kill")
+	attack_direction = Direction.LEFT if enemy.global_position.x > global_position.x else Direction.RIGHT
+	# 使用撞击链来计分
+	if enemy.curr_shoot_num >= SHOOT_CHAIN.size():
+		ScoreManager.add_life(self)
+	else:
+		ScoreManager.add_score(SHOOT_CHAIN[enemy.curr_shoot_num], self)
+	enemy.curr_shoot_num += 1
 
 # 被火球打
 func on_hit(body: Fireball) -> void:

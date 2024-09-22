@@ -58,6 +58,8 @@ const GRAVITY_FALL_FAST := 2025.0 # 00900
 const VELOCITY_Y_MAX := 270.0 # 04800
 const VELOCITY_Y_CUT_OFF := 240.0 # 04000
 
+const STOMP_CHAIN := [100, 200, 400, 500, 800, 1000, 2000, 4000, 5000, 8000]
+var curr_stomp_num := 0 as int
 
 enum State {
 	ENTRY, # 关卡刚开始时的特殊状态
@@ -219,6 +221,9 @@ func _ready() -> void:
 	initialize_mode()
 
 func tick_physics(state: State, delta: float) -> void:
+	
+	if is_on_floor():
+		curr_stomp_num = 0
 	
 	if not controllable and target_x > 0 and global_position.x >= target_x:
 		target_x = 0
@@ -719,7 +724,7 @@ func _eat(item: Node) -> void:
 			ScoreManager.add_score(Mushroom.SCORE, item)
 			SoundManager.play_sfx("Upgrade")
 		elif item.mushroom_type == Bumpable.SpawnItem.LIFE:
-			ScoreManager.add_life(item.get_global_transform_with_canvas().origin)
+			ScoreManager.add_life(item)
 	elif item is Flower:
 		if curr_mode == Mode.SMALL:
 			can_enlarge = true
@@ -849,6 +854,17 @@ func on_bumping(is_brick := false) -> void:
 		velocity.y = velocity_y
 	else:
 		velocity.y = velocity_y + 60
+
+func on_stomping(enemy: Enemy) -> void:
+	if enemy is Goomba or enemy is Turtle or enemy is Beetle:
+		# 使用踩踏链来计分
+		if curr_stomp_num >= STOMP_CHAIN.size():
+			ScoreManager.add_life(enemy)
+		else:
+			ScoreManager.add_score(STOMP_CHAIN[curr_stomp_num], enemy)
+		curr_stomp_num += 1
+	else:
+		ScoreManager.add_score(enemy.SCORE["stomped"], enemy)
 	
 func on_full_ceiling() -> bool:
 	return ceil_checker_left.is_colliding() and ceil_checker_mid.is_colliding() and ceil_checker_right.is_colliding()

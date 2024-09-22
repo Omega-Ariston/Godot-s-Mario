@@ -52,7 +52,7 @@ func _on_player_ready() -> void:
 			get_parent().global_position.x = spawn_x
 
 func get_next_state(state: State) -> int:
-	if hit or charged or stomped:
+	if hit or charged or stomped or shot:
 		return State.DYING if state != State.DYING else state_machine.KEEP_CURRENT
 	if global_position.x >= bye_point.global_position.x  :
 		return State.BYE if state != State.BYE else state_machine.KEEP_CURRENT
@@ -145,7 +145,7 @@ func transition_state(_from: State, to: State) -> void:
 				ScoreManager.add_score(SCORE["hit"], self)
 			elif stomped:
 				stomped = false
-				ScoreManager.add_score(SCORE["stomped"], self)
+				player.on_stomping(self)
 			die()
 		State.DEAD:
 			velocity = Vector2.ZERO

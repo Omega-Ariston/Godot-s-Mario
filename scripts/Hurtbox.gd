@@ -26,6 +26,6 @@ func _on_body_entered(body: Node2D) -> void:
 		body.on_hit_enemy()
 	elif (body is Turtle and body.state_machine.current_state == Turtle.State.SHOOT) \
 			or (body is Beetle and body.state_machine.current_state == Beetle.State.SHOOT):
-		owner.on_charged(body)
+		owner.on_shot(body)
 	elif body is Enemy and owner.has_method("turn"):
 		owner.turn()

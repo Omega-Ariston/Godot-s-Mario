@@ -27,7 +27,7 @@ var should_leave := false # 是否应该远离玩家
 var original_y : float # 记录下潜或上推前的原始位置
 
 func get_next_state(state: State) -> int:
-	if hit or charged:
+	if hit or charged or shot:
 		return State.DEAD if state != State.DEAD else state_machine.KEEP_CURRENT
 	
 	var player_distance_y := global_position.y - player.global_position.y
@@ -81,6 +81,10 @@ func transition_state(_from: State, to: State) -> void:
 			original_y = global_position.y
 		State.DEAD:
 			animation_player.play("dead")
+			if charged:
+				ScoreManager.add_score(SCORE["charged"], self)
+			elif hit:
+				ScoreManager.add_score(SCORE["hit"], self)
 			die(false)
 
 # 被踩

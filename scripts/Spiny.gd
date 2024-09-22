@@ -22,7 +22,7 @@ func _ready() -> void:
 	player = get_tree().get_first_node_in_group("Player")
 
 func get_next_state(state: State) -> int:
-	if hit or charged:
+	if hit or charged or shot:
 		return State.DEAD if state != State.DEAD else state_machine.KEEP_CURRENT
 		
 	match state:
