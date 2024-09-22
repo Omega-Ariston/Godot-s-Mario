@@ -7,7 +7,7 @@ extends Node2D
 @onready var top: RichTextLabel = $TOP
 
 func _ready() -> void:
-	StatusBar.coin_animation.play()
+	StatusBar.coin_animation.play("origin")
 	top.text = 'TOP- ' + ("%06d" % GameManager.current_highest_score)
 	player.controllable = false
 	setup_camera()

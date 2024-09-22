@@ -85,7 +85,7 @@ func enter() -> void:
 			var sound := SoundManager.play_sfx("PipeHurt")
 			# 角色放到后面去
 			player.z_index = -1
-			tween.tween_property(player, "global_position:y", global_position.y + Variables.TILE_SIZE.y * 2, 0.8)
+			tween.tween_property(player, "global_position:y", global_position.y + Variables.TILE_SIZE.y * 2, 0.5)
 			await sound.finished
 			SoundManager.pause_bgm()
 		ENTER_DIRECTION.UP:
