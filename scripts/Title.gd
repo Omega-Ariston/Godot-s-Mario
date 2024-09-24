@@ -16,7 +16,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("start"):
 		get_viewport().set_input_as_handled()
 		StatusBar.initialize()
-		if Input.is_action_pressed("B"):
+		if Input.is_action_pressed("A"):
 			# 续关
 			GameManager.transition_scene(GameManager.current_world + "-1")
 		else:
