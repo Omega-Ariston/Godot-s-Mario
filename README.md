@@ -1,5 +1,5 @@
 # Godot's Mario
-- 使用开源游戏引擎Godot4.3开发，仅用于个人学习与兴趣爱好交流
+- 使用开源游戏引擎Godot4.3开发，仅用于个人学习与兴趣爱好交流，禁止商用
 - 开发语言：GDScript
 - 所有素材（精灵图、瓦片地图、音效、字体等）均来自互联网，如有侵权可联系本人删除
     - Sprites: https://www.mariouniverse.com/sprites-nes-smb/
@@ -11,3 +11,5 @@
     - https://www.mariowiki.com/Point
 - 物理数据参考：
     - https://web.archive.org/web/20130807122227/http://i276.photobucket.com/albums/kk21/jdaster64/smb_playerphysics.png
+- 游戏流程演示：
+    - https://www.bilibili.com/video/BV13ZskehEDL/?share_source=copy_web&vd_source=0150b3eb17a49df206af7fe912479bc9
